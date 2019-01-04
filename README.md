@@ -38,4 +38,3 @@ I reserve the rights to all the code in the project that I have created myself
 ["default copyright laws apply, meaning that you retain all rights to your source code and no one may reproduce, distribute, or create derivative works from your work"](https://help.github.com/articles/licensing-a-repository/)  
 
 Once the project has been submitted and evaluated I may make the project open source 
-
