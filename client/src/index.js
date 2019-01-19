@@ -1,21 +1,22 @@
 //React Imports 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Router, IndexRedirect, browserHistory } from 'react-router';
+import { Route, Switch } from 'react-router';
+import { BrowserRouter, Redirect } from 'react-router-dom';
 //Redux Imports
 import { Provider } from 'react-redux';
-import { syncHistoryWithStore } from 'react-router-redux';
 //Store 
-import { configureServices } from './store/store'
+import configureStore from './stores/store'
 //Feathers
 import io from 'socket.io-client';
 import feathers from 'feathers-client';
 //Feathers-Redux
-import reduxifyServices from 'feathers-redux';
+import reduxifyServices, {getServicesStatus} from 'feathers-redux';
 //CSS
 import './index.css';
 //Components
 import App from './components/App';
+
 //Service Worker 
 import * as serviceWorker from './serviceWorker';
 
@@ -25,25 +26,17 @@ export const feathersClient = feathers()
     .configure(feathers.hooks());
 
 //Configure Redux
-const services = reduxifyServices(feathersClient, ['users', 'messages']);
+const services = reduxifyServices(feathersClient, ['users', 'escapeRooms']);
 const store = configureStore(services);
-const history = syncHistoryWithStore(browserHistory,store);
+console.log(store);
+//const history = syncHistoryWithStore(store);
 
 //Router
 const router = (
     <Provider store={store}>
-        <Router history={history}>
-            <Route path="/" component={App}>
-                <IndexRedirect to="/dashboard"/>
-                <ProtectedRoute path="/dashboard" component={Dashboard}/>
-                <ProtectedRoute path="/profile" component={Profile}/>
-                <ProtectedRoute path="/designer" component={EscapeRoomDesigner}/>
-                <Route path="/login" component={Login}></Route>
-                <Route path="/signup" component={signup}></Route>
-                <Route path="/about" component={about}></Route>
-                <Route path="/tutorials" component={tutorials}></Route>
-            </Route>
-        </Router>
+            <BrowserRouter>
+                <App services={services} getServicesStatus={getServicesStatus}/>
+            </BrowserRouter>
     </Provider>
 );
 

@@ -1,18 +1,21 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import * as actionCreators from '../actions/actionCreators';
+import { withRouter } from 'react-router'
 import Main from './Main';
+import mapUserDispatchToProps from '../actions/users';
+import mapEscapeRoomDispatchToProps from '../actions/escapeRooms';
+
 
 function mapStateToProps(state) {
   return {
-    user: state.user,
-    escapeRooms: state.escapeRooms,
-    videos: state.videos
+    reduxState: state
   }
 }
 
-function mapDispatchToProps(dispatch){
-  return bindActionCreators(actionCreators, dispatch);
+function mapDispatchToProps(dispatch, {services}){
+  const userFuncs = mapUserDispatchToProps(dispatch, services);
+  const escapeRoomFuncs = mapEscapeRoomDispatchToProps(dispatch, services);
+  return {...userFuncs, ...escapeRoomFuncs};
 }
 
 const App = connect(mapStateToProps, mapDispatchToProps)(Main);
