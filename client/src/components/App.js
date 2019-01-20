@@ -1,6 +1,7 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router'
+import '../styles/App.css';
 import Main from './Main';
 import mapUserDispatchToProps from '../actions/users';
 import mapEscapeRoomDispatchToProps from '../actions/escapeRooms';
@@ -20,4 +21,4 @@ function mapDispatchToProps(dispatch, {services}){
 
 const App = connect(mapStateToProps, mapDispatchToProps)(Main);
 
-export default App;
+export default withRouter(App);

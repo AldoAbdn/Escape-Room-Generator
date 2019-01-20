@@ -11,9 +11,10 @@ import configureStore from './stores/store'
 import io from 'socket.io-client';
 import feathers from 'feathers-client';
 //Feathers-Redux
-import reduxifyServices, {getServicesStatus} from 'feathers-redux';
+import reduxifyServices, {getServicesStatus, bindWithDispatch} from 'feathers-redux';
 //CSS
 import './index.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 //Components
 import App from './components/App';
 
@@ -23,11 +24,15 @@ import * as serviceWorker from './serviceWorker';
 //Feathers Configuration 
 export const feathersClient = feathers()
     .configure(feathers.socketio(io()))
-    .configure(feathers.hooks());
+    .configure(feathers.hooks())
+    .configure(feathers.authentication({
+        storage:window.localStorage
+    }));
 
 //Configure Redux
-const services = reduxifyServices(feathersClient, ['users', 'escapeRooms']);
-const store = configureStore(services);
+const rawServices = reduxifyServices(feathersClient, ['users', 'escapeRooms']);
+const store = configureStore(rawServices);
+const services = bindWithDispatch(store.dispatch, rawServices);
 console.log(store);
 //const history = syncHistoryWithStore(store);
 
@@ -35,7 +40,7 @@ console.log(store);
 const router = (
     <Provider store={store}>
             <BrowserRouter>
-                <App services={services} getServicesStatus={getServicesStatus}/>
+                <App feathersClient={feathersClient} services={services} getServicesStatus={getServicesStatus}/>
             </BrowserRouter>
     </Provider>
 );
