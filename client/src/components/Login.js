@@ -6,7 +6,6 @@ class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            strategy: 'local',
             email:"",
             password:"",
             errorMessage: ""
@@ -17,10 +16,20 @@ class Login extends Component {
     handleSubmit = async (event) => {
         event.preventDefault();
         //Authenticate with feathersjs
-        await this.props.feathersClient.authenticate(this.state)
-        .then((output) => {
-            this.props.services.users.find({email:this.state.email});
-            this.props.history.push('/dashboard');
+        await this.props.feathersClient.authenticate({strategy:'local',email:this.state.email,password:this.state.password})
+        .then(async (output) => {
+            console.log(output);
+            //Get User Details and Update Redux Store
+            let queryResult = await this.props.services.users.find({email:this.state.email});
+            console.log(queryResult);
+            if(queryResult.action.type.includes('FULFILLED')){
+                var user = queryResult.value.data[0];
+                user.token = window.localStorage.getItem('feathers-jwt');
+                this.props.redux.actions.login(user);
+                this.props.history.push('/dashboard');
+            } else {
+                this.setState({})
+            }
         })
         .catch((err) => {
             this.setState({errorMessage:err.message});

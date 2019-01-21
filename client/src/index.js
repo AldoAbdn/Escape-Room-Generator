@@ -31,10 +31,8 @@ export const feathersClient = feathers()
 
 //Configure Redux
 const rawServices = reduxifyServices(feathersClient, ['users', 'escapeRooms']);
-const store = configureStore(rawServices);
+const store = configureStore(rawServices,{user:{},escapeRooms:[],videos:[]});
 const services = bindWithDispatch(store.dispatch, rawServices);
-console.log(store);
-//const history = syncHistoryWithStore(store);
 
 //Router
 const router = (

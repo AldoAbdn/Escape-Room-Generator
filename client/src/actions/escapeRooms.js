@@ -1,22 +1,20 @@
-const mapDispatchToProps = (dispatch, { services }) => ({
-    onCreateEscapeRoom: (text) => {
-        dispatch(services.escapeRooms.create({ text }));
-    },
-    onGetEscapeRoom: (id) => {
-        dispatch(services.escapeRooms.get(id));
-    },
-    onPatchEscapeRoom: (id,text) => {
-        dispatch(services.escapeRooms.patch(id, { text }));
-    },
-    onRemoveEscapeRoom: (id) => {
-        dispatch(services.escapeRooms.remove(id));
-    },
-    onFindEscapeRoom: () => {
-        dispatch(services.escapeRooms.find());
-    },
-    onResetEscapeRoom: () => {
-        dispatch(services.escapeRooms.reset());
-    },
-});
+export function addEscapeRoom(escapeRoom){
+    return {
+        type: 'ADD_ESCAPE_ROOM',
+        escapeRoom
+    }
+}
 
-export default mapDispatchToProps;
+export function removeEscapeRoom(escapeRoom){
+    return {
+        type: 'REMOVE_ESCAPE_ROOM',
+        escapeRoom
+    }
+}
+
+export function updateEscapeRooms(escapeRooms){
+    return {
+        type: 'UPDATE_ESCAPE_ROOMS',
+        escapeRooms
+    }
+}
