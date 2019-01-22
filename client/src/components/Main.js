@@ -42,10 +42,10 @@ class Main extends Component {
             </div>});
         } else if (window.localStorage.getItem('feathers-jwt') && this.props.redux.state.email==undefined){
             this.populateUser();
+
         }
     }
     render() {
-
         return (
             <div>
                 <header>
@@ -58,7 +58,7 @@ class Main extends Component {
                     <Switch>
                         <Redirect exact from="/" to="dashboard"/>
                         <ProtectedRoute path="/dashboard" render={(routeProps) => (<Dashboard {...this.props}/>)}/>
-                        <ProtectedRoute path="/profile" component={Profile}/>
+                        <ProtectedRoute path="/profile" render={(routeProps) => (<Profile {...this.props}/>)}/>
                         <ProtectedRoute path="/designer" component={EscapeRoomDesigner}/>
                         <Route path="/login" render={(routeProps) => (<Login {...this.props}/>)}/>
                         <Route path="/signup" render={(routeProps) => (<Signup {...this.props}/>)}/>
