@@ -1,4 +1,6 @@
 import React, {Component}  from 'react';
+import { Container, Row, Col, Card, CardImg, CardText, CardBody,
+    CardTitle, CardSubtitle, Alert, Button, Form, FormGroup, Label, Input, FormText} from 'reactstrap';
 
 class About extends Component {
     render() {
