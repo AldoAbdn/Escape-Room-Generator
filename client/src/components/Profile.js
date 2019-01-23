@@ -37,10 +37,26 @@ class Profile extends Component {
                 this.setState({edit:true});
                 break;
             case 'saveButton':
-                this.props.services.users.update({_id:this.state._id, email:this.state.email, password:this.state.password}).then(()=>{this.setState({edit:false})});
+                let user = this.props.redux.state.user;
+                user.email = this.state.email;
+                user.password = this.state.password;
+                this.props.services.users.update(this.state._id,user)
+                .then((output)=>{
+                    console.log(output);
+                    let user = output.value;
+                    this.props.redux.actions.login(user);
+                    this.setState({edit:false});
+                });
                 break;
             default:
         }
+    }
+
+    componentDidMount(){
+        const user = this.props.redux.state.user;
+        this.setState({
+            email: user.email
+        })
     }
 
     componentDidUpdate(oldProps){
