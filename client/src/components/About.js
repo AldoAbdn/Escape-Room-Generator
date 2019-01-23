@@ -1,19 +1,26 @@
 import React, {Component}  from 'react';
+import { Container, Row, Col, Card, CardImg, CardText, CardBody,
+    CardTitle, CardSubtitle, Alert, Button, Form, FormGroup, Label, Input, FormText} from 'reactstrap';
 
 class About extends Component {
     render() {
         return (
-            <div className="main container">
-                <header>
-                    <h1 className="title">
-                      
-                    </h1>
-                </header>
-                <footer>
-           
-
-                </footer>
-            </div>
+            <Container>
+                <Row>
+                    <Col>
+                        <p>
+                            This is my honours project for BsC(Hons) Computing: Application Software Development at Robert Gordon University
+                            This is a web app for designing an escape room using drag and drop components
+                        </p>       
+                    </Col>
+                    <Col>
+                        <ul>
+                            <li><a href="https://github.com/AldoAbdn/Escape-Room-Generator/">Github Repo</a></li>
+                            <li><a href="https://ninjamock.com/s/KCMW2Tx">Wireframe</a></li>
+                        </ul>
+                    </Col>
+                </Row>
+            </Container>
         )
     }
 };
