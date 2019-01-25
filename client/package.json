@@ -7,6 +7,8 @@
     "feathers-client": "^2.4.0",
     "feathers-offline-realtime": "^0.1.2",
     "feathers-redux": "^3.0.0",
+    "file-saver": "^2.0.0",
+    "jspdf": "^1.5.3",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-redux": "^6.0.0",

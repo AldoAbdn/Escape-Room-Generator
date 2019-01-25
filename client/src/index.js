@@ -30,7 +30,7 @@ export const feathersClient = feathers()
     }));
 
 //Configure Redux
-const rawServices = reduxifyServices(feathersClient, ['users', 'escapeRooms']);
+const rawServices = reduxifyServices(feathersClient, ['users', 'escape-rooms']);
 const store = configureStore(rawServices,{user:{},escapeRooms:[],videos:[]});
 const services = bindWithDispatch(store.dispatch, rawServices);
 

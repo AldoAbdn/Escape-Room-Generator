@@ -1,15 +1,14 @@
 function escapRooms(state=[],action){
     switch(action.type){
         case 'ADD_ESCAPE_ROOM':
-            state.escapeRooms.append(action.escapRoom);
-            return {...state};
+            state.append(action.escapeRoom);
+            return state.escapRooms.slice();
         case 'REMOVE_ESCAPE_ROOM':
-            const escapeRooms = state.escapeRooms;
-            const i = escapRooms.indexOf(action.escapRoom);
-            escapRooms.remove(i);
-            return {...state};
+            const i = state.indexOf(action.escapeRoom);
+            state.pop(i);
+            return state.slice();
         case 'UPDATE_ESCAPE_ROOMS':
-            return Object.assign(state,{escapeRooms:action.escapRooms})
+            return action.escapeRooms.slice();
     }
     return state;
 }

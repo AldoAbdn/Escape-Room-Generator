@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import { Container, Row, Col, Card, CardImg, CardText, CardBody,
     CardTitle, CardSubtitle,Dropdown, DropdownToggle, DropdownMenu, DropdownItem , ListGroup, ListGroupItem ,Alert, Button, Form, FormGroup, Label, Input, FormText} from 'reactstrap';
+import { saveAs } from 'file-saver';
+import jsPDF from 'jspdf';
 
 class Dashboard extends Component {
     constructor(props){
@@ -14,18 +16,51 @@ class Dashboard extends Component {
         dropdownOpen[i] = !dropdownOpen[i];
         this.setState({dropdownOpen});
     }
-    handleClick = (e) => {
-        
+    handleClick = async (e) => {
+        const userId = this.props.redux.state.user._id
+        await this.props.services['escape-rooms'].create({name:'Unnamed',userId:userId})
+            .then(async (queryResult) => {
+                if(queryResult.action.type.includes('FULFILLED')){
+                    const escapeRoom = queryResult.value;
+                    if (escapeRoom!=null && escapeRoom!=undefined){
+                        const i = this.props.redux.state.escapeRooms.length;
+                        this.props.history.push('/designer/'+i);
+                        await this.props.redux.actions.addEscapeRoom(escapeRoom);
+                    }
+                }
+            })
+            .catch((err)=>{
+                console.log(err);
+            });
+    }
+    saveJSON(json, name) {
+        const blob = new Blob([json],{type:'text/plain;charset=utf-8'});
+        saveAs(blob, name+".json");
+    }
+    savePDF(escapeRoom) {
+        var doc = new jsPDF();
+        doc.text(JSON.stringify(escapeRoom),10,10);
+        doc.save(escapeRoom.name+'.pdf');
     }
     handleItemClick = (i, action) => (e) => {
+        console.log(i);
+        console.log(this.props.redux.state.escapeRooms);
+        const escapeRoom = this.props.redux.state.escapeRooms[i];
+        const escapeRoomService = this.props.services['escape-rooms'];
+        const removeEscapeRoom = this.props.redux.actions.removeEscapeRoom;
         switch(action){
             case 'EDIT':
+                this.props.history.push('/designer/'+i);
                 break;
             case 'JSON':
+                this.saveJSON(JSON.stringify(escapeRoom),escapeRoom.name);
                 break;
             case 'PDF':
+                this.savePDF(escapeRoom);
                 break;
             case 'DELETE':
+                escapeRoomService.remove(escapeRoom._id);
+                removeEscapeRoom(escapeRoom);
                 break;
         }
     }
@@ -43,27 +78,31 @@ class Dashboard extends Component {
             </Dropdown>
         </ListGroupItem>)
     };
-    updateEscapeRooms(){
-        const user = this.props.redux.state.user;
+    updateEscapeRooms = async() => {
+        const userId = this.props.redux.state.user._id;
         //Get User Details and Update Redux Store
-        this.props.services.escapeRooms.find({userId:user._id})
-        .then((queryResult)=>{
-            if(queryResult.action.type.includes('FULFILLED')){
-                const escapeRooms = queryResult.value.data[0];
-                this.props.redux.actions.updateEscapeRooms(escapeRooms);
-            }
-        });
+        if (userId != null && userId != undefined)
+            await this.props.services['escape-rooms'].find({query:{userId:userId}})
+            .then((queryResult)=>{
+                console.log(queryResult);
+                if(queryResult.action.type.includes('FULFILLED')){
+                    const escapeRooms = queryResult.value.data;
+                    if (escapeRooms!=null && escapeRooms!=undefined)
+                        this.props.redux.actions.updateEscapeRooms(escapeRooms);
+                }
+            });
     }
-    componentDidMount(){
-        this.updateEscapeRooms();
-    }
-    componentWillUpdate(oldProps){
-        if (oldProps.redux.state.user != this.props.redux.state.user){
+    componentDidUpdate(oldProps, oldState){
+        const oldReduxState = oldProps.redux.state;
+        const reduxState = this.props.redux.state;
+        console.log(oldReduxState);
+        console.log(reduxState);
+        if (oldReduxState.user != reduxState.user || oldReduxState.escapeRooms.length != reduxState.escapeRooms.length){
             this.updateEscapeRooms();
         }
     }
     render() {
-        const escapeRooms = [{name:"test1"},{name:"test2"}];
+        const escapeRooms = this.props.redux.state.escapeRooms;
         return (
             <Container>
                 <Row>
