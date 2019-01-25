@@ -1,8 +1,8 @@
 function escapRooms(state=[],action){
     switch(action.type){
         case 'ADD_ESCAPE_ROOM':
-            state.append(action.escapeRoom);
-            return state.escapRooms.slice();
+            state.push(action.escapeRoom);
+            return state.slice();
         case 'REMOVE_ESCAPE_ROOM':
             const i = state.indexOf(action.escapeRoom);
             state.pop(i);

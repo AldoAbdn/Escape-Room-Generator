@@ -8,7 +8,8 @@ class Dashboard extends Component {
     constructor(props){
         super(props);
         this.state = {
-            dropdownOpen: [false,false]
+            dropdownOpen: [false,false],
+            firstLoad: true
         }
     }
     handleToggle = (i) => (e) => {
@@ -19,13 +20,14 @@ class Dashboard extends Component {
     handleClick = async (e) => {
         const userId = this.props.redux.state.user._id
         await this.props.services['escape-rooms'].create({name:'Unnamed',userId:userId})
-            .then(async (queryResult) => {
+            .then((queryResult) => {
+                console.log(queryResult);
                 if(queryResult.action.type.includes('FULFILLED')){
                     const escapeRoom = queryResult.value;
-                    if (escapeRoom!=null && escapeRoom!=undefined){
-                        const i = this.props.redux.state.escapeRooms.length;
+                    if (escapeRoom!=null){
+                        const i = this.props.redux.state.escapeRooms.length + 1;
+                        
                         this.props.history.push('/designer/'+i);
-                        await this.props.redux.actions.addEscapeRoom(escapeRoom);
                     }
                 }
             })
@@ -78,31 +80,36 @@ class Dashboard extends Component {
             </Dropdown>
         </ListGroupItem>)
     };
-    updateEscapeRooms = async() => {
+    updateEscapeRooms = () => {
+        const self = this;
         const userId = this.props.redux.state.user._id;
         //Get User Details and Update Redux Store
         if (userId != null && userId != undefined)
-            await this.props.services['escape-rooms'].find({query:{userId:userId}})
+            this.props.services['escape-rooms'].find({query:{userId:userId}})
             .then((queryResult)=>{
-                console.log(queryResult);
                 if(queryResult.action.type.includes('FULFILLED')){
                     const escapeRooms = queryResult.value.data;
                     if (escapeRooms!=null && escapeRooms!=undefined)
                         this.props.redux.actions.updateEscapeRooms(escapeRooms);
-                }
+                        self.setState({loading:false});
+                    }
             });
     }
-    componentDidUpdate(oldProps, oldState){
-        const oldReduxState = oldProps.redux.state;
-        const reduxState = this.props.redux.state;
-        console.log(oldReduxState);
-        console.log(reduxState);
-        if (oldReduxState.user != reduxState.user || oldReduxState.escapeRooms.length != reduxState.escapeRooms.length){
+    componentDidUpdate(oldProps){
+        const oldRedux = oldProps.redux.state;
+        const redux = this.props.redux.state;
+        if (this.state.firstLoad){
+            this.updateEscapeRooms();
+            this.setState({firstLoad:false});
+        }else if (oldRedux.user.email!=undefined && (oldRedux.escapeRooms.length != redux.escapeRooms.length)){
             this.updateEscapeRooms();
         }
     }
+    componentDidMount(){
+        this.updateEscapeRooms();
+    }
     render() {
-        const escapeRooms = this.props.redux.state.escapeRooms;
+        const escapeRooms = this.props.redux.state.escapeRooms || [];
         return (
             <Container>
                 <Row>
