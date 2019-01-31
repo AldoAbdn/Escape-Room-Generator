@@ -18,10 +18,9 @@ class Login extends Component {
         //Authenticate with feathersjs
         await this.props.feathersClient.authenticate({strategy:'local',email:this.state.email,password:this.state.password})
         .then(async (output) => {
-            console.log(output);
             //Get User Details and Update Redux Store
+            console.log(this);
             let queryResult = await this.props.services.users.find({email:this.state.email});
-            console.log(queryResult);
             if(queryResult.action.type.includes('FULFILLED')){
                 var user = queryResult.value.data[0];
                 user.token = window.localStorage.getItem('feathers-jwt');

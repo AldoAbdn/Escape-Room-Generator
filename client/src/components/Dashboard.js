@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-import { Container, Row, Col, Card, CardImg, CardText, CardBody,
-    CardTitle, CardSubtitle,Dropdown, DropdownToggle, DropdownMenu, DropdownItem , ListGroup, ListGroupItem ,Alert, Button, Form, FormGroup, Label, Input, FormText} from 'reactstrap';
+import { Container, Row, Col, Dropdown, DropdownToggle, DropdownMenu, DropdownItem , ListGroup, ListGroupItem , Button } from 'reactstrap';
 import { saveAs } from 'file-saver';
 import jsPDF from 'jspdf';
 

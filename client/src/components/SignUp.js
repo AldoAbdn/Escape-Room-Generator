@@ -17,6 +17,7 @@ class Signup extends Component {
         event.preventDefault();
         //Create a new user 
         await this.props.services.users.create({email:this.state.email, password:this.state.password});
+        console.log(this);
         //Authenticate with feathersjs
         await this.props.feathersClient.authenticate({strategy:'local',email:this.state.email,password:this.state.password})
         .then(async (output) => {

@@ -59,7 +59,7 @@ class Main extends Component {
                         <Redirect exact from="/" to="dashboard"/>
                         <ProtectedRoute path="/dashboard" render={(routeProps) => (<Dashboard {...this.props}/>)}/>
                         <ProtectedRoute path="/profile" render={(routeProps) => (<Profile {...this.props}/>)}/>
-                        <ProtectedRoute path="/designer/:id" render={(routeProps) => {
+                        <Route path="/designer/:id" render={(routeProps) => {
                             var props = {...this.props, ...routeProps};
                             return(<EscapeRoomDesigner {...props}/>)
                         }}/>

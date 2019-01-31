@@ -1,8 +1,7 @@
 //React Imports 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Route, Switch } from 'react-router';
-import { BrowserRouter, Redirect } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 //Redux Imports
 import { Provider } from 'react-redux';
 //Store 
