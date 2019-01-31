@@ -7,7 +7,7 @@ class Tutorials extends Component {
         return (
             <YouTubePlaylist
                 width={'85%'}
-                height={'100%'}``
+                height={'100%'}
                 api_key={config.youtubeAPIKey}
                 playlist_id="PLWRRwFEmEuDKX5sobzWeb50xD14cpfkk3"
                 scrolling={true}
