@@ -1,5 +1,5 @@
 import React, {Component}  from 'react';
-import { Container, Dropdown, DropdownToggle , DropdownMenu , DropdownItem , Row, Col, Nav, NavItem, NavLink, TabContent, TabPane , Button, Input } from 'reactstrap';
+import { Container, Dropdown, DropdownToggle , DropdownMenu , DropdownItem , Row, Col, Nav, NavItem, NavLink, TabContent, TabPane , Button } from 'reactstrap';
 import { Details, Accessibility, Design } from './index';
 import classnames from 'classnames';
 import { saveAs } from 'file-saver';
@@ -9,10 +9,10 @@ class EscapeRoomDesigner extends Component {
     constructor(){
         super();
         const newEscapeRoom = {
+            userId: "",
             details:{
                 name: "",
-                userId: "",
-                designer: "",
+                designers: "",
                 theme: "",
                 minPlayers: "",
                 maxPlayers: "",
@@ -22,45 +22,46 @@ class EscapeRoomDesigner extends Component {
                 description: ""
             },
             accessibility:{
-                protanomaly: '',
-                protanopia: '',
-                deuteranomaly: '',
-                deuteranopia: '',
-                tritanomaly: '',
-                tritanopia: '',
-                coneMonochromacy: '',
-                rodMonochromacy: '',
-                largeFonts: '',
-                highContrast: ''
+                protanomaly: false,
+                protanopia: false,
+                deuteranomaly: false,
+                deuteranopia: false,
+                tritanomaly: false,
+                tritanopia: false,
+                coneMonochromacy: false,
+                rodMonochromacy: false,
+                largeFonts: false,
+                highContrast: false
             },
             components: []
         }
         this.state = {id: null, activeTab:'details', dropdownOpen: false, escapeRoom:newEscapeRoom};
     }
-    saveJSON(json, name) {
-        const blob = new Blob([json],{type:'text/plain;charset=utf-8'});
-        saveAs(blob, name+".json");
+    saveJSON(escapeRoom) {
+        const blob = new Blob([JSON.stringify(escapeRoom)],{type:'text/plain;charset=utf-8'});
+        saveAs(blob, escapeRoom.details.name+".json");
     }
     savePDF(escapeRoom) {
         var doc = new jsPDF();
         doc.text(JSON.stringify(escapeRoom),10,10);
-        doc.save(escapeRoom.name+'.pdf');
+        doc.save(escapeRoom.details.name+'.pdf');
     }
     handleClick = (action) => (e) => {
         switch(action){
             case 'EXIT':
-                this.props.services['escape-rooms'].update(this.state.escapeRoom).then(() => {
-                    this.props.redux.actions.updateEscapeRoom(this.state.escapeRoom);
+                this.props.services['escape-rooms'].update(this.state.escapeRoom._id,this.state.escapeRoom).then(() => {
+                    this.props.redux.actions.updateEscapeRoom(this.state.id,this.state.escapeRoom);
+                    console.log(this.state.escapeRoom);
                     this.props.history.push('/');
                 });
                 break;
             case 'JSON':
-                this.props.services['escape-rooms'].update(this.state.escapeRoom).then(() => {
-                    this.saveJSON(JSON.stringify(this.state.escapeRoom),this.state.escapeRoom.name);
+                this.props.services['escape-rooms'].update(this.state.escapeRoom._id,this.state.escapeRoom).then(() => {
+                    this.saveJSON(this.state.escapeRoom);
                 });
                 break;
             case 'PDF':
-                this.props.services['escape-rooms'].update(this.state.escapeRoom).then(() => {
+                this.props.services['escape-rooms'].update(this.state.escapeRoom._id,this.state.escapeRoom).then(() => {
                     this.savePDF(this.state.escapeRoom);
                 });
                 break;
@@ -75,18 +76,24 @@ class EscapeRoomDesigner extends Component {
     }
     //Changes state on input change
     handleDetailsChange = (state) => { 
-        var newState = {...this.state.escapeRoom.details, ...state};
-        this.setState({escapeRoom:{details:newState}});
+        var escapeRoom = {...this.state.escapeRoom};
+        var newState = {...escapeRoom.details, ...state};
+        escapeRoom.details = newState;
+        this.setState({escapeRoom});
     }
     //Changes state on input change
     handleAccessibilityChange = (state) => { 
+        var escapeRoom = {...this.state.escapeRoom};
         var newState = {...this.state.escapeRoom.accessibility, ...state};
-        this.setState({escapeRoom:{accessibility:newState}});
+        escapeRoom.accessibility = newState;
+        this.setState({escapeRoom});
     }
     //Changes state on input change
     handleDesignChange = (state) => { 
+        var escapeRoom = {...this.state.escapeRoom};
         var newState = [...this.state.escapeRoom.components, ...state.components];
-        this.setState({escapeRoom:{components:newState}});
+        escapeRoom.components = newState;
+        this.setState({escapeRoom});
     }
     handleToggle = (e) => {
         this.setState({dropdownOpen: !this.state.dropdownOpen});
@@ -112,7 +119,7 @@ class EscapeRoomDesigner extends Component {
             <Container>
                 <Row>
                    
-                    <Col><Button onClick={this.handleClick('exit')}>Save and Exit</Button></Col>
+                    <Col><Button onClick={this.handleClick('EXIT')}>Save and Exit</Button></Col>
                     <Col>
                         <Dropdown isOpen={this.state.dropdownOpen} toggle={this.handleToggle}>
                             <DropdownToggle caret>Save and Export</DropdownToggle>
@@ -160,10 +167,10 @@ class EscapeRoomDesigner extends Component {
                                 <Details state={this.state.escapeRoom.details} handleChange={this.handleDetailsChange}/>
                             </TabPane>
                             <TabPane tabId="accessibility">
-                                <Accessibility initialState={this.state.escapeRoom.accessibility} handleChange={this.handleAccessibilityChange}/>
+                                <Accessibility state={this.state.escapeRoom.accessibility} handleChange={this.handleAccessibilityChange}/>
                             </TabPane>
                             <TabPane tabId="design">
-                                <Design initialState={{components:this.state.escapeRoom.components}} handleChange={this.handleDesignChange}/>
+                                <Design state={{components:this.state.escapeRoom.components}} handleChange={this.handleDesignChange}/>
                             </TabPane>
                         </TabContent>
                     </Col>

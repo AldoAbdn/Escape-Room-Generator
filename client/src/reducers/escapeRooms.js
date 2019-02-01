@@ -8,8 +8,8 @@ function escapRooms(state=[],action){
             state.pop(i);
             return state.slice();
         case 'UPDATE_ESCAPE_ROOM':
-            state[action.i] = action.escapRoom;
-            return {...state}; 
+            state[action.i] = action.escapeRoom;
+            return state.slice(); 
         case 'UPDATE_ESCAPE_ROOMS':
             return action.escapeRooms.slice();
         default:

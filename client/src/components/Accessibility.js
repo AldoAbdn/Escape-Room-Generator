@@ -2,9 +2,6 @@ import React, {Component} from 'react';
 import { Container, Row, Col, Card, CustomInput } from 'reactstrap';
 
 class Accessibility extends Component {
-    constructor(props){
-        super(props);
-    }
     //Changes state on input change
     handleChange = (event) => {
         var state = {};
@@ -38,14 +35,14 @@ class Accessibility extends Component {
                         <Row>
                             <Col>
                                 <Card>
-                                   <CustomInput type="checkbox" name="protanomaly" id="protanomaly" label="Protanomaly" value={this.props.state.protanomaly} onChange={this.handleChange}/>
-                                   <CustomInput type="checkbox" name="protanopia" id="protanopia" label="Protanopia" value={this.props.state.protanopia} onChange={this.handleChange}/>
-                                   <CustomInput type="checkbox" name="deuteranomaly" id="deuteranomaly" label="Deuteranomaly" value={this.props.state.deuteranomaly} onChange={this.handleChange}/>
-                                   <CustomInput type="checkbox" name="deuteranopia" id="deuteranopia" label="Deuteranopia" value={this.props.state.deuteranopia} onChange={this.handleChange}/>
-                                   <CustomInput type="checkbox" name="tritanomaly" id="tritanomaly" label="Tritanomaly" value={this.props.state.tritanomaly} onChange={this.handleChange}/>
-                                   <CustomInput type="checkbox" name="tritanopia" id="tritanopia" label="Tritanopia" value={this.props.state.tritanopia} onChange={this.handleChange}/>
-                                   <CustomInput type="checkbox" name="coneMonochromacy" id="coneMonochromacy" label="Cone Monochromacy" value={this.props.state.coneMonochromacy} onChange={this.handleChange}/>
-                                   <CustomInput type="checkbox" name="rodMonochromacy" id="rodMonochromacy" label="Rod Monochromacy" value={this.props.state.rodMonochromacy} onChange={this.handleChange}/>
+                                   <CustomInput type="checkbox" name="protanomaly" id="protanomaly" label="Protanomaly" checked={this.props.state.protanomaly} onChange={this.handleChange}/>
+                                   <CustomInput type="checkbox" name="protanopia" id="protanopia" label="Protanopia" checked={this.props.state.protanopia} onChange={this.handleChange}/>
+                                   <CustomInput type="checkbox" name="deuteranomaly" id="deuteranomaly" label="Deuteranomaly" checked={this.props.state.deuteranomaly} onChange={this.handleChange}/>
+                                   <CustomInput type="checkbox" name="deuteranopia" id="deuteranopia" label="Deuteranopia" checked={this.props.state.deuteranopia} onChange={this.handleChange}/>
+                                   <CustomInput type="checkbox" name="tritanomaly" id="tritanomaly" label="Tritanomaly" checked={this.props.state.tritanomaly} onChange={this.handleChange}/>
+                                   <CustomInput type="checkbox" name="tritanopia" id="tritanopia" label="Tritanopia" checked={this.props.state.tritanopia} onChange={this.handleChange}/>
+                                   <CustomInput type="checkbox" name="coneMonochromacy" id="coneMonochromacy" label="Cone Monochromacy" checked={this.props.state.coneMonochromacy} onChange={this.handleChange}/>
+                                   <CustomInput type="checkbox" name="rodMonochromacy" id="rodMonochromacy" label="Rod Monochromacy" checked={this.props.state.rodMonochromacy} onChange={this.handleChange}/>
                                 </Card>
                             </Col>
                             <Col>

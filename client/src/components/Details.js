@@ -2,17 +2,11 @@ import React, {Component} from 'react';
 import { Container, Row, Col, Form, FormGroup, Label, Input} from 'reactstrap';
 
 class Details extends Component {
-    constructor(props){
-        super(props);
-    }
     //Changes state on input change
     handleChange = (event) => { 
         var state = {};
         state[event.target.id] = event.target.value;    
         this.props.handleChange(state);
-    }
-    componentDidUpdate(prevProps){
-        console.log(this.props)
     }
     render(){
         return (
@@ -21,8 +15,8 @@ class Details extends Component {
                 <Col>
                     <Form>
                         <FormGroup>
-                            <Label for="roomName">Room Name</Label>
-                            <Input type="text" name="roomName" id="roomName" placeholder="Room Name" value={this.props.state.name} onChange={this.handleChange}/>
+                            <Label for="name">Room Name</Label>
+                            <Input type="text" name="name" id="name" placeholder="Room Name" value={this.props.state.name} onChange={this.handleChange}/>
                         </FormGroup>
                         <FormGroup>
                             <Label for="designers">Designers</Label>

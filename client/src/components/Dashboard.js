@@ -19,10 +19,10 @@ class Dashboard extends Component {
     handleClick = async (e) => {
         const userId = this.props.redux.state.user._id;
         const newEscapeRoom = {
+            userId: userId,
             details:{
-                name: 'Unnamed',
-                userId: userId,
-                designer: "",
+                name: "Unnamed",
+                designers: "",
                 theme: "",
                 minPlayers: "",
                 maxPlayers: "",
@@ -32,16 +32,16 @@ class Dashboard extends Component {
                 description: ""
             },
             accessibility:{
-                protanomaly: '',
-                protanopia: '',
-                deuteranomaly: '',
-                deuteranopia: '',
-                tritanomaly: '',
-                tritanopia: '',
-                coneMonochromacy: '',
-                rodMonochromacy: '',
-                largeFonts: '',
-                highContrast: ''
+                protanomaly: false,
+                protanopia: false,
+                deuteranomaly: false,
+                deuteranopia: false,
+                tritanomaly: false,
+                tritanopia: false,
+                coneMonochromacy: false,
+                rodMonochromacy: false,
+                largeFonts: false,
+                highContrast: false
             },
             components: []
         }
@@ -61,18 +61,16 @@ class Dashboard extends Component {
                 console.log(err);
             });
     }
-    saveJSON(json, name) {
-        const blob = new Blob([json],{type:'text/plain;charset=utf-8'});
-        saveAs(blob, name+".json");
+    saveJSON(escapeRoom) {
+        const blob = new Blob([JSON.stringify(escapeRoom)],{type:'text/plain;charset=utf-8'});
+        saveAs(blob, escapeRoom.details.name+".json");
     }
     savePDF(escapeRoom) {
         var doc = new jsPDF();
         doc.text(JSON.stringify(escapeRoom),10,10);
-        doc.save(escapeRoom.name+'.pdf');
+        doc.save(escapeRoom.details.name+'.pdf');
     }
     handleItemClick = (i, action) => (e) => {
-        console.log(i);
-        console.log(this.props.redux.state.escapeRooms);
         const escapeRoom = this.props.redux.state.escapeRooms[i];
         const escapeRoomService = this.props.services['escape-rooms'];
         const removeEscapeRoom = this.props.redux.actions.removeEscapeRoom;
@@ -81,7 +79,7 @@ class Dashboard extends Component {
                 this.props.history.push('/designer/'+i);
                 break;
             case 'JSON':
-                this.saveJSON(JSON.stringify(escapeRoom),escapeRoom.name);
+                this.saveJSON(escapeRoom);
                 break;
             case 'PDF':
                 this.savePDF(escapeRoom);
@@ -96,7 +94,7 @@ class Dashboard extends Component {
     }
     mapEscapeRoomToList = (escapeRoom,i) => {
         return (
-        <ListGroupItem key={i}>{escapeRoom.name}
+        <ListGroupItem key={i}>{escapeRoom.details.name}
             <Dropdown style={{display:'inline', position: 'absolute', right:'20px'}} isOpen={this.state.dropdownOpen[i]} toggle={this.handleToggle(i)}>
                 <DropdownToggle caret/>
                 <DropdownMenu right>
@@ -109,6 +107,7 @@ class Dashboard extends Component {
         </ListGroupItem>)
     };
     render() {
+        console.log(this.props.redux.state.escapeRooms);
         const escapeRooms = this.props.redux.state.escapeRooms || [];
         return (
             <Container>
