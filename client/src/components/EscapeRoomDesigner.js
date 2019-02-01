@@ -8,7 +8,34 @@ import jsPDF from 'jspdf';
 class EscapeRoomDesigner extends Component {
     constructor(){
         super();
-        this.state = {id: null, activeTab:'details', dropdownOpen: false ,escapeRoom:{name:""}};
+        const newEscapeRoom = {
+            details:{
+                name: "",
+                userId: "",
+                designer: "",
+                theme: "",
+                minPlayers: "",
+                maxPlayers: "",
+                targetTime: "",
+                difficulty: "3",
+                objective: "",
+                description: ""
+            },
+            accessibility:{
+                protanomaly: '',
+                protanopia: '',
+                deuteranomaly: '',
+                deuteranopia: '',
+                tritanomaly: '',
+                tritanopia: '',
+                coneMonochromacy: '',
+                rodMonochromacy: '',
+                largeFonts: '',
+                highContrast: ''
+            },
+            components: []
+        }
+        this.state = {id: null, activeTab:'details', dropdownOpen: false, escapeRoom:newEscapeRoom};
     }
     saveJSON(json, name) {
         const blob = new Blob([json],{type:'text/plain;charset=utf-8'});
@@ -23,6 +50,7 @@ class EscapeRoomDesigner extends Component {
         switch(action){
             case 'EXIT':
                 this.props.services['escape-rooms'].update(this.state.escapeRoom).then(() => {
+                    this.props.redux.actions.updateEscapeRoom(this.state.escapeRoom);
                     this.props.history.push('/');
                 });
                 break;
@@ -36,6 +64,8 @@ class EscapeRoomDesigner extends Component {
                     this.savePDF(this.state.escapeRoom);
                 });
                 break;
+            default:
+                return;
         }
     }
     handleChange = (event) => {
@@ -45,15 +75,18 @@ class EscapeRoomDesigner extends Component {
     }
     //Changes state on input change
     handleDetailsChange = (state) => { 
-        this.state.escapeRoom.details = state;
+        var newState = {...this.state.escapeRoom.details, ...state};
+        this.setState({escapeRoom:{details:newState}});
     }
     //Changes state on input change
     handleAccessibilityChange = (state) => { 
-        this.state.escapeRoom.accessibility = state;
+        var newState = {...this.state.escapeRoom.accessibility, ...state};
+        this.setState({escapeRoom:{accessibility:newState}});
     }
     //Changes state on input change
     handleDesignChange = (state) => { 
-        this.state.escapeRoom.components = state;
+        var newState = [...this.state.escapeRoom.components, ...state.components];
+        this.setState({escapeRoom:{components:newState}});
     }
     handleToggle = (e) => {
         this.setState({dropdownOpen: !this.state.dropdownOpen});
@@ -67,20 +100,22 @@ class EscapeRoomDesigner extends Component {
     }
     componentDidMount(){
         const id = this.props.match.params.id;
-        console.log(id);
-        this.setState({id: id, escapeRoom: this.props.redux.state.escapeRooms[id]});
-        console.log(this.props.redux.state.escapeRooms);
-        console.log(this.props.redux.state.escapeRooms[id]);
+        const escapeRoom = this.props.redux.state.escapeRooms[id];
+        if(escapeRoom===undefined){
+            this.props.history.push('/');
+        }
+        this.setState({id: id, escapeRoom: escapeRoom},()=>{
+        });
     }
     render() {
         return (
             <Container>
                 <Row>
-                    <Col><Input placeholder="Design Name Goes Here" value={this.state.escapeRoom.name} onChange={this.handleChange}></Input></Col>
+                   
                     <Col><Button onClick={this.handleClick('exit')}>Save and Exit</Button></Col>
                     <Col>
                         <Dropdown isOpen={this.state.dropdownOpen} toggle={this.handleToggle}>
-                            <DropdownToggle caret>Save and Exit</DropdownToggle>
+                            <DropdownToggle caret>Save and Export</DropdownToggle>
                             <DropdownMenu right>
                                 <DropdownItem onClick={this.handleClick('JSON')}>Export as JSON</DropdownItem>
                                 <DropdownItem onClick={this.handleClick('PDF')}>Export as PDF</DropdownItem>
@@ -122,13 +157,13 @@ class EscapeRoomDesigner extends Component {
                     <Col>
                         <TabContent activeTab={this.state.activeTab}>
                             <TabPane tabId="details">
-                                <Details handleChange={this.handleDetailsChange}/>
+                                <Details state={this.state.escapeRoom.details} handleChange={this.handleDetailsChange}/>
                             </TabPane>
                             <TabPane tabId="accessibility">
-                                <Accessibility handleChange={this.handleAccessibilityChange}/>
+                                <Accessibility initialState={this.state.escapeRoom.accessibility} handleChange={this.handleAccessibilityChange}/>
                             </TabPane>
                             <TabPane tabId="design">
-                                <Design handleChange={this.handleDesignChange}/>
+                                <Design initialState={{components:this.state.escapeRoom.components}} handleChange={this.handleDesignChange}/>
                             </TabPane>
                         </TabContent>
                     </Col>

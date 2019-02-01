@@ -6,7 +6,6 @@ import escapeRooms from './escapeRooms';
 import videos from './videos';
 
 export default function(reduxifiedServices){
-    console.log(reduxifiedServices);
     return combineReducers({
         usersService: reduxifiedServices.users.reducer,
         escapeRoomsService: reduxifiedServices['escape-rooms'].reducer,

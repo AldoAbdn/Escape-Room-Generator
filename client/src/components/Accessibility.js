@@ -2,27 +2,12 @@ import React, {Component} from 'react';
 import { Container, Row, Col, Card, CustomInput } from 'reactstrap';
 
 class Accessibility extends Component {
-    constructor(){
-        super();
-        this.state = {
-            protanomaly:false,
-            protanopia:false,
-            deuteranomaly:false,
-            deuteranopia:false,
-            tritanomaly:false,
-            tritanopia:false,
-            coneMonochramacy:false,
-            rodMonochromacy:false,
-            wheelchairAccessible:false,
-            motorAccessible:false
-        };
+    constructor(props){
+        super(props);
     }
     //Changes state on input change
     handleChange = (event) => {
-        this.setState({
-            [event.target.id]: event.target.value
-        });
-        var state = {...this.state};
+        var state = {};
         state[event.target.id] = event.target.value;    
         this.props.handleChange(state);
     }
@@ -53,20 +38,20 @@ class Accessibility extends Component {
                         <Row>
                             <Col>
                                 <Card>
-                                   <CustomInput type="checkbox" name="protanomaly" id="protanomaly" label="Protanomaly" value={this.state.protanomaly} onChange={this.handleChange}/>
-                                   <CustomInput type="checkbox" name="protanopia" id="protanopia" label="Protanopia" value={this.state.protanopia} onChange={this.handleChange}/>
-                                   <CustomInput type="checkbox" name="deuteranomaly" id="deuteranomaly" label="Deuteranomaly" value={this.state.deuteranomaly} onChange={this.handleChange}/>
-                                   <CustomInput type="checkbox" name="deuteranopia" id="deuteranopia" label="Deuteranopia" value={this.state.deuteranopia} onChange={this.handleChange}/>
-                                   <CustomInput type="checkbox" name="tritanomaly" id="tritanomaly" label="Tritanomaly" value={this.state.tritanomaly} onChange={this.handleChange}/>
-                                   <CustomInput type="checkbox" name="tritanopia" id="tritanopia" label="Tritanopia" value={this.state.tritanopia} onChange={this.handleChange}/>
-                                   <CustomInput type="checkbox" name="coneMonochromacy" id="coneMonochromacy" label="Cone Monochromacy" value={this.state.coneMonochromacy} onChange={this.handleChange}/>
-                                   <CustomInput type="checkbox" name="rodMonochromacy" id="rodMonochromacy" label="Rod Monochromacy" value={this.state.rodMonochromacy} onChange={this.handleChange}/>
+                                   <CustomInput type="checkbox" name="protanomaly" id="protanomaly" label="Protanomaly" value={this.props.state.protanomaly} onChange={this.handleChange}/>
+                                   <CustomInput type="checkbox" name="protanopia" id="protanopia" label="Protanopia" value={this.props.state.protanopia} onChange={this.handleChange}/>
+                                   <CustomInput type="checkbox" name="deuteranomaly" id="deuteranomaly" label="Deuteranomaly" value={this.props.state.deuteranomaly} onChange={this.handleChange}/>
+                                   <CustomInput type="checkbox" name="deuteranopia" id="deuteranopia" label="Deuteranopia" value={this.props.state.deuteranopia} onChange={this.handleChange}/>
+                                   <CustomInput type="checkbox" name="tritanomaly" id="tritanomaly" label="Tritanomaly" value={this.props.state.tritanomaly} onChange={this.handleChange}/>
+                                   <CustomInput type="checkbox" name="tritanopia" id="tritanopia" label="Tritanopia" value={this.props.state.tritanopia} onChange={this.handleChange}/>
+                                   <CustomInput type="checkbox" name="coneMonochromacy" id="coneMonochromacy" label="Cone Monochromacy" value={this.props.state.coneMonochromacy} onChange={this.handleChange}/>
+                                   <CustomInput type="checkbox" name="rodMonochromacy" id="rodMonochromacy" label="Rod Monochromacy" value={this.props.state.rodMonochromacy} onChange={this.handleChange}/>
                                 </Card>
                             </Col>
                             <Col>
                                 <Card>
-                                   <CustomInput type="checkbox" name="largeFonts" id="largeFonts" label="Large Fonts" value={this.state.largeFonts} onChange={this.handleChange}/>
-                                   <CustomInput type="checkbox" name="highContrast" id="highContrast" label="High Contrast" value={this.state.highContrast} onChange={this.handleChange}/>
+                                   <CustomInput type="checkbox" name="largeFonts" id="largeFonts" label="Large Fonts" value={this.props.state.largeFonts} onChange={this.handleChange}/>
+                                   <CustomInput type="checkbox" name="highContrast" id="highContrast" label="High Contrast" value={this.props.state.highContrast} onChange={this.handleChange}/>
                                 </Card>
                             </Col>
                         </Row>
@@ -87,8 +72,8 @@ class Accessibility extends Component {
                         <Row>
                             <Col>
                                 <Card>
-                                   <CustomInput type="checkbox" name="Wheelchair Accessible" id="heelchairAccessible" label="wheelchairAccessible" value={this.state.wheelchairAccessible} onChange={this.handleChange}/>
-                                   <CustomInput type="checkbox" name="motorAccessible" id="motorAccessible" label="Accessible for players with motor function issues" value={this.state.motorAccessible} onChange={this.handleChange}/>
+                                   <CustomInput type="checkbox" name="Wheelchair Accessible" id="heelchairAccessible" label="wheelchairAccessible" value={this.props.state.wheelchairAccessible} onChange={this.handleChange}/>
+                                   <CustomInput type="checkbox" name="motorAccessible" id="motorAccessible" label="Accessible for players with motor function issues" value={this.props.state.motorAccessible} onChange={this.handleChange}/>
                                 </Card>
                             </Col>
                         </Row>

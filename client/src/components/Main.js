@@ -10,15 +10,16 @@ class Main extends Component {
         super();
         this.state = {profile:null};
     }
-    populateUser = async () => {
-        await this.props.feathersClient.authenticate()
+    populateUser = () => {
+        this.props.feathersClient.authenticate()
           .then(response => {
             return this.props.feathersClient.passport.verifyJWT(response.accessToken);
           })
-          .then(payload => {
-            return this.props.services.users.get(payload.userId);
+          .then(response => {
+            return this.props.services.users.get(response.userId);
           })
-          .then(user => {
+          .then(response => {
+            var user = response.value;
             user.token = window.localStorage.getItem('feathers-jwt');
             this.props.redux.actions.login(user);
             this.setState({profile:  
@@ -33,14 +34,14 @@ class Main extends Component {
             this.logout();
           });
     }
-    populateEscapeRooms = async (userId) => {
+    populateEscapeRooms = (userId) => {
         //Get User Details and Update Redux Store
-        if (userId != null && userId != undefined)
+        if (userId !== null && userId !== undefined)
         this.props.services['escape-rooms'].find({query:{userId:userId}})
         .then((queryResult)=>{
             if(queryResult.action.type.includes('FULFILLED')){
                 const escapeRooms = queryResult.value.data;
-                if (escapeRooms!=null && escapeRooms!=undefined)
+                if (escapeRooms!==null && escapeRooms!==undefined)
                     this.props.redux.actions.updateEscapeRooms(escapeRooms);
                     this.setState({loading:false});
                 }
@@ -52,13 +53,13 @@ class Main extends Component {
         this.props.history.push('/');
     }
     componentDidMount() {
-        if (window.localStorage.getItem('feathers-jwt') && this.props.redux.state.email!=undefined){
+        if (window.localStorage.getItem('feathers-jwt') && this.props.redux.state.email!==undefined){
             this.setState({profile:  
             <div className="profile" >
                 <Link to="/profile">Profile</Link>
                 <Button onClick={this.logout}>Logout</Button>
             </div>});
-        } else if (window.localStorage.getItem('feathers-jwt') && this.props.redux.state.email==undefined){
+        } else if (window.localStorage.getItem('feathers-jwt') && this.props.redux.state.email===undefined){
             this.populateUser();
         }
     }

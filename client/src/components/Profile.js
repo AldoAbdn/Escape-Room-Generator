@@ -61,7 +61,7 @@ class Profile extends Component {
 
     componentDidUpdate(oldProps){
         const newProps = this.props;
-        if(oldProps.redux.state.user.email != newProps.redux.state.user.email){
+        if(oldProps.redux.state.user.email !== newProps.redux.state.user.email){
             const user = this.props.redux.state.user;
             console.log(this.props);
             this.setState({

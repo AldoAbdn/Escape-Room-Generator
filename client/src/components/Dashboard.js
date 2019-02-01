@@ -17,15 +17,42 @@ class Dashboard extends Component {
         this.setState({dropdownOpen});
     }
     handleClick = async (e) => {
-        const userId = this.props.redux.state.user._id
-        await this.props.services['escape-rooms'].create({name:'Unnamed',userId:userId})
+        const userId = this.props.redux.state.user._id;
+        const newEscapeRoom = {
+            details:{
+                name: 'Unnamed',
+                userId: userId,
+                designer: "",
+                theme: "",
+                minPlayers: "",
+                maxPlayers: "",
+                targetTime: "",
+                difficulty: "3",
+                objective: "",
+                description: ""
+            },
+            accessibility:{
+                protanomaly: '',
+                protanopia: '',
+                deuteranomaly: '',
+                deuteranopia: '',
+                tritanomaly: '',
+                tritanopia: '',
+                coneMonochromacy: '',
+                rodMonochromacy: '',
+                largeFonts: '',
+                highContrast: ''
+            },
+            components: []
+        }
+        await this.props.services['escape-rooms'].create(newEscapeRoom)
             .then(async (queryResult) => {
                 console.log(queryResult);
                 if(queryResult.action.type.includes('FULFILLED')){
                     const escapeRoom = queryResult.value;
-                    if (escapeRoom!=null){
+                    if (escapeRoom!==null){
                         const i = this.props.redux.state.escapeRooms.length;
-                        await this.props.redux.actions.addEscapeRoom(escapeRoom);
+                        this.props.redux.actions.addEscapeRoom(escapeRoom);
                         this.props.history.push('/designer/'+i);
                     }
                 }
@@ -63,6 +90,8 @@ class Dashboard extends Component {
                 escapeRoomService.remove(escapeRoom._id);
                 removeEscapeRoom(escapeRoom);
                 break;
+            default:
+                return;
         }
     }
     mapEscapeRoomToList = (escapeRoom,i) => {

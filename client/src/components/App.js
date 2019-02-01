@@ -8,7 +8,6 @@ import * as escpaeRoomActionCreators from '../actions/escapeRooms';
 import * as videoActionCreators from '../actions/videos';
 
 function mapStateToProps(state) {
-  console.log(state);
   return {
     redux: state
   }
@@ -22,7 +21,6 @@ function mapDispatchToProps(dispatch){
 }
 
 function mergeProps(stateProps, dispatchProps, ownProps) {
-  console.log(stateProps);
   return {
     ...ownProps,
     redux: {

@@ -7,10 +7,14 @@ function escapRooms(state=[],action){
             const i = state.indexOf(action.escapeRoom);
             state.pop(i);
             return state.slice();
+        case 'UPDATE_ESCAPE_ROOM':
+            state[action.i] = action.escapRoom;
+            return {...state}; 
         case 'UPDATE_ESCAPE_ROOMS':
             return action.escapeRooms.slice();
+        default:
+            return state;
     }
-    return state;
 }
 
 export default escapRooms;

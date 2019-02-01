@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
 
 class Design extends Component {
-    constructor(){
-        super();
-        this.state = [];
+    constructor(props){
+        super(props);
     }
     render(){
         return (<div>Design</div>);
