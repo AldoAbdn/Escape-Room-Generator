@@ -20,10 +20,11 @@ class Accessibility extends Component {
     //Changes state on input change
     handleChange = (event) => {
         this.setState({
-            [event.target.id]: !this.state[event.target.id]
-        }).then((state) => {
-            this.props.handleChange(state);
+            [event.target.id]: event.target.value
         });
+        var state = {...this.state};
+        state[event.target.id] = event.target.value;    
+        this.props.handleChange(state);
     }
     render(){
         return (

@@ -19,13 +19,13 @@ class Dashboard extends Component {
     handleClick = async (e) => {
         const userId = this.props.redux.state.user._id
         await this.props.services['escape-rooms'].create({name:'Unnamed',userId:userId})
-            .then((queryResult) => {
+            .then(async (queryResult) => {
                 console.log(queryResult);
                 if(queryResult.action.type.includes('FULFILLED')){
                     const escapeRoom = queryResult.value;
                     if (escapeRoom!=null){
-                        const i = this.props.redux.state.escapeRooms.length + 1;
-                        
+                        const i = this.props.redux.state.escapeRooms.length;
+                        await this.props.redux.actions.addEscapeRoom(escapeRoom);
                         this.props.history.push('/designer/'+i);
                     }
                 }
@@ -79,34 +79,6 @@ class Dashboard extends Component {
             </Dropdown>
         </ListGroupItem>)
     };
-    updateEscapeRooms = () => {
-        const self = this;
-        const userId = this.props.redux.state.user._id;
-        //Get User Details and Update Redux Store
-        if (userId != null && userId != undefined)
-            this.props.services['escape-rooms'].find({query:{userId:userId}})
-            .then((queryResult)=>{
-                if(queryResult.action.type.includes('FULFILLED')){
-                    const escapeRooms = queryResult.value.data;
-                    if (escapeRooms!=null && escapeRooms!=undefined)
-                        this.props.redux.actions.updateEscapeRooms(escapeRooms);
-                        self.setState({loading:false});
-                    }
-            });
-    }
-    componentDidUpdate(oldProps){
-        const oldRedux = oldProps.redux.state;
-        const redux = this.props.redux.state;
-        if (this.state.firstLoad){
-            this.updateEscapeRooms();
-            this.setState({firstLoad:false});
-        }else if (oldRedux.user.email!=undefined && (oldRedux.escapeRooms.length != redux.escapeRooms.length)){
-            this.updateEscapeRooms();
-        }
-    }
-    componentDidMount(){
-        this.updateEscapeRooms();
-    }
     render() {
         const escapeRooms = this.props.redux.state.escapeRooms || [];
         return (

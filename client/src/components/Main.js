@@ -16,7 +16,7 @@ class Main extends Component {
             return this.props.feathersClient.passport.verifyJWT(response.accessToken);
           })
           .then(payload => {
-            return this.props.feathersClient.service('users').get(payload.userId);
+            return this.props.services.users.get(payload.userId);
           })
           .then(user => {
             user.token = window.localStorage.getItem('feathers-jwt');
@@ -26,7 +26,25 @@ class Main extends Component {
                     <Link to="/profile">Profile</Link>
                     <Button onClick={this.logout}>Logout</Button>
                 </div>});
+            //Get Escape Rooms 
+            this.populateEscapeRooms(user._id);
           })
+          .catch(error => {
+            this.logout();
+          });
+    }
+    populateEscapeRooms = async (userId) => {
+        //Get User Details and Update Redux Store
+        if (userId != null && userId != undefined)
+        this.props.services['escape-rooms'].find({query:{userId:userId}})
+        .then((queryResult)=>{
+            if(queryResult.action.type.includes('FULFILLED')){
+                const escapeRooms = queryResult.value.data;
+                if (escapeRooms!=null && escapeRooms!=undefined)
+                    this.props.redux.actions.updateEscapeRooms(escapeRooms);
+                    this.setState({loading:false});
+                }
+        });
     }
     logout = () => {
         window.localStorage.removeItem('feathers-jwt');
@@ -42,7 +60,6 @@ class Main extends Component {
             </div>});
         } else if (window.localStorage.getItem('feathers-jwt') && this.props.redux.state.email==undefined){
             this.populateUser();
-
         }
     }
     render() {
@@ -59,7 +76,7 @@ class Main extends Component {
                         <Redirect exact from="/" to="dashboard"/>
                         <ProtectedRoute path="/dashboard" render={(routeProps) => (<Dashboard {...this.props}/>)}/>
                         <ProtectedRoute path="/profile" render={(routeProps) => (<Profile {...this.props}/>)}/>
-                        <Route path="/designer/:id" render={(routeProps) => {
+                        <ProtectedRoute path="/designer/:id" render={(routeProps) => {
                             var props = {...this.props, ...routeProps};
                             return(<EscapeRoomDesigner {...props}/>)
                         }}/>

@@ -20,9 +20,10 @@ class Details extends Component {
     handleChange = (event) => { 
         this.setState({
             [event.target.id]: event.target.value
-        }).then((state) => {
-            this.props.handleChange(state);
         });
+        var state = {...this.state};
+        state[event.target.id] = event.target.value;    
+        this.props.handleChange(state);
     }
     render(){
         return (
@@ -65,7 +66,7 @@ class Details extends Component {
                         </FormGroup>
                         <FormGroup>
                             <Label for="description">Description</Label>
-                            <Input type="textarea" name="description" id="description" placeholder="description" value={this.state.description} onChange={this.handleChange}/>
+                            <Input type="textarea" name="description" id="description" placeholder="Description" value={this.state.description} onChange={this.handleChange}/>
                         </FormGroup>                        
                     </Form>
                 </Col>

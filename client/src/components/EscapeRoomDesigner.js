@@ -8,7 +8,7 @@ import jsPDF from 'jspdf';
 class EscapeRoomDesigner extends Component {
     constructor(){
         super();
-        this.state = {id: null, activeTab:'details', dropdownOpen: false ,escapeRoom:{}};
+        this.state = {id: null, activeTab:'details', dropdownOpen: false ,escapeRoom:{name:""}};
     }
     saveJSON(json, name) {
         const blob = new Blob([json],{type:'text/plain;charset=utf-8'});
@@ -19,7 +19,7 @@ class EscapeRoomDesigner extends Component {
         doc.text(JSON.stringify(escapeRoom),10,10);
         doc.save(escapeRoom.name+'.pdf');
     }
-    handeClick = (action) => (e) => {
+    handleClick = (action) => (e) => {
         switch(action){
             case 'EXIT':
                 this.props.services['escape-rooms'].update(this.state.escapeRoom).then(() => {
@@ -38,17 +38,22 @@ class EscapeRoomDesigner extends Component {
                 break;
         }
     }
+    handleChange = (event) => {
+        this.setState({
+            [event.target.id]: event.target.value
+        })
+    }
     //Changes state on input change
     handleDetailsChange = (state) => { 
         this.state.escapeRoom.details = state;
     }
     //Changes state on input change
     handleAccessibilityChange = (state) => { 
-        this.state.accessibility = state;
+        this.state.escapeRoom.accessibility = state;
     }
     //Changes state on input change
     handleDesignChange = (state) => { 
-        this.state.components = state;
+        this.state.escapeRoom.components = state;
     }
     handleToggle = (e) => {
         this.setState({dropdownOpen: !this.state.dropdownOpen});
@@ -62,20 +67,20 @@ class EscapeRoomDesigner extends Component {
     }
     componentDidMount(){
         const id = this.props.match.params.id;
-        this.setState({id:id}).then((state)=>{
-            
-            alert(id);
-        });
+        console.log(id);
+        this.setState({id: id, escapeRoom: this.props.redux.state.escapeRooms[id]});
+        console.log(this.props.redux.state.escapeRooms);
+        console.log(this.props.redux.state.escapeRooms[id]);
     }
     render() {
         return (
             <Container>
                 <Row>
-                    <Col><Input placeholder="Design Name Goes Here"></Input></Col>
+                    <Col><Input placeholder="Design Name Goes Here" value={this.state.escapeRoom.name} onChange={this.handleChange}></Input></Col>
                     <Col><Button onClick={this.handleClick('exit')}>Save and Exit</Button></Col>
                     <Col>
                         <Dropdown isOpen={this.state.dropdownOpen} toggle={this.handleToggle}>
-                            <DropdownToggle caret/>
+                            <DropdownToggle caret>Save and Exit</DropdownToggle>
                             <DropdownMenu right>
                                 <DropdownItem onClick={this.handleClick('JSON')}>Export as JSON</DropdownItem>
                                 <DropdownItem onClick={this.handleClick('PDF')}>Export as PDF</DropdownItem>
