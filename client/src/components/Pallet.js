@@ -1,5 +1,6 @@
 import React, {Component}  from 'react';
 import { Container, Row, Col, Button } from 'reactstrap';
+import AreaDnD from './AreaDnD';
 
 class Pallet extends Component {
     render() {
@@ -12,7 +13,7 @@ class Pallet extends Component {
                 </Row>
                 <Row>
                     <Col>
-                        <Button>Area</Button>
+                        <AreaDnD id="Area"/>
                     </Col>
                 </Row>
                 <Row>

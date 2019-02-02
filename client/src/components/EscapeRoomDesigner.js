@@ -91,8 +91,10 @@ class EscapeRoomDesigner extends Component {
     //Changes state on input change
     handleDesignChange = (state) => { 
         var escapeRoom = {...this.state.escapeRoom};
-        var newState = [...this.state.escapeRoom.components, ...state.components];
+        var newState = [...state];
+        console.log(newState);
         escapeRoom.components = newState;
+        console.log(escapeRoom);
         this.setState({escapeRoom});
     }
     handleToggle = (e) => {
@@ -118,7 +120,6 @@ class EscapeRoomDesigner extends Component {
         return (
             <Container>
                 <Row>
-                   
                     <Col><Button onClick={this.handleClick('EXIT')}>Save and Exit</Button></Col>
                     <Col>
                         <Dropdown isOpen={this.state.dropdownOpen} toggle={this.handleToggle}>

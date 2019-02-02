@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { Container, Row, Col, Dropdown, DropdownToggle, DropdownMenu, DropdownItem , ListGroup, ListGroupItem , Button } from 'reactstrap';
 import { saveAs } from 'file-saver';
 import jsPDF from 'jspdf';
+import Area from '../models/Area';
 
 class Dashboard extends Component {
     constructor(props){
@@ -43,7 +44,7 @@ class Dashboard extends Component {
                 largeFonts: false,
                 highContrast: false
             },
-            components: []
+            components: [new Area()]
         }
         await this.props.services['escape-rooms'].create(newEscapeRoom)
             .then(async (queryResult) => {

@@ -20,6 +20,10 @@ import App from './components/App';
 //Service Worker 
 import * as serviceWorker from './serviceWorker';
 
+//ReactDnD
+import HTML5Backend from 'react-dnd-html5-backend'
+import { DragDropContextProvider } from 'react-dnd';
+
 //Feathers Configuration 
 export const feathersClient = feathers()
     .configure(feathers.socketio(io()))
@@ -35,11 +39,13 @@ const services = bindWithDispatch(store.dispatch, rawServices);
 
 //Router
 const router = (
-    <Provider store={store}>
+    <DragDropContextProvider backend={HTML5Backend}>
+        <Provider store={store}>
             <BrowserRouter>
                 <App feathersClient={feathersClient} services={services} getServicesStatus={getServicesStatus}/>
             </BrowserRouter>
-    </Provider>
+        </Provider>
+    </DragDropContextProvider>
 );
 
 //Render Router 
