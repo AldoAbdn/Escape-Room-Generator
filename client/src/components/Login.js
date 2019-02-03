@@ -19,7 +19,6 @@ class Login extends Component {
         await this.props.feathersClient.authenticate({strategy:'local',email:this.state.email,password:this.state.password})
         .then(async (output) => {
             //Get User Details and Update Redux Store
-            console.log(this);
             let queryResult = await this.props.services.users.find({email:this.state.email});
             if(queryResult.action.type.includes('FULFILLED')){
                 var user = queryResult.value.data[0];

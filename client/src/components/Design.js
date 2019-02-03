@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import { Pallet, ComponentArranger, ComponentDetails } from './index';
 import Draggable from 'react-draggable';
-import Puzzle from './Puzzle';
 import Area from '../models/Area';
 
 class Design extends Component {
@@ -23,6 +22,28 @@ class Design extends Component {
     handleComponentClick = (component) => {
         this.setState({selected:component});
     }
+    handleComponentDrop = (component, parentId, isInput = true) => {
+        var components = [...this.props.state.components]
+        if(parentId == null){
+            components.push(component);
+            this.props.handleChange(components);
+            return;
+        } else {
+            components.forEach((rootComponent,index,components)=>{
+                components[index] = this.removeComponent(rootComponent,component._id);
+                console.log(components);
+                components[index] = this.addComponent(rootComponent,parentId,isInput,component);
+                console.log(components);
+            })
+        }
+    }
+    handleDidNotDrop = (component) => {
+        console.log(component);
+        var components = [...this.props.state.components]
+        components.forEach((rootComponent,index,components)=>{
+            components[index] = this.removeComponent(rootComponent,component._id);
+        })
+    }
     //Changes state on input change
     handleComponentDetailsChange = (state) => { 
         var newComponent = {...this.props.selected, ...state};
@@ -37,27 +58,26 @@ class Design extends Component {
 
         this.setState({selected:newComponent});
     }
-    updateComponent = (component, newComponent) => {
-        if(component.inputComponents.length > 0 || component.outputComponents.length > 0){
-            this.updateComponent(component, newComponent)
+    updateComponent = (rootComponent, newComponent) => {
+        if (rootComponent._id === newComponent._id){
+            rootComponent = {...rootComponent,...newComponent};
+            return rootComponent;
         }
-        if (component._id === newComponent._id){
-                component = {...component,...newComponent};
-                return component;
+        else if(rootComponent.inputComponents.length > 0 || rootComponent.outputComponents.length > 0){
+            for (var list of [rootComponent.inputComponents, rootComponent.outputComponents]){
+                list.forEach((component,index,components)=>{
+                    components[index] = this.updateComponent(component,newComponent);
+                })
+            }
         }
-        for (var list of [component.inputComponents, component.outputComponents]){
-            list.forEach((component,index,components)=>{
-                components[index] = this.updateComponent(component,newComponent);
-            })
-        }
-        return component;
+        return rootComponent;
     }
-    findComponent(component,id){
+    findComponent(rootComponent,id){
         var foundComponent = null;
-        if(component._id===id){
-            return component;
+        if(rootComponent._id===id){
+            return rootComponent;
         }
-        for (var list of [component.inputComponents, component.outputComponents]){
+        for (var list of [rootComponent.inputComponents, rootComponent.outputComponents]){
             list.forEach((component,index,components)=>{
                 var found = this.findComponent(component);
                 if (found!=null){
@@ -67,6 +87,49 @@ class Design extends Component {
         }
         return foundComponent;
     }
+    removeComponent(rootComponent,id){
+        if (rootComponent._id === id){
+            rootComponent = null;
+            return rootComponent;
+        }
+        else if(rootComponent.inputComponents.length > 0 || rootComponent.outputComponents.length > 0){
+            for (var list of [rootComponent.inputComponents, rootComponent.outputComponents]){
+                list.forEach((component,index,components)=>{
+                    component = this.removeComponent(component,id);
+                    if(component === null || component._id === id){
+                        components.pop(index);
+                    }
+                })
+            }
+        }
+        return rootComponent;
+    }
+    addComponent(rootComponent,parentId,isInput,newComponent){
+        if (rootComponent._id === parentId){
+            if(isInput){
+                rootComponent.inputComponents.push(newComponent);
+            } else {
+                rootComponent.outputComponents.push(newComponent);
+            }
+            return rootComponent;
+        }
+        else if(rootComponent.inputComponents.length > 0 || rootComponent.outputComponents.length > 0){
+            for (var list of [rootComponent.inputComponents, rootComponent.outputComponents]){
+                list.forEach((component,index,components)=>{
+                    component = this.addComponent(component,parentId,isInput,newComponent);
+                    if(component._id === parentId){
+                        if(isInput){
+                            component.inputComponents.push(newComponent);
+                        }else {
+                            component.outputComponents.push(newComponent);   
+                        }
+                        components[index] = component;
+                    }
+                })
+            }
+        }
+        return rootComponent;
+    }
     render(){
         return (
             <Container>
@@ -75,7 +138,7 @@ class Design extends Component {
                         <Pallet handleClick={this.handlePalletItemClick}/>
                     </Col>
                     <Col xs="8">
-                        <ComponentArranger handleComponentClick={this.handleComponentClick} components={this.props.state.components}/>            
+                        <ComponentArranger handleDidNotDrop={this.handleDidNotDrop} handleComponentDrop={this.handleComponentDrop} handleComponentClick={this.handleComponentClick} components={this.props.state.components}/>            
                     </Col>
                     <Col>
                         <ComponentDetails selected={this.state.selected} handleChange={this.handleComponentDetailsChange}/>

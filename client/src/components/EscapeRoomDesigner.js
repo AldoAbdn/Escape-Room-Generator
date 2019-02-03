@@ -51,7 +51,6 @@ class EscapeRoomDesigner extends Component {
             case 'EXIT':
                 this.props.services['escape-rooms'].update(this.state.escapeRoom._id,this.state.escapeRoom).then(() => {
                     this.props.redux.actions.updateEscapeRoom(this.state.id,this.state.escapeRoom);
-                    console.log(this.state.escapeRoom);
                     this.props.history.push('/');
                 });
                 break;
@@ -92,9 +91,7 @@ class EscapeRoomDesigner extends Component {
     handleDesignChange = (state) => { 
         var escapeRoom = {...this.state.escapeRoom};
         var newState = [...state];
-        console.log(newState);
         escapeRoom.components = newState;
-        console.log(escapeRoom);
         this.setState({escapeRoom});
     }
     handleToggle = (e) => {

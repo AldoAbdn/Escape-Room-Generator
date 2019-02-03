@@ -42,7 +42,6 @@ class Profile extends Component {
                 user.password = this.state.password;
                 this.props.services.users.update(this.state._id,user)
                 .then((output)=>{
-                    console.log(output);
                     let user = output.value;
                     this.props.redux.actions.login(user);
                     this.setState({edit:false});
@@ -63,7 +62,6 @@ class Profile extends Component {
         const newProps = this.props;
         if(oldProps.redux.state.user.email !== newProps.redux.state.user.email){
             const user = this.props.redux.state.user;
-            console.log(this.props);
             this.setState({
                 email: user.email,
                 _id: user._id

@@ -2,18 +2,17 @@ import React, {Component}  from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import '../styles/ComponentArranger.css';
 import Area from './Area';
-import Puzzle from './Puzzle';
+import AreaModel from '../models/Area';
 import { DropTarget } from 'react-dnd';
 
 const Types = {
-    COMPONENT: 'COMPONENT'
+    AREA: 'AREA'
 }
 
-const componentArrangerTarget = {
+const areaArrangerTarget = {
     drop(props, monitor, component){
         const item = monitor.getItem();
-        console.log(item);
-        component.newArea();
+        component.handleComponentDrop(new AreaModel());
     }
 }
 
@@ -34,32 +33,33 @@ function collect(connect, monitor) {
   }
 
 class ComponentArranger extends Component {
-    newArea(){
-        alert('new area');
+    handleComponentDrop = (component,parentId, isInput) => {
+        this.props.handleComponentDrop(component,parentId,isInput);
     }
     handleComponentClick = (component) => (e) => {
         this.props.handleComponentClick(component);
     }
+    handleDidNotDrop = (component) => {
+        this.props.handleDidNotDrop(component);
+    }
     mapAreas = (area,i)=>{
         return (
             <Col key={i}>
-                <Area area={area} handleComponentClick={this.handleComponentClick}>
-                    <Puzzle/>
-                </Area>
+                <Area area={area} handleDidNotDrop={this.handleDidNotDrop} handleComponentDrop={this.handleComponentDrop} handleComponentClick={this.handleComponentClick}/>
             </Col>
         )   
     }
     render() {
         return this.props.connectDropTarget(
             <div>
-            <Container>
-                <Row>
-                    {this.props.components.map(this.mapAreas)}
-                </Row>
-            </Container>
+                <Container>
+                    <Row>
+                        {this.props.components.map(this.mapAreas)}
+                    </Row>
+                </Container>
             </div>
         )
     }
 };
 
-export default DropTarget(Types.COMPONENT, componentArrangerTarget,collect)(ComponentArranger);
+export default DropTarget(Types.AREA, areaArrangerTarget,collect)(ComponentArranger);

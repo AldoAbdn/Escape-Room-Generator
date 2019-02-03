@@ -48,7 +48,6 @@ class Dashboard extends Component {
         }
         await this.props.services['escape-rooms'].create(newEscapeRoom)
             .then(async (queryResult) => {
-                console.log(queryResult);
                 if(queryResult.action.type.includes('FULFILLED')){
                     const escapeRoom = queryResult.value;
                     if (escapeRoom!==null){
@@ -108,7 +107,6 @@ class Dashboard extends Component {
         </ListGroupItem>)
     };
     render() {
-        console.log(this.props.redux.state.escapeRooms);
         const escapeRooms = this.props.redux.state.escapeRooms || [];
         return (
             <Container>

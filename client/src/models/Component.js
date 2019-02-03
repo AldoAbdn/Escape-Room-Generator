@@ -7,5 +7,6 @@ export default class Component {
         this.description = "";
         this.inputComponents = [];
         this.outputComponents = [];
+        this.type = "Component";
     }
 }

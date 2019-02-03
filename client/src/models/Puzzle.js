@@ -1,7 +1,7 @@
 import Component from './Component';
-export default class Area extends Component {
+export default class Puzzle extends Component {
     constructor(){
         super();
-        this.type="Area";
+        this.type="Puzzle";
     }   
 }

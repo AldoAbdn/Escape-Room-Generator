@@ -6,14 +6,14 @@ import { DragSource } from 'react-dnd';
 // You want to keep types in a separate file with
 // the rest of your app's constants.
 const Types = {
-  AREA: 'AREA'
+  COMPONENT: 'COMPONENT'
 };
 
 /**
  * Specifies the drag source contract.
  * Only `beginDrag` function is required.
  */
-const areaSource = {
+const componentSource = {
   canDrag(props) {
     // You can disallow drag based on props
     return true;
@@ -37,12 +37,15 @@ const areaSource = {
     if (!monitor.didDrop()) {
       // You can check whether the drop was successful
       // or if the drag ended but nobody handled the drop
+      alert('did not drop');
+      const item = monitor.getItem();
+      component.handleDidNotDrop(props.component);
       return;
     }
 
     // When dropped on a compatible target, do something.
     // Read the original dragged item from getItem():
-    const item = monitor.getItem();
+
 
     // You may also read the drop result from the drop target
     // that handled the drop, if it returned an object from
@@ -66,12 +69,16 @@ function collect(connect, monitor) {
   };
 }
 
-class AreaDnD extends Component{
-    render() {
-        return this.props.connectDragSource(
-            <button>Area</button>
-        )
-    }
+class ComponentDnD extends Component{
+  handleDidNotDrop = (component)=>{
+    if(this.props.handleDidNotDrop!=undefined)
+      this.props.handleDidNotDrop(component);
+  }
+  render() {
+      return this.props.connectDragSource(
+          <button style={{width:'100px',height:'100px'}}>{this.props.id}</button>
+      )
+  }
 };
 
-export default DragSource(Types.AREA, areaSource, collect)(AreaDnD);
+export default DragSource(Types.COMPONENT, componentSource, collect)(ComponentDnD);
