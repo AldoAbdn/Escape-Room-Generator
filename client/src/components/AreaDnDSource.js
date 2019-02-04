@@ -30,14 +30,20 @@ const areaSource = {
 
   beginDrag(props, monitor, component) {
     // Return the data describing the dragged item
-    const item = { id: props.id };
+    var item = null;
+    if (props.id!=undefined){
+       item = { id: props.id };
+    } else {
+       item = { area: props.area };
+    }
     return item;
   },
 
   endDrag(props, monitor, component) {
     if (!monitor.didDrop()) {
-      // You can check whether the drop was successful
-      // or if the drag ended but nobody handled the drop
+      alert('did not drop');
+      const item = monitor.getItem();
+      component.props.handleDidNotDrop(props.component);
       return;
     }
 

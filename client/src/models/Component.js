@@ -8,5 +8,6 @@ export default class Component {
         this.inputComponents = [];
         this.outputComponents = [];
         this.type = "Component";
+        this.position = {top:0,left:0};
     }
 }

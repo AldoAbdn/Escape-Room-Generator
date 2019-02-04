@@ -15,7 +15,8 @@ const componentTarget = {
             return;
         }
         const item = monitor.getItem();
-        component.handleComponentDrop(item);
+        const isInput = props.isInput;
+        component.handleComponentDrop(item,isInput);
         return {moved:true};
     }
 }
@@ -31,13 +32,13 @@ function collect(connect, monitor) {
 }
 
 class ComponentDnDTarget extends Component {
-    handleComponentDrop(item, isInput=true){
+    handleComponentDrop(item,isInput=true){
         var component = null;
         if (item.id!=undefined){
-            alert(item.id);
             switch(item.id){
                 case 'Puzzle':
                     component = new Puzzle();
+                    break;
             }
         } else {
             component = item;
@@ -52,7 +53,6 @@ class ComponentDnDTarget extends Component {
             <div key={this.props.component._id}>
                 <Card className={this.props.component.type} onClick={this.props.handleComponentClick(this.props.component)}>
                     <CardBody>
-                        <CardTitle>{this.props.component.type}</CardTitle>
                         {this.props.component.inputComponents.map((component,i)=>{
                             return(<ComponentDnDSource isTarget handleComponentDrop={this.props.handleComponentDrop} handleComponentClick={this.props.handleComponentClick} handleDidNotDrop={this.props.handleDidNotDrop} key={i} component={component} id={component.type}/>)
                         })}

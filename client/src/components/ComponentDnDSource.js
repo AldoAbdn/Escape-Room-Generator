@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { DragSource } from 'react-dnd';
 import ComponentDnDTarget from './ComponentDnDTarget';
+import { Container, Row, Col } from 'reactstrap'
 
 // Drag sources and drop targets only interact
 // if they have the same string type.
@@ -30,7 +31,13 @@ const componentSource = {
 
   beginDrag(props, monitor, component) {
     // Return the data describing the dragged item
-    const item = { id: props.id };
+    var item
+    if(props.component === undefined){
+      item = {id: props.id}
+    } else {
+      item = {...props.component};
+      console.log(item);
+    }
     return item;
   },
 
@@ -40,7 +47,8 @@ const componentSource = {
       // or if the drag ended but nobody handled the drop
       alert('did not drop');
       const item = monitor.getItem();
-      component.handleDidNotDrop(props.component);
+      if(props.component!=undefined||props.component!=null)
+        component.handleDidNotDrop(props.component);
       return;
     }
 
@@ -79,11 +87,25 @@ class ComponentDnDSource extends Component{
       var target;
       if (this.props.isTarget){
         target = (
-          <ComponentDnDTarget component={this.props.component} handleDidNotDrop={this.props.handleDidNotDrop} handleComponentDrop={this.props.handleComponentDrop} handleComponentClick={this.props.handleComponentClick}/>
+          <div>  
+            <Container>
+              <Row>
+                <Col><ComponentDnDTarget isInput={true} component={this.props.component} handleDidNotDrop={this.props.handleDidNotDrop} handleComponentDrop={this.props.handleComponentDrop} handleComponentClick={this.props.handleComponentClick}/></Col>
+                <Col><ComponentDnDTarget isInput={false} component={this.props.component} handleDidNotDrop={this.props.handleDidNotDrop} handleComponentDrop={this.props.handleComponentDrop} handleComponentClick={this.props.handleComponentClick}/></Col>
+              </Row>
+            </Container>
+          </div>
         );
       }
+      var style = {width:'100px', height: '100px'};
+      if (this.props.component!=undefined){
+        style.top = this.props.component.position.top;
+        style.left = this.props.component.position.left;
+        style.position = 'relative';
+      }
       return this.props.connectDragSource(
-          <div style={{width:'100px',height:'100px'}}>
+        
+          <div style={style}>
           {this.props.id}
           {target}
           </div>

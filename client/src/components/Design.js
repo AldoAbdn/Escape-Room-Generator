@@ -23,6 +23,7 @@ class Design extends Component {
         this.setState({selected:component});
     }
     handleComponentDrop = (component, parentId, isInput = true) => {
+        console.log(component);
         var components = [...this.props.state.components];
         if(parentId == null){
             components.push(component);
@@ -40,7 +41,11 @@ class Design extends Component {
         var components = [...this.props.state.components]
         components.forEach((rootComponent,index,components)=>{
             components[index] = this.removeComponent(rootComponent,component._id);
+            if(components[index]==null){
+                components.pop(index);
+            }
         })
+        this.props.handleChange(components);
     }
     //Changes state on input change
     handleComponentDetailsChange = (state) => { 
