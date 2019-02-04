@@ -1,6 +1,6 @@
 import React, {Component}  from 'react';
 import { Container, Row, Col, Button } from 'reactstrap';
-import AreaDnD from './AreaDnD';
+import AreaDnD from './AreaDnDSource';
 import ComponentDnD from './ComponentDnDSource';
 
 class Pallet extends Component {

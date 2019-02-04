@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { DragSource } from 'react-dnd';
+import AreaDnDTarget from './AreaDnDTarget';
 
 // Drag sources and drop targets only interact
 // if they have the same string type.
@@ -66,12 +67,21 @@ function collect(connect, monitor) {
   };
 }
 
-class AreaDnD extends Component{
+class AreaDnDSource extends Component{
     render() {
-        return this.props.connectDragSource(
-            <button>Area</button>
-        )
+      var target;
+      if (this.props.isTarget){
+        target = (
+          <AreaDnDTarget component={this.props.component} handleDidNotDrop={this.props.handleDidNotDrop} handleComponentDrop={this.props.handleComponentDrop} handleComponentClick={this.props.handleComponentClick}/>
+        );
+      }
+      return this.props.connectDragSource(
+          <div style={{width:'100px',height:'100px'}}>
+          {this.props.id}
+          {target}
+          </div>
+      )
     }
 };
 
-export default DragSource(Types.AREA, areaSource, collect)(AreaDnD);
+export default DragSource(Types.AREA, areaSource, collect)(AreaDnDSource);

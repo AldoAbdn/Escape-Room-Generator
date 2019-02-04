@@ -1,7 +1,7 @@
 import React, {Component}  from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import '../styles/ComponentArranger.css';
-import Area from './ComponentDnDTarget';
+import Area from './AreaDnDSource';
 import AreaModel from '../models/Area';
 import { DropTarget } from 'react-dnd';
 
@@ -12,7 +12,7 @@ const Types = {
 const areaArrangerTarget = {
     drop(props, monitor, component){
         const item = monitor.getItem();
-        component.handleComponentDrop(new AreaModel());
+        component.props.handleComponentDrop(new AreaModel());
     }
 }
 
@@ -36,7 +36,7 @@ class ComponentArranger extends Component {
     mapAreas = (area,i)=>{
         return (
             <Col key={i}>
-                <Area component={area} handleDidNotDrop={this.props.handleDidNotDrop} handleComponentDrop={this.props.handleComponentDrop} handleComponentClick={this.props.handleComponentClick}/>
+                <Area isTarget component={area} handleDidNotDrop={this.props.handleDidNotDrop} handleComponentDrop={this.props.handleComponentDrop} handleComponentClick={this.props.handleComponentClick}/>
             </Col>
         )   
     }
