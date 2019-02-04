@@ -1,9 +1,9 @@
 import React, {Component}  from 'react';
 import { Card, CardBody ,CardTitle } from 'reactstrap';
-import '../styles/Area.css';
+import '../styles/ComponentTarget.css';
 import { DropTarget } from 'react-dnd';
 import Puzzle from '../models/Puzzle';
-import ComponentDnD from './ComponentDnD';
+import ComponentDnDSource from './ComponentDnDSource';
 
 const Types = {
     COMPONENT: 'COMPONENT'
@@ -11,8 +11,12 @@ const Types = {
 
 const componentTarget = {
     drop(props,monitor,component){
-       const item = monitor.getItem();
+        if (monitor.didDrop()){
+            return;
+        }
+        const item = monitor.getItem();
         component.handleComponentDrop(item);
+        return {moved:true};
     }
 }
 
@@ -26,7 +30,7 @@ function collect(connect, monitor) {
     }
 }
 
-class Area extends Component {
+class ComponentDnDTarget extends Component {
     handleComponentDrop(item, isInput=true){
         var component = null;
         if (item.id!=undefined){
@@ -38,19 +42,19 @@ class Area extends Component {
         } else {
             component = item;
         }
-        this.props.handleComponentDrop(component,this.props.area._id,isInput);
+        this.props.handleComponentDrop(component,this.props.component._id,isInput);
     }
     handleDidNotDrop = (component) => {
         this.props.handleDidNotDrop(component);
     }
     render() {
         return this.props.connectDropTarget(
-            <div key={this.props.area._id}>
-                <Card className="Area" onClick={this.props.handleComponentClick(this.props.area)}>
+            <div key={this.props.component._id}>
+                <Card className={this.props.component.type} onClick={this.props.handleComponentClick(this.props.component)}>
                     <CardBody>
-                        <CardTitle>Area</CardTitle>
-                        {this.props.area.inputComponents.map((component,i)=>{
-                            return(<ComponentDnD handleDidNotDrop={this.handleDidNotDrop} key={i} component={component} id={component.type}/>)
+                        <CardTitle>{this.props.component.type}</CardTitle>
+                        {this.props.component.inputComponents.map((component,i)=>{
+                            return(<ComponentDnDSource isTarget handleComponentDrop={this.props.handleComponentDrop} handleComponentClick={this.props.handleComponentClick} handleDidNotDrop={this.props.handleDidNotDrop} key={i} component={component} id={component.type}/>)
                         })}
                     </CardBody>
                 </Card>
@@ -59,4 +63,4 @@ class Area extends Component {
     }
 };
 
-export default DropTarget(Types.COMPONENT, componentTarget, collect)(Area);
+export default DropTarget(Types.COMPONENT, componentTarget, collect)(ComponentDnDTarget);

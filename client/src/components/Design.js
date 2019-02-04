@@ -23,7 +23,7 @@ class Design extends Component {
         this.setState({selected:component});
     }
     handleComponentDrop = (component, parentId, isInput = true) => {
-        var components = [...this.props.state.components]
+        var components = [...this.props.state.components];
         if(parentId == null){
             components.push(component);
             this.props.handleChange(components);
@@ -31,14 +31,12 @@ class Design extends Component {
         } else {
             components.forEach((rootComponent,index,components)=>{
                 components[index] = this.removeComponent(rootComponent,component._id);
-                console.log(components);
                 components[index] = this.addComponent(rootComponent,parentId,isInput,component);
-                console.log(components);
             })
+            this.props.handleChange(components);
         }
     }
     handleDidNotDrop = (component) => {
-        console.log(component);
         var components = [...this.props.state.components]
         components.forEach((rootComponent,index,components)=>{
             components[index] = this.removeComponent(rootComponent,component._id);
@@ -95,9 +93,10 @@ class Design extends Component {
         else if(rootComponent.inputComponents.length > 0 || rootComponent.outputComponents.length > 0){
             for (var list of [rootComponent.inputComponents, rootComponent.outputComponents]){
                 list.forEach((component,index,components)=>{
-                    component = this.removeComponent(component,id);
                     if(component === null || component._id === id){
                         components.pop(index);
+                    } else {
+                        component = this.removeComponent(component,id);
                     }
                 })
             }
@@ -116,7 +115,6 @@ class Design extends Component {
         else if(rootComponent.inputComponents.length > 0 || rootComponent.outputComponents.length > 0){
             for (var list of [rootComponent.inputComponents, rootComponent.outputComponents]){
                 list.forEach((component,index,components)=>{
-                    component = this.addComponent(component,parentId,isInput,newComponent);
                     if(component._id === parentId){
                         if(isInput){
                             component.inputComponents.push(newComponent);
@@ -124,6 +122,8 @@ class Design extends Component {
                             component.outputComponents.push(newComponent);   
                         }
                         components[index] = component;
+                    } else {
+                        component = this.addComponent(component,parentId,isInput,newComponent);
                     }
                 })
             }

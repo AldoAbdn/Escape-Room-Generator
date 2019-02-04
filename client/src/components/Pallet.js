@@ -1,7 +1,7 @@
 import React, {Component}  from 'react';
 import { Container, Row, Col, Button } from 'reactstrap';
 import AreaDnD from './AreaDnD';
-import ComponentDnD from './ComponentDnD';
+import ComponentDnD from './ComponentDnDSource';
 
 class Pallet extends Component {
     render() {
