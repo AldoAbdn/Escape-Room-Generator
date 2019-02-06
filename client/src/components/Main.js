@@ -49,17 +49,32 @@ class Main extends Component {
     }
     logout = () => {
         window.localStorage.removeItem('feathers-jwt');
+        this.setState({profile:null});
         this.props.redux.actions.logout();
         this.props.history.push('/');
     }
+    componentDidUpdate(prevProps){
+        if(prevProps.redux.state.user.email!==this.props.redux.state.user.email){
+            this.populateEscapeRooms(this.props.redux.state.user._id);
+            if(this.props.redux.state.user.email != undefined){
+                this.setState({profile:  
+                    <div className="profile" >
+                        <Link to="/profile">Profile</Link>
+                        <Button onClick={this.logout}>Logout</Button>
+                    </div>});
+            } else {
+                this.setState({profile:null});
+            }
+        }
+    }
     componentDidMount() {
-        if (window.localStorage.getItem('feathers-jwt') && this.props.redux.state.email!==undefined){
+        if (window.localStorage.getItem('feathers-jwt') && this.props.redux.state.user.email!==undefined){
             this.setState({profile:  
             <div className="profile" >
                 <Link to="/profile">Profile</Link>
                 <Button onClick={this.logout}>Logout</Button>
             </div>});
-        } else if (window.localStorage.getItem('feathers-jwt') && this.props.redux.state.email===undefined){
+        } else if (window.localStorage.getItem('feathers-jwt') && this.props.redux.state.user.email===undefined){
             this.populateUser();
         }
     }
