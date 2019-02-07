@@ -80,14 +80,13 @@ class Design extends Component {
         if(rootComponent._id===id){
             return rootComponent;
         }
-        var find = (component,index,components)=>{
-            var found = this.findComponent(component);
-            if (found!=null){
-                foundComponent = found;
-            }
-        }
         for (var list of [rootComponent.inputComponents, rootComponent.outputComponents]){
-            list.forEach(find);
+            list.forEach((component,index,components)=>{
+                var found = this.findComponent(component);
+                if (found!=null){
+                    foundComponent = found;
+                }
+            });
         }
         return foundComponent;
     }

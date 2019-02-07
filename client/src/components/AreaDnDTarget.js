@@ -11,8 +11,7 @@ const Types = {
 
 const componentTarget = {
     drop(props,monitor,component){
-        alert('drop1');
-        if (monitor.didDrop() || !component || props.component!==undefined || props.component!==null){
+        if (monitor.didDrop() || !component || typeof props.component===undefined){
             return;
         }
         const item = monitor.getItem();
@@ -41,7 +40,6 @@ function collect(connect, monitor) {
 class AreaDnDTarget extends Component {
     handleComponentDrop(item,isInput=false){
         var component = null;
-        console.log(item);
         if (item.id!==undefined && item._id === undefined){
             switch(item.id){
                 case 'Puzzle':

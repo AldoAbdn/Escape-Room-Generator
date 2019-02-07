@@ -13,11 +13,9 @@ const Types = {
 const areaArrangerTarget = {
     drop(props, monitor, component){
         const item = monitor.getItem();
-        if(item.component!==undefined || item.component!==null){
-            return;
+        if(item.component===undefined || item.component===null){
+            component.props.handleComponentDrop(new AreaModel());
         }
-        console.log('drop');
-        component.props.handleComponentDrop(new AreaModel());
     }
 }
 
