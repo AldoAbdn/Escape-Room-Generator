@@ -1,6 +1,6 @@
 {
   "name": "escape-room-generator",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "This is my honours project for BsC(Hons) Computing: Application Software Development at Robert Gordon University",
   "main": "index.js",
   "scripts": {
