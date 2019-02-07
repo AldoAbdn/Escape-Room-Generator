@@ -1,0 +1,34 @@
+{
+  "host": "localhost",
+  "port": 3030,
+  "public": "../public/",
+  "paginate": {
+    "default": 10,
+    "max": 50
+  },
+  "authentication": {
+    "secret": "3d9f16b216e4fc76287498768b14c183ab9bc8b3cc9da0588f46be90935d8bfde2b63a8d6df4864d782fdb3c78a7213610fb7c055638bebdd0104bc3882b0a231df5d9c18f4271188cd22ac090887a570fcaa9080b2f25722e1e3e92569548656ddb532eae34aba2847e2d11c8936dde7168e53880558731077def50c5b8e015963f99ac5f9e856809428b904a45b1161206f99f7d062a946ab988b1776eb463a7c27134b600e1ae6c85126038b4da89876aae33b4e419580b8c5459359dc1654de10dd3c1092754600f18973565bb82ede5fca0cb15488265edac0294840e2430a18d317cd07f826d30f0195d9fa01b752111c03e69bc768951e7d6de5175a2",
+    "strategies": [
+      "jwt",
+      "local"
+    ],
+    "path": "/authentication",
+    "service": "users",
+    "jwt": {
+      "header": {
+        "typ": "access"
+      },
+      "audience": "https://yourdomain.com",
+      "subject": "anonymous",
+      "issuer": "feathers",
+      "algorithm": "HS256",
+      "expiresIn": "1d"
+    },
+    "local": {
+      "entity": "user",
+      "usernameField": "email",
+      "passwordField": "password"
+    }
+  },
+  "mongodb": "mongodb://Aldo:Aldo95@ds161024.mlab.com:61024/escape-room-generator"
+}
