@@ -7,6 +7,10 @@ import Details from './Details';
 import Design from './Design';
 import Pallet from './Pallet';
 import ComponentArranger from './ComponentArranger';
+import AreaDnDSource from './AreaDnDSource';
+import AreaDnDTarget from './AreaDnDTarget';
+import ComponentDnDSource from './ComponentDnDSource';
+import ComponentDnDTarget from './ComponentDnDTarget';
 import ComponentDetails from './ComponentDetails';
 import Accessibility from './Accessibility';
 import Login from './Login';
@@ -16,5 +20,5 @@ import Tutorials from './Tutorials';
 import ProtectedRoute from './ProtectedRoute';
 
 export {
-    App, Main, Dashboard, Profile, EscapeRoomDesigner, Details, Pallet, ComponentArranger, ComponentDetails, Design, Accessibility, Login, Signup, About, Tutorials, ProtectedRoute
+    App, Main, Dashboard, Profile, EscapeRoomDesigner, Details, Pallet, ComponentArranger , AreaDnDSource, AreaDnDTarget, ComponentDnDSource, ComponentDnDTarget , ComponentDetails, Design, Accessibility, Login, Signup, About, Tutorials, ProtectedRoute
 }

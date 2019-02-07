@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import { DragSource } from 'react-dnd';
 import AreaDnDTarget from './AreaDnDTarget';
+import '../styles/Component.css';
+import { Card } from 'reactstrap';
 
 // Drag sources and drop targets only interact
 // if they have the same string type.
@@ -31,32 +33,21 @@ const areaSource = {
   beginDrag(props, monitor, component) {
     // Return the data describing the dragged item
     var item = null;
-    if (props.id!=undefined){
+    if (props.id!==undefined){
        item = { id: props.id };
     } else {
-       item = { area: props.area };
+       item = { component: props.component };
     }
     return item;
   },
 
   endDrag(props, monitor, component) {
     if (!monitor.didDrop()) {
-      alert('did not drop');
-      const item = monitor.getItem();
-      component.props.handleDidNotDrop(props.component);
+      if (props.handleDidNotDrop){
+        props.handleDidNotDrop(props.component);
+      }
       return;
     }
-
-    // When dropped on a compatible target, do something.
-    // Read the original dragged item from getItem():
-    const item = monitor.getItem();
-
-    // You may also read the drop result from the drop target
-    // that handled the drop, if it returned an object from
-    // its drop() method.
-    const dropResult = monitor.getDropResult();
-
-    // This is a good place to call some Flux action;
   }
 };
 
@@ -82,9 +73,11 @@ class AreaDnDSource extends Component{
         );
       }
       return this.props.connectDragSource(
-          <div style={{width:'100px',height:'100px'}}>
-          {this.props.id}
-          {target}
+          <div onClick={this.props.handleComponentClick(this.props.component)}>
+            <Card className={"component"}>
+              {this.props.id}
+              {target}
+            </Card>
           </div>
       )
     }

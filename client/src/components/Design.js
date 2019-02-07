@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import { Pallet, ComponentArranger, ComponentDetails } from './index';
-import Draggable from 'react-draggable';
 import Area from '../models/Area';
 
 class Design extends Component {
@@ -15,15 +14,16 @@ class Design extends Component {
                 var components = this.props.state.components;
                 components.push(new Area());
                 this.props.handleChange(components);
+                break;
             default:
                 return;
         }
     }
-    handleComponentClick = (component) => {
+    handleComponentClick = (component) => (e) => {
+        e.stopPropagation();
         this.setState({selected:component});
     }
     handleComponentDrop = (component, parentId, isInput = true) => {
-        console.log(component);
         var components = [...this.props.state.components];
         if(parentId == null){
             components.push(component);
@@ -80,13 +80,14 @@ class Design extends Component {
         if(rootComponent._id===id){
             return rootComponent;
         }
+        var find = (component,index,components)=>{
+            var found = this.findComponent(component);
+            if (found!=null){
+                foundComponent = found;
+            }
+        }
         for (var list of [rootComponent.inputComponents, rootComponent.outputComponents]){
-            list.forEach((component,index,components)=>{
-                var found = this.findComponent(component);
-                if (found!=null){
-                    foundComponent = found;
-                }
-            })
+            list.forEach(find);
         }
         return foundComponent;
     }
@@ -139,13 +140,13 @@ class Design extends Component {
         return (
             <Container>
                 <Row>
-                    <Col>
+                    <Col xs="2">
                         <Pallet handleClick={this.handlePalletItemClick}/>
                     </Col>
                     <Col xs="8">
                         <ComponentArranger handleDidNotDrop={this.handleDidNotDrop} handleComponentDrop={this.handleComponentDrop} handleComponentClick={this.handleComponentClick} components={this.props.state.components}/>            
                     </Col>
-                    <Col>
+                    <Col xs="2">
                         <ComponentDetails selected={this.state.selected} handleChange={this.handleComponentDetailsChange}/>
                     </Col>
                 </Row>

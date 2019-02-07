@@ -1,9 +1,12 @@
 import React, {Component}  from 'react';
-import { Container, Row, Col, Button } from 'reactstrap';
+import { Container, Row, Col } from 'reactstrap';
 import AreaDnD from './AreaDnDSource';
 import ComponentDnD from './ComponentDnDSource';
 
 class Pallet extends Component {
+    handleComponentClick = (e) => {
+        
+    }
     render() {
         return (
             <Container>
@@ -14,27 +17,27 @@ class Pallet extends Component {
                 </Row>
                 <Row>
                     <Col>
-                        <AreaDnD id="Area"/>
+                        <AreaDnD id="Area" handleComponentClick={this.handleComponentClick}/>
                     </Col>
                 </Row>
                 <Row>
                     <Col>
-                        <ComponentDnD id="Puzzle"/>
+                        <ComponentDnD id="Puzzle" handleComponentClick={this.handleComponentClick}/>
                     </Col>
                 </Row>
                 <Row>
                     <Col>
-                        <ComponentDnD id="Prop"/>
+                        <ComponentDnD id="Prop" handleComponentClick={this.handleComponentClick}/>
                     </Col>
                 </Row>
                 <Row>
                     <Col>
-                        <ComponentDnD id="Event"/>
+                        <ComponentDnD id="Event" handleComponentClick={this.handleComponentClick}/>
                     </Col>
                 </Row>
                 <Row>
                     <Col>
-                        <ComponentDnD id="Music"/>
+                        <ComponentDnD id="Music" handleComponentClick={this.handleComponentClick}/>
                     </Col>
                 </Row>
             </Container>

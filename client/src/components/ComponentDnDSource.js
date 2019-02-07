@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import { DragSource } from 'react-dnd';
 import ComponentDnDTarget from './ComponentDnDTarget';
-import { Container, Row, Col } from 'reactstrap'
+import { Row, Col } from 'reactstrap'
+import '../styles/Component.css';
 
 // Drag sources and drop targets only interact
 // if they have the same string type.
@@ -22,10 +23,6 @@ const componentSource = {
   },
 
   isDragging(props, monitor) {
-    // If your component gets unmounted while dragged
-    // (like a card in Kanban board dragged between lists)
-    // you can implement something like this to keep its
-    // appearance dragged:
     return monitor.getItem().id === props.id;
   },
 
@@ -36,32 +33,16 @@ const componentSource = {
       item = {id: props.id}
     } else {
       item = {...props.component};
-      console.log(item);
     }
     return item;
   },
 
   endDrag(props, monitor, component) {
     if (!monitor.didDrop()) {
-      // You can check whether the drop was successful
-      // or if the drag ended but nobody handled the drop
-      alert('did not drop');
-      const item = monitor.getItem();
-      if(props.component!=undefined||props.component!=null)
+      if(props.component!==undefined||props.component!==null)
         component.handleDidNotDrop(props.component);
       return;
     }
-
-    // When dropped on a compatible target, do something.
-    // Read the original dragged item from getItem():
-
-
-    // You may also read the drop result from the drop target
-    // that handled the drop, if it returned an object from
-    // its drop() method.
-    const dropResult = monitor.getDropResult();
-
-    // This is a good place to call some Flux action;
   }
 };
 
@@ -80,7 +61,7 @@ function collect(connect, monitor) {
 
 class ComponentDnDSource extends Component{
   handleDidNotDrop = (component)=>{
-    if(this.props.handleDidNotDrop!=undefined)
+    if(this.props.handleDidNotDrop!==undefined)
       this.props.handleDidNotDrop(component);
   }
   render() {
@@ -88,26 +69,36 @@ class ComponentDnDSource extends Component{
       if (this.props.isTarget){
         target = (
           <div>  
-            <Container>
-              <Row>
-                <Col><ComponentDnDTarget isInput={true} component={this.props.component} handleDidNotDrop={this.props.handleDidNotDrop} handleComponentDrop={this.props.handleComponentDrop} handleComponentClick={this.props.handleComponentClick}/></Col>
-                <Col><ComponentDnDTarget isInput={false} component={this.props.component} handleDidNotDrop={this.props.handleDidNotDrop} handleComponentDrop={this.props.handleComponentDrop} handleComponentClick={this.props.handleComponentClick}/></Col>
-              </Row>
-            </Container>
+            <Row>
+              <Col><ComponentDnDTarget isInput={true} component={this.props.component} handleDidNotDrop={this.props.handleDidNotDrop} handleComponentDrop={this.props.handleComponentDrop} handleComponentClick={this.props.handleComponentClick}/></Col>
+              <Col><ComponentDnDTarget isInput={false} component={this.props.component} handleDidNotDrop={this.props.handleDidNotDrop} handleComponentDrop={this.props.handleComponentDrop} handleComponentClick={this.props.handleComponentClick}/></Col>
+            </Row>
           </div>
         );
       }
-      var style = {width:'100px', height: '100px'};
-      if (this.props.component!=undefined){
+      var style = {};
+      if (this.props.component!==undefined){
         style.top = this.props.component.position.top;
         style.left = this.props.component.position.left;
         style.position = 'relative';
       }
+      var outputComponents; 
+      if(this.props.component!==undefined){
+        outputComponents = this.props.component.outputComponents.map((component,i)=>{
+          return (<Col key={i}><ComponentDnDSource isTarget connectDragSource={this.props.connectDragSource} handleComponentDrop={this.props.handleComponentDrop} handleComponentClick={this.props.handleComponentClick} handleDidNotDrop={this.props.handleDidNotDrop} key={i} component={component} id={component.type}/></Col>)
+        });
+      }  
       return this.props.connectDragSource(
-        
-          <div style={style}>
-          {this.props.id}
-          {target}
+          <div className="component" style={style} onClick={this.props.handleComponentClick(this.props.component)}>
+              <Row>
+                <Col>
+                    {this.props.id}
+                    {target}
+                </Col>
+                {
+                  outputComponents
+                }
+              </Row>            
           </div>
       )
   }

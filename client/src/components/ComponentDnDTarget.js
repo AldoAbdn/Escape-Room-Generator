@@ -1,8 +1,8 @@
 import React, {Component}  from 'react';
-import { Card, CardBody ,CardTitle } from 'reactstrap';
-import '../styles/ComponentTarget.css';
+import { Card, CardBody } from 'reactstrap';
+import '../styles/Component.css';
 import { DropTarget } from 'react-dnd';
-import Puzzle from '../models/Puzzle';
+import { Puzzle, Event, Music, Lock } from '../models/index';
 import ComponentDnDSource from './ComponentDnDSource';
 
 const Types = {
@@ -34,11 +34,22 @@ function collect(connect, monitor) {
 class ComponentDnDTarget extends Component {
     handleComponentDrop(item,isInput=true){
         var component = null;
-        if (item.id!=undefined){
+        if (item.id!==undefined){
             switch(item.id){
                 case 'Puzzle':
                     component = new Puzzle();
                     break;
+                case 'Lock':
+                    component = new Lock();
+                    break;
+                case 'Event':
+                    component = new Event();
+                    break;
+                case 'Music':
+                    component = new Music();
+                    break;
+                default:
+                    return;
             }
         } else {
             component = item;
@@ -49,8 +60,14 @@ class ComponentDnDTarget extends Component {
         this.props.handleDidNotDrop(component);
     }
     render() {
+        var classNames;
+        if(this.props.isOver && this.props.canDrop){
+            classNames="canDrop";
+        } else if(this.props.isOver){
+            classNames="cantDrop";
+        }
         return this.props.connectDropTarget(
-            <div key={this.props.component._id}>
+            <div className={classNames} key={this.props.component._id}>
                 <Card className={this.props.component.type} onClick={this.props.handleComponentClick(this.props.component)}>
                     <CardBody>
                         {this.props.component.inputComponents.map((component,i)=>{

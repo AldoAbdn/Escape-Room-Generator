@@ -1,8 +1,8 @@
 import Component from './Component';
-export default class Puzzle extends Component {
+export default class Event extends Component {
     constructor(){
         super();
-        this.puzzleType="";
+        this.eventType="";
         this.type="Puzzle";
     }   
 }

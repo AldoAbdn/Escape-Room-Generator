@@ -117,8 +117,8 @@ class EscapeRoomDesigner extends Component {
         return (
             <Container>
                 <Row>
-                    <Col><Button onClick={this.handleClick('EXIT')}>Save and Exit</Button></Col>
-                    <Col>
+                    <Col xs="3"><Button onClick={this.handleClick('EXIT')}>Save and Exit</Button></Col>
+                    <Col xs="3">
                         <Dropdown isOpen={this.state.dropdownOpen} toggle={this.handleToggle}>
                             <DropdownToggle caret>Save and Export</DropdownToggle>
                             <DropdownMenu right>
@@ -127,6 +127,7 @@ class EscapeRoomDesigner extends Component {
                             </DropdownMenu>
                         </Dropdown>
                     </Col>
+                    <Col xs="6"/>
                 </Row>
                 <Row>
                     <Col>

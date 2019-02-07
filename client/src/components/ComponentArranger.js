@@ -1,5 +1,6 @@
 import React, {Component}  from 'react';
 import { Container, Row, Col } from 'reactstrap';
+import '../styles/Component.css';
 import '../styles/ComponentArranger.css';
 import Area from './AreaDnDSource';
 import AreaModel from '../models/Area';
@@ -12,6 +13,10 @@ const Types = {
 const areaArrangerTarget = {
     drop(props, monitor, component){
         const item = monitor.getItem();
+        if(item.component!==undefined || item.component!==null){
+            return;
+        }
+        console.log('drop');
         component.props.handleComponentDrop(new AreaModel());
     }
 }
@@ -41,9 +46,15 @@ class ComponentArranger extends Component {
         )   
     }
     render() {
+        var classNames;
+        if(this.props.isOver && this.props.canDrop){
+            classNames="canDrop"
+        } else if (this.props.isOver){
+            classNames="cantDrop"
+        }
         return this.props.connectDropTarget(
-            <div>
-                <Container>
+            <div className={classNames}>
+                <Container className="component-arranger">
                     <Row>
                         {this.props.components.map(this.mapAreas)}
                     </Row>

@@ -56,7 +56,7 @@ class Main extends Component {
     componentDidUpdate(prevProps){
         if(prevProps.redux.state.user.email!==this.props.redux.state.user.email){
             this.populateEscapeRooms(this.props.redux.state.user._id);
-            if(this.props.redux.state.user.email != undefined){
+            if(this.props.redux.state.user.email !== undefined){
                 this.setState({profile:  
                     <div className="profile" >
                         <Link to="/profile">Profile</Link>
