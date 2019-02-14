@@ -16,7 +16,8 @@ class Profile extends Component {
     //Handles login form submit event
     handleSubmit = async (event) => {
         event.preventDefault();
-        await this.props.services.users.update({_id:this.state._id, email:this.state.email, password:this.state.password});
+        if(this.props.updateUser)
+            this.props.updateUser({email:this.state.email,password:this.state.password});
     }
 
     //Changes state on input change

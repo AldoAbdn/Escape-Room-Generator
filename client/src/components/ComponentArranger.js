@@ -37,11 +37,13 @@ function collect(connect, monitor) {
 
 class ComponentArranger extends Component {
     mapAreas = (area,i)=>{
-        return (
-            <Col key={i}>
-                <Area isTarget component={area} handleDidNotDrop={this.props.handleDidNotDrop} handleComponentDrop={this.props.handleComponentDrop} handleComponentClick={this.props.handleComponentClick}/>
-            </Col>
-        )   
+        if(area.type==='Area'){
+            return (
+                <Col key={area._id}>
+                    <Area isTarget findComponent={this.props.findComponent} component={area} handleDidNotDrop={this.props.handleDidNotDrop} handleComponentDrop={this.props.handleComponentDrop} handleComponentClick={this.props.handleComponentClick}/>
+                </Col>
+            )  
+        }
     }
     render() {
         var classNames;

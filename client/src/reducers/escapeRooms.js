@@ -1,14 +1,18 @@
-function escapRooms(state=[],action){
+function escapeRooms(state=[],action){
+    let i;
     switch(action.type){
         case 'ADD_ESCAPE_ROOM':
             state.push(action.escapeRoom);
             return state.slice();
         case 'REMOVE_ESCAPE_ROOM':
-            const i = state.indexOf(action.escapeRoom);
+            i = state.indexOf(action.escapeRoom);
             state.pop(i);
             return state.slice();
         case 'UPDATE_ESCAPE_ROOM':
-            state[action.i] = action.escapeRoom;
+            i = state.findIndex((escapeRoom)=>{
+                return escapeRoom._id === action.escapeRoom._id
+            });
+            state[i] = action.escapeRoom;
             return state.slice(); 
         case 'UPDATE_ESCAPE_ROOMS':
             return action.escapeRooms.slice();
@@ -17,4 +21,4 @@ function escapRooms(state=[],action){
     }
 }
 
-export default escapRooms;
+export default escapeRooms;

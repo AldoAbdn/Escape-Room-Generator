@@ -15,25 +15,10 @@ class Signup extends Component {
     //Handles login form submit event
     handleSubmit = async (event) => {
         event.preventDefault();
-        //Create a new user 
-        await this.props.services.users.create({email:this.state.email, password:this.state.password});
-        //Authenticate with feathersjs
-        await this.props.feathersClient.authenticate({strategy:'local',email:this.state.email,password:this.state.password})
-        .then(async (output) => {
-            //Get User Details and Update Redux Store
-            let queryResult = await this.props.services.users.find({email:this.state.email});
-            if(queryResult.action.type.includes('FULFILLED')){
-                var user = queryResult.value.data[0];
-                user.token = window.localStorage.getItem('feathers-jwt');
-                this.props.redux.actions.login(user);
-                this.props.history.push('/dashboard');
-            } else {
-                this.setState({})
-            }
-        })
-        .catch((err) => {
-            this.setState({errorMessage:err.message});
-        });
+        if(this.props.signUp){
+            let err = await this.props.signUp({username:this.state.username,password:this.state.password});
+            this.setState({errorMessage:err});
+        }
     }
 
     //Changes state on input change

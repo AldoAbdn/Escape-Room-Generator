@@ -24,27 +24,38 @@ class Design extends Component {
         this.setState({selected:component});
     }
     handleComponentDrop = (component, parentId, isInput = true) => {
-        var components = [...this.props.state.components];
-        if(parentId == null){
-            components.push(component);
-            this.props.handleChange(components);
-            return;
-        } else {
-            components.forEach((rootComponent,index,components)=>{
-                components[index] = this.removeComponent(rootComponent,component._id);
-                components[index] = this.addComponent(rootComponent,parentId,isInput,component);
-            })
+        let components = [...this.props.state.components];
+        let searchResult = this.findComponent(component._id);
+        if(parentId != null){
+            components = this.addRelationship(component._id,parentId,isInput)
+            if(searchResult==null){
+                let parent = this.findComponent(parentId);
+                console.log(parent);
+                if(parent.type!=='Area'){
+                    let area = components.find((comp)=>{
+                        console.log(comp);
+                        if(comp.type==='Area'){
+                            return comp.outputComponents.find((com)=>{
+                                return com === parentId;
+                            });
+                        } else {
+                            return false;
+                        }
+                    });
+                    console.log(area);
+                    if(area!==undefined){
+                        components = this.addRelationship(component._id,area._id,false);
+                    }
+                }
+                components.push(component);
+            } else {
+                components = this.updateComponent(component);
+            }
             this.props.handleChange(components);
         }
     }
     handleDidNotDrop = (component) => {
-        var components = [...this.props.state.components]
-        components.forEach((rootComponent,index,components)=>{
-            components[index] = this.removeComponent(rootComponent,component._id);
-            if(components[index]==null){
-                components.pop(index);
-            }
-        })
+        var components = this.removeComponent(component._id);
         this.props.handleChange(components);
     }
     //Changes state on input change
@@ -52,7 +63,7 @@ class Design extends Component {
         var newComponent = {...this.props.selected, ...state};
         var components = [...this.props.state.components];
         components.forEach((component,index,components)=>{
-            components[index] = this.updateComponent(component, newComponent);
+            components[index] = this.updateComponent(newComponent);
         });
         this.props.handleChange(components);
         components.forEach((component,index,components)=>{
@@ -61,79 +72,80 @@ class Design extends Component {
 
         this.setState({selected:newComponent});
     }
-    updateComponent = (rootComponent, newComponent) => {
-        if (rootComponent._id === newComponent._id){
-            rootComponent = {...rootComponent,...newComponent};
-            return rootComponent;
-        }
-        else if(rootComponent.inputComponents.length > 0 || rootComponent.outputComponents.length > 0){
-            for (var list of [rootComponent.inputComponents, rootComponent.outputComponents]){
-                list.forEach((component,index,components)=>{
-                    components[index] = this.updateComponent(component,newComponent);
-                })
+    updateComponent = (newComponent) => {
+        let id = newComponent._id;
+        let components = [...this.props.state.components];
+        components.forEach((component,index,components)=>{
+            if(component._id===id){
+                components[index] = newComponent;
             }
-        }
-        return rootComponent;
+        });
+        return components;
     }
-    findComponent(rootComponent,id){
-        var foundComponent = null;
-        if(rootComponent._id===id){
-            return rootComponent;
-        }
-        for (var list of [rootComponent.inputComponents, rootComponent.outputComponents]){
-            list.forEach((component,index,components)=>{
-                var found = this.findComponent(component);
-                if (found!=null){
-                    foundComponent = found;
-                }
-            });
-        }
-        return foundComponent;
-    }
-    removeComponent(rootComponent,id){
-        if (rootComponent._id === id){
-            rootComponent = null;
-            return rootComponent;
-        }
-        else if(rootComponent.inputComponents.length > 0 || rootComponent.outputComponents.length > 0){
-            for (var list of [rootComponent.inputComponents, rootComponent.outputComponents]){
-                list.forEach((component,index,components)=>{
-                    if(component === null || component._id === id){
-                        components.pop(index);
-                    } else {
-                        component = this.removeComponent(component,id);
-                    }
-                })
+    findComponent = (id)=>{
+        let components = [...this.props.state.components];
+        let found = null;
+        components.forEach((component,index,components)=>{
+            if(component._id===id){
+                found = component;
+                return found;
             }
-        }
-        return rootComponent;
+        });
+        return found;
     }
-    addComponent(rootComponent,parentId,isInput,newComponent){
-        if (rootComponent._id === parentId){
-            if(isInput){
-                rootComponent.inputComponents.push(newComponent);
+    removeComponent = (id)=>{
+        let components = [...this.props.state.components];
+        components.forEach((component,index,components)=>{
+            if(component._id===id){
+                components.pop(index);
             } else {
-                rootComponent.outputComponents.push(newComponent);
-            }
-            return rootComponent;
-        }
-        else if(rootComponent.inputComponents.length > 0 || rootComponent.outputComponents.length > 0){
-            for (var list of [rootComponent.inputComponents, rootComponent.outputComponents]){
-                list.forEach((component,index,components)=>{
-                    if(component._id === parentId){
-                        if(isInput){
-                            component.inputComponents.push(newComponent);
-                        }else {
-                            component.outputComponents.push(newComponent);   
+                let relationships = [component.inputComponents,component.outputComponents];
+                relationships.forEach((list,index,lists)=>{
+                    list.forEach((componentId,index,componentIds)=>{
+                        if(componentId===id){
+                            componentIds.pop(index);
                         }
-                        components[index] = component;
-                    } else {
-                        component = this.addComponent(component,parentId,isInput,newComponent);
-                    }
+                    })
                 })
             }
-        }
-        return rootComponent;
+        });
+        return components;
+    }
+    removeRelationship = (componentId,parentId,isInput)=>{
+        let components = [...this.props.state.components];
+        components.forEach((component,index,components)=>{
+            if(component._id===parentId){
+                if(isInput){
+                    component.inputComponents.forEach((id,index,ids)=>{
+                        if(id===componentId){
+                            ids.pop(index);
+                        }
+                    })
+                } else {
+                    component.outputComponents.forEach((id,index,ids)=>{
+                        if(id===componentId){
+                            ids.pop(index);
+                        }
+                    })
+                }
+            }
+        })
+        return components;
+    }
+    addRelationship = (componentId,parentId,isInput)=>{
+        let components = [...this.props.state.components];
+        components.forEach((component,index,components)=>{
+            if(component._id===parentId){
+                if(isInput){
+                    if(component.inputComponents.indexOf(componentId)===-1)
+                        component.inputComponents.push(componentId);
+                } else {
+                    if(component.outputComponents.indexOf(componentId)===-1)
+                        component.outputComponents.push(componentId);
+                }
+            }
+        })
+        return components;
     }
     render(){
         return (
@@ -143,7 +155,7 @@ class Design extends Component {
                         <Pallet handleClick={this.handlePalletItemClick}/>
                     </Col>
                     <Col xs="8">
-                        <ComponentArranger handleDidNotDrop={this.handleDidNotDrop} handleComponentDrop={this.handleComponentDrop} handleComponentClick={this.handleComponentClick} components={this.props.state.components}/>            
+                        <ComponentArranger findComponent={this.findComponent} handleDidNotDrop={this.handleDidNotDrop} handleComponentDrop={this.handleComponentDrop} handleComponentClick={this.handleComponentClick} components={this.props.state.components}/>            
                     </Col>
                     <Col xs="2">
                         <ComponentDetails selected={this.state.selected} handleChange={this.handleComponentDetailsChange}/>

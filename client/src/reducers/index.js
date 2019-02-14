@@ -1,17 +1,17 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 
-import users from './users';
+import user from './user';
 import escapeRooms from './escapeRooms';
-import videos from './videos';
+import escapeRoom from './escapeRoom';
 
 export default function(reduxifiedServices){
     return combineReducers({
         usersService: reduxifiedServices.users.reducer,
         escapeRoomsService: reduxifiedServices['escape-rooms'].reducer,
         routing: routerReducer,
-        user:users,
+        user,
         escapeRooms,
-        videos
+        escapeRoom
     })
 }

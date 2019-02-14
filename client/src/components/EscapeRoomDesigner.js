@@ -4,38 +4,12 @@ import { Details, Accessibility, Design } from './index';
 import classnames from 'classnames';
 import { saveAs } from 'file-saver';
 import jsPDF from 'jspdf';
+import EscapeRoom from '../models/EscapeRoom';
 
 class EscapeRoomDesigner extends Component {
     constructor(){
         super();
-        const newEscapeRoom = {
-            userId: "",
-            details:{
-                name: "",
-                designers: "",
-                theme: "",
-                minPlayers: "",
-                maxPlayers: "",
-                targetTime: "",
-                difficulty: "3",
-                objective: "",
-                description: ""
-            },
-            accessibility:{
-                protanomaly: false,
-                protanopia: false,
-                deuteranomaly: false,
-                deuteranopia: false,
-                tritanomaly: false,
-                tritanopia: false,
-                coneMonochromacy: false,
-                rodMonochromacy: false,
-                largeFonts: false,
-                highContrast: false
-            },
-            components: []
-        }
-        this.state = {id: null, activeTab:'details', dropdownOpen: false, escapeRoom:newEscapeRoom};
+        this.state = {activeTab:'details', dropdownOpen: false, escapeRoom:new EscapeRoom()};
     }
     saveJSON(escapeRoom) {
         const blob = new Blob([JSON.stringify(escapeRoom)],{type:'text/plain;charset=utf-8'});
@@ -49,20 +23,18 @@ class EscapeRoomDesigner extends Component {
     handleClick = (action) => (e) => {
         switch(action){
             case 'EXIT':
-                this.props.services['escape-rooms'].update(this.state.escapeRoom._id,this.state.escapeRoom).then(() => {
-                    this.props.redux.actions.updateEscapeRoom(this.state.id,this.state.escapeRoom);
-                    this.props.history.push('/');
-                });
+                if(this.props.saveEscapeRoom)
+                    this.props.saveEscapeRoom(this.state.escapeRoom);
                 break;
             case 'JSON':
-                this.props.services['escape-rooms'].update(this.state.escapeRoom._id,this.state.escapeRoom).then(() => {
-                    this.saveJSON(this.state.escapeRoom);
-                });
+                if(this.props.saveEscapeRoom)
+                    this.props.saveEscapeRoom(this.state.escapeRoom);
+                this.saveJSON(this.state.escapeRoom);
                 break;
             case 'PDF':
-                this.props.services['escape-rooms'].update(this.state.escapeRoom._id,this.state.escapeRoom).then(() => {
-                    this.savePDF(this.state.escapeRoom);
-                });
+                if(this.props.saveEscapeRoom)
+                    this.props.saveEscapeRoom(this.state.escapeRoom);
+                this.savePDF(this.state.escapeRoom);
                 break;
             default:
                 return;
@@ -92,6 +64,7 @@ class EscapeRoomDesigner extends Component {
         var escapeRoom = {...this.state.escapeRoom};
         var newState = [...state];
         escapeRoom.components = newState;
+        console.log(escapeRoom);
         this.setState({escapeRoom});
     }
     handleToggle = (e) => {
@@ -105,12 +78,11 @@ class EscapeRoomDesigner extends Component {
         }
     }
     componentDidMount(){
-        const id = this.props.match.params.id;
-        const escapeRoom = this.props.redux.state.escapeRooms[id];
+        const escapeRoom = this.props.escapeRoom;
         if(escapeRoom===undefined){
             this.props.history.push('/');
         }
-        this.setState({id: id, escapeRoom: escapeRoom},()=>{
+        this.setState({escapeRoom: escapeRoom},()=>{
         });
     }
     render() {

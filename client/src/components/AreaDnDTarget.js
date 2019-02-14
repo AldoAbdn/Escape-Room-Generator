@@ -4,6 +4,7 @@ import '../styles/Component.css';
 import { DropTarget } from 'react-dnd';
 import ComponentDnDSource from './ComponentDnDSource';
 import { Puzzle, Lock, Music, Event } from '../models/index.js';
+import { ArcherContainer } from 'react-archer';
 
 const Types = {
     COMPONENT: 'COMPONENT'
@@ -75,14 +76,19 @@ class AreaDnDTarget extends Component {
         }
         return this.props.connectDropTarget(
             <div className={classNames} key={this.props.component._id}>
-                <Card className={this.props.component.type} onClick={this.props.handleComponentClick(this.props.component)}>
-                    <CardBody>
-                        <CardTitle>{this.props.component.type}</CardTitle>
-                        {this.props.component.outputComponents.map((component,i)=>{
-                            return(<ComponentDnDSource isRoot isTarget handleComponentDrop={this.props.handleComponentDrop} handleComponentClick={this.props.handleComponentClick} handleDidNotDrop={this.props.handleDidNotDrop} key={i} component={component} id={component.type}/>)
-                        })}
-                    </CardBody>
-                </Card>
+                       
+                   <Card className={this.props.component.type} onClick={this.props.handleComponentClick(this.props.component)}>
+                        <CardBody>
+                            <CardTitle>{this.props.component.type}</CardTitle>
+                            <ArcherContainer>   
+                                {this.props.component.outputComponents.map((componentId,i)=>{
+                                    let component = this.props.findComponent(componentId);
+                                    return(<ComponentDnDSource key={componentId} isTarget handleComponentDrop={this.props.handleComponentDrop} handleComponentClick={this.props.handleComponentClick} handleDidNotDrop={this.props.handleDidNotDrop} component={component} id={component.type}/>)
+                                })}
+                                </ArcherContainer>
+                        </CardBody>
+                    </Card>
+                
             </div>
         )
     }

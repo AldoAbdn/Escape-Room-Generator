@@ -69,7 +69,7 @@ class AreaDnDSource extends Component{
       var target;
       if (this.props.isTarget){
         target = (
-          <AreaDnDTarget component={this.props.component} handleDidNotDrop={this.props.handleDidNotDrop} handleComponentDrop={this.props.handleComponentDrop} handleComponentClick={this.props.handleComponentClick}/>
+          <AreaDnDTarget findComponent={this.props.findComponent} component={this.props.component} handleDidNotDrop={this.props.handleDidNotDrop} handleComponentDrop={this.props.handleComponentDrop} handleComponentClick={this.props.handleComponentClick}/>
         );
       }
       return this.props.connectDragSource(
