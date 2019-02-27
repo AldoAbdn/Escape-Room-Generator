@@ -31,10 +31,16 @@ class ComponentDetails extends Component {
         console.log(this.props);
         let component = this.props.selected;
         let type;
+        let properties;
         let inputs;
-        if(this.props.selected!==undefined || this.props.selected!==null){
-            inputs = Object.keys(component).map(this.mapDetailToInput)
+        let outputs;
+        if(component!==undefined || component!==null){
+            properties = Object.keys(component).map(this.mapDetailToInput)
             type = this.props.selected.type;
+            if(component.inputComponents!=undefined&&component.outputComponents!=undefined){
+                inputs = component.inputComponents.map(this.mapIDToP);
+                outputs = component.outputComponents.map(this.mapIDToP);
+            }
         }
         return (
             <Container>
@@ -44,17 +50,17 @@ class ComponentDetails extends Component {
                         <h4>{type}</h4>
                     </Col>
                 </Row>
-                {inputs}
+                {properties}
                 <Row>
                     <Col>
                         <h4>Inputs</h4>
-                        {component.inputComponents.map(this.mapIDToP)}
+                        {inputs}
                     </Col>
                 </Row>
                 <Row>
                     <Col>
                         <h4>Outputs</h4>
-                        {component.outputComponents.map(this.mapIDToP)}
+                        {outputs}
                     </Col>
                 </Row>
             </Container>
