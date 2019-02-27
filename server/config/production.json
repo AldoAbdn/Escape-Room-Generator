@@ -1,4 +1,4 @@
 {
   "host": "escape-room-generator-app.feathersjs.com",
-  "port": "PORT"
+  "port": 443
 }
