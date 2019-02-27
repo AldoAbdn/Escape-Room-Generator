@@ -1,12 +1,13 @@
 {
   "name": "escape-room-generator",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "This is my honours project for BsC(Hons) Computing: Application Software Development at Robert Gordon University",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "cd client && npm run build && cd .. && xcopy \"client\\build\" \"server\\public\" /E /I && cd server && npm start && npm start",
-    "dev": "concurrently \"cd server && npm run-script dev\" \"cd client && npm start\""
+    "dev": "concurrently \"cd server && npm run-script dev\" \"cd client && npm start\"",
+    "postinstall": "concurrently \"cd server && npm install\" \"cd client && npm install\""
   },
   "repository": {
     "type": "git",
