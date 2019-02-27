@@ -67,16 +67,19 @@ class ComponentDnDSource extends Component{
   }
   mapRelationships = (componentId,type) => {
     let style;
+    let label="";
     switch(type){
       case 'input':
         style = {
           strokeColor:'blue'
         }
+        label='input';
         break;
       case 'output':
         style = {
           strokeColor:'green'
         }
+        label="output"
       break;
       default:
         style={};
@@ -86,6 +89,7 @@ class ComponentDnDSource extends Component{
       targetAnchor: 'top',
       sourceAnchor: 'bottom',
       style,
+      label,
     });
   }
   render() {
