@@ -21,6 +21,7 @@ class Design extends Component {
     }
     handleComponentClick = (component) => (e) => {
         e.stopPropagation();
+        console.log(component);
         this.setState({selected:component});
     }
     handleComponentDrop = (component, parentId, isInput = true) => {

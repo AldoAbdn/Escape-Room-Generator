@@ -22,9 +22,9 @@ class ComponentDetails extends Component {
             return;
         }
     };
-    mapIDToP = (key,i) => {
+    mapIDToP = (id,i) => {
         return (
-            <div>{i}</div>
+            <div>{id}</div>
         )
     }
     render() {
@@ -34,12 +34,30 @@ class ComponentDetails extends Component {
         let properties;
         let inputs;
         let outputs;
+        let inputRelationships;
+        let outputRelationships;
         if(component!==undefined || component!==null){
             properties = Object.keys(component).map(this.mapDetailToInput)
             type = this.props.selected.type;
-            if(component.inputComponents!=undefined&&component.outputComponents!=undefined){
+            if(component.inputComponents!=undefined&&component.outputComponents!=undefined&&(component.inputComponents.length>0||component.outputComponents.length>0)){
                 inputs = component.inputComponents.map(this.mapIDToP);
                 outputs = component.outputComponents.map(this.mapIDToP);
+                inputRelationships = (
+                    <Row>
+                        <Col>
+                            {<h4>Inputs</h4>}
+                            {inputs}
+                        </Col>
+                    </Row>
+                );
+                outputRelationships = (
+                    <Row>
+                        <Col>
+                            <h4>Outputs</h4>
+                            {outputs}
+                        </Col>
+                    </Row>
+                );
             }
         }
         return (
@@ -51,18 +69,8 @@ class ComponentDetails extends Component {
                     </Col>
                 </Row>
                 {properties}
-                <Row>
-                    <Col>
-                        <h4>Inputs</h4>
-                        {inputs}
-                    </Col>
-                </Row>
-                <Row>
-                    <Col>
-                        <h4>Outputs</h4>
-                        {outputs}
-                    </Col>
-                </Row>
+                {inputRelationships}
+                {outputRelationships}
             </Container>
         )
     }

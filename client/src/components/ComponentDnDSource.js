@@ -117,7 +117,7 @@ class ComponentDnDSource extends Component{
         inputComponents = this.props.component.inputComponents.map(id=>this.mapRelationships(id,'input'));
         outputComponents = this.props.component.outputComponents.map(id=>this.mapRelationships(id,'output'));
         archer = (
-          <ArcherElement onClick={()=>{alert('test')}} id={id} relations={[...outputComponents,...inputComponents]}>
+          <ArcherElement id={id} relations={[...outputComponents,...inputComponents]}>
             <span>{id}</span>
           </ArcherElement>
         );
