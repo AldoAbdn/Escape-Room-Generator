@@ -29,7 +29,6 @@ class ComponentDetails extends Component {
         if(isInput){
             state.inputComponents = component.inputComponents.filter(oldId => oldId!==id);
         } else {
-            let index = component.outputComponents.indexOf(id);
             state.outputComponents = component.outputComponents.filter(oldId => oldId!==id);
         }
         this.props.handleChange(state);
@@ -55,7 +54,7 @@ class ComponentDetails extends Component {
         if(component!==undefined || component!==null){
             properties = Object.keys(component).map(this.mapDetailToInput)
             type = this.props.selected.type;
-            if(component.inputComponents!==undefined&&component.outputComponents!==undefined&&(component.inputComponents.length>0||component.outputComponents.length>0)){
+            if(component.type!=='Area'&&component.inputComponents!==undefined&&component.outputComponents!==undefined&&(component.inputComponents.length>0||component.outputComponents.length>0)){
                 inputs = component.inputComponents.map((id,i)=>this.mapIDToP(id,i,true));
                 outputs = component.outputComponents.map((id,i)=>this.mapIDToP(id,i,false));
                 inputRelationships = (

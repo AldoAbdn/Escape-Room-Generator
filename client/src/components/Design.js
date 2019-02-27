@@ -61,7 +61,7 @@ class Design extends Component {
         var components = [...this.props.state.components];
         components = this.updateComponent(newComponent);
         this.props.handleChange(components);
-        this.setState({selected:newComponent});
+        this.setState({selected:newComponent},()=>{alert('updates')});
     }
     updateComponent = (newComponent) => {
         let id = newComponent._id;

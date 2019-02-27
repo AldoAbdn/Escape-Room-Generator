@@ -92,6 +92,12 @@ class ComponentDnDSource extends Component{
       label,
     });
   }
+  componentDidUpdate(){
+    alert('supdate');
+  }
+  shouldComponentUpdate(nextProps, nextState){
+    return true;
+  }
   render() {
     console.log('rendersource');
     console.log(this.props.component);
