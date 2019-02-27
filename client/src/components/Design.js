@@ -61,16 +61,11 @@ class Design extends Component {
     }
     //Changes state on input change
     handleComponentDetailsChange = (state) => { 
-        var newComponent = {...this.props.selected, ...state};
+        var newComponent = {...this.state.selected, ...state};
         var components = [...this.props.state.components];
-        components.forEach((component,index,components)=>{
-            components[index] = this.updateComponent(newComponent);
-        });
+        components = this.updateComponent(newComponent);
         this.props.handleChange(components);
-        components.forEach((component,index,components)=>{
-            newComponent = this.findComponent(component,newComponent._id);
-        })
-
+        newComponent = this.findComponent(newComponent._id);
         this.setState({selected:newComponent});
     }
     updateComponent = (newComponent) => {

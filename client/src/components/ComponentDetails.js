@@ -23,13 +23,17 @@ class ComponentDetails extends Component {
         }
     };
     handleOnClick = (id,isInput)=> (e) => {
+        let component = {...this.props.selected};
         let state = {};
-        state._id = this.props.selected._id;
+        state._id = component._id;
         if(isInput){
-            state.inputComponents = this.props.selected.inputComponents.remove(id);
+            let index = component.inputComponents.indexOf(id);
+            state.inputComponents = component.inputComponents.splice(index,1);
         } else {
-            state.outputComponents = this.props.selected.outputComponents.remove(id);
+            let index = component.outputComponents.indexOf(id);
+            state.outputComponents = component.outputComponents.splice(index,1);
         }
+        console.log(state);
         this.props.handleChange(state);
     }
     mapIDToP = (id,i,isInput) => {
