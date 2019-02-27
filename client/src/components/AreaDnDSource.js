@@ -65,13 +65,27 @@ function collect(connect, monitor) {
 }
 
 class AreaDnDSource extends Component{
+    componentWillUnmount(){
+      alert('area');
+    }
+    componentDidUpdate(){
+      alert('aa');
+    }
+    componentWillReceiveProps(props){
+      alert('areaa');
+    }
+    componentDidMount(){
+      alert('areaaa');
+    }
     render() {
+      console.log('arearender');
       var target;
       if (this.props.isTarget){
         target = (
           <AreaDnDTarget findComponent={this.props.findComponent} component={this.props.component} handleDidNotDrop={this.props.handleDidNotDrop} handleComponentDrop={this.props.handleComponentDrop} handleComponentClick={this.props.handleComponentClick}/>
         );
       }
+      
       return this.props.connectDragSource(
           <div onClick={this.props.handleComponentClick(this.props.component)}>
             <Card className={"component"}>

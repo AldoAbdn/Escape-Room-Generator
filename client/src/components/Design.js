@@ -21,7 +21,6 @@ class Design extends Component {
     }
     handleComponentClick = (component) => (e) => {
         e.stopPropagation();
-        console.log(component);
         this.setState({selected:component});
     }
     handleComponentDrop = (component, parentId, isInput = true) => {
@@ -31,10 +30,8 @@ class Design extends Component {
             components = this.addRelationship(component._id,parentId,isInput)
             if(searchResult==null){
                 let parent = this.findComponent(parentId);
-                console.log(parent);
                 if(parent.type!=='Area'){
                     let area = components.find((comp)=>{
-                        console.log(comp);
                         if(comp.type==='Area'){
                             return comp.outputComponents.find((com)=>{
                                 return com === parentId;
@@ -43,7 +40,6 @@ class Design extends Component {
                             return false;
                         }
                     });
-                    console.log(area);
                     if(area!==undefined){
                         components = this.addRelationship(component._id,area._id,false);
                     }
@@ -62,7 +58,6 @@ class Design extends Component {
     //Changes state on input change
     handleComponentDetailsChange = (state) => { 
         var newComponent = {...this.state.selected, ...state};
-        console.log(newComponent);
         var components = [...this.props.state.components];
         components = this.updateComponent(newComponent);
         this.props.handleChange(components);
@@ -144,6 +139,8 @@ class Design extends Component {
         return components;
     }
     render(){
+        console.log('designrender');
+        console.log(this.state);
         return (
             <Container>
                 <Row>

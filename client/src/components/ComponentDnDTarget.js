@@ -53,7 +53,6 @@ class ComponentDnDTarget extends Component {
         } else {
             component = item;
         }
-        console.log(component);
         this.props.handleComponentDrop(component,this.props.component._id,isInput);
     }
     handleDidNotDrop = (component) => {

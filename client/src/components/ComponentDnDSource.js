@@ -93,6 +93,8 @@ class ComponentDnDSource extends Component{
     });
   }
   render() {
+    console.log('rendersource');
+    console.log(this.props.component);
       var target;
       if (this.props.isTarget){
         target = (

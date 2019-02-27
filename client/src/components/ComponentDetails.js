@@ -27,13 +27,11 @@ class ComponentDetails extends Component {
         let state = {};
         state._id = component._id;
         if(isInput){
-            let index = component.inputComponents.indexOf(id);
-            state.inputComponents = component.inputComponents.splice(index,1);
+            state.inputComponents = component.inputComponents.filter(oldId => oldId!==id);
         } else {
             let index = component.outputComponents.indexOf(id);
-            state.outputComponents = component.outputComponents.splice(index,1);
+            state.outputComponents = component.outputComponents.filter(oldId => oldId!==id);
         }
-        console.log(state);
         this.props.handleChange(state);
     }
     mapIDToP = (id,i,isInput) => {
@@ -47,7 +45,6 @@ class ComponentDetails extends Component {
         )
     }
     render() {
-        console.log(this.props);
         let component = this.props.selected;
         let type;
         let properties;

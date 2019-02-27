@@ -86,6 +86,7 @@ class EscapeRoomDesigner extends Component {
         });
     }
     render() {
+        console.log('render');
         return (
             <Container>
                 <Row>

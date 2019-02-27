@@ -68,6 +68,7 @@ class AreaDnDTarget extends Component {
         this.props.handleComponentDrop(component,this.props.component._id,isInput);
     }
     render() {
+        console.log('areatargetrender');
         var classNames;
         if(this.props.isOver && this.props.canDrop){
             classNames="canDrop";

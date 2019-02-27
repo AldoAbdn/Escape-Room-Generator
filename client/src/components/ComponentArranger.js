@@ -39,13 +39,15 @@ class ComponentArranger extends Component {
     mapAreas = (area,i)=>{
         if(area.type==='Area'){
             return (
-                <Col key={area._id}>
-                    <Area isTarget findComponent={this.props.findComponent} component={area} handleDidNotDrop={this.props.handleDidNotDrop} handleComponentDrop={this.props.handleComponentDrop} handleComponentClick={this.props.handleComponentClick}/>
+                <Col>
+                    <Area key={area._id} isTarget findComponent={this.props.findComponent} component={area} handleDidNotDrop={this.props.handleDidNotDrop} handleComponentDrop={this.props.handleComponentDrop} handleComponentClick={this.props.handleComponentClick}/>
                 </Col>
             )  
         }
     }
     render() {
+        console.log('arrangerender');
+        console.log(this.props);
         var classNames;
         if(this.props.isOver && this.props.canDrop){
             classNames="canDrop"
