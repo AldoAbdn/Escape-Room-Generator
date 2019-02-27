@@ -22,11 +22,18 @@ class ComponentDetails extends Component {
             return;
         }
     };
+    mapIDToP = (key,i) => {
+        return (
+            <div>{i}</div>
+        )
+    }
     render() {
-        var type;
-        var inputs;
+        console.log(this.props);
+        let component = this.props.selected;
+        let type;
+        let inputs;
         if(this.props.selected!==undefined || this.props.selected!==null){
-            inputs = Object.keys(this.props.selected).map(this.mapDetailToInput)
+            inputs = Object.keys(component).map(this.mapDetailToInput)
             type = this.props.selected.type;
         }
         return (
@@ -38,6 +45,18 @@ class ComponentDetails extends Component {
                     </Col>
                 </Row>
                 {inputs}
+                <Row>
+                    <Col>
+                        <h4>Inputs</h4>
+                        {component.inputComponents.map(this.mapIDToP)}
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <h4>Outputs</h4>
+                        {component.outputComponents.map(this.mapIDToP)}
+                    </Col>
+                </Row>
             </Container>
         )
     }
