@@ -64,7 +64,6 @@ class EscapeRoomDesigner extends Component {
         var escapeRoom = {...this.state.escapeRoom};
         var newState = [...state];
         escapeRoom.components = newState;
-        console.log(escapeRoom);
         this.setState({escapeRoom});
     }
     handleToggle = (e) => {
@@ -86,7 +85,6 @@ class EscapeRoomDesigner extends Component {
         });
     }
     render() {
-        console.log('render');
         return (
             <Container>
                 <Row>

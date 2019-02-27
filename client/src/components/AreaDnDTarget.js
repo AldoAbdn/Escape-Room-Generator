@@ -67,11 +67,7 @@ class AreaDnDTarget extends Component {
         }
         this.props.handleComponentDrop(component,this.props.component._id,isInput);
     }
-    componentWillReceiveProps(nextProps){
-        alert('props');
-    }
     render() {
-        console.log('areatargetrender');
         var classNames;
         if(this.props.isOver && this.props.canDrop){
             classNames="canDrop";
@@ -86,9 +82,8 @@ class AreaDnDTarget extends Component {
                             <CardTitle>{this.props.component.type}</CardTitle>
                             <ArcherContainer>   
                                 {this.props.component.outputComponents.map((componentId,i)=>{
-                                    alert('mapping');
                                     let component = this.props.findComponent(componentId);
-                                    return(<ComponentDnDSource isTarget handleComponentDrop={this.props.handleComponentDrop} handleComponentClick={this.props.handleComponentClick} handleDidNotDrop={this.props.handleDidNotDrop} component={component} id={component.type}/>)
+                                    return(<ComponentDnDSource isTarget handleComponentDrop={this.props.handleComponentDrop} handleComponentClick={this.props.handleComponentClick} handleDidNotDrop={this.props.handleDidNotDrop} component={component} findComponent={this.props.findComponent} id={component.type}/>)
                                 })}
                                 </ArcherContainer>
                         </CardBody>

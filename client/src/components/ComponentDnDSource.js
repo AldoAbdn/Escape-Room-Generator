@@ -92,15 +92,17 @@ class ComponentDnDSource extends Component{
       label,
     });
   }
-  componentDidUpdate(){
-    alert('supdate');
-  }
   shouldComponentUpdate(nextProps, nextState){
     return true;
   }
+  findComponent(component){
+    if(this.props.findComponent!==undefined){
+      return this.props.findComponent(component);
+    } else {
+      return null;
+    }
+  }
   render() {
-    console.log('rendersource');
-    console.log(this.props.component);
       var target;
       if (this.props.isTarget){
         target = (
@@ -131,7 +133,7 @@ class ComponentDnDSource extends Component{
         );
       } 
       return this.props.connectDragSource(
-          <div className={classNames} style={style} onClick={this.props.handleComponentClick(this.props.component)}>
+          <div className={classNames} style={style} onClick={this.props.handleComponentClick(this.findComponent(id))}>
             <span>{this.props.id}</span>
             {target}
             {archer}

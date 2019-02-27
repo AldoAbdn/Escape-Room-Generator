@@ -66,7 +66,6 @@ function collect(connect, monitor) {
 
 class AreaDnDSource extends Component{
     render() {
-      console.log('sourcerender');
       var target;
       if (this.props.isTarget){
         target = (

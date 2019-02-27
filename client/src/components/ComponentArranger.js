@@ -38,7 +38,6 @@ function collect(connect, monitor) {
 class ComponentArranger extends Component {
     mapAreas = (area,i)=>{
         if(area.type==='Area'){
-            alert('area');
             return (
                 <Col key={i}> 
                     <Area isTarget findComponent={this.props.findComponent} component={area} handleDidNotDrop={this.props.handleDidNotDrop} handleComponentDrop={this.props.handleComponentDrop} handleComponentClick={this.props.handleComponentClick}/>
@@ -48,7 +47,7 @@ class ComponentArranger extends Component {
     }
     componentDidUpdate(props){
         if(JSON.stringify(this.props.components)!==JSON.stringify(props.components)){
-            this.setState({render:true},()=>{alert('change')});
+            this.setState({render:true});
         }
     }
     render() {

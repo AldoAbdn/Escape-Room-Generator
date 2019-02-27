@@ -61,7 +61,7 @@ class Design extends Component {
         var components = [...this.props.state.components];
         components = this.updateComponent(newComponent);
         this.props.handleChange(components);
-        this.setState({selected:newComponent},()=>{alert('updates')});
+        this.setState({selected:newComponent});
     }
     updateComponent = (newComponent) => {
         let id = newComponent._id;
@@ -139,8 +139,6 @@ class Design extends Component {
         return components;
     }
     render(){
-        console.log('designrender');
-        console.log(this.state);
         return (
             <Container>
                 <Row>
