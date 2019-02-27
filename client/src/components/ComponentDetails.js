@@ -1,10 +1,10 @@
 import React, {Component}  from 'react';
-import { Container, Row, Col, Input, Label } from 'reactstrap';
+import { Container, Row, Col, Input, Label, ListGroupItem, Button, ListGroup } from 'reactstrap';
 
 class ComponentDetails extends Component {
     //Changes state on input change
     handleChange = (event) => { 
-        var state = {};
+        let state = {};
         state[event.target.id] = event.target.value;  
         state._id = this.props.selected._id;  
         this.props.handleChange(state);
@@ -22,9 +22,24 @@ class ComponentDetails extends Component {
             return;
         }
     };
-    mapIDToP = (id,i) => {
+    handleOnClick = (id,isInput)=> (e) => {
+        let state = {};
+        state._id = this.props.selected._id;
+        if(isInput){
+            state.inputComponents = this.props.selected.inputComponents.remove(id);
+        } else {
+            state.outputComponents = this.props.selected.outputComponents.remove(id);
+        }
+        this.props.handleChange(state);
+    }
+    mapIDToP = (id,i,isInput) => {
         return (
-            <div>{id}</div>
+            <ListGroupItem key={i}>
+                {id}
+                <Button onClick={this.handleOnClick(id,isInput)} color="danger" style={{display:'inline', position: 'absolute', right:'2px', top:'0.3rem'}}>
+                    X
+                </Button>
+            </ListGroupItem>
         )
     }
     render() {
@@ -39,14 +54,16 @@ class ComponentDetails extends Component {
         if(component!==undefined || component!==null){
             properties = Object.keys(component).map(this.mapDetailToInput)
             type = this.props.selected.type;
-            if(component.inputComponents!=undefined&&component.outputComponents!=undefined&&(component.inputComponents.length>0||component.outputComponents.length>0)){
-                inputs = component.inputComponents.map(this.mapIDToP);
-                outputs = component.outputComponents.map(this.mapIDToP);
+            if(component.inputComponents!==undefined&&component.outputComponents!==undefined&&(component.inputComponents.length>0||component.outputComponents.length>0)){
+                inputs = component.inputComponents.map((id,i)=>this.mapIDToP(id,i,true));
+                outputs = component.outputComponents.map((id,i)=>this.mapIDToP(id,i,false));
                 inputRelationships = (
                     <Row>
                         <Col>
-                            {<h4>Inputs</h4>}
-                            {inputs}
+                            <h4>Inputs</h4>
+                            <ListGroup>
+                                {inputs}
+                            </ListGroup>
                         </Col>
                     </Row>
                 );
@@ -54,7 +71,9 @@ class ComponentDetails extends Component {
                     <Row>
                         <Col>
                             <h4>Outputs</h4>
-                            {outputs}
+                            <ListGroup>
+                                {outputs}
+                            </ListGroup>
                         </Col>
                     </Row>
                 );
