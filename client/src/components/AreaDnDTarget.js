@@ -68,6 +68,7 @@ class AreaDnDTarget extends Component {
         this.props.handleComponentDrop(component,this.props.component._id,isInput);
     }
     render() {
+        console.log('area-target-render');
         var classNames;
         if(this.props.isOver && this.props.canDrop){
             classNames="canDrop";
@@ -75,20 +76,17 @@ class AreaDnDTarget extends Component {
             classNames="cantDrop";
         }
         return this.props.connectDropTarget(
-            <div className={classNames} key={this.props.component._id}>
-                       
-                   <Card className={this.props.component.type} onClick={this.props.handleComponentClick(this.props.component)}>
-                        <CardBody>
-                            <CardTitle>{this.props.component.type}</CardTitle>
-                            <ArcherContainer>   
-                                {this.props.component.outputComponents.map((componentId,i)=>{
-                                    let component = this.props.findComponent(componentId);
-                                    return(<ComponentDnDSource isTarget handleComponentDrop={this.props.handleComponentDrop} handleComponentClick={this.props.handleComponentClick} handleDidNotDrop={this.props.handleDidNotDrop} component={component} findComponent={this.props.findComponent} id={component.type}/>)
-                                })}
-                                </ArcherContainer>
-                        </CardBody>
-                    </Card>
-                
+            <div className={classNames} key={this.props.component._id}>                
+                <Card className={this.props.component.type} onClick={this.props.handleComponentClick(this.props.component)}>
+                    <CardBody>
+                        <CardTitle>{this.props.component.type}</CardTitle>
+                        <ArcherContainer>   
+                            {this.props.outputComponents.map((component,i)=>{
+                                return(<ComponentDnDSource key={component._id} isTarget handleComponentDrop={this.props.handleComponentDrop} handleComponentClick={this.props.handleComponentClick} handleDidNotDrop={this.props.handleDidNotDrop} component={component} findComponent={this.props.findComponent} id={component.type}/>)
+                            })}
+                            </ArcherContainer>
+                    </CardBody>
+                </Card>   
             </div>
         )
     }

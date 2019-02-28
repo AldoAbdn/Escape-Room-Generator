@@ -38,9 +38,12 @@ function collect(connect, monitor) {
 class ComponentArranger extends Component {
     mapAreas = (area,i)=>{
         if(area.type==='Area'){
+            let outputComponents = area.outputComponents.map((componentId,i)=>{
+                return this.props.findComponent(componentId);
+            })
             return (
                 <Col key={i}> 
-                    <Area isTarget findComponent={this.props.findComponent} component={area} handleDidNotDrop={this.props.handleDidNotDrop} handleComponentDrop={this.props.handleComponentDrop} handleComponentClick={this.props.handleComponentClick}/>
+                    <Area isTarget findComponent={this.props.findComponent} component={area} outputComponents={outputComponents} handleDidNotDrop={this.props.handleDidNotDrop} handleComponentDrop={this.props.handleComponentDrop} handleComponentClick={this.props.handleComponentClick}/>
                 </Col>
             )  
         }

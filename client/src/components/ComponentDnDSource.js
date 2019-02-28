@@ -133,7 +133,7 @@ class ComponentDnDSource extends Component{
         );
       } 
       return this.props.connectDragSource(
-          <div className={classNames} style={style} onClick={this.props.handleComponentClick(this.findComponent(id))}>
+          <div className={classNames} style={style} onClick={this.props.handleComponentClick(this.props.component)}>
             <span>{this.props.id}</span>
             {target}
             {archer}

@@ -19,9 +19,12 @@ class Design extends Component {
                 return;
         }
     }
-    handleComponentClick = (component) => (e) => {
+    handleComponentClick = (component,callback) => (e) => {
         e.stopPropagation();
         this.setState({selected:component});
+        if(callback!=null){
+            callback();
+        }
     }
     handleComponentDrop = (component, parentId, isInput = true) => {
         let components = [...this.props.state.components];
