@@ -52,6 +52,9 @@ class Design extends Component {
                 components = this.updateComponent(component);
             }
             this.props.handleChange(components);
+        } else {
+            components.push(component);
+            this.props.handleChange(components);
         }
     }
     handleDidNotDrop = (component) => {

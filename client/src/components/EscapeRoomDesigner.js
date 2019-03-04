@@ -64,9 +64,7 @@ class EscapeRoomDesigner extends Component {
         var escapeRoom = {...this.state.escapeRoom};
         var newState = [...state];
         escapeRoom.components = newState;
-        this.setState({escapeRoom},()=>{
-            console.log('design-change');
-        });
+        this.setState({escapeRoom});
     }
     handleToggle = (e) => {
         this.setState({dropdownOpen: !this.state.dropdownOpen});

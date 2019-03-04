@@ -52,7 +52,6 @@ class BusinessLogic extends Component {
         try{
             //Check if user already exists
             let queryResult = await this.props.services.users.find({email:credentials.email});
-            console.log(queryResult);
             if(queryResult.value!=undefined||queryResult.value!=null){
                 return "User Already Exists";
             }
