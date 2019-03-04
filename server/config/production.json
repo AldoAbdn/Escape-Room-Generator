@@ -1,4 +1,6 @@
 {
-  "host": "escape-room-generator-app.feathersjs.com",
-  "port": 443
+  "frontend": "../public",
+  "host": "escape-room-generator-app.herokuapp.com",
+  "port": "PORT",
+  "mongodb": "mongodb://Aldo:Aldo95@ds161024.mlab.com:61024/escape-room-generator"
 }
