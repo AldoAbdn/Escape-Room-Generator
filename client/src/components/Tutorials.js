@@ -8,7 +8,7 @@ class Tutorials extends Component {
             <YouTubePlaylist
                 width={'85%'}
                 height={'100%'}
-                api_key={config.youtubeAPIKey}
+                api_key={config.youtubeAPIKey || provess.env.youtubeAPIKey}
                 playlist_id="PLWRRwFEmEuDKX5sobzWeb50xD14cpfkk3"
                 scrolling={true}
             />

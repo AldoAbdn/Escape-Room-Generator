@@ -2,14 +2,14 @@
   "name": "escape-room-generator-server",
   "description": "Honours Project for Computing: Application Software Development at RGU. Web app for designing an escape room. ",
   "version": "0.1.0",
-  "homepage": "",
+  "homepage": "http://escape-room-generator.herokuapp.com",
   "main": "src",
   "keywords": [
     "feathers"
   ],
   "author": {
-    "name": "",
-    "email": ""
+    "name": "Alistair Quinn",
+    "email": "1701183@rgu.ac.uk"
   },
   "contributors": [],
   "bugs": {},
