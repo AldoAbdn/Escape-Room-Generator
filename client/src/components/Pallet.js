@@ -32,6 +32,11 @@ class Pallet extends Component {
                 </Row>
                 <Row>
                     <Col>
+                        <ComponentDnD id="Lock" handleComponentClick={this.handleComponentClick}/>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
                         <ComponentDnD id="Event" handleComponentClick={this.handleComponentClick}/>
                     </Col>
                 </Row>

@@ -3,7 +3,7 @@ import { Card, CardBody ,CardTitle } from 'reactstrap';
 import '../styles/Component.css';
 import { DropTarget } from 'react-dnd';
 import ComponentDnDSource from './ComponentDnDSource';
-import { Puzzle, Lock, Music, Event } from '../models/index.js';
+import { Puzzle, Prop, Lock, Music, Event } from '../models/index.js';
 import { ArcherContainer } from 'react-archer';
 
 const Types = {
@@ -45,6 +45,10 @@ class AreaDnDTarget extends Component {
             switch(item.id){
                 case 'Puzzle':
                     component = new Puzzle();
+                    component.position = item.position;
+                    break;
+                case 'Prop':
+                    component = new Prop();
                     component.position = item.position;
                     break;
                 case 'Lock':
