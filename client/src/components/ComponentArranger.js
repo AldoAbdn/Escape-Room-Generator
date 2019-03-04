@@ -42,7 +42,7 @@ class ComponentArranger extends Component {
                 return this.props.findComponent(componentId);
             })
             return (
-                <Col key={i}> 
+                <Col key={i} xs="12"> 
                     <Area isTarget findComponent={this.props.findComponent} component={area} outputComponents={outputComponents} handleDidNotDrop={this.props.handleDidNotDrop} handleComponentDrop={this.props.handleComponentDrop} handleComponentClick={this.props.handleComponentClick}/>
                 </Col>
             )  

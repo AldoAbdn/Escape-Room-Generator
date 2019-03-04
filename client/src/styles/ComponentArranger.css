@@ -1,3 +1,5 @@
 .component-arranger {
-
+    overflow:auto;
+    height: 88%;
+    max-height: 88%;
 }
