@@ -7,7 +7,7 @@ class Tutorials extends Component {
             <YouTubePlaylist
                 width={'85%'}
                 height={'100%'}
-                api_key={provess.env.youtubeAPIKey}
+                api_key={process.env.youtubeAPIKey}
                 playlist_id="PLWRRwFEmEuDKX5sobzWeb50xD14cpfkk3"
                 scrolling={true}
             />
