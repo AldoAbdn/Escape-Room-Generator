@@ -32,28 +32,37 @@ class Profile extends Component {
         this.setState({errorMessage: ""});
     }
 
-    handleClick = (event) => {
+    handleClick = async (event) => {
         switch (event.target.id) {
             case 'editButton':
                 this.setState({edit:true});
                 break;
             case 'saveButton':
-                let user = this.props.redux.state.user;
-                user.email = this.state.email;
-                user.password = this.state.password;
-                this.props.services.users.update(this.state._id,user)
-                .then((output)=>{
-                    let user = output.value;
-                    this.props.redux.actions.login(user);
-                    this.setState({edit:false});
-                });
+                let user = this.props.user;
+                if(this.state.email===""){
+                    this.setState({errorMessage:"Email Required"});
+                    return;
+                } else {
+                    user.email = this.state.email;
+                }
+                if(this.state.password!=="")
+                    user.password = this.state.password;
+                if(this.props.updateUser!=undefined){
+                    let response = await this.props.updateUser(user);
+                    if(response){
+                        this.setState({edit:false});
+                    } else {
+                        this.setState({errorMessage:"Error, Please Try Again Later"});
+                    }
+                }
+                    
                 break;
             default:
         }
     }
 
     componentDidMount(){
-        const user = this.props.redux.state.user;
+        const user = this.props.user;
         this.setState({
             email: user.email
         })
@@ -61,8 +70,8 @@ class Profile extends Component {
 
     componentDidUpdate(oldProps){
         const newProps = this.props;
-        if(oldProps.redux.state.user.email !== newProps.redux.state.user.email){
-            const user = this.props.redux.state.user;
+        if(oldProps.user.email !== newProps.user.email){
+            const user = this.props.user;
             this.setState({
                 email: user.email,
                 _id: user._id
@@ -76,9 +85,9 @@ class Profile extends Component {
             <Row>
                 <Col>
                     <Card>
-                        <CardImg height="50%" src={this.props.redux.state.user.avatar} alt="Profile Image" />
+                        <CardImg height="50%" src={this.props.user.avatar} alt="Profile Image" />
                         <CardBody>
-                        <CardTitle className="text-center">{this.props.redux.state.user.email}</CardTitle>
+                        <CardTitle className="text-center">{this.props.user.email}</CardTitle>
                         <Button id="editButton" block={true} className="text-center" onClick={this.handleClick}>Edit Profile</Button>
                         </CardBody>
                     </Card>

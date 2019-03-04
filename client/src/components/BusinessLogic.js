@@ -50,15 +50,21 @@ class BusinessLogic extends Component {
     signUp = async(credentials)=>{
         //Create a new user 
         try{
+            //Check if user already exists
+            let queryResult = await this.props.services.users.find({email:credentials.email});
+            console.log(queryResult);
+            if(queryResult.value!=undefined||queryResult.value!=null){
+                return "User Already Exists";
+            }
             await this.props.services.users.create(credentials);
             //Authenticate with feathersjs
             try {
-                await this.props.feathersClient.authenticate({strategy:'local',email:this.state.email,password:this.state.password});
+                await this.props.feathersClient.authenticate({strategy:'local',email:credentials.email,password:credentials.password});
             } catch(error){
                 return error.message;
             }
             //Get User Details and Update Redux Store
-            let queryResult = await this.props.services.users.find({email:this.state.email});
+            queryResult = await this.props.services.users.find({email:credentials.email});
             if(queryResult.action.type.includes('FULFILLED')){
                 var user = queryResult.value.data[0];
                 user.token = window.localStorage.getItem('feathers-jwt');
@@ -110,9 +116,15 @@ class BusinessLogic extends Component {
      * @function
      * @param {Object} update
      */
-    updateUser = (update) => {
-        const user = this.props.redux.state.user;
-        this.props.services.users.update(user._id,update);
+    updateUser = async (update) => {
+        try{
+            const user = this.props.redux.state.user;
+            let response = await this.props.services.users.patch(user._id,update);
+            this.props.redux.actions.login(response.value);
+            this.props.history.push('/profile');
+        }catch(error){
+            return error.message;
+        }
     }
     /**
      * Saves an escape room

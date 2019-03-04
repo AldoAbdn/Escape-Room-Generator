@@ -16,7 +16,7 @@ class Signup extends Component {
     handleSubmit = async (event) => {
         event.preventDefault();
         if(this.props.signUp){
-            let err = await this.props.signUp({username:this.state.username,password:this.state.password});
+            let err = await this.props.signUp({email:this.state.email,password:this.state.password});
             this.setState({errorMessage:err});
         }
     }
