@@ -10,7 +10,7 @@
     min-height: 50%;
 }
 
-.Puzzle {
+.Puzzle, .Prop, .Lock, .Event, .Music {
     width:1vw;
     height:1vh;
     position: absolute !important;
