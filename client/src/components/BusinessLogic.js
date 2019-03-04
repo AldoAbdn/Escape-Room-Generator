@@ -52,11 +52,7 @@ class BusinessLogic extends Component {
         try{
             await this.props.services.users.create(credentials);
             //Authenticate with feathersjs
-            try {
-                await this.props.feathersClient.authenticate({strategy:'local',email:credentials.email,password:credentials.password});
-            } catch(error){
-                return error.message;
-            }
+            await this.props.feathersClient.authenticate({strategy:'local',email:credentials.email,password:credentials.password});
             //Get User Details and Update Redux Store
             let queryResult = await this.props.services.users.find({query:{email:credentials.email}});
             if(queryResult.action.type.includes('FULFILLED')){
@@ -116,6 +112,7 @@ class BusinessLogic extends Component {
             let response = await this.props.services.users.patch(user._id,update);
             this.props.redux.actions.login(response.value);
             this.props.history.push('/profile');
+            return true;
         }catch(error){
             return error.message;
         }

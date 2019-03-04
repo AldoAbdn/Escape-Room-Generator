@@ -47,9 +47,9 @@ class Profile extends Component {
                 }
                 if(this.state.password!=="")
                     user.password = this.state.password;
-                if(this.props.updateUser!=undefined){
+                if(this.props.updateUser!==undefined){
                     let response = await this.props.updateUser(user);
-                    if(response){
+                    if(response===true){
                         this.setState({edit:false});
                     } else {
                         this.setState({errorMessage:"Error, Please Try Again Later"});

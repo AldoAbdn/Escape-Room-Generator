@@ -57,7 +57,8 @@ class Main extends Component {
         //Authenticates JWT and then populates user/escapeRooms
         let jwt = await this.authenticateJWT();
         let user = await this.populateUserFromJWT(jwt);
-        await this.populateEscapeRooms(user._id);
+        if(user!=null)
+            await this.populateEscapeRooms(user._id);
     }
     /**
      * Authenticates JWT 
@@ -79,9 +80,17 @@ class Main extends Component {
      * @returns {Object}
      */
     populateUserFromJWT = async(jwt) => {
+        if(jwt===undefined||jwt===null||jwt===""){
+            this.setProfile(false);
+            return null;
+        }
         let response = await this.props.feathersClient.passport.verifyJWT(jwt);
         response = await this.props.services.users.get(response.userId);
         var user = response.value;
+        if(user.email===undefined||user.email===""){
+            this.setProfile(false);
+            return null;
+        }
         user.token = window.localStorage.getItem('feathers-jwt');
         this.props.redux.actions.login(user);
         this.setProfile(true);
