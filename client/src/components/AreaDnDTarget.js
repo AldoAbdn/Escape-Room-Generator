@@ -1,4 +1,5 @@
 import React, {Component}  from 'react';
+import ReactDOM from 'react-dom';
 import { Card, CardBody ,CardTitle } from 'reactstrap';
 import '../styles/Component.css';
 import { DropTarget } from 'react-dnd';
@@ -17,7 +18,12 @@ const componentTarget = {
         }
         const item = monitor.getItem();
         if (item.position === undefined){
-            item.position = {top:0,left:0};
+            let clientOffset = monitor.getClientOffset();
+            let targetRect = ReactDOM.findDOMNode(component).getBoundingClientRect();
+            console.log(clientOffset);
+            console.log(targetRect);
+            item.position = {top:clientOffset.y-targetRect.y-(targetRect.height*0.20),left:clientOffset.x-targetRect.x-(targetRect.width*0.10)};
+            console.log(item);
         } else {
             const delta = monitor.getDifferenceFromInitialOffset()
             item.position.left = Math.round(item.position.left + delta.x);
