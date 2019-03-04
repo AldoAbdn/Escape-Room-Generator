@@ -29,8 +29,8 @@ class BusinessLogic extends Component {
     authenticateCredentials = async(credentials)=>{
         try {
             await this.props.feathersClient.authenticate(credentials);
-            let queryResult = await this.props.services.users.find({email:credentials.email});
-            if(queryResult.action.type.includes('FULFILLED')){
+            let queryResult = await this.props.services.users.find({query:{email:credentials.email}});
+            if(queryResult.action.type.includes('FULFILLED')&&queryResult.value.total>0){
                 var user = queryResult.value.data[0];
                 user.token = window.localStorage.getItem('feathers-jwt');
                 this.props.redux.actions.login(user);
@@ -50,11 +50,6 @@ class BusinessLogic extends Component {
     signUp = async(credentials)=>{
         //Create a new user 
         try{
-            //Check if user already exists
-            let queryResult = await this.props.services.users.find({email:credentials.email});
-            if(queryResult.value!=undefined||queryResult.value!=null){
-                return "User Already Exists";
-            }
             await this.props.services.users.create(credentials);
             //Authenticate with feathersjs
             try {
@@ -63,7 +58,7 @@ class BusinessLogic extends Component {
                 return error.message;
             }
             //Get User Details and Update Redux Store
-            queryResult = await this.props.services.users.find({email:credentials.email});
+            let queryResult = await this.props.services.users.find({query:{email:credentials.email}});
             if(queryResult.action.type.includes('FULFILLED')){
                 var user = queryResult.value.data[0];
                 user.token = window.localStorage.getItem('feathers-jwt');
