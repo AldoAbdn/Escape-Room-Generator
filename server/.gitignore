@@ -113,6 +113,3 @@ data/
 
 # Temporarily disable liscence 
 LICENCE
-
-#Ignore build
-public
