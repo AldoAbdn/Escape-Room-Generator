@@ -40,8 +40,9 @@ html, body {
 }
 
 main {
-  margin-top: 100px;
   padding: 20px;
+  height: 80%;
+  overflow: auto;
 }
 
 img.logo {

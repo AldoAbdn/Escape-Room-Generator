@@ -8,6 +8,8 @@
     position: relative;
     width: 100%;
     min-height: 50%;
+    height: 87%;
+    overflow: hidden;
 }
 
 .Puzzle, .Prop, .Lock, .Event, .Music {

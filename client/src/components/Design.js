@@ -145,13 +145,13 @@ class Design extends Component {
         return (
             <Container>
                 <Row>
-                    <Col xs="2">
+                    <Col md="2">
                         <Pallet handleClick={this.handlePalletItemClick}/>
                     </Col>
-                    <Col xs="8">
+                    <Col md="8">
                         <ComponentArranger findComponent={this.findComponent} handleDidNotDrop={this.handleDidNotDrop} handleComponentDrop={this.handleComponentDrop} handleComponentClick={this.handleComponentClick} components={this.props.state.components}/>            
                     </Col>
-                    <Col xs="2">
+                    <Col md="2">
                         <ComponentDetails selected={this.state.selected} handleChange={this.handleComponentDetailsChange}/>
                     </Col>
                 </Row>
