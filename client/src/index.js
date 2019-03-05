@@ -24,8 +24,21 @@ import App from './components/App';
 //Service Worker 
 import * as serviceWorker from './serviceWorker';
 //ReactDnD
-import HTML5Backend from 'react-dnd-html5-backend'
+import HTML5Backend from 'react-dnd-html5-backend';
+import TouchBackend from 'react-dnd-touch-backend';
+import MultiBackend, { TouchTransition } from 'react-dnd-multi-backend';
 import { DragDropContextProvider } from 'react-dnd';
+let pipline = {
+    backends: [
+        {backend: HTML5Backend},
+        {
+            backend: TouchBackend({enableMouseEvents:true}),
+            preview: true,
+            transition: TouchTransition
+        }
+    ]
+};
+let backend = MultiBackend(pipline);
 
 //Feathers Configuration 
 export const feathersClient = feathers()
@@ -42,7 +55,7 @@ const services = bindWithDispatch(store.dispatch, rawServices);
 
 //Router
 const router = (
-    <DragDropContextProvider backend={HTML5Backend}>
+    <DragDropContextProvider backend={backend}>
         <Provider store={store}>
             <BrowserRouter>
                 <App feathersClient={feathersClient} services={services} getServicesStatus={getServicesStatus}/>
