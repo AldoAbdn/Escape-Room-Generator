@@ -35,27 +35,29 @@ class Signup extends Component {
 
     render() {
         return (
-            <Container>
-                <Row>
-                    <Col>
-                        <Form onSubmit={this.handleSubmit}>
-                            <FormGroup>
-                                <Label for="email">Email</Label>
-                                <Input type="email" name="email" id="email" value={this.state.email} onChange={this.handleChange}/>
-                            </FormGroup>
-                            <FormGroup>
-                                <Label for="password">Password</Label>
-                                <Input type="password" name="password" id="password" value={this.state.password} onChange={this.handleChange}/>
-                            </FormGroup>
-                            <Button>Sign Up</Button>
-                            <FormText>
-                                Have an account? Log In <Link to="/login">Here</Link>
-                            </FormText>
-                            <Alert isOpen={this.state.errorMessage !== ""} toggle={this.handleDismiss} color="danger">{this.state.errorMessage}</Alert>
-                        </Form>
-                    </Col>
-                </Row>
-            </Container>
+            <div className="full-container verticaly-center-content">
+                <Container>
+                    <Row>
+                        <Col>
+                            <Form onSubmit={this.handleSubmit}>
+                                <FormGroup>
+                                    <Label for="email">Email</Label>
+                                    <Input type="email" name="email" id="email" value={this.state.email} onChange={this.handleChange}/>
+                                </FormGroup>
+                                <FormGroup>
+                                    <Label for="password">Password</Label>
+                                    <Input type="password" name="password" id="password" value={this.state.password} onChange={this.handleChange}/>
+                                </FormGroup>
+                                <Button>Sign Up</Button>
+                                <FormText>
+                                    Have an account? Log In <Link to="/login">Here</Link>
+                                </FormText>
+                                <Alert isOpen={this.state.errorMessage !== ""} toggle={this.handleDismiss} color="danger">{this.state.errorMessage}</Alert>
+                            </Form>
+                        </Col>
+                    </Row>
+                </Container>
+            </div>
         )
     }
 };
