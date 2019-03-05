@@ -80,7 +80,7 @@ class ComponentDetails extends Component {
             }
         }
         return (
-            <Container>
+            <Container style={{"margin-bottom":"5vh"}}>
                 <Row>
                     <Col>
                         <h3>Details</h3>

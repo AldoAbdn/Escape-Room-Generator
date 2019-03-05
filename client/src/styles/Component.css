@@ -8,7 +8,7 @@
     position: relative;
     width: 100%;
     min-height: 50%;
-    height: 87%;
+    height: 92%;
     overflow: hidden;
 }
 
@@ -20,7 +20,7 @@
 
 .component {
     position: relative;
-    min-width: 100px;
+    min-width: 80px;
     min-height: 100px;
     border: 1px solid rgba(0,0,0,.125);
     border-radius: .25rem;

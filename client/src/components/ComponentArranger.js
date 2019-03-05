@@ -63,6 +63,11 @@ class ComponentArranger extends Component {
         return this.props.connectDropTarget(
             <div className={classNames}>
                 <Container className="component-arranger">
+                <Row>
+                    <Col>
+                        <h3>Components</h3>
+                    </Col>
+                </Row>
                     <Row>
                         {this.props.components.map(this.mapAreas)}
                     </Row>
