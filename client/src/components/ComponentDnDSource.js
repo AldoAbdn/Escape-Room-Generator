@@ -3,6 +3,7 @@ import { DragSource } from 'react-dnd';
 import ComponentDnDTarget from './ComponentDnDTarget';
 import { Row, Col } from 'reactstrap'
 import '../styles/Component.css';
+import { ArcherElement } from 'react-archer';
 
 // Drag sources and drop targets only interact
 // if they have the same string type.
@@ -64,41 +65,78 @@ class ComponentDnDSource extends Component{
     if(this.props.handleDidNotDrop!==undefined)
       this.props.handleDidNotDrop(component);
   }
+  mapRelationships = (componentId,type) => {
+    let style;
+    let label="";
+    switch(type){
+      case 'input':
+        style = {
+          strokeColor:'blue'
+        }
+        label='input';
+        break;
+      case 'output':
+        style = {
+          strokeColor:'green'
+        }
+        label="output"
+      break;
+      default:
+        style={};
+    }
+    return ({
+      targetId: componentId,
+      targetAnchor: 'top',
+      sourceAnchor: 'bottom',
+      style,
+      label,
+    });
+  }
+  shouldComponentUpdate(nextProps, nextState){
+    return true;
+  }
+  findComponent(component){
+    if(this.props.findComponent!==undefined){
+      return this.props.findComponent(component);
+    } else {
+      return null;
+    }
+  }
   render() {
       var target;
       if (this.props.isTarget){
         target = (
-          <div>  
-            <Row>
-              <Col><ComponentDnDTarget isInput={true} component={this.props.component} handleDidNotDrop={this.props.handleDidNotDrop} handleComponentDrop={this.props.handleComponentDrop} handleComponentClick={this.props.handleComponentClick}/></Col>
-              <Col><ComponentDnDTarget isInput={false} component={this.props.component} handleDidNotDrop={this.props.handleDidNotDrop} handleComponentDrop={this.props.handleComponentDrop} handleComponentClick={this.props.handleComponentClick}/></Col>
-            </Row>
-          </div>
+          <Row>
+              <Col xs="6"><ComponentDnDTarget isInput={true} component={this.props.component} handleDidNotDrop={this.props.handleDidNotDrop} handleComponentDrop={this.props.handleComponentDrop} handleComponentClick={this.props.handleComponentClick}/></Col>
+              <Col xs="6"><ComponentDnDTarget isInput={false} component={this.props.component} handleDidNotDrop={this.props.handleDidNotDrop} handleComponentDrop={this.props.handleComponentDrop} handleComponentClick={this.props.handleComponentClick}/></Col>
+          </Row>  
         );
       }
       var style = {};
-      if (this.props.component!==undefined){
+      let inputComponents;
+      let outputComponents; 
+      let id="";
+      let classNames = "component";
+      let archer;
+      if(this.props.component!==undefined){
         style.top = this.props.component.position.top;
         style.left = this.props.component.position.left;
         style.position = 'relative';
-      }
-      var outputComponents; 
-      if(this.props.component!==undefined){
-        outputComponents = this.props.component.outputComponents.map((component,i)=>{
-          return (<Col key={i}><ComponentDnDSource isTarget connectDragSource={this.props.connectDragSource} handleComponentDrop={this.props.handleComponentDrop} handleComponentClick={this.props.handleComponentClick} handleDidNotDrop={this.props.handleDidNotDrop} key={i} component={component} id={component.type}/></Col>)
-        });
-      }  
+        classNames += " " + this.props.component.type + " " + this.props.component._id;
+        id=this.props.component._id;
+        inputComponents = this.props.component.inputComponents.map(id=>this.mapRelationships(id,'input'));
+        outputComponents = this.props.component.outputComponents.map(id=>this.mapRelationships(id,'output'));
+        archer = (
+          <ArcherElement id={id} relations={[...outputComponents,...inputComponents]}>
+            <span>{id}</span>
+          </ArcherElement>
+        );
+      } 
       return this.props.connectDragSource(
-          <div className="component" style={style} onClick={this.props.handleComponentClick(this.props.component)}>
-              <Row>
-                <Col>
-                    {this.props.id}
-                    {target}
-                </Col>
-                {
-                  outputComponents
-                }
-              </Row>            
+          <div className={classNames} style={style} onClick={this.props.handleComponentClick(this.props.component)}>
+            <span>{this.props.id}</span>
+            {target}
+            {archer}
           </div>
       )
   }

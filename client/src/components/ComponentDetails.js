@@ -1,10 +1,10 @@
 import React, {Component}  from 'react';
-import { Container, Row, Col, Input, Label } from 'reactstrap';
+import { Container, Row, Col, Input, Label, ListGroupItem, Button, ListGroup } from 'reactstrap';
 
 class ComponentDetails extends Component {
     //Changes state on input change
     handleChange = (event) => { 
-        var state = {};
+        let state = {};
         state[event.target.id] = event.target.value;  
         state._id = this.props.selected._id;  
         this.props.handleChange(state);
@@ -22,22 +22,74 @@ class ComponentDetails extends Component {
             return;
         }
     };
+    handleOnClick = (id,isInput)=> (e) => {
+        let component = {...this.props.selected};
+        let state = {};
+        state._id = component._id;
+        if(isInput){
+            state.inputComponents = component.inputComponents.filter(oldId => oldId!==id);
+        } else {
+            state.outputComponents = component.outputComponents.filter(oldId => oldId!==id);
+        }
+        this.props.handleChange(state);
+    }
+    mapIDToP = (id,i,isInput) => {
+        return (
+            <ListGroupItem key={i}>
+                {id}
+                <Button onClick={this.handleOnClick(id,isInput)} color="danger" style={{display:'inline', position: 'absolute', right:'2px', top:'0.3rem'}}>
+                    X
+                </Button>
+            </ListGroupItem>
+        )
+    }
     render() {
-        var type;
-        var inputs;
-        if(this.props.selected!==undefined || this.props.selected!==null){
-            inputs = Object.keys(this.props.selected).map(this.mapDetailToInput)
+        let component = this.props.selected;
+        let type;
+        let properties;
+        let inputs;
+        let outputs;
+        let inputRelationships;
+        let outputRelationships;
+        if(component!==undefined || component!==null){
+            properties = Object.keys(component).map(this.mapDetailToInput)
             type = this.props.selected.type;
+            if(component.type!=='Area'&&component.inputComponents!==undefined&&component.outputComponents!==undefined&&(component.inputComponents.length>0||component.outputComponents.length>0)){
+                inputs = component.inputComponents.map((id,i)=>this.mapIDToP(id,i,true));
+                outputs = component.outputComponents.map((id,i)=>this.mapIDToP(id,i,false));
+                inputRelationships = (
+                    <Row>
+                        <Col>
+                            <h4>Inputs</h4>
+                            <ListGroup>
+                                {inputs}
+                            </ListGroup>
+                        </Col>
+                    </Row>
+                );
+                outputRelationships = (
+                    <Row>
+                        <Col>
+                            <h4>Outputs</h4>
+                            <ListGroup>
+                                {outputs}
+                            </ListGroup>
+                        </Col>
+                    </Row>
+                );
+            }
         }
         return (
-            <Container>
+            <Container style={{"margin-bottom":"5vh"}}>
                 <Row>
                     <Col>
                         <h3>Details</h3>
                         <h4>{type}</h4>
                     </Col>
                 </Row>
-                {inputs}
+                {properties}
+                {inputRelationships}
+                {outputRelationships}
             </Container>
         )
     }

@@ -37,11 +37,21 @@ function collect(connect, monitor) {
 
 class ComponentArranger extends Component {
     mapAreas = (area,i)=>{
-        return (
-            <Col key={i}>
-                <Area isTarget component={area} handleDidNotDrop={this.props.handleDidNotDrop} handleComponentDrop={this.props.handleComponentDrop} handleComponentClick={this.props.handleComponentClick}/>
-            </Col>
-        )   
+        if(area.type==='Area'){
+            let outputComponents = area.outputComponents.map((componentId,i)=>{
+                return this.props.findComponent(componentId);
+            })
+            return (
+                <Col key={i} xs="12"> 
+                    <Area isTarget findComponent={this.props.findComponent} component={area} outputComponents={outputComponents} handleDidNotDrop={this.props.handleDidNotDrop} handleComponentDrop={this.props.handleComponentDrop} handleComponentClick={this.props.handleComponentClick}/>
+                </Col>
+            )  
+        }
+    }
+    componentDidUpdate(props){
+        if(JSON.stringify(this.props.components)!==JSON.stringify(props.components)){
+            this.setState({render:true});
+        }
     }
     render() {
         var classNames;
@@ -53,6 +63,11 @@ class ComponentArranger extends Component {
         return this.props.connectDropTarget(
             <div className={classNames}>
                 <Container className="component-arranger">
+                <Row>
+                    <Col>
+                        <h3>Components</h3>
+                    </Col>
+                </Row>
                     <Row>
                         {this.props.components.map(this.mapAreas)}
                     </Row>

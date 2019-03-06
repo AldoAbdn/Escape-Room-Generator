@@ -15,25 +15,10 @@ class Signup extends Component {
     //Handles login form submit event
     handleSubmit = async (event) => {
         event.preventDefault();
-        //Create a new user 
-        await this.props.services.users.create({email:this.state.email, password:this.state.password});
-        //Authenticate with feathersjs
-        await this.props.feathersClient.authenticate({strategy:'local',email:this.state.email,password:this.state.password})
-        .then(async (output) => {
-            //Get User Details and Update Redux Store
-            let queryResult = await this.props.services.users.find({email:this.state.email});
-            if(queryResult.action.type.includes('FULFILLED')){
-                var user = queryResult.value.data[0];
-                user.token = window.localStorage.getItem('feathers-jwt');
-                this.props.redux.actions.login(user);
-                this.props.history.push('/dashboard');
-            } else {
-                this.setState({})
-            }
-        })
-        .catch((err) => {
-            this.setState({errorMessage:err.message});
-        });
+        if(this.props.signUp){
+            let err = await this.props.signUp({email:this.state.email,password:this.state.password});
+            this.setState({errorMessage:err});
+        }
     }
 
     //Changes state on input change
@@ -50,27 +35,29 @@ class Signup extends Component {
 
     render() {
         return (
-            <Container>
-                <Row>
-                    <Col>
-                        <Form onSubmit={this.handleSubmit}>
-                            <FormGroup>
-                                <Label for="email">Email</Label>
-                                <Input type="email" name="email" id="email" value={this.state.email} onChange={this.handleChange}/>
-                            </FormGroup>
-                            <FormGroup>
-                                <Label for="password">Password</Label>
-                                <Input type="password" name="password" id="password" value={this.state.password} onChange={this.handleChange}/>
-                            </FormGroup>
-                            <Button>Sign Up</Button>
-                            <FormText>
-                                Have an account? Log In <Link to="/login">Here</Link>
-                            </FormText>
-                            <Alert isOpen={this.state.errorMessage !== ""} toggle={this.handleDismiss} color="danger">{this.state.errorMessage}</Alert>
-                        </Form>
-                    </Col>
-                </Row>
-            </Container>
+            <div className="full-container verticaly-center-content">
+                <Container>
+                    <Row>
+                        <Col>
+                            <Form onSubmit={this.handleSubmit}>
+                                <FormGroup>
+                                    <Label for="email">Email</Label>
+                                    <Input type="email" name="email" id="email" value={this.state.email} onChange={this.handleChange}/>
+                                </FormGroup>
+                                <FormGroup>
+                                    <Label for="password">Password</Label>
+                                    <Input type="password" name="password" id="password" value={this.state.password} onChange={this.handleChange}/>
+                                </FormGroup>
+                                <Button>Sign Up</Button>
+                                <FormText>
+                                    Have an account? Log In <Link to="/login">Here</Link>
+                                </FormText>
+                                <Alert isOpen={this.state.errorMessage !== ""} toggle={this.handleDismiss} color="danger">{this.state.errorMessage}</Alert>
+                            </Form>
+                        </Col>
+                    </Row>
+                </Container>
+            </div>
         )
     }
 };

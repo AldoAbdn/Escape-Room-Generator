@@ -1,6 +1,5 @@
 import React, {Component}  from 'react';
 import YouTubePlaylist from 'react-youtube-playlist';
-import config from '../config.json';
 
 class Tutorials extends Component {
     render() {
@@ -8,7 +7,7 @@ class Tutorials extends Component {
             <YouTubePlaylist
                 width={'85%'}
                 height={'100%'}
-                api_key={config.youtubeAPIKey}
+                api_key={process.env.youtubeAPIKey}
                 playlist_id="PLWRRwFEmEuDKX5sobzWeb50xD14cpfkk3"
                 scrolling={true}
             />

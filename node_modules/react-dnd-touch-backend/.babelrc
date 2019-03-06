@@ -1,0 +1,18 @@
+{
+    "plugins": [
+        "@babel/plugin-proposal-object-rest-spread"
+    ],
+    "presets": [
+        "@babel/preset-react",
+        [
+          "@babel/preset-env",
+          {
+            "targets": {
+              "browsers": [
+                "ie >= 11"
+              ]
+            }
+          }
+        ]
+      ]
+}

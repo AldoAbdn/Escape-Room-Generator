@@ -12,10 +12,9 @@ export function removeEscapeRoom(escapeRoom){
     }
 }
 
-export function updateEscapeRoom(i, escapeRoom){
+export function updateEscapeRoom(escapeRoom){
     return {
         type: 'UPDATE_ESCAPE_ROOM',
-        i,
         escapeRoom
     }
 }

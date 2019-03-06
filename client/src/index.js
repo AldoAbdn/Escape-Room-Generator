@@ -1,3 +1,8 @@
+/**
+ * Main file, starts front end and renders App 
+ * @author Alistair Quinn
+ */
+
 //React Imports 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -16,13 +21,24 @@ import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 //Components
 import App from './components/App';
-
 //Service Worker 
 import * as serviceWorker from './serviceWorker';
-
 //ReactDnD
-import HTML5Backend from 'react-dnd-html5-backend'
+import HTML5Backend from 'react-dnd-html5-backend';
+import TouchBackend from 'react-dnd-touch-backend';
+import MultiBackend, { TouchTransition } from 'react-dnd-multi-backend';
 import { DragDropContextProvider } from 'react-dnd';
+let pipline = {
+    backends: [
+        {backend: HTML5Backend},
+        {
+            backend: TouchBackend({enableMouseEvents:true}),
+            preview: true,
+            transition: TouchTransition
+        }
+    ]
+};
+let backend = MultiBackend(pipline);
 
 //Feathers Configuration 
 export const feathersClient = feathers()
@@ -34,12 +50,12 @@ export const feathersClient = feathers()
 
 //Configure Redux
 const rawServices = reduxifyServices(feathersClient, ['users', 'escape-rooms']);
-const store = configureStore(rawServices,{user:{},escapeRooms:[],videos:[]});
+const store = configureStore(rawServices,{user:{},escapeRooms:[],escapeRoom:{}});
 const services = bindWithDispatch(store.dispatch, rawServices);
 
 //Router
 const router = (
-    <DragDropContextProvider backend={HTML5Backend}>
+    <DragDropContextProvider backend={backend}>
         <Provider store={store}>
             <BrowserRouter>
                 <App feathersClient={feathersClient} services={services} getServicesStatus={getServicesStatus}/>

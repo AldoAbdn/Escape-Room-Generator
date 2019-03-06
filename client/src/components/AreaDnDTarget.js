@@ -1,9 +1,11 @@
 import React, {Component}  from 'react';
+import ReactDOM from 'react-dom';
 import { Card, CardBody ,CardTitle } from 'reactstrap';
 import '../styles/Component.css';
 import { DropTarget } from 'react-dnd';
 import ComponentDnDSource from './ComponentDnDSource';
-import { Puzzle, Lock, Music, Event } from '../models/index.js';
+import { Puzzle, Prop, Lock, Music, Event } from '../models/index.js';
+import { ArcherContainer } from 'react-archer';
 
 const Types = {
     COMPONENT: 'COMPONENT'
@@ -16,7 +18,12 @@ const componentTarget = {
         }
         const item = monitor.getItem();
         if (item.position === undefined){
-            item.position = {top:0,left:0};
+            let clientOffset = monitor.getClientOffset();
+            let targetRect = ReactDOM.findDOMNode(component).getBoundingClientRect();
+            console.log(clientOffset);
+            console.log(targetRect);
+            item.position = {top:clientOffset.y-targetRect.y-(targetRect.height*0.20),left:clientOffset.x-targetRect.x-(targetRect.width*0.10)};
+            console.log(item);
         } else {
             const delta = monitor.getDifferenceFromInitialOffset()
             item.position.left = Math.round(item.position.left + delta.x);
@@ -44,6 +51,10 @@ class AreaDnDTarget extends Component {
             switch(item.id){
                 case 'Puzzle':
                     component = new Puzzle();
+                    component.position = item.position;
+                    break;
+                case 'Prop':
+                    component = new Prop();
                     component.position = item.position;
                     break;
                 case 'Lock':
@@ -74,15 +85,17 @@ class AreaDnDTarget extends Component {
             classNames="cantDrop";
         }
         return this.props.connectDropTarget(
-            <div className={classNames} key={this.props.component._id}>
+            <div className={classNames} key={this.props.component._id}>                
                 <Card className={this.props.component.type} onClick={this.props.handleComponentClick(this.props.component)}>
                     <CardBody>
                         <CardTitle>{this.props.component.type}</CardTitle>
-                        {this.props.component.outputComponents.map((component,i)=>{
-                            return(<ComponentDnDSource isRoot isTarget handleComponentDrop={this.props.handleComponentDrop} handleComponentClick={this.props.handleComponentClick} handleDidNotDrop={this.props.handleDidNotDrop} key={i} component={component} id={component.type}/>)
-                        })}
+                        <ArcherContainer>   
+                            {this.props.outputComponents.map((component,i)=>{
+                                return(<ComponentDnDSource key={component._id} isTarget handleComponentDrop={this.props.handleComponentDrop} handleComponentClick={this.props.handleComponentClick} handleDidNotDrop={this.props.handleDidNotDrop} component={component} findComponent={this.props.findComponent} id={component.type}/>)
+                            })}
+                            </ArcherContainer>
                     </CardBody>
-                </Card>
+                </Card>   
             </div>
         )
     }

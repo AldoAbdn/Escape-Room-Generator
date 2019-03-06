@@ -8,11 +8,19 @@
     position: relative;
     width: 100%;
     min-height: 50%;
+    height: 92%;
+    overflow: hidden;
+}
+
+.Puzzle, .Prop, .Lock, .Event, .Music {
+    width:1vw;
+    height:1vh;
+    position: absolute !important;
 }
 
 .component {
     position: relative;
-    min-width: 100px;
+    min-width: 80px;
     min-height: 100px;
     border: 1px solid rgba(0,0,0,.125);
     border-radius: .25rem;
