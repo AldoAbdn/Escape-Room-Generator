@@ -9,7 +9,7 @@ import EscapeRoom from '../models/EscapeRoom';
 class EscapeRoomDesigner extends Component {
     constructor(){
         super();
-        this.state = {activeTab:'details', dropdownOpen: false, escapeRoom:new EscapeRoom()};
+        this.state = {activeTab:'design', dropdownOpen: false, escapeRoom:new EscapeRoom()};
     }
     saveJSON(escapeRoom) {
         const blob = new Blob([JSON.stringify(escapeRoom)],{type:'text/plain;charset=utf-8'});

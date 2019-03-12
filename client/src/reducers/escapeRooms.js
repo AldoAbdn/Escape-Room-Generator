@@ -5,13 +5,11 @@ function escapeRooms(state=[],action){
             state.push(action.escapeRoom);
             return state.slice();
         case 'REMOVE_ESCAPE_ROOM':
-            i = state.indexOf(action.escapeRoom);
+            i = state.findIndex(escapeRoom => escapeRoom._id === action.escapeRoom._id);
             state.pop(i);
             return state.slice();
         case 'UPDATE_ESCAPE_ROOM':
-            i = state.findIndex((escapeRoom)=>{
-                return escapeRoom._id === action.escapeRoom._id
-            });
+            i = state.findIndex(escapeRoom=>escapeRoom._id === action.escapeRoom._id);
             state[i] = action.escapeRoom;
             return state.slice(); 
         case 'UPDATE_ESCAPE_ROOMS':

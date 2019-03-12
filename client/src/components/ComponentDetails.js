@@ -10,7 +10,7 @@ class ComponentDetails extends Component {
         this.props.handleChange(state);
     }
     mapDetailToInput = (key,i) => {
-        if(typeof this.props.selected[key] === "string" && key!=="_id"){
+        if(typeof this.props.selected[key] === "string" && key!=="_id" && key!=="type"){
             return (
                 <Row key={i}>
                     <Col>

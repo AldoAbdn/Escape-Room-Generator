@@ -9,5 +9,6 @@ export default class Component {
         this.outputComponents = [];
         this.type = "Component";
         this.position = {top:0,left:0};
+        this.estimatedCost = "";
     }
 }

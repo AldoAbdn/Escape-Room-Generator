@@ -50,10 +50,11 @@ class ComponentDnDTarget extends Component {
                 default:
                     return;
             }
-        } else {
+        }else {
             component = item;
         }
-        this.props.handleComponentDrop(component,this.props.component._id,isInput);
+        if(component._id!==this.props.component._id)
+            this.props.handleComponentDrop(component,this.props.component._id,isInput);
     }
     handleDidNotDrop = (component) => {
         this.props.handleDidNotDrop(component);

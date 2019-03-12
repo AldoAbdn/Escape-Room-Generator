@@ -19,7 +19,7 @@ class Main extends Component {
      */
     constructor(){
         super();
-        this.state = {profile:null};
+        this.state = {profile:null,tooltipOpen:false};
     }
     /**
      * React lifecycle method
@@ -151,24 +151,24 @@ class Main extends Component {
     render() {
         const loading = this.state.loading || this.props.redux.state.usersService.isLoading || this.props.redux.state.escapeRoomsService.isLoading;
         return (
-                <div>   
-                    <LoadingOverlay className={'loading-overlay'} active={loading} spinner>       
-                        <header>
-                            <h1 className="title">
-                                <Link to="/">Escape Room Generator</Link>
-                            </h1>
-                        {this.state.profile}
-                        </header>
-                        
-                        <main>
-                            <BusinessLogic history={this.props.history} feathersClient={this.props.feathersClient} redux={this.props.redux} services={this.props.services}/>
-                        </main>
-                        <footer>
-                            <Link to="/about">About</Link>
-                            <Link to="/tutorials">Tutorials</Link>
-                        </footer>
-                    </LoadingOverlay>
-                </div>
+            <div>   
+                <LoadingOverlay className={'loading-overlay'} active={loading} spinner>       
+                    <header>
+                        <h1 className="title">
+                            <Link to="/">Escape Room Generator</Link>
+                        </h1>
+                    {this.state.profile}
+                    </header>
+                    
+                    <main>
+                        <BusinessLogic history={this.props.history} feathersClient={this.props.feathersClient} redux={this.props.redux} services={this.props.services}/>
+                    </main>
+                    <footer>
+                        <Link to="/about">About</Link>
+                        <Link to="/tutorials">Tutorials</Link>
+                    </footer>
+                </LoadingOverlay>
+            </div>
         )
     }
 };
