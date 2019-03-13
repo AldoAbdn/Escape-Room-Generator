@@ -5,6 +5,7 @@ import '../styles/ComponentArranger.css';
 import Area from './AreaDnDSource';
 import AreaModel from '../models/Area';
 import { DropTarget } from 'react-dnd';
+import { ArcherContainer } from 'react-archer';
 
 const Types = {
     AREA: 'AREA'
@@ -36,17 +37,17 @@ function collect(connect, monitor) {
   }
 
 class ComponentArranger extends Component {
-    findComponent = (id)=>{
-        return this.props.components.find((component)=>id===component._id);
-    }
     mapAreas = (area,i)=>{
+        console.log(area);
         if(area.type==='Area'){
-            let outputComponents = area.outputComponents.map((componentId,i)=>{
-                return this.findComponent(componentId);
-            })
+            console.log(area.outputComponents);
+            let outputComponents = this.props.components.filter((component)=>{
+                return area.outputComponents.includes(component._id);
+            });
+            console.log(outputComponents);
             return (
                 <Col key={i} xs="12"> 
-                    <Area isTarget findComponent={this.findComponent} handleComponentClick={this.props.handleComponentClick} component={area} outputComponents={outputComponents} showModal={this.props.showModal} addComponent={this.props.addComponent} removeComponent={this.props.removeComponent} updateComponent={this.props.updateComponent} addRelationship={this.props.addRelationship}/>
+                    <Area isTarget findComponent={this.props.findComponent} handleComponentClick={this.props.handleComponentClick} component={area} outputComponents={outputComponents} showModal={this.props.showModal} addComponent={this.props.addComponent} removeComponent={this.props.removeComponent} updateComponent={this.props.updateComponent} addRelationship={this.props.addRelationship}/>
                 </Col>
             )  
         }
@@ -57,6 +58,7 @@ class ComponentArranger extends Component {
         }
     }
     render() {
+        console.log('render');
         var classNames;
         if(this.props.isOver && this.props.canDrop){
             classNames="canDrop"
@@ -65,6 +67,7 @@ class ComponentArranger extends Component {
         }
         return this.props.connectDropTarget(
             <div className={classNames}>
+                <ArcherContainer> 
                 <Container className="component-arranger">
                 <Row>
                     <Col>
@@ -75,6 +78,7 @@ class ComponentArranger extends Component {
                         {this.props.components.map(this.mapAreas)}
                     </Row>
                 </Container>
+                </ArcherContainer>
             </div>
         )
     }

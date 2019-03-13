@@ -4,27 +4,24 @@ function escapeRoom(state={},action){
     switch(action.type){
         case 'SET_SELECTED_ESCAPE_ROOM':
             return {...action.escapeRoom};
-            
         case 'CLEAR_SELECTED_ESCAPE_ROOM':
             return {}
-            
         case 'UPDATE_DETAILS':
             newState = {...state};
             newState.details = {...newState.details, ...action.details};
             return newState;
-            
         case 'UPDATE_ACCESSIBILITY':
             newState = {...state};
             newState.accessibility = {...newState.accessibility, ...action.accessibility};
             return newState;
-            
         case 'ADD_COMPONENT':
             newState = {...state};
             newState.components.push(action.component);
-            i = newState.components.findIndex(component=>component._id===action.areaId);
-            newState.components[i].outputComponents.push(action.component._id);
+            if(action.areaId!==undefined){
+                i = newState.components.findIndex(component=>component._id===action.areaId);
+                newState.components[i].outputComponents.push(action.component._id);
+            }
             return newState;
-            
         case 'REMOVE_COMPONENT':
             newState = {...state};
             i = newState.components.findIndex(component=>component._id===action.componentId);
@@ -34,13 +31,11 @@ function escapeRoom(state={},action){
                 components[index].outputComponents = component.outputComponents.filter(outputId=>outputId!==action.componentId);
             })
             return newState;
-            
         case 'UPDATE_COMPONENT':
             newState = {...state};
             i = newState.components.findIndex(component=>component._id===action.component._id);
             newState.components[i] = {...newState.components[i],...action.component};
             return newState;
-            
         case 'ADD_RELATIONSHIP':
             newState = {...state};
             newState.components.forEach((component,index,components)=>{
@@ -55,7 +50,6 @@ function escapeRoom(state={},action){
                 }
             });
             return newState;
-            
         case 'REMOVE_RELATIONSHIP':
             newState = {...state};
             newState.components.forEach((component,index,components)=>{
@@ -70,7 +64,6 @@ function escapeRoom(state={},action){
                 }
             });
             return newState;
-            
         default:
             return state;
     }

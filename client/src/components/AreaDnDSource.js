@@ -43,7 +43,7 @@ const areaSource = {
   },
 
   endDrag(props, monitor, component) {
-    if (!monitor.didDrop()) {
+    if (!monitor.didDrop() && component!=null) {
       props.showModal(new Modal("Warning", "Are you sure you want to delete this component?","Yes",component.removeComponent,"No",()=>{}));
       return;
     }
@@ -71,8 +71,8 @@ class AreaDnDSource extends Component{
     this.props.addComponent(component,this.props.component._id);
     this.props.addRelationship(component._id,parentId);
   }  
-
   render() {
+    console.log('area-render');
     var target;
     if (this.props.isTarget){
       target = (

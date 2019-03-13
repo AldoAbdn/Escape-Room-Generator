@@ -88,7 +88,7 @@ class BusinessLogic extends Component {
             const escapeRoom = response.value;
             if (escapeRoom!==null){
                 this.props.redux.actions.escapeRooms.addEscapeRoom(escapeRoom);
-                this.props.redux.actions.escapeRooms.setSelectedEscapeRoom(escapeRoom);
+                this.props.redux.actions.escapeRoom.setSelectedEscapeRoom(escapeRoom);
                 this.props.history.push('/designer');
             }
         }

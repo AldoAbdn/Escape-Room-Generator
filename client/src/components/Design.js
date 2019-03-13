@@ -11,6 +11,10 @@ class Design extends Component {
         e.stopPropagation();
         this.setState({selected:component});
     }
+    updateComponent = (component) => {
+        this.props.updateComponent(component);
+        this.setState({selected:{...this.state.selected,...component}})
+    }
     render(){
         return (
             <Container>
@@ -22,7 +26,7 @@ class Design extends Component {
                         <ComponentArranger showModal={this.props.showModal} handleComponentClick={this.handleComponentClick} updateComponent={this.props.updateComponent} addComponent={this.props.addComponent} removeComponent={this.props.removeComponent} addRelationship={this.props.addRelationship} components={this.props.components.components}/>            
                     </Col>
                     <Col md="2">
-                        <ComponentDetails selected={this.state.selected} updateComponent={this.props.updateComponent}/>
+                        <ComponentDetails selected={this.state.selected} updateComponent={this.updateComponent}/>
                     </Col>
                 </Row>
             </Container>
