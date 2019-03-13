@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/AldoAbdn/Escape-Room-Generator#readme",
   "dependencies": {
-    "concurrently": "^4.1.0"
+    "concurrently": "^4.1.0",
+    "win-node-env": "^0.4.0"
   }
 }

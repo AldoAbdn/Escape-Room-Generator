@@ -14,7 +14,7 @@ const areaArrangerTarget = {
     drop(props, monitor, component){
         const item = monitor.getItem();
         if(item.component===undefined || item.component===null){
-            component.props.handleComponentDrop(new AreaModel());
+            component.props.addComponent(new AreaModel());
         }
     }
 }
@@ -36,15 +36,17 @@ function collect(connect, monitor) {
   }
 
 class ComponentArranger extends Component {
+    findComponent = (id)=>{
+        return this.props.components.find((component)=>id===component._id);
+    }
     mapAreas = (area,i)=>{
         if(area.type==='Area'){
-            
             let outputComponents = area.outputComponents.map((componentId,i)=>{
-                return this.props.findComponent(componentId);
+                return this.findComponent(componentId);
             })
             return (
                 <Col key={i} xs="12"> 
-                    <Area isTarget findComponent={this.props.findComponent} component={area} outputComponents={outputComponents} handleDidNotDrop={this.props.handleDidNotDrop} handleComponentDrop={this.props.handleComponentDrop} handleComponentClick={this.props.handleComponentClick}/>
+                    <Area isTarget findComponent={this.findComponent} handleComponentClick={this.props.handleComponentClick} component={area} outputComponents={outputComponents} showModal={this.props.showModal} addComponent={this.props.addComponent} removeComponent={this.props.removeComponent} updateComponent={this.props.updateComponent} addRelationship={this.props.addRelationship}/>
                 </Col>
             )  
         }

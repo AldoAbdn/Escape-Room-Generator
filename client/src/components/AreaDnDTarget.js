@@ -69,10 +69,11 @@ class AreaDnDTarget extends Component {
                 default:
                     return;
             }
+            this.props.addComponent(component,this.props.component._id);
         } else {
             component = item;
+            this.props.updateComponent(component);
         }
-        this.props.handleComponentDrop(component,this.props.component._id,isInput);
     }
     render() {
         var classNames;
@@ -88,8 +89,7 @@ class AreaDnDTarget extends Component {
                         <CardTitle>{this.props.component.type}</CardTitle>
                         <ArcherContainer>   
                             {this.props.outputComponents.map((component,i)=>{
-                                console.log(component);
-                                return(<ComponentDnDSource key={component._id} isTarget handleComponentDrop={this.props.handleComponentDrop} handleComponentClick={this.props.handleComponentClick} handleDidNotDrop={this.props.handleDidNotDrop} component={component} findComponent={this.props.findComponent} id={component.type}/>)
+                                return(<ComponentDnDSource key={component._id} isTarget handleComponentClick={this.props.handleComponentClick}  component={component} findComponent={this.props.findComponent} id={component.type} showModal={this.props.showModal} addComponent={this.props.addComponent} removeComponent={this.props.removeComponent} addRelationship={this.props.addRelationship}/>)
                             })}
                             </ArcherContainer>
                     </CardBody>

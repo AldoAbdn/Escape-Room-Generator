@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { Container, Row, Col, Dropdown, DropdownToggle, DropdownMenu, DropdownItem , ListGroup, ListGroupItem , Button } from 'reactstrap';
 import { saveAs } from 'file-saver';
 import jsPDF from 'jspdf';
+import Modal from '../models/Modal';
 
 class Dashboard extends Component {
     constructor(props){
@@ -43,7 +44,7 @@ class Dashboard extends Component {
                 break;
             case 'DELETE':
                 if(this.props.deleteEscapeRoom)
-                    this.props.deleteEscapeRoom(escapeRoom);
+                    this.props.showModal(new Modal("Warning","Are you sure you want to delete "+escapeRoom.details.name+"?","Yes",()=>{this.props.deleteEscapeRoom(escapeRoom)},"No",()=>{}));
                 break;
             default:
                 return;

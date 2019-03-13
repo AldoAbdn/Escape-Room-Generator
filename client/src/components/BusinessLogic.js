@@ -33,7 +33,7 @@ class BusinessLogic extends Component {
             if(queryResult.action.type.includes('FULFILLED')&&queryResult.value.total>0){
                 var user = queryResult.value.data[0];
                 user.token = window.localStorage.getItem('feathers-jwt');
-                this.props.redux.actions.login(user);
+                this.props.redux.actions.user.login(user);
                 this.props.history.push('/dashboard');
             } else {
                 this.setState({})
@@ -58,7 +58,7 @@ class BusinessLogic extends Component {
             if(queryResult.action.type.includes('FULFILLED')){
                 var user = queryResult.value.data[0];
                 user.token = window.localStorage.getItem('feathers-jwt');
-                this.props.redux.actions.login(user);
+                this.props.redux.actions.user.login(user);
                 this.props.history.push('/dashboard');
             }
         } catch(error){
@@ -71,7 +71,8 @@ class BusinessLogic extends Component {
      * @param {EscapeRoom} escapeRoom
      */
     editEscapeRoom = (escapeRoom) => {
-        this.props.redux.actions.setEscapeRoom(escapeRoom);
+        console.log(this.props);
+        this.props.redux.actions.escapeRoom.setSelectedEscapeRoom(escapeRoom);
         this.props.history.push('/designer');
     }
     /**
@@ -86,8 +87,8 @@ class BusinessLogic extends Component {
         if(response.action.type.includes('FULFILLED')){
             const escapeRoom = response.value;
             if (escapeRoom!==null){
-                this.props.redux.actions.addEscapeRoom(escapeRoom);
-                this.props.redux.actions.setEscapeRoom(escapeRoom);
+                this.props.redux.actions.escapeRooms.addEscapeRoom(escapeRoom);
+                this.props.redux.actions.escapeRooms.setSelectedEscapeRoom(escapeRoom);
                 this.props.history.push('/designer');
             }
         }
@@ -99,7 +100,7 @@ class BusinessLogic extends Component {
      */
     deleteEscapeRoom = (escapeRoom) => {
         this.props.services['escape-rooms'].remove(escapeRoom._id);
-        this.props.redux.actions.removeEscapeRoom(escapeRoom);
+        this.props.redux.actions.escapeRooms.removeEscapeRoom(escapeRoom);
     }
     /**
      * Updates users details 
@@ -110,7 +111,7 @@ class BusinessLogic extends Component {
         try{
             const user = this.props.redux.state.user;
             let response = await this.props.services.users.patch(user._id,update);
-            this.props.redux.actions.login(response.value);
+            this.props.redux.actions.user.login(response.value);
             this.props.history.push('/profile');
             return true;
         }catch(error){
@@ -125,7 +126,7 @@ class BusinessLogic extends Component {
     saveEscapeRoom = async(escapeRoom) => {
         if(escapeRoom._id!==undefined){
             await this.props.services['escape-rooms'].update(escapeRoom._id,escapeRoom);
-            await this.props.redux.actions.updateEscapeRoom(escapeRoom);
+            await this.props.redux.actions.escapeRooms.updateEscapeRoom(escapeRoom);
         }
         this.props.history.push('/');
     }
@@ -137,13 +138,15 @@ class BusinessLogic extends Component {
     render() {
         const escapeRooms = this.props.redux.state.escapeRooms;
         const escapeRoom = this.props.redux.state.escapeRoom;
+        const escapeRoomActions = this.props.redux.actions.escapeRoom;
         const user = this.props.redux.state.user;
+        const showModal = this.props.redux.actions.modal.showModal;
         return (
             <Switch>
                 <Redirect exact from="/" to="dashboard"/>
-                <ProtectedRoute path="/dashboard" render={(routeProps) => (<Dashboard escapeRooms={escapeRooms} editEscapeRoom={this.editEscapeRoom} newEscapeRoom={this.newEscapeRoom} deleteEscapeRoom={this.deleteEscapeRoom}/>)}/>
+                <ProtectedRoute path="/dashboard" render={(routeProps) => (<Dashboard escapeRooms={escapeRooms} showModal={showModal} editEscapeRoom={this.editEscapeRoom} newEscapeRoom={this.newEscapeRoom} deleteEscapeRoom={this.deleteEscapeRoom}/>)}/>
                 <ProtectedRoute path="/profile" condition={Object.keys(user).length > 0 && user!==undefined} redirect={'/login'} render={(routeProps) => (<Profile user={user} updateUser={this.updateUser}/>)}/>
-                <ProtectedRoute path="/designer" condition={Object.keys(escapeRoom).length > 0 &&escapeRoom!==undefined} redirect={'/'} render={(routeProps) =>(<EscapeRoomDesigner escapeRoom={escapeRoom} saveEscapeRoom={this.saveEscapeRoom}/>)}/>
+                <ProtectedRoute path="/designer" condition={Object.keys(escapeRoom).length > 0 &&escapeRoom!==undefined} redirect={'/'} render={(routeProps) =>(<EscapeRoomDesigner showModal={showModal} escapeRoom={escapeRoom} saveEscapeRoom={this.saveEscapeRoom} updateDetails={escapeRoomActions.updateDetails} updateAccessibility={escapeRoomActions.updateAccessibility} addComponent={escapeRoomActions.addComponent} removeComponent={escapeRoomActions.removeComponent} updateComponent={escapeRoomActions.updateComponent} addRelationship={escapeRoomActions.addRelationship} removeRelationship={escapeRoomActions.removeRelationship}/>)}/>
                 <Route path="/login" render={(routeProps) => (<Login authenticateCredentials={this.authenticateCredentials}/>)}/>
                 <Route path="/signup" render={(routeProps) => (<Signup signUp={this.signUp}/>)}/>
                 <Route path="/about" component={About}/>

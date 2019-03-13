@@ -7,7 +7,7 @@ class ComponentDetails extends Component {
         let state = {};
         state[event.target.id] = event.target.value;  
         state._id = this.props.selected._id;  
-        this.props.handleChange(state);
+        this.props.updateComponent(state);
     }
     mapDetailToInput = (key,i) => {
         if(typeof this.props.selected[key] === "string" && key!=="_id" && key!=="type"){
@@ -31,7 +31,7 @@ class ComponentDetails extends Component {
         } else {
             state.outputComponents = component.outputComponents.filter(oldId => oldId!==id);
         }
-        this.props.handleChange(state);
+        this.props.updateComponent(state);
     }
     mapIDToP = (id,i,isInput) => {
         return (

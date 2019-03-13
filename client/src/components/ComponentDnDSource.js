@@ -4,6 +4,7 @@ import ComponentDnDTarget from './ComponentDnDTarget';
 import { Row, Col } from 'reactstrap'
 import '../styles/Component.css';
 import { ArcherElement } from 'react-archer';
+import Modal from '../models/Modal';
 
 // Drag sources and drop targets only interact
 // if they have the same string type.
@@ -41,8 +42,8 @@ const componentSource = {
   endDrag(props, monitor, component) {
     if (!monitor.didDrop()) {
       if(props.component!==undefined||props.component!==null)
-        component.handleDidNotDrop(props.component);
-      return;
+        props.showModal(new Modal("Warning", "Are you sure you want to delete this component?","Yes",component.removeComponent,"No",()=>{}));
+        return;
     }
   }
 };
@@ -61,9 +62,8 @@ function collect(connect, monitor) {
 }
 
 class ComponentDnDSource extends Component{
-  handleDidNotDrop = (component)=>{
-    if(this.props.handleDidNotDrop!==undefined)
-      this.props.handleDidNotDrop(component);
+  removeComponent = ()=>{
+    this.props.removeComponent(this.props.component._id);
   }
   mapRelationships = (componentId,type) => {
     let style;
@@ -107,8 +107,8 @@ class ComponentDnDSource extends Component{
       if (this.props.isTarget){
         target = (
           <Row>
-              <Col xs="6"><ComponentDnDTarget isInput={true} component={this.props.component} handleDidNotDrop={this.props.handleDidNotDrop} handleComponentDrop={this.props.handleComponentDrop} handleComponentClick={this.props.handleComponentClick}/></Col>
-              <Col xs="6"><ComponentDnDTarget isInput={false} component={this.props.component} handleDidNotDrop={this.props.handleDidNotDrop} handleComponentDrop={this.props.handleComponentDrop} handleComponentClick={this.props.handleComponentClick}/></Col>
+              <Col xs="6"><ComponentDnDTarget isInput={true} component={this.props.component} handleComponentClick={this.props.handleComponentClick} showModal={this.props.showModal} addComponent={this.props.addComponent} removeComponent={this.props.removeComponent} addRelationship={this.props.addRelationship}/></Col>
+              <Col xs="6"><ComponentDnDTarget isInput={false} component={this.props.component} handleComponentClick={this.props.handleComponentClick} showModal={this.props.showModal} addComponent={this.props.addComponent} removeComponent={this.props.removeComponent} addRelationship={this.props.addRelationship}/></Col>
           </Row>  
         );
       }

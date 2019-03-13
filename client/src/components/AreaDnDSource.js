@@ -3,6 +3,7 @@ import { DragSource } from 'react-dnd';
 import AreaDnDTarget from './AreaDnDTarget';
 import '../styles/Component.css';
 import { Card } from 'reactstrap';
+import Modal from '../models/Modal';
 
 // Drag sources and drop targets only interact
 // if they have the same string type.
@@ -43,9 +44,7 @@ const areaSource = {
 
   endDrag(props, monitor, component) {
     if (!monitor.didDrop()) {
-      if (props.handleDidNotDrop){
-        props.handleDidNotDrop(props.component);
-      }
+      props.showModal(new Modal("Warning", "Are you sure you want to delete this component?","Yes",component.removeComponent,"No",()=>{}));
       return;
     }
   }
@@ -65,23 +64,31 @@ function collect(connect, monitor) {
 }
 
 class AreaDnDSource extends Component{
-    render() {
-      var target;
-      if (this.props.isTarget){
-        target = (
-          <AreaDnDTarget findComponent={this.props.findComponent} outputComponents={this.props.outputComponents} component={this.props.component} handleDidNotDrop={this.props.handleDidNotDrop} handleComponentDrop={this.props.handleComponentDrop} handleComponentClick={this.props.handleComponentClick}/>
-        );
-      }
+  removeComponent = ()=>{
+    this.props.removeComponent(this.props.component._id);
+  }
+  addComponent = (component,parentId)=>{
+    this.props.addComponent(component,this.props.component._id);
+    this.props.addRelationship(component._id,parentId);
+  }  
 
-      return this.props.connectDragSource(
-          <div onClick={this.props.handleComponentClick(this.props.component)}>
-            <Card className={"component"}>
-              {this.props.id}
-              {target}
-            </Card>
-          </div>
-      )
+  render() {
+    var target;
+    if (this.props.isTarget){
+      target = (
+        <AreaDnDTarget findComponent={this.props.findComponent} handleComponentClick={this.props.handleComponentClick} outputComponents={this.props.outputComponents} component={this.props.component} showModal={this.props.showModal} addComponent={this.props.addComponent} updateComponent={this.props.updateComponent} removeComponent={this.props.removeComponent} addRelationship={this.props.addRelationship}/>
+      );
     }
+
+    return this.props.connectDragSource(
+        <div onClick={this.props.handleComponentClick(this.props.component)}>
+          <Card className={"component"}>
+            {this.props.id}
+            {target}
+          </Card>
+        </div>
+    )
+  }
 };
 
 export default DragSource(Types.AREA, areaSource, collect)(AreaDnDSource);

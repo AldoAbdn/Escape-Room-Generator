@@ -2,7 +2,7 @@ import React, {Component}  from 'react';
 import { Card, CardBody } from 'reactstrap';
 import '../styles/Component.css';
 import { DropTarget } from 'react-dnd';
-import { Puzzle, Event, Music, Lock } from '../models/index';
+import { Puzzle, Event, Music, Lock, Prop } from '../models/index';
 
 const Types = {
     COMPONENT: 'COMPONENT'
@@ -47,17 +47,19 @@ class ComponentDnDTarget extends Component {
                 case 'Music':
                     component = new Music();
                     break;
+                case 'Prop':
+                    component = new Prop();
+                    break;
                 default:
                     return;
             }
+            this.props.addComponent(component,this.props.component._id);
         }else {
             component = item;
+            if(component._id!==this.props.component._id)
+                this.props.addRelationship(component._id,this.props.component._id,isInput);
         }
-        if(component._id!==this.props.component._id)
-            this.props.handleComponentDrop(component,this.props.component._id,isInput);
-    }
-    handleDidNotDrop = (component) => {
-        this.props.handleDidNotDrop(component);
+
     }
     render() {
         var classNames;

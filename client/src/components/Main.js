@@ -1,6 +1,6 @@
 import React, {Component}  from 'react';
 import { Link } from 'react-router-dom';
-import { Button } from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import LoadingOverlay from 'react-loading-overlay';
 import '../styles/Main.css';
 
@@ -92,7 +92,7 @@ class Main extends Component {
             return null;
         }
         user.token = window.localStorage.getItem('feathers-jwt');
-        this.props.redux.actions.login(user);
+        this.props.redux.actions.user.login(user);
         this.setProfile(true);
         return user;
     }
@@ -109,7 +109,7 @@ class Main extends Component {
             if(queryResult.action.type.includes('FULFILLED')){
                 const escapeRooms = queryResult.value.data;
                 if (escapeRooms!==null && escapeRooms!==undefined)
-                    this.props.redux.actions.updateEscapeRooms(escapeRooms);
+                    this.props.redux.actions.escapeRooms.updateEscapeRooms(escapeRooms);
                     this.setState({loading:false});
                 }
         }
@@ -121,7 +121,7 @@ class Main extends Component {
     logout = () => {
         window.localStorage.removeItem('feathers-jwt');
         this.setState({profile:null});
-        this.props.redux.actions.logout();
+        this.props.redux.actions.user.logout();
         this.props.history.push('/');
     }
     /**
@@ -150,6 +150,8 @@ class Main extends Component {
      */
     render() {
         const loading = this.state.loading || this.props.redux.state.usersService.isLoading || this.props.redux.state.escapeRoomsService.isLoading;
+        const modal = this.props.redux.state.modal;
+        const hideModal = this.props.redux.actions.modal.hideModal;
         return (
             <div>   
                 <LoadingOverlay className={'loading-overlay'} active={loading} spinner>       
@@ -168,6 +170,22 @@ class Main extends Component {
                         <Link to="/tutorials">Tutorials</Link>
                     </footer>
                 </LoadingOverlay>
+                <Modal isOpen={modal.isOpen} >
+                    <ModalHeader>{modal.header}</ModalHeader>
+                    <ModalBody>
+                        {modal.body}
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color="success" onClick={()=>{
+                            modal.confirm.action();
+                            hideModal();
+                        }}>{modal.confirm.text}</Button>
+                        <Button color="danger" onClick={()=>{
+                            modal.cancel.action();
+                            hideModal();
+                        }}>{modal.cancel.text}</Button>
+                    </ModalFooter>
+                </Modal>
             </div>
         )
     }
