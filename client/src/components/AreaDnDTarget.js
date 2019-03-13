@@ -88,6 +88,7 @@ class AreaDnDTarget extends Component {
                         <CardTitle>{this.props.component.type}</CardTitle>
                         <ArcherContainer>   
                             {this.props.outputComponents.map((component,i)=>{
+                                console.log(component);
                                 return(<ComponentDnDSource key={component._id} isTarget handleComponentDrop={this.props.handleComponentDrop} handleComponentClick={this.props.handleComponentClick} handleDidNotDrop={this.props.handleDidNotDrop} component={component} findComponent={this.props.findComponent} id={component.type}/>)
                             })}
                             </ArcherContainer>

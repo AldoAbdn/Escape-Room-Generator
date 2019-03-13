@@ -59,6 +59,7 @@ class Design extends Component {
     }
     handleDidNotDrop = (component) => {
         var components = this.removeComponent(component._id);
+        console.log(components);
         this.props.handleChange(components);
     }
     //Changes state on input change
@@ -89,26 +90,14 @@ class Design extends Component {
     }
     removeComponent = (id)=>{
         let components = [...this.props.state.components];
-        components.forEach((component,index,components)=>{
-            if(component._id===id){
-                components.splice(index,1);
-            } else {
-                components[index].inputComponents = component.inputComponents.filter(inputId=>inputId!==id);
-                component[index].outputComponents = component.outputComponents.filter(outputId=>outputId!==id);
-            }
-        });
+        components = this.removeRelationships(id).filter(component=>component._id!=id);
         return components;
     }
-    removeRelationship = (componentId,parentId,isInput)=>{
+    removeRelationships = (id)=>{
         let components = [...this.props.state.components];
         components.forEach((component,index,components)=>{
-            if(component._id===parentId){
-                if(isInput){
-                    components[index].inputComponents = component.inputComponents.filter(inputId=>inputId!==componentId);
-                } else {
-                    component[index].outputComponents = component.outputComponents.filter(outputId=>outputId!==componentId);
-                }
-            }
+            components[index].inputComponents = component.inputComponents.filter(inputId=>inputId!==id);
+            components[index].outputComponents = component.outputComponents.filter(outputId=>outputId!==id);
         })
         return components;
     }

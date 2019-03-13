@@ -38,6 +38,7 @@ function collect(connect, monitor) {
 class ComponentArranger extends Component {
     mapAreas = (area,i)=>{
         if(area.type==='Area'){
+            
             let outputComponents = area.outputComponents.map((componentId,i)=>{
                 return this.props.findComponent(componentId);
             })
