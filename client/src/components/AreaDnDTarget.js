@@ -20,10 +20,7 @@ const componentTarget = {
         if (item.position === undefined){
             let clientOffset = monitor.getClientOffset();
             let targetRect = ReactDOM.findDOMNode(component).getBoundingClientRect();
-            console.log(clientOffset);
-            console.log(targetRect);
             item.position = {top:clientOffset.y-targetRect.y-(targetRect.height*0.20),left:clientOffset.x-targetRect.x-(targetRect.width*0.10)};
-            console.log(item);
         } else {
             const delta = monitor.getDifferenceFromInitialOffset()
             item.position.left = Math.round(item.position.left + delta.x);
