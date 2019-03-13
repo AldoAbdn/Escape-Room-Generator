@@ -72,11 +72,8 @@ class Design extends Component {
     updateComponent = (newComponent) => {
         let id = newComponent._id;
         let components = [...this.props.state.components];
-        components.forEach((component,index,components)=>{
-            if(component._id===id){
-                components[index] = newComponent;
-            }
-        });
+        let i = components.findIndex(component=>component._id===id);
+        components[i] = newComponent;
         return components;
     }
     findComponent = (id)=>{
@@ -94,16 +91,10 @@ class Design extends Component {
         let components = [...this.props.state.components];
         components.forEach((component,index,components)=>{
             if(component._id===id){
-                components.pop(index);
+                components.splice(index,1);
             } else {
-                let relationships = [component.inputComponents,component.outputComponents];
-                relationships.forEach((list,index,lists)=>{
-                    list.forEach((componentId,index,componentIds)=>{
-                        if(componentId===id){
-                            componentIds.pop(index);
-                        }
-                    })
-                })
+                components[index].inputComponents = component.inputComponents.filter(inputId=>inputId!==id);
+                component[index].outputComponents = component.outputComponents.filter(outputId=>outputId!==id);
             }
         });
         return components;
@@ -113,17 +104,9 @@ class Design extends Component {
         components.forEach((component,index,components)=>{
             if(component._id===parentId){
                 if(isInput){
-                    component.inputComponents.forEach((id,index,ids)=>{
-                        if(id===componentId){
-                            ids.pop(index);
-                        }
-                    })
+                    components[index].inputComponents = component.inputComponents.filter(inputId=>inputId!==componentId);
                 } else {
-                    component.outputComponents.forEach((id,index,ids)=>{
-                        if(id===componentId){
-                            ids.pop(index);
-                        }
-                    })
+                    component[index].outputComponents = component.outputComponents.filter(outputId=>outputId!==componentId);
                 }
             }
         })

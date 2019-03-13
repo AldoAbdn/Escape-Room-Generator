@@ -99,7 +99,6 @@ class BusinessLogic extends Component {
      */
     deleteEscapeRoom = (escapeRoom) => {
         this.props.services['escape-rooms'].remove(escapeRoom._id);
-        console.log(escapeRoom);
         this.props.redux.actions.removeEscapeRoom(escapeRoom);
     }
     /**
