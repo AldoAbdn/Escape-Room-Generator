@@ -10,8 +10,11 @@ class ComponentDetails extends Component {
         state._id = this.props.selected._id;  
         this.props.updateComponent(state);
     }
+    handleOutputChange = (output)=>{
+        this.props.updateComponent({output});
+    }
     mapDetailToInput = (key,i) => {
-        if(typeof this.props.selected[key] === "string" && key!=="_id" && key!=="type" && key!=="lockType" && key!=="eventType" && key!="puzzleType"){
+        if(typeof this.props.selected[key] === "string" && key!=="_id" && key!=="type" && key!=="lockType" && key!=="eventType" && key!="puzzleType" && key!="output"){
             return (
                 <Row key={i}>
                     <Col>
@@ -30,7 +33,7 @@ class ComponentDetails extends Component {
                 <Col>
                     <Label for={key}>{key}</Label>
                     <Input type="text" name={key} id={key} placeholder={key} value={this.props.selected[key]} onChange={this.handleChange}/>
-                    <button onClick={this.generateFromInputs}>Generate From Inputs</button>
+                    <Button color="primary" onClick={this.generateFromInputs}>Generate From Inputs</Button>
                     {generator}
                 </Col>
             </Row>)

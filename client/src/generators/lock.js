@@ -1,7 +1,7 @@
 import RandomWords from 'random-words';
 
 class LockGenerator {
-    generatorNumericCombination(length){
+    generateNumericCombination(length){
         let number = "";
         for(let i = 0 ; i<length; i++){
             number += parseInt(Math.floor(Math.random()*9));
@@ -9,11 +9,13 @@ class LockGenerator {
         return number;
     }
 
-    generateWords(amount=1,wordsPerString=1,separator='',formatter=(word)=>{return word}){
-        return RandomWords({exactly:amount,wordsPerString,separator,formatter})
+    generateWords(amount=1,wordsPerString=1){
+        console.log(amount);
+        let words = RandomWords({min:amount,max:amount,exactly:amount,wordsPerString:wordsPerString});
+        return words.slice(0,amount);
     }
 
-    generatorDirectionSequence(length){
+    generateDirectionSequence(length){
         let sequence = [];
         let directions = ["UP","DOWN","LEFT","RIGHT"];
         let number;
@@ -24,3 +26,5 @@ class LockGenerator {
         return sequence.join(',');
     }
 }
+
+export default LockGenerator;
