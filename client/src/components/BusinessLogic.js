@@ -124,6 +124,7 @@ class BusinessLogic extends Component {
      */
     saveEscapeRoom = async(escapeRoom) => {
         if(escapeRoom._id!==undefined){
+            escapeRoom.estimatedCost = EscapeRoom.calculateCost(escapeRoom);
             await this.props.services['escape-rooms'].update(escapeRoom._id,escapeRoom);
             await this.props.redux.actions.escapeRooms.updateEscapeRoom(escapeRoom);
         }

@@ -50,7 +50,11 @@ class Details extends Component {
                         <FormGroup>
                             <Label for="description">Description</Label>
                             <Input type="textarea" name="description" id="description" placeholder="Description" value={this.props.details.description} onChange={this.handleChange}/>
-                        </FormGroup>                        
+                        </FormGroup>       
+                        <FormGroup>
+                            <Label for="estimatedCost">Estimated Cost</Label>
+                            <p>{this.props.details.estimatedCost}</p>    
+                        </FormGroup>             
                     </Form>
                 </Col>
             </Row>

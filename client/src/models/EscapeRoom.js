@@ -11,7 +11,8 @@ export default class EscapeRoom {
             targetTime: "",
             difficulty: "3",
             objective: "",
-            description: ""
+            description: "",
+            estimatedCost: ""
         }
         this.accessibility = {
             protanomaly: false,
@@ -27,4 +28,18 @@ export default class EscapeRoom {
         }
         this.components = [new Area()]
     }  
+
+    static calculateCost(escapeRoom){
+        let components = escapeRoom.components;
+        let cost = 0;
+        for (let component of components){
+            let estimatedCost = component.estimatedCost;
+            if(!isNaN(parseFloat(estimatedCost))){
+                cost += parseFloat(estimatedCost);
+            } else if (!isNaN(parseFloat(estimatedCost))){
+                cost += parseInt(estimatedCost);
+            }
+        }
+        return cost;
+    }
 }

@@ -1,3 +1,4 @@
+import EscapeRoom from '../models/EscapeRoom';
 function escapeRoom(state={},action){
     let newState = {};
     let i;
@@ -21,6 +22,7 @@ function escapeRoom(state={},action){
                 i = newState.components.findIndex(component=>component._id===action.areaId);
                 newState.components[i].outputComponents.push(action.component._id);
             }
+            newState.details.estimatedCost = EscapeRoom.calculateCost(newState);
             return newState;
         case 'REMOVE_COMPONENT':
             newState = {...state};
@@ -30,11 +32,13 @@ function escapeRoom(state={},action){
                 components[index].inputComponents = component.inputComponents.filter(inputId=>inputId!==action.componentId);
                 components[index].outputComponents = component.outputComponents.filter(outputId=>outputId!==action.componentId);
             })
+            newState.details.estimatedCost = EscapeRoom.calculateCost(newState);
             return newState;
         case 'UPDATE_COMPONENT':
             newState = {...state};
             i = newState.components.findIndex(component=>component._id===action.component._id);
             newState.components[i] = {...newState.components[i],...action.component};
+            newState.details.estimatedCost = EscapeRoom.calculateCost(newState);
             return newState;
         case 'ADD_RELATIONSHIP':
             newState = {...state};
