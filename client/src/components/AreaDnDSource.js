@@ -64,10 +64,17 @@ function collect(connect, monitor) {
 }
 
 class AreaDnDSource extends Component{
+  constructor(){
+    super();
+    this.state={render:true};
+  }
   removeComponent = ()=>{
     this.props.removeComponent(this.props.component._id);
   }
   addComponent = (component,parentId)=>{
+    console.log(this.props);
+    console.log(component);
+    console.log(parentId);
     this.props.addComponent(component,this.props.component._id);
     this.props.addRelationship(component._id,parentId);
   }  
@@ -76,7 +83,7 @@ class AreaDnDSource extends Component{
     var target;
     if (this.props.isTarget){
       target = (
-        <AreaDnDTarget findComponent={this.props.findComponent} handleComponentClick={this.props.handleComponentClick} outputComponents={this.props.outputComponents} component={this.props.component} showModal={this.props.showModal} addComponent={this.props.addComponent} updateComponent={this.props.updateComponent} removeComponent={this.props.removeComponent} addRelationship={this.props.addRelationship}/>
+        <AreaDnDTarget addRef={this.props.addRef} findComponent={this.props.findComponent} handleComponentClick={this.props.handleComponentClick} outputComponents={this.props.outputComponents} component={this.props.component} showModal={this.props.showModal} addComponent={this.addComponent} updateComponent={this.props.updateComponent} removeComponent={this.props.removeComponent} addRelationship={this.props.addRelationship}/>
       );
     }
 

@@ -6,6 +6,7 @@ import Area from './AreaDnDSource';
 import AreaModel from '../models/Area';
 import { DropTarget } from 'react-dnd';
 import { ArcherContainer } from 'react-archer';
+import LineTo from 'react-lineto';
 
 const Types = {
     AREA: 'AREA'
@@ -37,8 +38,11 @@ function collect(connect, monitor) {
   }
 
 class ComponentArranger extends Component {
+    constructor(){
+        super()
+        this.state = {refs:[]}
+    }
     mapAreas = (area,i)=>{
-        console.log(area);
         if(area.type==='Area'){
             console.log(area.outputComponents);
             let outputComponents = this.props.components.filter((component)=>{
@@ -46,17 +50,41 @@ class ComponentArranger extends Component {
             });
             console.log(outputComponents);
             return (
-                <Col key={i} xs="12"> 
-                    <Area isTarget findComponent={this.props.findComponent} handleComponentClick={this.props.handleComponentClick} component={area} outputComponents={outputComponents} showModal={this.props.showModal} addComponent={this.props.addComponent} removeComponent={this.props.removeComponent} updateComponent={this.props.updateComponent} addRelationship={this.props.addRelationship}/>
+                <Col key={area._id} xs="12"> 
+                    <Area addRef={this.addRef} isTarget findComponent={this.props.findComponent} handleComponentClick={this.props.handleComponentClick} component={area} outputComponents={outputComponents} showModal={this.props.showModal} addComponent={this.props.addComponent} removeComponent={this.props.removeComponent} updateComponent={this.props.updateComponent} addRelationship={this.props.addRelationship}/>
                 </Col>
             )  
         }
     }
-    componentDidUpdate(props){
-        if(JSON.stringify(this.props.components)!==JSON.stringify(props.components)){
-            this.setState({render:true});
+    addRef = (ref)=>{
+        console.log(ref);
+        if(ref!=undefined){
+            console.log(this.state.refs.push(ref));
+            this.setState({refs:[...this.state.refs,ref]},(refs)=>{
+                console.log(this.state);
+            });
         }
     }
+    componentDidUpdate(props,state) {
+        if(JSON.stringify(this.props.components)!==JSON.stringify(props.components)){
+            this.setState({render:true});
+        } else if(this.state.refs.length!=state.refs.length) {
+            window.requestAnimationFrame(()=>{
+
+            });
+        }
+    }
+    update = () => this.forceUpdate()
+    componentDidMount() {
+        window.addEventListener('scroll', this.update, true);
+        window.addEventListener('resize', this.update);
+    }
+      
+    componentWillUnmount() {
+        window.removeEventListener('scroll', this.update);
+        window.removeEventListener('resize', this.update)
+    }
+
     render() {
         console.log('render');
         var classNames;
@@ -65,9 +93,25 @@ class ComponentArranger extends Component {
         } else if (this.props.isOver){
             classNames="cantDrop"
         }
+        let lines = [];
+        this.props.components.forEach((component,index,array)=>{
+            console.log(this.props.components);
+            if(component!=undefined && component.inputComponents!=undefined && component.type!="Area"){
+                let inputComponents = component.inputComponents;
+                let outputComponents = component.outputComponents;
+                inputComponents.forEach((inputComponent,index,array)=>{
+                    inputComponent = this.props.findComponent(inputComponent);
+                    lines.push(<LineTo key={index} from={component._id} to={inputComponent._id} borderColor={"#007bff"}/>);
+                });
+                outputComponents.forEach((outputComponent,index,array)=>{
+                    outputComponent = this.props.findComponent(outputComponent);
+                    lines.push(<LineTo key={index} from={component._id} to={outputComponent._id} borderColor={"#28a745"}/>)
+                });
+            }
+        });
         return this.props.connectDropTarget(
             <div className={classNames}>
-                <ArcherContainer> 
+                {lines}
                 <Container className="component-arranger">
                 <Row>
                     <Col>
@@ -78,7 +122,6 @@ class ComponentArranger extends Component {
                         {this.props.components.map(this.mapAreas)}
                     </Row>
                 </Container>
-                </ArcherContainer>
             </div>
         )
     }

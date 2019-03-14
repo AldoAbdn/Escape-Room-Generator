@@ -13,12 +13,14 @@
 }
 
 .Puzzle, .Prop, .Lock, .Event, .Music {
+    z-index: 2;
     width:1vw;
     height:1vh;
     position: absolute !important;
 }
 
 .component {
+    background-color: white;
     position: relative;
     min-width: 80px;
     min-height: 100px;

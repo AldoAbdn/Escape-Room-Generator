@@ -65,35 +65,10 @@ class ComponentDnDSource extends Component{
   removeComponent = ()=>{
     this.props.removeComponent(this.props.component._id);
   }
-  mapRelationships = (componentId,type) => {
-    let style;
-    let label="";
-    switch(type){
-      case 'input':
-        style = {
-          strokeColor:'blue'
-        }
-        label='input';
-        break;
-      case 'output':
-        style = {
-          strokeColor:'green'
-        }
-        label="output"
-      break;
-      default:
-        style={};
-    }
-    return ({
-      targetId: componentId,
-      targetAnchor: 'top',
-      sourceAnchor: 'bottom',
-      style,
-      label,
-    });
-  }
-  shouldComponentUpdate(nextProps, nextState){
-    return true;
+  componentDidMount(){
+    console.log(this.props);
+    if(this.props.addRef)
+      this.props.addRef(this.ref);
   }
   findComponent(component){
     if(this.props.findComponent!==undefined){
@@ -113,30 +88,20 @@ class ComponentDnDSource extends Component{
         );
       }
       var style = {};
-      let inputComponents;
-      let outputComponents; 
       let id="";
       let classNames = "component";
-      let archer;
       if(this.props.component!==undefined){
         style.top = this.props.component.position.top;
         style.left = this.props.component.position.left;
         style.position = 'relative';
         classNames += " " + this.props.component.type + " " + this.props.component._id;
         id=this.props.component._id;
-        inputComponents = this.props.component.inputComponents.map(id=>this.mapRelationships(id,'input'));
-        outputComponents = this.props.component.outputComponents.map(id=>this.mapRelationships(id,'output'));
-        archer = (
-          <ArcherElement id={id} relations={[...outputComponents,...inputComponents]}>
-            <span>{id}</span>
-          </ArcherElement>
-        );
       } 
       return this.props.connectDragSource(
-          <div className={classNames} style={style} onClick={this.props.handleComponentClick(this.props.component)}>
-            <span>{this.props.id}</span>
+          <div className={classNames} id={id} ref={(ref)=>this.ref=ref} style={style} onClick={this.props.handleComponentClick(this.props.component)}>
+            <span>{this.props.id||id}</span>
             {target}
-            {archer}
+            <span>{id}</span>
           </div>
       )
   }

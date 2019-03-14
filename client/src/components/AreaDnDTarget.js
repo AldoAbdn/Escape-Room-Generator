@@ -42,6 +42,10 @@ function collect(connect, monitor) {
 }
 
 class AreaDnDTarget extends Component {
+    constructor(){
+        super()
+        this.state={render:true};
+    }
     handleComponentDrop(item,isInput=false){
         var component = null;
         if (item.id!==undefined && item._id === undefined){
@@ -86,12 +90,12 @@ class AreaDnDTarget extends Component {
             <div className={classNames} key={this.props.component._id}>                
                 <Card className={this.props.component.type} onClick={this.props.handleComponentClick(this.props.component)}>
                     <CardBody>
-                        <CardTitle>{this.props.component.type}</CardTitle>
-                        <ArcherContainer>   
-                            {this.props.outputComponents.map((component,i)=>{
-                                return(<ComponentDnDSource key={component._id} isTarget handleComponentClick={this.props.handleComponentClick}  component={component} findComponent={this.props.findComponent} id={component.type} showModal={this.props.showModal} addComponent={this.props.addComponent} removeComponent={this.props.removeComponent} addRelationship={this.props.addRelationship}/>)
+                        <CardTitle>{this.props.component.type}</CardTitle>  
+                            {this.props.outputComponents.map((origComponent,i)=>{
+                                let component;
+                                component = this.props.findComponent(origComponent._id);
+                                return(<ComponentDnDSource addRef={this.props.addRef} key={i} renderTrigger={JSON.stringify(this.props.outputComponents)} isTarget handleComponentClick={this.props.handleComponentClick}  component={component} findComponent={this.props.findComponent} id={component.type} showModal={this.props.showModal} addComponent={this.props.addComponent} removeComponent={this.props.removeComponent} addRelationship={this.props.addRelationship}/>)
                             })}
-                            </ArcherContainer>
                     </CardBody>
                 </Card>   
             </div>

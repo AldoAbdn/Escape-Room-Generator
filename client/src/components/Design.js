@@ -15,6 +15,9 @@ class Design extends Component {
         this.props.updateComponent(component);
         this.setState({selected:{...this.state.selected,...component}})
     }
+    findComponent = (id) => {
+        return this.props.components.components.find(component=>component._id===id);
+    }
     render(){
         return (
             <Container>
@@ -23,7 +26,7 @@ class Design extends Component {
                         <Pallet/>
                     </Col>
                     <Col md="8">
-                        <ComponentArranger showModal={this.props.showModal} handleComponentClick={this.handleComponentClick} updateComponent={this.props.updateComponent} addComponent={this.props.addComponent} removeComponent={this.props.removeComponent} addRelationship={this.props.addRelationship} components={this.props.components.components}/>            
+                        <ComponentArranger findComponent={this.findComponent} showModal={this.props.showModal} handleComponentClick={this.handleComponentClick} updateComponent={this.props.updateComponent} addComponent={this.props.addComponent} removeComponent={this.props.removeComponent} addRelationship={this.props.addRelationship} components={this.props.components.components}/>            
                     </Col>
                     <Col md="2">
                         <ComponentDetails selected={this.state.selected} updateComponent={this.updateComponent}/>

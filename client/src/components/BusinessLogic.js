@@ -71,7 +71,6 @@ class BusinessLogic extends Component {
      * @param {EscapeRoom} escapeRoom
      */
     editEscapeRoom = (escapeRoom) => {
-        console.log(this.props);
         this.props.redux.actions.escapeRoom.setSelectedEscapeRoom(escapeRoom);
         this.props.history.push('/designer');
     }
