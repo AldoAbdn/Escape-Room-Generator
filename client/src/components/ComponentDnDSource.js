@@ -80,6 +80,18 @@ class ComponentDnDSource extends Component{
       return null;
     }
   }
+  update = () => this.forceUpdate()
+  componentDidMount() {
+    window.addEventListener('click', this.update, true);
+    window.addEventListener('scroll', this.update, true);
+    window.addEventListener('resize', this.update);
+}
+  
+componentWillUnmount() {
+  window.removeEventListener('click', this.update);
+    window.removeEventListener('scroll', this.update);
+    window.removeEventListener('resize', this.update)
+}
   render() {
       var target;
       if (this.props.isTarget){

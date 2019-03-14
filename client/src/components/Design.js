@@ -15,7 +15,7 @@ class Design extends Component {
         this.props.updateComponent(component);
         console.log(component);
         console.log({...this.state.selected,...component});
-        this.setState({selected:{...this.state.selected,...component}})
+        this.setState({selected:{...this.state.selected,...component}});
     }
     findComponent = (id) => {
         return this.props.components.components.find(component=>component._id===id);

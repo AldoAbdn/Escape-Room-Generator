@@ -13,6 +13,14 @@ class ComponentDetails extends Component {
     handleOutputChange = (output)=>{
         this.props.updateComponent({output});
     }
+    handlePuzzleChange = (puzzle)=>{
+        console.log(puzzle);
+        if(puzzle.output===undefined){
+            puzzle.output = "";
+        } 
+        this.props.updateComponent({_id:this.props.selected._id,puzzle,output:puzzle.output});
+        this.forceUpdate();
+    }
     mapDetailToInput = (key,i) => {
         if(typeof this.props.selected[key] === "string" && key!=="_id" && key!=="type" && key!=="lockType" && key!=="eventType" && key!="puzzleType" && key!="output"){
             return (
@@ -27,7 +35,7 @@ class ComponentDetails extends Component {
             if(this.props.selected.type==='Lock')
                 generator = <LockGenerator lockType={this.props.selected.lockType} handleOutputChange={this.handleOutputChange}></LockGenerator>
             else if(this.props.selected.type==='Puzzle') {
-                generator = <PuzzleGenerator puzzleType={this.props.selected.puzzleType} handleOutputChange={this.handleOutputChange}></PuzzleGenerator>
+                generator = <PuzzleGenerator puzzleType={this.props.selected.puzzleType} handlePuzzleChange={this.handlePuzzleChange}></PuzzleGenerator>
             }
             return (<Row key={i}>
                 <Col>
@@ -105,6 +113,7 @@ class ComponentDetails extends Component {
             </ListGroupItem>
         )
     }
+    
     render() {
         let component = this.props.selected;
         let type;

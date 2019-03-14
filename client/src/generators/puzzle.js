@@ -1,5 +1,5 @@
 import CrosswordGenerator from 'cwg';
-import riddles from '.riddle';
+import riddles from './riddle.json';
 
 class PuzzleGenerator {
     generateCipher(type="pigpen"){
@@ -9,26 +9,30 @@ class PuzzleGenerator {
         }
     }
 
-    generateWord(type,options) {
-        switch(type="crossword"){
+    generateWord(type="crossword",options) {
+        switch(type){
             case 'crossword':
                 return {
+                    type:'crossword',
+                    output:"",
                     words:options.words,
                     hints:options.hints,
                     answers:options.answers,
-                    crossword:CrosswordGenerator(words)
+                    crossword:CrosswordGenerator(options.words)
                 }
             case 'hidden':
                 return {
+                    type:'hidden',
+                    output:options.word,
                     word: options.word,
                     words: options.words,
                     hints: options.hints,
                     answers: options.answers,
-                    hiddenWord: generateHiddenWord(word,words,hints,answers)
+                    hiddenWord: this.generateHiddenWord(options.word,options.words,options.hints,options.answers)
                 }
             case 'riddle':
-                let riddle = riddles[Math.floor(Math.random()*items.length)];
-                return riddle;
+                let riddle = riddles[Math.floor(Math.random()*riddles.length)];
+                return {type:'riddle',output:riddle.answer,riddle};
         }
     }
 
@@ -54,3 +58,5 @@ class PuzzleGenerator {
         }
     }
 }
+
+export default PuzzleGenerator;

@@ -1,25 +1,38 @@
 import React, {Component}  from 'react';
 import {Row,Col,Button,Input} from 'reactstrap'
-import PuzzleGenerator from '../generators/puzzle';
+import puzzleGenerator from '../generators/puzzle';
+import ListCreator from '../components/ListCreator';
 
 class PuzzleGenerator extends Component {
     constructor(){
         super();
-        this.state = {hiddenWord:{word:"",words:[],hints:[],answers:[]},word:"",cipher:"pigpen"};
-        this.PuzzleGenerator = new PuzzleGenerator();
+        this.state = {word:"",words:[],hints:[],answers:[],word:"",cipher:"pigpen"};
+        this.PuzzleGenerator = new puzzleGenerator();
+    }
+
+    //Changes state on input change
+    handleChange = (event) => { 
+        let state = {};
+        state[event.target.id] = event.target.value;  
+        state._id = this.props.selected._id;  
+        this.props.updateComponent(state);
+    }
+
+    handleListChange = (key) => (list) => {
+        this.setState({key:list});
     }
 
     handleWordClick = (e) => {
-        let hiddenWord = this.state.hiddenWord;
-        this.props.handleOutputChange(this.PuzzleGenerator.generateWord('hidden',hiddenWord))
+        let options = {...this.state};
+        this.props.handlePuzzleChange(this.PuzzleGenerator.generateWord('hidden',options))
     }
 
     handleRiddleClick = (e) => {
-        this.props.handleOutputChange(this.PuzzleGenerator.generateWord('riddle'))
+        this.props.handlePuzzleChange(this.PuzzleGenerator.generateWord('riddle'))
     }
 
     handleCipherClick = (e) => {
-        this.props.handleOutputChange(this.PuzzleGenerator.generateCipher(this.state.cipher))
+        this.props.handlePuzzleChange(this.PuzzleGenerator.generateCipher(this.state.cipher))
     }
 
     render() {
@@ -28,7 +41,10 @@ class PuzzleGenerator extends Component {
                 return (
                     <Row>
                         <Col>
-                            <Input type="text" name='hiddenWord' id='hiddenWord' placeholder='hidden word' value={this.state.hiddenWord.word} onChange={this.handleChange}></Input>
+                            <Input type="text" name='hiddenWord' id='hiddenWord' placeholder='hidden word' value={this.state.word} onChange={this.handleChange}></Input>
+                            <ListCreator handleChange={this.handleListChange('words')}/>
+                            <ListCreator handleChange={this.handleListChange('hints')}/>
+                            <ListCreator handleChange={this.handleListChange('answers')}/>
                             <Button onClick={this.handleWordClick} color="primary">Generate Hidden Word</Button>
                         </Col>
                     </Row>
