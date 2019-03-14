@@ -1,5 +1,6 @@
 import React, {Component}  from 'react';
 import { Container, Row, Col, Input, Label, ListGroupItem, Button, ListGroup } from 'reactstrap';
+import {LockGenerator,PuzzleGenerator} from './index';
 
 class ComponentDetails extends Component {
     //Changes state on input change
@@ -10,7 +11,7 @@ class ComponentDetails extends Component {
         this.props.updateComponent(state);
     }
     mapDetailToInput = (key,i) => {
-        if(typeof this.props.selected[key] === "string" && key!=="_id" && key!=="type"){
+        if(typeof this.props.selected[key] === "string" && key!=="_id" && key!=="type" && key!=="lockType" && key!=="eventType" && key!="puzzleType"){
             return (
                 <Row key={i}>
                     <Col>
@@ -18,8 +19,66 @@ class ComponentDetails extends Component {
                         <Input type="text" name={key} id={key} placeholder={key} value={this.props.selected[key]} onChange={this.handleChange}/>
                     </Col>
                 </Row>)
-        } else {
-            return;
+        } else if(key==='output') {
+            let generator;
+            if(this.props.selected.type==='Lock')
+                generator = <LockGenerator lockType={this.props.selected.lockType} handleOutputChange={this.handleOutputChange}></LockGenerator>
+            else if(this.props.selected.type==='Puzzle') {
+                generator = <PuzzleGenerator puzzleType={this.props.selected.puzzleType} handleOutputChange={this.handleOutputChange}></PuzzleGenerator>
+            }
+            return (<Row key={i}>
+                <Col>
+                    <Label for={key}>{key}</Label>
+                    <Input type="text" name={key} id={key} placeholder={key} value={this.props.selected[key]} onChange={this.handleChange}/>
+                    <button onClick={this.generateFromInputs}>Generate From Inputs</button>
+                    {generator}
+                </Col>
+            </Row>)
+        } else if (key==='lockType'){
+            return (
+                <Row key={i}>
+                    <Col>
+                        <Label for={key}>{key}</Label>
+                        <Input type="select" name={key} id={key} placeholder={key} value={this.props.selected[key]} onChange={this.handleChange}>
+                            <option>Numeric</option>
+                            <option>Word</option>
+                            <option>Directional</option>
+                            <option>Contactless</option>
+                            <option>Key</option>
+                        </Input>
+                    </Col>
+                </Row>
+            )
+        } else if (key==='eventType'){
+            return (
+                <Row key={i}>
+                    <Col>
+                        <Label for={key}>{key}</Label>
+                        <Input type="select" name={key} id={key} placeholder={key} value={this.props.selected[key]} onChange={this.handleChange}>
+                            <option>Sound Effect</option>
+                            <option>New Area</option>
+                            <option>Objective Complete</option>
+                            <option>Custom</option>
+                        </Input>
+                    </Col>
+                </Row>
+            )
+        } else if (key==='puzzleType'){
+            return (
+                <Row key={i}>
+                    <Col>
+                        <Label for={key}>{key}</Label>
+                        <Input type="select" name={key} id={key} placeholder={key} value={this.props.selected[key]} onChange={this.handleChange}>
+                            <option>Cipher</option>
+                            <option>Word</option>
+                            <option>Colour</option>
+                            <option>Hidden Word</option>
+                            <option>Hidden Object</option>
+                            <option>Riddle</option>
+                        </Input>
+                    </Col>
+                </Row>
+            )
         }
     };
     handleOnClick = (id,isInput)=> (e) => {

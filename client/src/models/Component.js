@@ -5,6 +5,7 @@ export default class Component {
         this._id = uniqid();
         this.name = "";
         this.description = "";
+        this.output = "";
         this.inputComponents = [];
         this.outputComponents = [];
         this.type = "Component";

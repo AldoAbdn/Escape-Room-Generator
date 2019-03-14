@@ -10,6 +10,7 @@
     "feathers-redux": "^3.0.0",
     "file-saver": "^2.0.0",
     "jspdf": "^1.5.3",
+    "random-words": "^1.1.0",
     "react": "^16.8.4",
     "react-archer": "^1.0.2",
     "react-dnd": "^7.0.2",

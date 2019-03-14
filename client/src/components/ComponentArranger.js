@@ -86,7 +86,6 @@ class ComponentArranger extends Component {
     }
 
     render() {
-        console.log('render');
         var classNames;
         if(this.props.isOver && this.props.canDrop){
             classNames="canDrop"
