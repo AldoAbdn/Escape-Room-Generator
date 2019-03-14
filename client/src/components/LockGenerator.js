@@ -58,7 +58,7 @@ class LockGenerator extends Component {
                 return (
                     <Row>
                         <Col>
-                            <Input name="string" placeholder="length" type="number" step="1" min="1" value={this.state.length} onChange={this.handleChange}/>
+                            <Input name="length" placeholder="length" type="number" step="1" min="1" value={this.state.length} onChange={this.handleChange}/>
                             <Button onClick={this.handleDirectionalClick} color="primary">Generate Directional Sequence</Button>
                         </Col>
                     </Row>
