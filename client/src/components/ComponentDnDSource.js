@@ -66,9 +66,12 @@ class ComponentDnDSource extends Component{
     this.props.removeComponent(this.props.component._id);
   }
   componentDidMount(){
-    console.log(this.props);
     if(this.props.addRef)
       this.props.addRef(this.ref);
+  }
+  componentDidUpdate(prevProps){
+    if(this.props.renderTrigger!=prevProps.renderTrigger)
+      this.forceUpdate();
   }
   findComponent(component){
     if(this.props.findComponent!==undefined){

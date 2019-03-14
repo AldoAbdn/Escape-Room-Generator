@@ -44,34 +44,24 @@ class ComponentArranger extends Component {
     }
     mapAreas = (area,i)=>{
         if(area.type==='Area'){
-            console.log(area.outputComponents);
             let outputComponents = this.props.components.filter((component)=>{
                 return area.outputComponents.includes(component._id);
             });
-            console.log(outputComponents);
             return (
                 <Col key={area._id} xs="12"> 
-                    <Area addRef={this.addRef} isTarget findComponent={this.props.findComponent} handleComponentClick={this.props.handleComponentClick} component={area} outputComponents={outputComponents} showModal={this.props.showModal} addComponent={this.props.addComponent} removeComponent={this.props.removeComponent} updateComponent={this.props.updateComponent} addRelationship={this.props.addRelationship}/>
+                    <Area renderTrigger={JSON.stringify(area)} addRef={this.addRef} isTarget findComponent={this.props.findComponent} handleComponentClick={this.props.handleComponentClick} component={area} outputComponents={outputComponents} showModal={this.props.showModal} addComponent={this.props.addComponent} removeComponent={this.props.removeComponent} updateComponent={this.props.updateComponent} addRelationship={this.props.addRelationship}/>
                 </Col>
             )  
         }
     }
     addRef = (ref)=>{
-        console.log(ref);
         if(ref!=undefined){
-            console.log(this.state.refs.push(ref));
-            this.setState({refs:[...this.state.refs,ref]},(refs)=>{
-                console.log(this.state);
-            });
+            this.setState({refs:[...this.state.refs,ref]});
         }
     }
     componentDidUpdate(props,state) {
         if(JSON.stringify(this.props.components)!==JSON.stringify(props.components)){
-            this.setState({render:true});
-        } else if(this.state.refs.length!=state.refs.length) {
-            window.requestAnimationFrame(()=>{
-
-            });
+            this.forceUpdate();
         }
     }
     update = () => this.forceUpdate()
@@ -94,7 +84,6 @@ class ComponentArranger extends Component {
         }
         let lines = [];
         this.props.components.forEach((component,index,array)=>{
-            console.log(this.props.components);
             if(component!=undefined && component.inputComponents!=undefined && component.type!="Area"){
                 let inputComponents = component.inputComponents;
                 let outputComponents = component.outputComponents;
