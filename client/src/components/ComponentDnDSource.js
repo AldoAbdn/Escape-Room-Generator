@@ -41,7 +41,7 @@ const componentSource = {
 
   endDrag(props, monitor, component) {
     if (!monitor.didDrop()) {
-      if(props.component!==undefined||props.component!==null)
+      if((props.component!==undefined||props.component!==null)&&props.showModal)
         props.showModal(new Modal("Warning", "Are you sure you want to delete this component?","Yes",component.removeComponent,"No",()=>{}));
         return;
     }
@@ -108,7 +108,6 @@ componentWillUnmount() {
       if(this.props.component!==undefined){
         style.top = this.props.component.position.top;
         style.left = this.props.component.position.left;
-        style.position = 'relative';
         classNames += " " + this.props.component.type + " " + this.props.component._id;
         id=this.props.component._id;
       } 

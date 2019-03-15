@@ -41,10 +41,11 @@ export function removeComponent(componentId){
     }
 }
 
-export function updateComponent(component){
+export function updateComponent(component,areaId){
     return {
         type: 'UPDATE_COMPONENT',
-        component
+        component,
+        areaId
     }
 }
 

@@ -1,12 +1,17 @@
 import React, {Component}  from 'react';
 import { Container, Row, Col, Input, Label, ListGroupItem, Button, ListGroup } from 'reactstrap';
 import {LockGenerator,PuzzleGenerator} from './index';
+import '../styles/ComponentDetails.css';
 
 class ComponentDetails extends Component {
     //Changes state on input change
     handleChange = (event) => { 
         let state = {};
         state[event.target.id] = event.target.value;  
+        if(event.target.id==="puzzleType")
+            state.puzzle = {}
+        if(event.target.id==="lockType")
+            state.output = ""
         state._id = this.props.selected._id;  
         this.props.updateComponent(state);
     }
@@ -14,7 +19,6 @@ class ComponentDetails extends Component {
         this.props.updateComponent({output});
     }
     handlePuzzleChange = (puzzle)=>{
-        console.log(puzzle);
         if(puzzle.output===undefined){
             puzzle.output = "";
         } 
@@ -90,8 +94,35 @@ class ComponentDetails extends Component {
                     </Col>
                 </Row>
             )
+        } else if (key==='puzzle'){
+            let component = this.props.selected;
+            let details = Object.keys(component[key]).map((property,index,array)=>{
+                let detail;
+                if(typeof component[key][property] === 'object')
+                    detail = component[key][property].toString();
+                else 
+                    detail = component[key][property];
+                return(
+                <Row id={key}>
+                    <Col>
+                        <Label>{property}</Label>
+                        <p>{detail}</p>
+                    </Col>
+                </Row>
+                )
+            });
+            return (
+                <Row>
+                    <Col>
+                        {details}
+                    </Col>
+                </Row>
+            )
         }
     };
+    mapKeysToRow = (property,index,array)=>{
+        
+    }
     handleOnClick = (id,isInput)=> (e) => {
         let component = {...this.props.selected};
         let state = {};
@@ -116,15 +147,20 @@ class ComponentDetails extends Component {
     
     render() {
         let component = this.props.selected;
-        let type;
+        let id="";
+        let type="";
         let properties;
         let inputs;
         let outputs;
         let inputRelationships;
         let outputRelationships;
         if(component!==undefined || component!==null){
+            if(component._id!=undefined)
+                id = " ("+component._id+")";
+            else 
+                id="";
             properties = Object.keys(component).map(this.mapDetailToInput)
-            type = this.props.selected.type;
+            type = component.type||"";
             if(component.type!=='Area'&&component.inputComponents!==undefined&&component.outputComponents!==undefined&&(component.inputComponents.length>0||component.outputComponents.length>0)){
                 inputs = component.inputComponents.map((id,i)=>this.mapIDToP(id,i,true));
                 outputs = component.outputComponents.map((id,i)=>this.mapIDToP(id,i,false));
@@ -151,11 +187,11 @@ class ComponentDetails extends Component {
             }
         }
         return (
-            <Container style={{"margin-bottom":"5vh"}}>
+            <Container classNames="component-details">
                 <Row>
                     <Col>
                         <h3>Details</h3>
-                        <h4>{type}</h4>
+                        <h4>{type + id}</h4>
                     </Col>
                 </Row>
                 {properties}

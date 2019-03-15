@@ -11,9 +11,7 @@ class LockGenerator extends Component {
 
     handleChange = (event) => { 
         let state = {};
-
         state[event.target.name] = event.target.value;  
-        console.log(state);
         this.setState(state);
     }
 
@@ -23,7 +21,6 @@ class LockGenerator extends Component {
     }
 
     handleWordClick = (e) => {
-        console.log(this.state.length);
         let output = this.lockGenerator.generateWords(this.state.length,this.state.wordsPerString);
         this.props.handleOutputChange(output);
     }

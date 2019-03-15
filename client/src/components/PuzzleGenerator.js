@@ -6,7 +6,7 @@ import ListCreator from '../components/ListCreator';
 class PuzzleGenerator extends Component {
     constructor(){
         super();
-        this.state = {word:"",words:[],hints:[],answers:[],word:"",cipher:"pigpen"};
+        this.state = {word:"",words:[],hints:[],answers:[],cipher:"pigpen"};
         this.PuzzleGenerator = new puzzleGenerator();
     }
 

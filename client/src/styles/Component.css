@@ -5,11 +5,15 @@
 }
 
 .Area {
-    position: relative;
     width: 100%;
+    min-width: 100%;
     min-height: 50%;
     height: 92%;
     overflow: hidden;
+}
+
+.Area.Card{
+    height: 100%;
 }
 
 .Puzzle, .Prop, .Lock, .Event, .Music {
@@ -17,6 +21,10 @@
     width:1vw;
     height:1vh;
     position: absolute !important;
+}
+
+.hide-border {
+    border:none;
 }
 
 .component {
@@ -39,4 +47,8 @@
 
 .cantDrop {
     border: 1px solid red;
+}
+
+.couldDrop {
+    border: 1px solid lightblue;
 }

@@ -5,6 +5,7 @@
   "dependencies": {
     "bootstrap": "^4.2.1",
     "classnames": "^2.2.6",
+    "cwg": "^0.2.1",
     "feathers-client": "^2.4.0",
     "feathers-offline-realtime": "^0.1.2",
     "feathers-redux": "^3.0.0",

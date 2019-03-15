@@ -10,7 +10,6 @@ class LockGenerator {
     }
 
     generateWords(amount=1,wordsPerString=1){
-        console.log(amount);
         let words = RandomWords({min:amount,max:amount,exactly:amount,wordsPerString:wordsPerString});
         return words.slice(0,amount);
     }

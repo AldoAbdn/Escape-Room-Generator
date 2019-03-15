@@ -38,6 +38,15 @@ function escapeRoom(state={},action){
             newState = {...state};
             i = newState.components.findIndex(component=>component._id===action.component._id);
             newState.components[i] = {...newState.components[i],...action.component};
+            if(action.areaId!=null){
+                newState.components.forEach((component,index,components)=>{
+                    if(component.type==="Area")
+                        components[index].outputComponents = component.outputComponents.filter(outputId=>outputId!==action.component._id);
+                });
+                i = newState.components.findIndex(component=>component._id===action.areaId);
+                if(newState.components[i].outputComponents.indexOf(action.component._id)===-1)
+                    newState.components[i].outputComponents.push(action.component._id);
+            }
             newState.details.estimatedCost = EscapeRoom.calculateCost(newState);
             return newState;
         case 'ADD_RELATIONSHIP':

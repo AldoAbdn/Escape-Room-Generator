@@ -62,15 +62,17 @@ class ComponentDnDTarget extends Component {
 
     }
     render() {
-        var classNames;
+        var classNames = "hide-border";
         if(this.props.isOver && this.props.canDrop){
-            classNames="canDrop";
-        } else if(this.props.isOver){
-            classNames="cantDrop";
+            classNames+=" canDrop";
+        } else if(this.props.isOver && !this.props.canDrop){
+            classNames+=" cantDrop";
+        } else if(this.props.canDrop){
+            classNames+=" couldDrop"
         }
         return this.props.connectDropTarget(
-            <div className={classNames} key={this.props.component._id}>
-                <Card onClick={this.props.handleComponentClick(this.props.component)}>
+            <div key={this.props.component._id}>
+                <Card className={classNames} onClick={this.props.handleComponentClick(this.props.component)}>
                     <CardBody>
 
                     </CardBody>
