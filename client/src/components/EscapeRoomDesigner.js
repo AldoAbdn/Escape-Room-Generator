@@ -57,7 +57,7 @@ class EscapeRoomDesigner extends Component {
     }
     render() {
         return (
-            <Container>
+            <Container fluid>
                 <Row>
                     <Col xs="6" md="3" lg="3"><Button block onClick={this.handleClick('EXIT')}>Save and Exit</Button></Col>
                     <Col xs="6" md="3" lg="3">

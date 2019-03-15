@@ -4,7 +4,7 @@ import { Container, Row, Col } from 'reactstrap';
 class About extends Component {
     render() {
         return (
-            <Container>
+            <Container fluid>
                 <Row>
                     <Col>
                         <p>

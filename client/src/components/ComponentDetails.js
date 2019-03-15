@@ -26,15 +26,7 @@ class ComponentDetails extends Component {
         this.forceUpdate();
     }
     mapDetailToInput = (key,i) => {
-        if(typeof this.props.selected[key] === "string" && key!=="_id" && key!=="type" && key!=="lockType" && key!=="eventType" && key!="puzzleType" && key!="output"){
-            return (
-                <Row key={i}>
-                    <Col>
-                        <Label for={key}>{key}</Label>
-                        <Input type="text" name={key} id={key} placeholder={key} value={this.props.selected[key]} onChange={this.handleChange}/>
-                    </Col>
-                </Row>)
-        } else if(key==='output') {
+        if(key==='output') {
             let generator;
             if(this.props.selected.type==='Lock')
                 generator = <LockGenerator lockType={this.props.selected.lockType} handleOutputChange={this.handleOutputChange}></LockGenerator>
@@ -46,7 +38,10 @@ class ComponentDetails extends Component {
                     <Label for={key}>{key}</Label>
                     <Input type="text" name={key} id={key} placeholder={key} value={this.props.selected[key]} onChange={this.handleChange}/>
                     <Button color="primary" onClick={this.generateFromInputs}>Generate From Inputs</Button>
+                    <br/>
+                    <br/>
                     {generator}
+                    <br/>
                 </Col>
             </Row>)
         } else if (key==='lockType'){
@@ -105,19 +100,31 @@ class ComponentDetails extends Component {
                 return(
                 <Row id={key}>
                     <Col>
-                        <Label>{property}</Label>
-                        <p>{detail}</p>
+                        <p>{" " + property+ ": "+detail}</p>
                     </Col>
                 </Row>
                 )
             });
+            if(Object.keys(component[key]).length>0){
+                return (
+                    <Row>
+                        <Col>
+                            <Label>{key}</Label>
+                            {details}
+                        </Col>
+                    </Row>
+                )
+            }else{
+                return null;
+            } 
+        }else if(typeof this.props.selected[key] === "string" && key!=="_id" && key!=="type"){
             return (
-                <Row>
+                <Row key={i}>
                     <Col>
-                        {details}
+                        <Label for={key}>{key}</Label>
+                        <Input type="text" name={key} id={key} placeholder={key} value={this.props.selected[key]} onChange={this.handleChange}/>
                     </Col>
-                </Row>
-            )
+                </Row>)
         }
     };
     mapKeysToRow = (property,index,array)=>{
@@ -187,7 +194,7 @@ class ComponentDetails extends Component {
             }
         }
         return (
-            <Container classNames="component-details">
+            <Container fluid className="container-fluid component-details">
                 <Row>
                     <Col>
                         <h3>Details</h3>

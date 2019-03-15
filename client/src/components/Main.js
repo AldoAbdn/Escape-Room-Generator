@@ -159,6 +159,9 @@ class Main extends Component {
                         <h1 className="title">
                             <Link to="/">Escape Room Generator</Link>
                         </h1>
+                        <Navbar>
+                            <NavbarBrand href="/">Escape Room Generator</NavbarBrand>
+                        </Navbar>
                     {this.state.profile}
                     </header>
                     

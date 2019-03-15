@@ -1,3 +1,9 @@
 .component-details {
     margin-bottom: 5vh;
+    overflow-y:auto;
+    overflow-x:hidden;
+}
+
+.component-details p {
+    text-overflow: ellipsis;
 }

@@ -37,7 +37,7 @@ class LockGenerator extends Component {
                     <Row>
                         <Col>
                             <Input name="length" placeholder="length" type="number" step="1" min="1" value={this.state.length} onChange={this.handleChange}/>
-                            <Button onClick={this.handleNumericClick} color="primary">Generate Random Number</Button>
+                            <Button block onClick={this.handleNumericClick} color="primary">Generate Random Number</Button>
                         </Col>
                     </Row>
                 )
@@ -47,7 +47,7 @@ class LockGenerator extends Component {
                         <Col>
                             <Input name="length" placeholder="length" type="number" step="1" min="1" value={this.state.length} onChange={this.handleChange}/>
                             <Input name="wordsPerString" placeholder="words per string" type="number" step="1" min="1" value={this.state.wordsPerString} onChange={this.handleChange}/>
-                            <Button onClick={this.handleWordClick} color="primary">Generate Words</Button>
+                            <Button block onClick={this.handleWordClick} color="primary">Generate Words</Button>
                         </Col>
                     </Row>
                 )
@@ -56,7 +56,7 @@ class LockGenerator extends Component {
                     <Row>
                         <Col>
                             <Input name="length" placeholder="length" type="number" step="1" min="1" value={this.state.length} onChange={this.handleChange}/>
-                            <Button onClick={this.handleDirectionalClick} color="primary">Generate Directional Sequence</Button>
+                            <Button block onClick={this.handleDirectionalClick} color="primary">Generate Directional Sequence</Button>
                         </Col>
                     </Row>
                 )

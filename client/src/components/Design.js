@@ -20,7 +20,7 @@ class Design extends Component {
     }
     render(){
         return (
-            <Container>
+            <Container fluid>
                 <Row>
                     <Col md="2">
                         <Pallet/>

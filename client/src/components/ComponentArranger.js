@@ -100,7 +100,7 @@ class ComponentArranger extends Component {
         return this.props.connectDropTarget(
             <div className={classNames}>
                 {lines}
-                <Container className="component-arranger">
+                <Container fluid className="component-arranger">
                 <Row>
                     <Col>
                         <h3>Components</h3>

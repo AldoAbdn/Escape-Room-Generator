@@ -9,7 +9,7 @@ class Pallet extends Component {
     }
     render() {
         return (
-            <Container>
+            <Container fluid>
                 <Row>
                     <Col>
                         <h3>Pallet</h3>

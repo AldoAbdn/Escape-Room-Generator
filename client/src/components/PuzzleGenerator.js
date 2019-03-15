@@ -45,7 +45,7 @@ class PuzzleGenerator extends Component {
                             <ListCreator handleChange={this.handleListChange('words')}/>
                             <ListCreator handleChange={this.handleListChange('hints')}/>
                             <ListCreator handleChange={this.handleListChange('answers')}/>
-                            <Button onClick={this.handleWordClick} color="primary">Generate Hidden Word</Button>
+                            <Button block onClick={this.handleWordClick} color="primary">Generate Hidden Word</Button>
                         </Col>
                     </Row>
                 )
@@ -53,7 +53,7 @@ class PuzzleGenerator extends Component {
                 return (
                     <Row>
                         <Col>
-                            <Button onClick={this.handleRiddleClick} color="primary">Generate Random Riddle</Button>
+                            <Button block onClick={this.handleRiddleClick} color="primary">Generate Random Riddle</Button>
                         </Col>
                     </Row>
                 )
@@ -64,7 +64,7 @@ class PuzzleGenerator extends Component {
                             <Input type="select" name="cipher" id="cipher" placeholder="cipher" value={this.state.cipher} onChange={this.handleChange}>
                                 <option>pigpen</option>
                             </Input>
-                            <Button onClick={this.handleCipherClick} color="primary">Generate Cipher</Button>
+                            <Button block onClick={this.handleCipherClick} color="primary">Generate Cipher</Button>
                         </Col>
                     </Row>
                 )

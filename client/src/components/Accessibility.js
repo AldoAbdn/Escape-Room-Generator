@@ -10,7 +10,7 @@ class Accessibility extends Component {
     }
     render(){
         return (
-            <Container>
+            <Container fluid>
                 <Row>
                     <Col>
                         <Row>

@@ -1,3 +1,8 @@
+main {
+    height: 88vh;
+    overflow-y:auto;
+}
+
 .loading-overlay {
     position: static !important;
 }
