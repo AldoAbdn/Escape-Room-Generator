@@ -4,6 +4,7 @@ import { Details, Accessibility, Design } from './index';
 import classnames from 'classnames';
 import { saveAs } from 'file-saver';
 import jsPDF from 'jspdf';
+import '../styles/EscapeRoomDesigner.css';
 
 class EscapeRoomDesigner extends Component {
     constructor(){
@@ -58,11 +59,11 @@ class EscapeRoomDesigner extends Component {
     render() {
         return (
             <Container fluid>
-                <Row>
+                <Row className="save-options">
                     <Col xs="6" md="3" lg="3"><Button block onClick={this.handleClick('EXIT')}>Save and Exit</Button></Col>
                     <Col xs="6" md="3" lg="3">
                         <Dropdown block isOpen={this.state.dropdownOpen} toggle={this.handleToggle}>
-                            <DropdownToggle caret>Save and Export</DropdownToggle>
+                            <DropdownToggle  className="full-width" caret>Save and Export</DropdownToggle>
                             <DropdownMenu right>
                                 <DropdownItem onClick={this.handleClick('JSON')}>Export as JSON</DropdownItem>
                                 <DropdownItem onClick={this.handleClick('PDF')}>Export as PDF</DropdownItem>

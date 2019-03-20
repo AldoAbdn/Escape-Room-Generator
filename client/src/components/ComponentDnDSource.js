@@ -30,12 +30,7 @@ const componentSource = {
 
   beginDrag(props, monitor, component) {
     // Return the data describing the dragged item
-    var item
-    if(props.component === undefined){
-      item = {id: props.id}
-    } else {
-      item = {...props.component};
-    }
+    var item = {...props.component};
     return item;
   },
 
@@ -103,19 +98,22 @@ componentWillUnmount() {
         );
       }
       var style = {};
-      let id="";
+      let title;
+      let name;
       let classNames = "component";
       if(this.props.component!==undefined){
+        title=this.props.component.type;
         style.top = this.props.component.position.top;
         style.left = this.props.component.position.left;
         classNames += " " + this.props.component.type + " " + this.props.component._id;
-        id=this.props.component._id;
+        title+= " ("+this.props.component._id+")";
+        name = this.props.component.name;
       } 
       return this.props.connectDragSource(
-          <div className={classNames} id={id} ref={(ref)=>this.ref=ref} style={style} onClick={this.props.handleComponentClick(this.props.component)}>
-            <span>{this.props.id||id}</span>
+          <div className={classNames} id={this.props.component._id} style={style} onClick={this.props.handleComponentClick(this.props.component)}>
+            <span>{title}</span>
+            <span class="hide-overflow">{name}</span>
             {target}
-            <span>{id}</span>
           </div>
       )
   }

@@ -1,7 +1,8 @@
 import React, {Component}  from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Navbar, NavbarBrand, NavbarToggler, Collapse, Nav, NavItem, NavLink, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import LoadingOverlay from 'react-loading-overlay';
+import Profile from '../components/Profile';
 import '../styles/Main.css';
 
 /**
@@ -19,8 +20,19 @@ class Main extends Component {
      */
     constructor(){
         super();
-        this.state = {profile:null,tooltipOpen:false};
+        this.state = {profile:false, isProfileOpen:false,tooltipOpen:false, isOpen:false};
     }
+
+    /**
+     * Toggles for bootstrap
+     */
+    toggle=()=>{
+        this.setState({isOpen:!this.state.isOpen});
+    }
+    toggleProfile=()=>{
+        this.setState({isProfileOpen:!this.state.isProfileOpen});
+    }
+
     /**
      * React lifecycle method
      * Updates profile if user has changed
@@ -31,9 +43,9 @@ class Main extends Component {
         if(prevProps.redux.state.user.email!==this.props.redux.state.user.email){
             this.populateEscapeRooms(this.props.redux.state.user._id);
             if(this.props.redux.state.user.email !== undefined){
-                this.setProfile(true);
+                this.setState({profile:true});
             } else {
-                this.setProfile(false);
+                this.setState({profile:false});
             }
         }
     }
@@ -44,7 +56,7 @@ class Main extends Component {
      */
     componentDidMount() {
         if (window.localStorage.getItem('feathers-jwt') && this.props.redux.state.user.email!==undefined){
-            this.setProfile(true);
+            this.setState({profile:true});
         } else if (window.localStorage.getItem('feathers-jwt') && this.props.redux.state.user.email===undefined){
             this.authenticate();
         }
@@ -81,19 +93,19 @@ class Main extends Component {
      */
     populateUserFromJWT = async(jwt) => {
         if(jwt===undefined||jwt===null||jwt===""){
-            this.setProfile(false);
+            this.setState({profile:false});
             return null;
         }
         let response = await this.props.feathersClient.passport.verifyJWT(jwt);
         response = await this.props.services.users.get(response.userId);
         var user = response.value;
         if(user.email===undefined||user.email===""){
-            this.setProfile(false);
+            this.setState({profile:false});
             return null;
         }
         user.token = window.localStorage.getItem('feathers-jwt');
         this.props.redux.actions.user.login(user);
-        this.setProfile(true);
+        this.setState({profile:true});
         return user;
     }
     /**
@@ -125,22 +137,19 @@ class Main extends Component {
         this.props.history.push('/');
     }
     /**
-     * Hides/shows user profile 
-     * dependent on login status
-     * @param {Boolean} loggedIn 
+     * Updates users details 
+     * @function
+     * @param {Object} update
      */
-    setProfile(loggedIn){
-        let state;
-        if(loggedIn){
-            state = 
-            <div className="profile" >
-                <Link to="/profile">Profile</Link>
-                <Button onClick={this.logout}>Logout</Button>
-            </div>
-        } else {
-            state = null;
+    updateUser = async (update) => {
+        try{
+            const user = this.props.redux.state.user;
+            let response = await this.props.services.users.patch(user._id,update);
+            this.props.redux.actions.user.login(response.value);
+            return true;
+        }catch(error){
+            return error.message;
         }
-        this.setState({profile:state});
     }
     /**
      * React lifecycle method 
@@ -152,26 +161,51 @@ class Main extends Component {
         const loading = this.state.loading || this.props.redux.state.usersService.isLoading || this.props.redux.state.escapeRoomsService.isLoading;
         const modal = this.props.redux.state.modal;
         const hideModal = this.props.redux.actions.modal.hideModal;
+        let user = this.props.redux.state.user;
+        let profile;
+        if(this.state.profile){
+            profile =                                 
+            <Dropdown isOpen={this.state.isProfileOpen} toggle={this.toggleProfile} nav inNavbar>
+                <DropdownToggle nav caret>
+                Profile
+                </DropdownToggle>
+                <DropdownMenu right>
+                    <Profile user={user} updateUser={this.updateUser}/>
+                    <Button id="LogoutButton" onClick={this.logout} block>Logout</Button>
+                </DropdownMenu>
+            </Dropdown>
+        } else {
+            profile = null;
+        }
         return (
             <div>   
                 <LoadingOverlay className={'loading-overlay'} active={loading} spinner>       
                     <header>
-                        <h1 className="title">
-                            <Link to="/">Escape Room Generator</Link>
-                        </h1>
-                        <Navbar>
-                            <NavbarBrand href="/">Escape Room Generator</NavbarBrand>
+                        <Navbar color="light" light expand="md">
+                            <NavbarBrand href="/">The Escape Room Generator V1.1.0</NavbarBrand>
+                            <NavbarToggler onClick={this.toggle} />
+                            <Collapse isOpen={this.state.isOpen} navbar>
+                                <Nav className="ml-auto" navbar>
+                                <NavItem>
+                                    <NavLink href="/">Survey</NavLink>
+                                </NavItem>
+                                <NavItem>
+                                    <NavLink href="https://github.com/AldoAbdn/Escape-Room-Generator">GitHub</NavLink>
+                                </NavItem>
+                                <NavItem>
+                                    <Link className="nav-link" to="/about">About</Link>
+                                </NavItem>
+                                <NavItem>
+                                    <Link className="nav-link" to="/tutorials">Tutorials</Link>
+                                </NavItem>
+                                {profile}
+                                </Nav>
+                            </Collapse>
                         </Navbar>
-                    {this.state.profile}
                     </header>
-                    
                     <main>
                         <BusinessLogic history={this.props.history} feathersClient={this.props.feathersClient} redux={this.props.redux} services={this.props.services}/>
                     </main>
-                    <footer>
-                        <Link to="/about">About</Link>
-                        <Link to="/tutorials">Tutorials</Link>
-                    </footer>
                 </LoadingOverlay>
                 <Modal isOpen={modal.isOpen} >
                     <ModalHeader>{modal.header}</ModalHeader>

@@ -85,6 +85,7 @@ class ComponentDetails extends Component {
                             <option>Hidden Word</option>
                             <option>Hidden Object</option>
                             <option>Riddle</option>
+                            <option>Custom</option>
                         </Input>
                     </Col>
                 </Row>

@@ -33,6 +33,7 @@ class Profile extends Component {
     }
 
     handleClick = async (event) => {
+        event.preventDefault();
         switch (event.target.id) {
             case 'editButton':
                 this.setState({edit:true});
@@ -81,21 +82,17 @@ class Profile extends Component {
 
     render() {
         this.profile = 
-        <Container>
-            <Row>
-                <Col>
-                    <Card>
-                        <CardImg height="50%" src={this.props.user.avatar} alt="Profile Image" />
-                        <CardBody>
-                        <CardTitle className="text-center">{this.props.user.email}</CardTitle>
-                        <Button id="editButton" block={true} className="text-center" onClick={this.handleClick}>Edit Profile</Button>
-                        </CardBody>
-                    </Card>
-                </Col>
-            </Row>
-        </Container>
+            <Container fluid>
+                <Row>
+                    <Col>
+                        <img id="ProfileImage" className="img-fluid" src={this.props.user.avatar} alt="Profile Image" />
+                        <p className="text-center">{this.props.user.email}</p>
+                        <Button id="editButton" block className="text-center" onClick={this.handleClick}>Edit Profile</Button>
+                    </Col>
+                </Row>
+            </Container>
         this.editProfile = 
-        <Container>
+        <Container fluid>
             <Row>
                 <Col>
                     <Form onSubmit={this.handleSubmit}>
@@ -107,7 +104,7 @@ class Profile extends Component {
                             <Label for="password">Password</Label>
                             <Input type="password" name="password" id="password" value={this.state.password} onChange={this.handleChange}/>
                         </FormGroup>
-                        <Button id="saveButton" onClick={this.handleClick}>Save</Button>
+                        <Button id="saveButton" onClick={this.handleClick} block>Save</Button>
                         <Alert isOpen={this.state.errorMessage !== ""} toggle={this.handleDismiss} color="danger">{this.state.errorMessage}</Alert>
                     </Form>
                 </Col>

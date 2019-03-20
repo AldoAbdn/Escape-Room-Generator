@@ -8,7 +8,7 @@
     width: 100%;
     min-width: 100%;
     min-height: 50%;
-    height: 92%;
+    height: 83%;
     overflow: hidden;
 }
 
@@ -23,11 +23,32 @@
     position: absolute !important;
 }
 
+.Puzzle {
+    background-color:#FF0000 !important;
+}
+
+.Prop {
+    background-color: grey !important;
+}
+
+.Lock {
+    background-color:#FFFF00 !important;
+}
+
+.Event {
+    background-color:#99CCFF !important;
+}
+
+.Music {
+    background-color:#9900FF !important;
+}
+
 .hide-border {
     border:none;
 }
 
 .component {
+	font-weight: bold;
     background-color: white;
     position: relative;
     min-width: 80px;

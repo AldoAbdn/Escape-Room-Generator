@@ -8,6 +8,7 @@ class Signup extends Component {
         this.state = {
             email:"",
             password:"",
+            password2:"",
             errorMessage: ""
         }
     }
@@ -15,6 +16,9 @@ class Signup extends Component {
     //Handles login form submit event
     handleSubmit = async (event) => {
         event.preventDefault();
+        if(this.props.password!=this.props.password2){
+            this.setState({errorMessage:"Passwords Must Match"});
+        }
         if(this.props.signUp){
             let err = await this.props.signUp({email:this.state.email,password:this.state.password});
             this.setState({errorMessage:err});
@@ -25,6 +29,12 @@ class Signup extends Component {
     handleChange = (event) => {
         this.setState({
             [event.target.id]: event.target.value
+        },()=>{
+            if(this.state.password!=""&&this.state.password!=this.state.password2){
+                this.setState({errorMessage:"Passwords Must Match"});
+            } else {
+                this.setState({errorMessage:""});
+            }
         });
     }
 
@@ -35,7 +45,7 @@ class Signup extends Component {
 
     render() {
         return (
-            <div className="full-container verticaly-center-content">
+            <div className="sign-up full-container verticaly-center-content">
                 <Container>
                     <Row>
                         <Col>
@@ -47,6 +57,10 @@ class Signup extends Component {
                                 <FormGroup>
                                     <Label for="password">Password</Label>
                                     <Input type="password" name="password" id="password" value={this.state.password} onChange={this.handleChange}/>
+                                </FormGroup>
+                                <FormGroup>
+                                    <Label for="password2">Re-Type Password</Label>
+                                    <Input type="password" name="password2" id="password2" value={this.state.password2} onChange={this.handleChange}/>
                                 </FormGroup>
                                 <Button>Sign Up</Button>
                                 <FormText>

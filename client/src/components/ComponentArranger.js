@@ -5,7 +5,6 @@ import '../styles/ComponentArranger.css';
 import Area from './AreaDnDSource';
 import AreaModel from '../models/Area';
 import { DropTarget } from 'react-dnd';
-import { ArcherContainer } from 'react-archer';
 import LineTo from 'react-lineto';
 
 const Types = {
@@ -48,9 +47,11 @@ class ComponentArranger extends Component {
                 return area.outputComponents.includes(component._id);
             });
             return (
-                <Col key={area._id} xs="12"> 
-                    <Area renderTrigger={JSON.stringify(area)} addRef={this.addRef} isTarget findComponent={this.props.findComponent} handleComponentClick={this.props.handleComponentClick} component={area} outputComponents={outputComponents} showModal={this.props.showModal} addComponent={this.props.addComponent} removeComponent={this.props.removeComponent} updateComponent={this.props.updateComponent} addRelationship={this.props.addRelationship}/>
-                </Col>
+                <Row>
+                    <Col key={area._id} xs="12"> 
+                        <Area renderTrigger={JSON.stringify(area)} addRef={this.addRef} isTarget findComponent={this.props.findComponent} handleComponentClick={this.props.handleComponentClick} component={area} outputComponents={outputComponents} showModal={this.props.showModal} addComponent={this.props.addComponent} removeComponent={this.props.removeComponent} updateComponent={this.props.updateComponent} addRelationship={this.props.addRelationship}/>
+                    </Col>
+                </Row>
             )  
         }
     }
@@ -76,11 +77,11 @@ class ComponentArranger extends Component {
     }
 
     render() {
-        var classNames;
+        var classNames = "row";
         if(this.props.isOver && this.props.canDrop){
-            classNames="canDrop"
+            classNames+=" canDrop"
         } else if (this.props.isOver){
-            classNames="cantDrop"
+            classNames+=" cantDrop"
         }
         let lines = [];
         this.props.components.forEach((component,index,array)=>{
@@ -100,16 +101,16 @@ class ComponentArranger extends Component {
         return this.props.connectDropTarget(
             <div className={classNames}>
                 {lines}
-                <Container fluid className="component-arranger">
-                <Row>
-                    <Col>
-                        <h3>Components</h3>
+                    <Col xs="12">
+                        <Row>
+                            <h3>Components</h3>
+                        </Row>
+                        <Row>
+                            <Col>
+                                {this.props.components.map(this.mapAreas)}
+                            </Col>
+                        </Row>
                     </Col>
-                </Row>
-                    <Row>
-                        {this.props.components.map(this.mapAreas)}
-                    </Row>
-                </Container>
             </div>
         )
     }

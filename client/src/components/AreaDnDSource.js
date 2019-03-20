@@ -86,7 +86,6 @@ class AreaDnDSource extends Component{
         <AreaDnDTarget renderTrigger={JSON.stringify(this.props.component)} addRef={this.props.addRef} findComponent={this.props.findComponent} handleComponentClick={this.props.handleComponentClick} outputComponents={this.props.outputComponents} component={this.props.component} showModal={this.props.showModal} addComponent={this.addComponent} updateComponent={this.props.updateComponent} removeComponent={this.props.removeComponent} addRelationship={this.props.addRelationship}/>
       );
     }
-
     return this.props.connectDragSource(
         <div onClick={this.props.handleComponentClick(this.props.component)}>
           <Card className={"component"}>

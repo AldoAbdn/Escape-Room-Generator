@@ -101,22 +101,7 @@ class BusinessLogic extends Component {
         this.props.services['escape-rooms'].remove(escapeRoom._id);
         this.props.redux.actions.escapeRooms.removeEscapeRoom(escapeRoom);
     }
-    /**
-     * Updates users details 
-     * @function
-     * @param {Object} update
-     */
-    updateUser = async (update) => {
-        try{
-            const user = this.props.redux.state.user;
-            let response = await this.props.services.users.patch(user._id,update);
-            this.props.redux.actions.user.login(response.value);
-            this.props.history.push('/profile');
-            return true;
-        }catch(error){
-            return error.message;
-        }
-    }
+
     /**
      * Saves an escape room
      * @function
@@ -145,7 +130,6 @@ class BusinessLogic extends Component {
             <Switch>
                 <Redirect exact from="/" to="dashboard"/>
                 <ProtectedRoute path="/dashboard" render={(routeProps) => (<Dashboard escapeRooms={escapeRooms} showModal={showModal} editEscapeRoom={this.editEscapeRoom} newEscapeRoom={this.newEscapeRoom} deleteEscapeRoom={this.deleteEscapeRoom}/>)}/>
-                <ProtectedRoute path="/profile" condition={Object.keys(user).length > 0 && user!==undefined} redirect={'/login'} render={(routeProps) => (<Profile user={user} updateUser={this.updateUser}/>)}/>
                 <ProtectedRoute path="/designer" condition={Object.keys(escapeRoom).length > 0 &&escapeRoom!==undefined} redirect={'/'} render={(routeProps) =>(<EscapeRoomDesigner showModal={showModal} escapeRoom={escapeRoom} saveEscapeRoom={this.saveEscapeRoom} updateDetails={escapeRoomActions.updateDetails} updateAccessibility={escapeRoomActions.updateAccessibility} addComponent={escapeRoomActions.addComponent} removeComponent={escapeRoomActions.removeComponent} updateComponent={escapeRoomActions.updateComponent} addRelationship={escapeRoomActions.addRelationship} removeRelationship={escapeRoomActions.removeRelationship}/>)}/>
                 <Route path="/login" render={(routeProps) => (<Login authenticateCredentials={this.authenticateCredentials}/>)}/>
                 <Route path="/signup" render={(routeProps) => (<Signup signUp={this.signUp}/>)}/>
