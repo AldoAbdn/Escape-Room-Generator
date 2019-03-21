@@ -70,7 +70,7 @@ class Accessibility extends Component {
                         <Row>
                             <Col>
                                 <Card>
-                                   <CustomInput type="checkbox" name="Wheelchair Accessible" id="heelchairAccessible" label="wheelchairAccessible" value={this.props.accessibility.wheelchairAccessible} onChange={this.handleChange}/>
+                                   <CustomInput type="checkbox" name="Wheelchair Accessible" id="heelchairAccessible" label="Wheelchair Accessible" value={this.props.accessibility.wheelchairAccessible} onChange={this.handleChange}/>
                                    <CustomInput type="checkbox" name="motorAccessible" id="motorAccessible" label="Accessible for players with motor function issues" value={this.props.accessibility.motorAccessible} onChange={this.handleChange}/>
                                 </Card>
                             </Col>
