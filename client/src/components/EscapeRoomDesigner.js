@@ -56,6 +56,23 @@ class EscapeRoomDesigner extends Component {
             this.props.history.push('/');
         }
     }
+    componentDidUpdate(prevProps,prevState){
+        if(prevState.activeTab!=this.state.activeTab){
+            this.toggleSvgs();
+        }
+    }
+    toggleSvgs=()=>{
+        let lines = document.querySelectorAll("body > div:not(#root)");
+        if(this.state.activeTab!="design"){
+            for (let i = 0; i < lines.length;i++){
+                lines[i].style.display = 'none';
+            }
+        } else {
+            for (let i = 0; i < lines.length;i++){
+                lines[i].style.display = 'block';
+            }
+        }
+    }
     render() {
         return (
             <Container fluid>
