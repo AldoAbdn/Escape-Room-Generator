@@ -1,6 +1,6 @@
 import CrosswordGenerator from 'cwg';
 import Puzzle from './Puzzle';
-class Crossword  {
+class Crossword extends Puzzle {
     constructor(output="",words,hints,answers){
         super('Crossword');
         this.type="crossword";

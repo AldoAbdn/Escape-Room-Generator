@@ -1,5 +1,5 @@
 import Puzzle from './Puzzle';
-class HiddenWord {
+class HiddenWord extends Puzzle{
     constructor(word,words,hints,answers){
         super('HiddenWord');
         this.output=word;
