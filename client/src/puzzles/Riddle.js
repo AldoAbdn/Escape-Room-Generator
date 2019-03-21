@@ -1,4 +1,4 @@
-import riddles from './riddle.json';
+import riddles from '../generators/riddle.json';
 import Puzzle from './Puzzle';
 class Riddle extends Puzzle {
     constructor(){
