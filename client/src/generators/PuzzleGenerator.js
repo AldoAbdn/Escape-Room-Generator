@@ -14,7 +14,7 @@ class PuzzleGenerator {
             case 'crossword':
                 return new Crossword("",options.words,options.hints,options.answers);
             case 'hidden':
-                return new HiddenWord(word,words,hints,answers);
+                return new HiddenWord(options.word,options.words,options.hints,options.answers);
             case 'riddle':
                 return new Riddle();
         }
