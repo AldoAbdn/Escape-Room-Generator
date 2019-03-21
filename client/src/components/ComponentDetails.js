@@ -94,7 +94,7 @@ class ComponentDetails extends Component {
             let component = this.props.selected;
             let details = Object.keys(component[key]).map((property,index,array)=>{
                 let detail;
-                if(typeof component[key][property] === 'object')
+                if(typeof component[key][property] === 'object' || typeof[key][property] === "array")
                     detail = component[key][property].toString();
                 else 
                     detail = component[key][property];

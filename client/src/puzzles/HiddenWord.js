@@ -13,8 +13,9 @@ class HiddenWord extends Puzzle{
     generateHiddenWord(word,words){
         let matrix = [];
         for (let i=0;i<words.length;i++){
-            matrix.push(words.indexOf(word[i]));
+            matrix.push(words[i].indexOf(word[i]));
         }
+
         return matrix;
     }
 }
