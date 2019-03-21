@@ -14,17 +14,23 @@ export default class EscapeRoom {
             description: "",
             estimatedCost: ""
         }
-        this.accessibility = {
-            protanomaly: false,
-            protanopia: false,
-            deuteranomaly: false,
-            deuteranopia: false,
-            tritanomaly: false,
-            tritanopia: false,
-            coneMonochromacy: false,
-            rodMonochromacy: false,
-            largeFonts: false,
-            highContrast: false
+        this.accessibility = {   
+            visual:{
+                protanomaly: false,
+                protanopia: false,
+                deuteranomaly: false,
+                deuteranopia: false,
+                tritanomaly: false,
+                tritanopia: false,
+                coneMonochromacy: false,
+                rodMonochromacy: false,
+                largeFonts: false,
+                highContrast: false
+            },
+            physical:{
+                wheelchairAccessible: false,
+                motorAccessible: false
+            } 
         }
         this.components = [new Area()]
     }  

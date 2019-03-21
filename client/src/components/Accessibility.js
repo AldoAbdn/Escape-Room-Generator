@@ -3,10 +3,15 @@ import { Container, Row, Col, Card, CustomInput } from 'reactstrap';
 import '../styles/accessibility.css';
 
 class Accessibility extends Component {
+    handleVisualChange = (event) => {
+        var state = {...this.props.accessibility};
+        state.visual[event.target.id] = event.target.value===true?false:true;
+        this.props.updateAccessibility(state);
+    }
     //Changes state on input change
-    handleChange = (event) => {
-        var state = {};
-        state[event.target.id] = event.target.value===true?false:true;
+    handlePhysicalChange = (event) => {
+        var state = {...this.props.accessibility};
+        state.physical[event.target.id] = event.target.value===true?false:true;
         this.props.updateAccessibility(state);
     }
     render(){
@@ -16,7 +21,7 @@ class Accessibility extends Component {
                     <Col>
                         <Row>
                             <Col>
-                                <h1 className="text-center">Visual Accessibility</h1>
+                                <h1 className="text-center text-success">Visual Accessibility</h1>
                             </Col>
                         </Row>
                         <Row>
@@ -36,20 +41,20 @@ class Accessibility extends Component {
                         <Row>
                             <Col>
                                 <Card>
-                                   <CustomInput type="checkbox" name="protanomaly" id="protanomaly" label="Protanomaly" value={this.props.accessibility.protanomaly} onChange={this.handleChange}/>
-                                   <CustomInput type="checkbox" name="protanopia" id="protanopia" label="Protanopia" value={this.props.accessibility.protanopia} onChange={this.handleChange}/>
-                                   <CustomInput type="checkbox" name="deuteranomaly" id="deuteranomaly" label="Deuteranomaly" value={this.props.accessibility.deuteranomaly} onChange={this.handleChange}/>
-                                   <CustomInput type="checkbox" name="deuteranopia" id="deuteranopia" label="Deuteranopia" value={this.props.accessibility.deuteranopia} onChange={this.handleChange}/>
-                                   <CustomInput type="checkbox" name="tritanomaly" id="tritanomaly" label="Tritanomaly" value={this.props.accessibility.tritanomaly} onChange={this.handleChange}/>
-                                   <CustomInput type="checkbox" name="tritanopia" id="tritanopia" label="Tritanopia" value={this.props.accessibility.tritanopia} onChange={this.handleChange}/>
-                                   <CustomInput type="checkbox" name="coneMonochromacy" id="coneMonochromacy" label="Cone Monochromacy" value={this.props.accessibility.coneMonochromacy} onChange={this.handleChange}/>
-                                   <CustomInput type="checkbox" name="rodMonochromacy" id="rodMonochromacy" label="Rod Monochromacy" value={this.props.accessibility.rodMonochromacy} onChange={this.handleChange}/>
+                                   <CustomInput type="checkbox" name="protanomaly" id="protanomaly" label="Protanomaly" value={this.props.accessibility.visual.protanomaly} onChange={this.handleVisualChange}/>
+                                   <CustomInput type="checkbox" name="protanopia" id="protanopia" label="Protanopia" value={this.props.accessibility.visual.protanopia} onChange={this.handleVisualChange}/>
+                                   <CustomInput type="checkbox" name="deuteranomaly" id="deuteranomaly" label="Deuteranomaly" value={this.props.accessibility.visual.deuteranomaly} onChange={this.handleVisualChange}/>
+                                   <CustomInput type="checkbox" name="deuteranopia" id="deuteranopia" label="Deuteranopia" value={this.props.accessibility.visual.deuteranopia} onChange={this.handleVisualChange}/>
+                                   <CustomInput type="checkbox" name="tritanomaly" id="tritanomaly" label="Tritanomaly" value={this.props.accessibility.visual.tritanomaly} onChange={this.handleVisualChange}/>
+                                   <CustomInput type="checkbox" name="tritanopia" id="tritanopia" label="Tritanopia" value={this.props.accessibility.visual.tritanopia} onChange={this.handleVisualChange}/>
+                                   <CustomInput type="checkbox" name="coneMonochromacy" id="coneMonochromacy" label="Cone Monochromacy" value={this.props.accessibility.visual.coneMonochromacy} onChange={this.handleVisualChange}/>
+                                   <CustomInput type="checkbox" name="rodMonochromacy" id="rodMonochromacy" label="Rod Monochromacy" value={this.props.accessibility.visual.rodMonochromacy} onChange={this.handleVisualChange}/>
                                 </Card>
                             </Col>
                             <Col>
                                 <Card>
-                                   <CustomInput type="checkbox" name="largeFonts" id="largeFonts" label="Large Fonts" value={this.props.accessibility.largeFonts} onChange={this.handleChange}/>
-                                   <CustomInput type="checkbox" name="highContrast" id="highContrast" label="High Contrast" value={this.props.accessibility.highContrast} onChange={this.handleChange}/>
+                                   <CustomInput type="checkbox" name="largeFonts" id="largeFonts" label="Large Fonts" value={this.props.accessibility.visual.largeFonts} onChange={this.handleVisualChange}/>
+                                   <CustomInput type="checkbox" name="highContrast" id="highContrast" label="High Contrast" value={this.props.accessibility.visual.highContrast} onChange={this.handleVisualChange}/>
                                 </Card>
                             </Col>
                         </Row>
@@ -57,7 +62,7 @@ class Accessibility extends Component {
                     <Col>
                         <Row>
                             <Col>
-                                <h1 className="text-center">Physical Accessibility</h1>
+                                <h1 className="text-center text-primary">Physical Accessibility</h1>
                             </Col>
                         </Row>
                         <Row>
@@ -70,8 +75,8 @@ class Accessibility extends Component {
                         <Row>
                             <Col>
                                 <Card>
-                                   <CustomInput type="checkbox" name="Wheelchair Accessible" id="heelchairAccessible" label="Wheelchair Accessible" value={this.props.accessibility.wheelchairAccessible} onChange={this.handleChange}/>
-                                   <CustomInput type="checkbox" name="motorAccessible" id="motorAccessible" label="Accessible for players with motor function issues" value={this.props.accessibility.motorAccessible} onChange={this.handleChange}/>
+                                   <CustomInput type="checkbox" name="wheelchairAccessible" id="wheelchairAccessible" label="Wheelchair Accessible" value={this.props.accessibility.physical.wheelchairAccessible} onChange={this.handlePhysicalChange}/>
+                                   <CustomInput type="checkbox" name="motorAccessible" id="motorAccessible" label="Accessible for players with motor function issues" value={this.props.accessibility.physical.motorAccessible} onChange={this.handlePhysicalChange}/>
                                 </Card>
                             </Col>
                         </Row>

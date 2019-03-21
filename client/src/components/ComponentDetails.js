@@ -1,9 +1,16 @@
 import React, {Component}  from 'react';
-import { Container, Row, Col, Input, Label, ListGroupItem, Button, ListGroup } from 'reactstrap';
+import { Container, Row, Col, Input, Label, Tooltip, ListGroupItem, Button, ListGroup } from 'reactstrap';
 import {LockGenerator,PuzzleGenerator} from './index';
 import '../styles/ComponentDetails.css';
 
 class ComponentDetails extends Component {
+    constructor(){
+        super();
+        this.state={visualWarning:false,physicalWarning:false}
+    }
+    toggle = (event)=>{
+        this.setState({[event.target.id]:!this.state[event.target.id]});
+    }
     //Changes state on input change
     handleChange = (event) => { 
         let state = {};
@@ -162,6 +169,8 @@ class ComponentDetails extends Component {
         let outputs;
         let inputRelationships;
         let outputRelationships;
+        let visualWarning;
+        let physicalWarning;
         if(component!==undefined || component!==null){
             if(component._id!=undefined)
                 id = " ("+component._id+")";
@@ -193,6 +202,35 @@ class ComponentDetails extends Component {
                     </Row>
                 );
             }
+            //Accessibility
+            let visualKeys = [];
+            Object.keys(this.props.accessibility.visual).forEach((key)=>{
+                if(this.props.accessibility.visual[key]===true)
+                    visualKeys.push(key);
+            });
+            if(visualKeys.length>0)
+                visualWarning = (                
+                <Col className="col text-center">
+                    <i class="fa fa-wheelchair text-success" id="visualWarning" aria-hidden="true"></i>  
+                    <Tooltip id="visual" placement="auto" isOpen={this.state.visualWarning} toggle={this.toggle} target="visualWarning">
+                    You selected: {visualKeys.join(',')} be careful with colour choices
+                    </Tooltip>
+                </Col>
+                )
+            let physicalKeys = [];
+            Object.keys(this.props.accessibility.physical).forEach((key)=>{
+                if(this.props.accessibility.physical[key]===true)
+                    physicalKeys.push(key);
+            });
+            if(physicalKeys.length>0)
+                physicalWarning = (
+                <Col className="col text-center">
+                    <i class="fa fa-wheelchair text-primary" id="physicalWarning" aria-hidden="true"></i>  
+                    <Tooltip id="physical" placement="top" isOpen={this.state.physicalWarning} toggle={this.toggle} target="physicalWarning">
+                    You selected: {physicalKeys.join(',')} ensure plenty of room around puzzles and check how difficult puzzle is to handle
+                    </Tooltip>
+                </Col>
+                )
         }
         return (
             <Container fluid className="container-fluid component-details">
@@ -201,6 +239,10 @@ class ComponentDetails extends Component {
                         <h3>Details</h3>
                         <h4>{type + id}</h4>
                     </Col>
+                </Row>
+                <Row>
+                    {visualWarning}
+                    {physicalWarning}
                 </Row>
                 {properties}
                 {inputRelationships}
