@@ -12,10 +12,9 @@ class PuzzleGenerator extends Component {
 
     //Changes state on input change
     handleChange = (event) => { 
-        let state = {};
-        state[event.target.id] = event.target.value;  
-        state._id = this.props.selected._id;  
-        this.props.updateComponent(state);
+        this.setState({
+            [event.target.id]: event.target.value
+        });
     }
 
     handleListChange = (key) => (list) => {
@@ -41,9 +40,12 @@ class PuzzleGenerator extends Component {
                 return (
                     <Row>
                         <Col>
-                            <Input type="text" name='hiddenWord' id='hiddenWord' placeholder='hidden word' value={this.state.word} onChange={this.handleChange}></Input>
+                            <Input type="text" name='word' id='word' placeholder='hidden word'value={this.state.word} onChange={this.handleChange}></Input>
+                            <p>Words</p>
                             <ListCreator handleChange={this.handleListChange('words')}/>
+                            <p>Hints</p>
                             <ListCreator handleChange={this.handleListChange('hints')}/>
+                            <p>Answers</p>
                             <ListCreator handleChange={this.handleListChange('answers')}/>
                             <Button block onClick={this.handleWordClick} color="primary">Generate Hidden Word</Button>
                         </Col>
