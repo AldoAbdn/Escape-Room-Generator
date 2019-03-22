@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { DragSource } from 'react-dnd';
 import ComponentDnDTarget from './ComponentDnDTarget';
-import { Row, Col } from 'reactstrap'
+import { Row, Col, Container } from 'reactstrap'
 import '../styles/Component.css';
 import { ArcherElement } from 'react-archer';
 import Modal from '../models/Modal';
@@ -91,28 +91,32 @@ componentWillUnmount() {
       var target;
       if (this.props.isTarget){
         target = (
-          <Row>
-              <Col xs="6"><ComponentDnDTarget isInput={true} component={this.props.component} handleComponentClick={this.props.handleComponentClick} showModal={this.props.showModal} addComponent={this.props.addComponent} removeComponent={this.props.removeComponent} addRelationship={this.props.addRelationship}/></Col>
-              <Col xs="6"><ComponentDnDTarget isInput={false} component={this.props.component} handleComponentClick={this.props.handleComponentClick} showModal={this.props.showModal} addComponent={this.props.addComponent} removeComponent={this.props.removeComponent} addRelationship={this.props.addRelationship}/></Col>
-          </Row>  
+            <Row>
+                <Col xs="6"><ComponentDnDTarget isInput={true} component={this.props.component} handleComponentClick={this.props.handleComponentClick} showModal={this.props.showModal} addComponent={this.props.addComponent} removeComponent={this.props.removeComponent} addRelationship={this.props.addRelationship}/></Col>
+                <Col xs="6"><ComponentDnDTarget isInput={false} component={this.props.component} handleComponentClick={this.props.handleComponentClick} showModal={this.props.showModal} addComponent={this.props.addComponent} removeComponent={this.props.removeComponent} addRelationship={this.props.addRelationship}/></Col>
+            </Row>
         );
       }
       var style = {};
-      let title;
-      let name;
-      let classNames = "component";
+      let classNames = "component container-fluid";
       if(this.props.component!==undefined){
-        title=this.props.component.type;
         style.top = this.props.component.position.top;
         style.left = this.props.component.position.left;
         classNames += " " + this.props.component.type + " " + this.props.component._id;
-        title+= " ("+this.props.component._id+")";
-        name = this.props.component.name;
       } 
       return this.props.connectDragSource(
           <div className={classNames} id={this.props.component._id} style={style} onClick={this.props.handleComponentClick(this.props.component)}>
-            <span>{title}</span>
-            <span class="hide-overflow">{name}</span>
+            <Row>
+              <Col>
+                <p>{this.props.component.type}</p>
+                <p>{this.props.component._id}</p>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+              <p>{this.props.component.name}</p>
+              </Col>
+            </Row>
             {target}
           </div>
       )

@@ -1,5 +1,5 @@
 import React, {Component}  from 'react';
-import { Card, CardBody } from 'reactstrap';
+import { Card, CardBody, UncontrolledTooltip } from 'reactstrap';
 import '../styles/Component.css';
 import { DropTarget } from 'react-dnd';
 import { Puzzle, Event, Music, Lock, Prop } from '../models/index';
@@ -62,21 +62,34 @@ class ComponentDnDTarget extends Component {
 
     }
     render() {
+        let id=this.props.component._id;
         var classNames = "hide-border";
         if(this.props.isOver && this.props.canDrop){
             classNames+=" canDrop";
         } else if(this.props.isOver && !this.props.canDrop){
             classNames+=" cantDrop";
         } else if(this.props.canDrop){
-            classNames+=" couldDrop"
+            classNames+=" couldDrop";
+        }
+        let tooltip;
+        if(this.props.isInput){
+            id+="-input"
+            classNames+=" isInput";
+            tooltip = "Drag another component to this blue square to add it as an input to this component"
+        }
+        else {
+            id+="-output"
+            classNames+=" isOutput";
+            tooltip = "Drag another component to this green square to add it as an output of this component"
         }
         return this.props.connectDropTarget(
-            <div key={this.props.component._id}>
+            <div key={this.props.component._id} id={id}>
                 <Card className={classNames} onClick={this.props.handleComponentClick(this.props.component)}>
                     <CardBody>
 
                     </CardBody>
                 </Card>
+                <UncontrolledTooltip target={id}>{tooltip}</UncontrolledTooltip>
             </div>
         )
     }

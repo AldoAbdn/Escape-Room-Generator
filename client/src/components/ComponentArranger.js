@@ -77,7 +77,7 @@ class ComponentArranger extends Component {
     }
 
     render() {
-        var classNames = "row";
+        var classNames = "row component-arranger";
         if(this.props.isOver && this.props.canDrop){
             classNames+=" canDrop"
         } else if (this.props.isOver){
@@ -103,7 +103,9 @@ class ComponentArranger extends Component {
                 {lines}
                     <Col xs="12">
                         <Row>
-                            <h3>Components</h3>
+                            <Col className="col text-center">
+                                <h3>Components</h3>
+                            </Col>
                         </Row>
                         <Row>
                             <Col>

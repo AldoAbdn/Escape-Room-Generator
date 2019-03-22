@@ -235,7 +235,7 @@ class ComponentDetails extends Component {
         return (
             <Container fluid className="container-fluid component-details">
                 <Row>
-                    <Col>
+                    <Col className="col text-center">
                         <h3>Details</h3>
                         <h4>{type + id}</h4>
                     </Col>

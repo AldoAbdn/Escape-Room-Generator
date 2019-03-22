@@ -17,7 +17,6 @@ const componentTarget = {
             return;
         }
         const item = monitor.getItem();
-
         let clientOffset = monitor.getClientOffset();
         let targetRect = ReactDOM.findDOMNode(component).getBoundingClientRect();
         item.position = {top:(((clientOffset.y-targetRect.y)/targetRect.height)*100)+"%",left:(((clientOffset.x-targetRect.x)/targetRect.width)*100)+"%"};
@@ -39,7 +38,10 @@ function collect(connect, monitor) {
 class AreaDnDTarget extends Component {
     constructor(){
         super()
-        this.state={render:true};
+        this.state={render:true,screenWidth:0,screenHeight:0};
+    }
+    updateScreenSize=()=>{
+        this.setState({screenWidth:window.innerHeight,screenHeight:window.innerHeight})
     }
     handleComponentDrop(item,isInput=false){
         var component = null;
@@ -73,6 +75,13 @@ class AreaDnDTarget extends Component {
             component = item;
             this.props.updateComponent(component,this.props.component._id);
         }
+    }
+    componentDidMount(){
+        this.updateScreenSize();
+        window.addEventListener('resize', this.updateScreenSize);
+    }
+    componentWillUnmount(){
+        window.removeEventListener('resize',this.updateScreenSize);
     }
     render() {
         var classNames = "Area";
