@@ -1,5 +1,5 @@
 import React, {Component}  from 'react';
-import { Container, Row, Col, Input, Label, Tooltip, ListGroupItem, Button, ListGroup } from 'reactstrap';
+import { Container, Row, Col, Input, Label, UncontrolledTooltip ,Tooltip, ListGroupItem, Button, ListGroup } from 'reactstrap';
 import {LockGenerator,PuzzleGenerator} from './index';
 import '../styles/ComponentDetails.css';
 
@@ -211,10 +211,10 @@ class ComponentDetails extends Component {
             if(visualKeys.length>0)
                 visualWarning = (                
                 <Col className="col text-center">
-                    <i class="fa fa-wheelchair text-success" id="visualWarning" aria-hidden="true"></i>  
-                    <Tooltip id="visual" placement="auto" isOpen={this.state.visualWarning} toggle={this.toggle} target="visualWarning">
+                    <p id="visualWarning"><i class="fa fa-wheelchair text-success"  aria-hidden="true"></i></p>  
+                    <UncontrolledTooltip id="visual" target="visualWarning">
                     You selected: {visualKeys.join(',')} be careful with colour choices
-                    </Tooltip>
+                    </UncontrolledTooltip>
                 </Col>
                 )
             let physicalKeys = [];
@@ -225,10 +225,10 @@ class ComponentDetails extends Component {
             if(physicalKeys.length>0)
                 physicalWarning = (
                 <Col className="col text-center">
-                    <i class="fa fa-wheelchair text-primary" id="physicalWarning" aria-hidden="true"></i>  
-                    <Tooltip id="physical" placement="top" isOpen={this.state.physicalWarning} toggle={this.toggle} target="physicalWarning">
+                    <p id="physicalWarning"><i class="fa fa-wheelchair text-primary" id="physicalWarning" aria-hidden="true"></i></p>
+                    <UncontrolledTooltip id="physical" target="physicalWarning">
                     You selected: {physicalKeys.join(',')} ensure plenty of room around puzzles and check how difficult puzzle is to handle
-                    </Tooltip>
+                    </UncontrolledTooltip>
                 </Col>
                 )
         }

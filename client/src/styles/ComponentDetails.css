@@ -7,3 +7,13 @@
 .component-details p {
     text-overflow: ellipsis;
 }
+
+.fa-wheelchair {
+    font-size:3rem;
+    width:100%;
+    z-index: 1071;
+}
+
+#visualWarning,#physicalWarning {
+    z-index: 1071;
+}

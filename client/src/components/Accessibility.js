@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import { Container, Row, Col, Card, CustomInput } from 'reactstrap';
-import '../styles/accessibility.css';
 
 class Accessibility extends Component {
     handleVisualChange = (event) => {

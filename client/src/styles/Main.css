@@ -13,7 +13,7 @@ main {
 }
 
 .navbar {
-    z-index:9999;
+    z-index:1000;
 }
 
 #ProfileImage {
@@ -48,9 +48,4 @@ main {
 .login .form-text, .sign-up .form-text {
     color: white !important;
     font-weight: bold;
-}
-
-
-.sign-up {
-
 }

@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import { Container, Row, Col, Form, FormGroup, Label, Input} from 'reactstrap';
-import '../styles/details.css';
 
 class Details extends Component {
     //Changes state on input change
