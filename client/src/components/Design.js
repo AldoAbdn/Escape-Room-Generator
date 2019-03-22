@@ -29,7 +29,7 @@ class Design extends Component {
                         <ComponentArranger renderTrigger={JSON.stringify(this.props.components.components)} findComponent={this.findComponent} showModal={this.props.showModal} handleComponentClick={this.handleComponentClick} updateComponent={this.props.updateComponent} addComponent={this.props.addComponent} removeComponent={this.props.removeComponent} addRelationship={this.props.addRelationship} components={this.props.components.components}/>            
                     </Col>
                     <Col md="2">
-                        <ComponentDetails accessibility={this.props.accessibility} selected={this.state.selected} updateComponent={this.updateComponent}/>
+                        <ComponentDetails calculateOutput={this.props.calculateOutput} accessibility={this.props.accessibility} selected={this.state.selected} updateComponent={this.updateComponent}/>
                     </Col>
                 </Row>
             </Container>

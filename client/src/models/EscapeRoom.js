@@ -48,4 +48,31 @@ export default class EscapeRoom {
         }
         return cost;
     }
+
+    static findComponent(escapeRoom,id){
+        return escapeRoom.components.find((component)=>{return component._id===id})
+    }
+
+    static calculateComponentOutput(escapeRoom,id){
+        let component = EscapeRoom.findComponent(escapeRoom,id);
+        if(component!=null){
+            let outputs = [];
+            for(let id of component.inputComponents){
+                let component = EscapeRoom.findComponent(escapeRoom,id);
+                console.log(component);
+                outputs.push(component.output);
+            }
+            let string = outputs.find((output)=>{parseFloat(output)});
+            console.log(string);
+            if(string!=null||string!=undefined){
+                return outputs.join(" ");
+                console.log(string);
+            } else {
+                if(outputs.length>1)
+                    return outputs.reduce((sum,output)=>parseFloat(sum)+parseFloat(output));
+                else 
+                    return "";
+            }
+        }
+    }
 }

@@ -4,6 +4,7 @@ import { Details, Accessibility, Design } from './index';
 import classnames from 'classnames';
 import { saveAs } from 'file-saver';
 import jsPDF from 'jspdf';
+import EscapeRoom from '../models/EscapeRoom';
 import '../styles/EscapeRoomDesigner.css';
 
 class EscapeRoomDesigner extends Component {
@@ -73,6 +74,9 @@ class EscapeRoomDesigner extends Component {
             }
         }
     }
+    calculateOutput=(id)=>{
+        return EscapeRoom.calculateComponentOutput(this.props.escapeRoom,id);
+    }
     render() {
         return (
             <Container fluid>
@@ -129,7 +133,7 @@ class EscapeRoomDesigner extends Component {
                                 <Accessibility accessibility={this.props.escapeRoom.accessibility} updateAccessibility={this.props.updateAccessibility}/>
                             </TabPane>
                             <TabPane tabId="design">
-                                <Design components={{components:this.props.escapeRoom.components}} showModal={this.props.showModal} accessibility={this.props.escapeRoom.accessibility} addComponent={this.props.addComponent} removeComponent={this.props.removeComponent} updateComponent={this.props.updateComponent} addRelationship={this.props.addRelationship} removeRelationship={this.props.removeRelationship}/>
+                                <Design calculateOutput={this.calculateOutput} components={{components:this.props.escapeRoom.components}} showModal={this.props.showModal} accessibility={this.props.escapeRoom.accessibility} addComponent={this.props.addComponent} removeComponent={this.props.removeComponent} updateComponent={this.props.updateComponent} addRelationship={this.props.addRelationship} removeRelationship={this.props.removeRelationship}/>
                             </TabPane>
                         </TabContent>
                     </Col>

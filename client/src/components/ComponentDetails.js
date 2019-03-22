@@ -11,6 +11,9 @@ class ComponentDetails extends Component {
     toggle = (event)=>{
         this.setState({[event.target.id]:!this.state[event.target.id]});
     }
+    convertCamelCase(string){
+        return string.replace(/([A-Z])/g, ' $1').replace(/^./,(str)=>{ return str.toUpperCase(); })
+    }
     //Changes state on input change
     handleChange = (event) => { 
         let state = {};
@@ -32,6 +35,9 @@ class ComponentDetails extends Component {
         this.props.updateComponent({_id:this.props.selected._id,puzzle,output:puzzle.output});
         this.forceUpdate();
     }
+    generateFromInputs=()=>{
+        this.props.updateComponent({_id:this.props.selected._id,output:this.props.calculateOutput(this.props.selected._id)})
+    }
     mapDetailToInput = (key,i) => {
         if(key==='output') {
             let generator;
@@ -42,10 +48,9 @@ class ComponentDetails extends Component {
             }
             return (<Row key={i}>
                 <Col>
-                    <Label for={key}>{key}</Label>
-                    <Input type="text" name={key} id={key} placeholder={key} value={this.props.selected[key]} onChange={this.handleChange}/>
-                    <Button color="primary" onClick={this.generateFromInputs}>Generate From Inputs</Button>
-                    <br/>
+                    <Label for={key}>{this.convertCamelCase(key)}</Label>
+                    <Input type="text" name={key} id={key} placeholder={this.convertCamelCase(key)} value={this.props.selected[key]} onChange={this.handleChange}/>
+                    <Button block color="primary" onClick={this.generateFromInputs}>Generate From Inputs</Button>
                     <br/>
                     {generator}
                     <br/>
@@ -55,8 +60,8 @@ class ComponentDetails extends Component {
             return (
                 <Row key={i}>
                     <Col>
-                        <Label for={key}>{key}</Label>
-                        <Input type="select" name={key} id={key} placeholder={key} value={this.props.selected[key]} onChange={this.handleChange}>
+                        <Label for={key}>{this.convertCamelCase(key)}</Label>
+                        <Input type="select" name={key} id={key} placeholder={this.convertCamelCase(key)} value={this.props.selected[key]} onChange={this.handleChange}>
                             <option>Numeric</option>
                             <option>Word</option>
                             <option>Directional</option>
@@ -70,8 +75,8 @@ class ComponentDetails extends Component {
             return (
                 <Row key={i}>
                     <Col>
-                        <Label for={key}>{key}</Label>
-                        <Input type="select" name={key} id={key} placeholder={key} value={this.props.selected[key]} onChange={this.handleChange}>
+                        <Label for={key}>{this.convertCamelCase(key)}</Label>
+                        <Input type="select" name={key} id={key} placeholder={this.convertCamelCase(key)} value={this.props.selected[key]} onChange={this.handleChange}>
                             <option>Sound Effect</option>
                             <option>New Area</option>
                             <option>Objective Complete</option>
@@ -84,8 +89,8 @@ class ComponentDetails extends Component {
             return (
                 <Row key={i}>
                     <Col>
-                        <Label for={key}>{key}</Label>
-                        <Input type="select" name={key} id={key} placeholder={key} value={this.props.selected[key]} onChange={this.handleChange}>
+                        <Label for={key}>{this.convertCamelCase(key)}</Label>
+                        <Input type="select" name={key} id={key} placeholder={this.convertCamelCase(key)} value={this.props.selected[key]} onChange={this.handleChange}>
                             <option>Cipher</option>
                             <option>Word</option>
                             <option>Colour</option>
@@ -101,14 +106,15 @@ class ComponentDetails extends Component {
             let component = this.props.selected;
             let details = Object.keys(component[key]).map((property,index,array)=>{
                 let detail;
+                console.log(typeof component[key][property]);
                 if(typeof component[key][property] === 'object' || typeof[key][property] === "array")
-                    detail = component[key][property].toString();
+                    detail = JSON.stringify(component[key][property]);
                 else 
                     detail = component[key][property];
                 return(
                 <Row id={key}>
                     <Col>
-                        <p>{" " + property+ ": "+detail}</p>
+                        <p>{" " + this.convertCamelCase(property) + ": "+this.convertCamelCase(detail)}</p>
                     </Col>
                 </Row>
                 )
@@ -117,7 +123,7 @@ class ComponentDetails extends Component {
                 return (
                     <Row>
                         <Col>
-                            <Label>{key}</Label>
+                            <Label>{this.convertCamelCase(key)}</Label>
                             {details}
                         </Col>
                     </Row>
@@ -129,8 +135,8 @@ class ComponentDetails extends Component {
             return (
                 <Row key={i}>
                     <Col>
-                        <Label for={key}>{key}</Label>
-                        <Input type="text" name={key} id={key} placeholder={key} value={this.props.selected[key]} onChange={this.handleChange}/>
+                        <Label for={key}>{this.convertCamelCase(key)}</Label>
+                        <Input type="text" name={key} id={key} placeholder={this.convertCamelCase(key)} value={this.props.selected[key]} onChange={this.handleChange}/>
                     </Col>
                 </Row>)
         }
