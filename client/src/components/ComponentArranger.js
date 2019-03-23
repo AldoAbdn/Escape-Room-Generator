@@ -47,8 +47,8 @@ class ComponentArranger extends Component {
                 return area.outputComponents.includes(component._id);
             });
             return (
-                <Row>
-                    <Col key={area._id} xs="12"> 
+                <Row key={area._id}>
+                    <Col xs="12"> 
                         <Area renderTrigger={JSON.stringify(area)} addRef={this.addRef} isTarget findComponent={this.props.findComponent} handleComponentClick={this.props.handleComponentClick} component={area} outputComponents={outputComponents} showModal={this.props.showModal} addComponent={this.props.addComponent} removeComponent={this.props.removeComponent} updateComponent={this.props.updateComponent} addRelationship={this.props.addRelationship}/>
                     </Col>
                 </Row>

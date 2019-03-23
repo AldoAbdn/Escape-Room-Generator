@@ -2,3 +2,21 @@
     max-height: 100%;
     overflow: hidden;
 }
+
+.inner-video-list-scroll-area-container{
+    height: 19vh !important;
+    overflow:auto;
+}
+
+.video-container{
+    font-weight: bold;
+    border-bottom: 1px solid grey; 
+}
+
+.video-container:hover{
+    cursor: pointer;
+}
+
+.current {
+    background-color: #007bff;
+}

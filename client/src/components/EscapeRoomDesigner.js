@@ -81,7 +81,7 @@ class EscapeRoomDesigner extends Component {
                 <Row className="save-options">
                     <Col xs="6" md="3" lg="3"><Button block onClick={this.handleClick('EXIT')}>Save and Exit</Button></Col>
                     <Col xs="6" md="3" lg="3">
-                        <Dropdown block isOpen={this.state.dropdownOpen} toggle={this.handleToggle}>
+                        <Dropdown isOpen={this.state.dropdownOpen} toggle={this.handleToggle}>
                             <DropdownToggle  className="full-width" caret>Save and Export</DropdownToggle>
                             <DropdownMenu right>
                                 <DropdownItem onClick={this.handleClick('JSON')}>Export as JSON</DropdownItem>
