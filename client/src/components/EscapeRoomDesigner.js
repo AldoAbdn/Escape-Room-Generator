@@ -3,7 +3,7 @@ import { Container, Dropdown, DropdownToggle , DropdownMenu , DropdownItem , Row
 import { Details, Accessibility, Design } from './index';
 import classnames from 'classnames';
 import { saveAs } from 'file-saver';
-import jsPDF from 'jspdf';
+import {escapeRoomToPDF} from '../pdf/pdf';
 import EscapeRoom from '../models/EscapeRoom';
 import '../styles/EscapeRoomDesigner.css';
 
@@ -17,9 +17,7 @@ class EscapeRoomDesigner extends Component {
         saveAs(blob, escapeRoom.details.name+".json");
     }
     savePDF(escapeRoom) {
-        var doc = new jsPDF();
-        doc.text(JSON.stringify(escapeRoom),10,10);
-        doc.save(escapeRoom.details.name+'.pdf');
+        escapeRoomToPDF(escapeRoom);
     }
     handleClick = (action) => (e) => {
         switch(action){

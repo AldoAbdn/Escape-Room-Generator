@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import { Container, Row, Col, Dropdown, DropdownToggle, DropdownMenu, DropdownItem , ListGroup, ListGroupItem , Button } from 'reactstrap';
 import { saveAs } from 'file-saver';
-import jsPDF from 'jspdf';
 import Modal from '../models/Modal';
+import {escapeRoomToPDF} from '../pdf/pdf';
 
 class Dashboard extends Component {
     constructor(props){
@@ -25,9 +25,7 @@ class Dashboard extends Component {
         saveAs(blob, escapeRoom.details.name+".json");
     }
     savePDF(escapeRoom) {
-        var doc = new jsPDF();
-        doc.text(JSON.stringify(escapeRoom),10,10);
-        doc.save(escapeRoom.details.name+'.pdf');
+        escapeRoomToPDF(escapeRoom);
     }
     handleItemClick = (i, action) => (e) => {
         const escapeRoom = this.props.escapeRooms[i];

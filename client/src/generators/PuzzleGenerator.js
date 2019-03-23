@@ -1,11 +1,11 @@
 
 import riddles from './riddle.json';
-import {Crossword,HiddenWord,Riddle,Colour} from '../puzzles/index';
+import {Crossword,HiddenWord,Riddle,Colour,Cipher} from '../puzzles/index';
 class PuzzleGenerator {
     generateCipher(type="pigpen"){
         switch(type){
             case 'pigpen':
-                return {cipher:"/images/ciphers/pigpen/cipher.jpg",decoder:"/images/ciphers/pigpen/cipher.jpg"}
+                return new Cipher();
         }
     }
 

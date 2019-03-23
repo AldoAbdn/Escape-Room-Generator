@@ -18,8 +18,6 @@ class PuzzleGenerator extends Component {
     }
 
     handleListChange = (key) => (list) => {
-        console.log(key);
-        console.log(list);
         this.setState({[key]:list});
     }
 
