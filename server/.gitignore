@@ -113,3 +113,6 @@ data/
 
 # Temporarily disable liscence 
 LICENCE
+
+# Env
+.env
