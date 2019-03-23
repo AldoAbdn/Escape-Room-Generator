@@ -1,7 +1,7 @@
 {
   "name": "escape-room-generator-server",
   "description": "Honours Project for Computing: Application Software Development at RGU. Web app for designing an escape room. ",
-  "version": "0.1.0",
+  "version": "1.1.0",
   "homepage": "http://escape-room-generator.herokuapp.com",
   "main": "src",
   "keywords": [
