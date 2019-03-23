@@ -1,5 +1,6 @@
 import React, {Component}  from 'react';
 import YouTubePlaylist from 'react-youtube-playlist';
+import '../styles/Tutorials.css';
 
 class Tutorials extends Component {
     render() {
