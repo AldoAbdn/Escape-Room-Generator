@@ -16,7 +16,7 @@ class Signup extends Component {
     //Handles login form submit event
     handleSubmit = async (event) => {
         event.preventDefault();
-        if(this.props.password!=this.props.password2){
+        if(this.props.password!==this.props.password2){
             this.setState({errorMessage:"Passwords Must Match"});
         }
         if(this.props.signUp){
@@ -30,7 +30,7 @@ class Signup extends Component {
         this.setState({
             [event.target.id]: event.target.value
         },()=>{
-            if(this.state.password!=""&&this.state.password!=this.state.password2){
+            if(this.state.password!==""&&this.state.password!==this.state.password2){
                 this.setState({errorMessage:"Passwords Must Match"});
             } else {
                 this.setState({errorMessage:""});

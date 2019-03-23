@@ -1,6 +1,5 @@
 import React, {Component}  from 'react';
-import { Container, Row, Col, Card, CardImg, CardBody,
-    CardTitle, Alert, Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Container, Row, Col, Alert, Button, Form, FormGroup, Label, Input } from 'reactstrap';
 
 class Profile extends Component {
     constructor(){
@@ -85,7 +84,7 @@ class Profile extends Component {
             <Container fluid>
                 <Row>
                     <Col>
-                        <img id="ProfileImage" className="img-fluid" src={this.props.user.avatar} alt="Profile Image" />
+                        <img id="ProfileImage" className="img-fluid" src={this.props.user.avatar} alt="Profile" />
                         <p className="text-center">{this.props.user.email}</p>
                         <Button id="editButton" block className="text-center" onClick={this.handleClick}>Edit Profile</Button>
                     </Col>

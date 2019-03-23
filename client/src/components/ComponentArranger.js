@@ -1,5 +1,5 @@
 import React, {Component}  from 'react';
-import { Container, Row, Col } from 'reactstrap';
+import { Row, Col } from 'reactstrap';
 import '../styles/Component.css';
 import '../styles/ComponentArranger.css';
 import Area from './AreaDnDSource';
@@ -56,7 +56,7 @@ class ComponentArranger extends Component {
         }
     }
     addRef = (ref)=>{
-        if(ref!=undefined){
+        if(ref!==undefined){
             this.setState({refs:[...this.state.refs,ref]});
         }
     }
@@ -85,7 +85,7 @@ class ComponentArranger extends Component {
         }
         let lines = [];
         this.props.components.forEach((component,index,array)=>{
-            if(component!=undefined && component.inputComponents!=undefined && component.type!="Area"){
+            if(component!==undefined && component.inputComponents!==undefined && component.type!=="Area"){
                 let inputComponents = component.inputComponents;
                 let outputComponents = component.outputComponents;
                 inputComponents.forEach((inputComponent,index,array)=>{

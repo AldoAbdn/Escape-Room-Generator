@@ -76,7 +76,7 @@ class AreaDnDSource extends Component{
     this.props.addRelationship(component._id,parentId);
   }  
   componentDidUpdate(prevProps){
-    if(this.props.renderTrigger!=prevProps.renderTrigger)
+    if(this.props.renderTrigger!==prevProps.renderTrigger)
       this.forceUpdate();
   }
   render() {

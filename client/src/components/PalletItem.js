@@ -38,7 +38,7 @@ function collect(connect, monitor) {
 class PalletItem extends Component{
   render() {
       let id=this.props.id || "";
-      let classNames = id + " " + "component" + " " + "pallet-item"
+      let classNames = id + " component pallet-item"
       return this.props.connectDragSource(
           <div className={classNames} id={id} >
             <span>{id}</span>

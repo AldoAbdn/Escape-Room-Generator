@@ -1,10 +1,10 @@
-
-import riddles from './riddle.json';
 import {Crossword,HiddenWord,Riddle,Colour,Cipher} from '../puzzles/index';
 class PuzzleGenerator {
     generateCipher(type="pigpen"){
         switch(type){
             case 'pigpen':
+                return new Cipher();
+            default:
                 return new Cipher();
         }
     }
@@ -16,6 +16,8 @@ class PuzzleGenerator {
             case 'hidden':
                 return new HiddenWord(options.word,options.words,options.hints,options.answers);
             case 'riddle':
+                return new Riddle();
+            default:
                 return new Riddle();
         }
     }

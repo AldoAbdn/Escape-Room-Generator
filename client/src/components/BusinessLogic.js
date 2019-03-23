@@ -2,7 +2,7 @@ import React, {Component}  from 'react';
 import { Route, Switch } from 'react-router';
 import { Redirect } from 'react-router-dom';
 //Components
-import { Dashboard, EscapeRoomDesigner, Login, Signup, Tutorials, About, ProtectedRoute, Profile, NotFound } from '../components/index.js';
+import { Dashboard, EscapeRoomDesigner, Login, Signup, Tutorials, About, ProtectedRoute, NotFound } from '../components/index.js';
 import EscapeRoom from '../models/EscapeRoom.js';
 /**
  * Business logic of app 
@@ -124,7 +124,6 @@ class BusinessLogic extends Component {
         const escapeRooms = this.props.redux.state.escapeRooms;
         const escapeRoom = this.props.redux.state.escapeRoom;
         const escapeRoomActions = this.props.redux.actions.escapeRoom;
-        const user = this.props.redux.state.user;
         const showModal = this.props.redux.actions.modal.showModal;
         return (
             <Switch>

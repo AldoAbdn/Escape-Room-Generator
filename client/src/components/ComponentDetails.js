@@ -1,5 +1,5 @@
 import React, {Component}  from 'react';
-import { Container, Row, Col, Input, Label, UncontrolledTooltip ,Tooltip, ListGroupItem, Button, ListGroup } from 'reactstrap';
+import { Container, Row, Col, Input, Label, UncontrolledTooltip, ListGroupItem, Button, ListGroup } from 'reactstrap';
 import {LockGenerator,PuzzleGenerator} from './index';
 import '../styles/ComponentDetails.css';
 
@@ -107,7 +107,7 @@ class ComponentDetails extends Component {
             let details = Object.keys(component[key]).map((property,index,array)=>{
                 let detail;
                 console.log(typeof component[key][property]);
-                if(typeof component[key][property] === 'object' || typeof[key][property] === "array")
+                if(typeof component[key][property] === Object || typeof[key][property] === Array)
                     detail = JSON.stringify(component[key][property]);
                 else 
                     detail = component[key][property];
@@ -178,7 +178,7 @@ class ComponentDetails extends Component {
         let visualWarning;
         let physicalWarning;
         if(component!==undefined || component!==null){
-            if(component._id!=undefined)
+            if(component._id!==undefined)
                 id = " ("+component._id+")";
             else 
                 id="";

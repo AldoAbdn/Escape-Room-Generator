@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
 import { DragSource } from 'react-dnd';
 import ComponentDnDTarget from './ComponentDnDTarget';
-import { Row, Col, Container } from 'reactstrap'
+import { Row, Col } from 'reactstrap'
 import '../styles/Component.css';
-import { ArcherElement } from 'react-archer';
 import Modal from '../models/Modal';
 
 // Drag sources and drop targets only interact
@@ -60,12 +59,8 @@ class ComponentDnDSource extends Component{
   removeComponent = ()=>{
     this.props.removeComponent(this.props.component._id);
   }
-  componentDidMount(){
-    if(this.props.addRef)
-      this.props.addRef(this.ref);
-  }
   componentDidUpdate(prevProps){
-    if(this.props.renderTrigger!=prevProps.renderTrigger)
+    if(this.props.renderTrigger!==prevProps.renderTrigger)
       this.forceUpdate();
   }
   findComponent(component){
@@ -80,13 +75,13 @@ class ComponentDnDSource extends Component{
     window.addEventListener('click', this.update, true);
     window.addEventListener('scroll', this.update, true);
     window.addEventListener('resize', this.update);
-}
+  }
   
-componentWillUnmount() {
-  window.removeEventListener('click', this.update);
+  componentWillUnmount() {
+    window.removeEventListener('click', this.update);
     window.removeEventListener('scroll', this.update);
     window.removeEventListener('resize', this.update)
-}
+  }
   render() {
       var target;
       if (this.props.isTarget){

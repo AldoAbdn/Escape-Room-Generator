@@ -5,7 +5,6 @@ import '../styles/Component.css';
 import { DropTarget } from 'react-dnd';
 import ComponentDnDSource from './ComponentDnDSource';
 import { Puzzle, Prop, Lock, Music, Event } from '../models/index.js';
-import { ArcherContainer } from 'react-archer';
 
 const Types = {
     COMPONENT: 'COMPONENT'
@@ -92,11 +91,12 @@ class AreaDnDTarget extends Component {
         } else if(this.props.canDrop){
             classNames+=" couldDrop"
         }
+        let title = this.props.component.type + " (" + this.props.component._id + ") " + this.props.component.name;
         return this.props.connectDropTarget(
             <div className={this.props.component.type} key={this.props.component._id}>                
                 <Card className={classNames} onClick={this.props.handleComponentClick(this.props.component)}>
                     <CardBody>
-                        <CardTitle>{this.props.component.type + " (" + this.props.component._id + ")" + " " + this.props.component.name}</CardTitle>  
+                        <CardTitle>{title}</CardTitle>  
                             {this.props.outputComponents.map((origComponent,i)=>{
                                 let component;
                                 component = this.props.findComponent(origComponent._id);

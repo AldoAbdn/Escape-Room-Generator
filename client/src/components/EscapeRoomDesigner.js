@@ -56,13 +56,13 @@ class EscapeRoomDesigner extends Component {
         }
     }
     componentDidUpdate(prevProps,prevState){
-        if(prevState.activeTab!=this.state.activeTab){
+        if(prevState.activeTab!==this.state.activeTab){
             this.toggleSvgs();
         }
     }
     toggleSvgs=()=>{
         let lines = document.querySelectorAll("body > div:not(#root)");
-        if(this.state.activeTab!="design"){
+        if(this.state.activeTab!=="design"){
             for (let i = 0; i < lines.length;i++){
                 lines[i].style.display = 'none';
             }

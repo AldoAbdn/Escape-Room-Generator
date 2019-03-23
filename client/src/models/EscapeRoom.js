@@ -59,14 +59,11 @@ export default class EscapeRoom {
             let outputs = [];
             for(let id of component.inputComponents){
                 let component = EscapeRoom.findComponent(escapeRoom,id);
-                console.log(component);
                 outputs.push(component.output);
             }
-            let string = outputs.find((output)=>{parseFloat(output)});
-            console.log(string);
-            if(string!=null||string!=undefined){
+            let string = outputs.find((output)=>parseFloat(output));
+            if(string!==null||string!==undefined){
                 return outputs.join(" ");
-                console.log(string);
             } else {
                 if(outputs.length>1)
                     return outputs.reduce((sum,output)=>parseFloat(sum)+parseFloat(output));

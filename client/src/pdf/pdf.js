@@ -18,7 +18,7 @@ function convertObject(object,doc){
             doc.text(key);
             doc = convertObject(object[key],doc);
         }
-        else if(typeof object[key]==="array")
+        else if(typeof object[key]===Array)
             doc.text(key+": " + JSON.stringify(object[key]));
         else 
             doc.text(key+": "+object[key]);

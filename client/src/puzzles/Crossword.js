@@ -11,4 +11,4 @@ class Crossword extends Puzzle {
         this.crossword=CrosswordGenerator(words);
     }
 }
-export default CrosswordGenerator;
+export default Crossword;

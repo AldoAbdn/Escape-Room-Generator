@@ -11,7 +11,7 @@ class Colour extends Puzzle{
     generateNumbers(){
         let num1 = Math.floor(Math.random()*4)+1;
         let num2;
-        while(num2!=num1){
+        while(num2!==num1){
             num2 = Math.floor(Math.random()*4)+1;
         }
         let num3 = num1 + num2;
