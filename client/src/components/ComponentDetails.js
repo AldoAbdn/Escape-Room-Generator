@@ -106,13 +106,14 @@ class ComponentDetails extends Component {
             let component = this.props.selected;
             let details = Object.keys(component[key]).map((property,index,array)=>{
                 let detail;
-                console.log(typeof component[key][property]);
-                if(typeof component[key][property] === Object || typeof[key][property] === Array)
+                if(property.includes('DATA')){
+                    detail = "Export as PDF to View";
+                }else if(typeof component[key][property] === Object || typeof[key][property] === Array)
                     detail = JSON.stringify(component[key][property]);
                 else 
                     detail = component[key][property];
                 return(
-                <Row id={key}>
+                <Row key={key} id={key}>
                     <Col>
                         <p>{" " + this.convertCamelCase(property) + ": "+this.convertCamelCase(detail)}</p>
                     </Col>
@@ -121,7 +122,7 @@ class ComponentDetails extends Component {
             });
             if(Object.keys(component[key]).length>0){
                 return (
-                    <Row>
+                    <Row key={key}>
                         <Col>
                             <Label>{this.convertCamelCase(key)}</Label>
                             {details}
@@ -131,7 +132,7 @@ class ComponentDetails extends Component {
             }else{
                 return null;
             } 
-        }else if(typeof this.props.selected[key] === "string" && key!=="_id" && key!=="type"){
+        }else if(typeof this.props.selected[key] === "string" && key!=="_id" && key!=="type" && key!=="version"){
             return (
                 <Row key={i}>
                     <Col>
