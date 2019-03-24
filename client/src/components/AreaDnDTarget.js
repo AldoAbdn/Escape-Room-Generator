@@ -18,14 +18,7 @@ const componentTarget = {
         const item = monitor.getItem();
         let clientOffset = monitor.getClientOffset();
         let targetRect = ReactDOM.findDOMNode(component).getBoundingClientRect();
-        let width = component.props.screenWidth;
-        let scale;
-        if(width>1200){
-            scale = 0.1; 
-        } else {
-            scale = 0.2
-        }
-        item.position = {top:(((clientOffset.y-targetRect.y-targetRect.y*scale)/targetRect.height)*100)+"%",left:(((clientOffset.x-targetRect.x-targetRect.x*scale)/targetRect.width)*100)+"%"};
+        item.position = {top:(((clientOffset.y-targetRect.y)/targetRect.height)*100)+"%",left:(((clientOffset.x-targetRect.x)/targetRect.width)*100)+"%"};
         component.handleComponentDrop(item);
         return {moved:true};
     }

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { DragSource } from 'react-dnd';
 import AreaDnDTarget from './AreaDnDTarget';
 import '../styles/Component.css';
-import { Card } from 'reactstrap';
+import { Card, UncontrolledTooltip } from 'reactstrap';
 import Modal from '../models/Modal';
 
 // Drag sources and drop targets only interact
@@ -80,7 +80,9 @@ class AreaDnDSource extends Component{
       this.forceUpdate();
   }
   render() {
-    var target;
+    let id = this.props.id;
+    let iconId = id+"-icon";
+    let target;
     if (this.props.isTarget){
       target = (
         <AreaDnDTarget renderTrigger={JSON.stringify(this.props.component)} addRef={this.props.addRef} findComponent={this.props.findComponent} handleComponentClick={this.props.handleComponentClick} outputComponents={this.props.outputComponents} component={this.props.component} showModal={this.props.showModal} addComponent={this.addComponent} updateComponent={this.props.updateComponent} removeComponent={this.props.removeComponent} addRelationship={this.props.addRelationship}/>
@@ -92,7 +94,10 @@ class AreaDnDSource extends Component{
     return this.props.connectDragSource(
         <div onClick={this.props.handleComponentClick(this.props.component)}>
           <Card className={classNames}>
-            {this.props.id}
+            <div className={id===undefined?"d-none":""}>
+              <p style={{"font-weight":"bold"}}>{id}<span id={iconId} class="pallet-item-icon"><i className="fa fa-question-circle text-right" aria-hidden="true"></i></span></p>     
+              <UncontrolledTooltip target={iconId}>Represents a collection of components. Can be used to represent physical areas such as two seperate rooms or logical areas</UncontrolledTooltip>
+            </div>
             {target}
           </Card>
         </div>

@@ -2,3 +2,8 @@
     width:100%;
     text-align: right;
 }
+
+.accessibility .col-4{
+    display: flex;
+    align-items: center;
+}
