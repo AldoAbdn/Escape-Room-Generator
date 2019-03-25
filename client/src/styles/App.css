@@ -1,26 +1,3 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
 
 * {
   margin: 0;
@@ -29,10 +6,15 @@
 }
 
 html, body {
-  font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif';
+  font-family: 'Roboto','Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif';
   font-weight: 400;
   font-size: 16px;
   color: #333;
+  overflow: hidden;
+}
+
+p, input, textarea, label {
+  font-family: 'Roboto Condensed','Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif';
 }
 
 .center-text {
@@ -50,52 +32,12 @@ html, body {
   height:100%;
 }
 
-main {
-  padding: 20px;
-  height: 80%;
-  overflow: auto;
-}
-
-img.logo {
-  display: block;
-  margin: 0 auto;
-  max-width: 100%;
-  margin-bottom: 30px;
-}
-
 h2 {
   font-size: 2em;
   font-weight: 100;
 }
 
-footer {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 20px;
+.hide-overflow {
+  text-overflow: ellipsis;
 }
 
-footer p {
-  font-weight: 300;
-  font-size: 1.0em;
-}
-
-a {
-  color: #31D8A0;
-  text-decoration: none;
-}
-
-a:hover,
-a:focus {
-  color: #31D8A0;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}

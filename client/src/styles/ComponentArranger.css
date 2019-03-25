@@ -1,5 +1,3 @@
 .component-arranger {
-    overflow-y:scroll;
-    height: 88%;
-    max-height: 88%;
+    margin-bottom: 10vh;
 }

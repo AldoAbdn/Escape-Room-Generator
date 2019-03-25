@@ -3,7 +3,7 @@ import { DragSource } from 'react-dnd';
 import ComponentDnDTarget from './ComponentDnDTarget';
 import { Row, Col } from 'reactstrap'
 import '../styles/Component.css';
-import { ArcherElement } from 'react-archer';
+import Modal from '../models/Modal';
 
 // Drag sources and drop targets only interact
 // if they have the same string type.
@@ -29,20 +29,15 @@ const componentSource = {
 
   beginDrag(props, monitor, component) {
     // Return the data describing the dragged item
-    var item
-    if(props.component === undefined){
-      item = {id: props.id}
-    } else {
-      item = {...props.component};
-    }
+    var item = {...props.component};
     return item;
   },
 
   endDrag(props, monitor, component) {
     if (!monitor.didDrop()) {
-      if(props.component!==undefined||props.component!==null)
-        component.handleDidNotDrop(props.component);
-      return;
+      if((props.component!==undefined||props.component!==null)&&props.showModal)
+        props.showModal(new Modal("Warning", "Are you sure you want to delete this component?","Yes",component.removeComponent,"No",()=>{}));
+        return;
     }
   }
 };
@@ -61,39 +56,12 @@ function collect(connect, monitor) {
 }
 
 class ComponentDnDSource extends Component{
-  handleDidNotDrop = (component)=>{
-    if(this.props.handleDidNotDrop!==undefined)
-      this.props.handleDidNotDrop(component);
+  removeComponent = ()=>{
+    this.props.removeComponent(this.props.component._id);
   }
-  mapRelationships = (componentId,type) => {
-    let style;
-    let label="";
-    switch(type){
-      case 'input':
-        style = {
-          strokeColor:'blue'
-        }
-        label='input';
-        break;
-      case 'output':
-        style = {
-          strokeColor:'green'
-        }
-        label="output"
-      break;
-      default:
-        style={};
-    }
-    return ({
-      targetId: componentId,
-      targetAnchor: 'top',
-      sourceAnchor: 'bottom',
-      style,
-      label,
-    });
-  }
-  shouldComponentUpdate(nextProps, nextState){
-    return true;
+  componentDidUpdate(prevProps){
+    if(this.props.renderTrigger!==prevProps.renderTrigger)
+      this.forceUpdate();
   }
   findComponent(component){
     if(this.props.findComponent!==undefined){
@@ -102,41 +70,49 @@ class ComponentDnDSource extends Component{
       return null;
     }
   }
+  update = () => this.forceUpdate()
+  componentDidMount() {
+    window.addEventListener('click', this.update, true);
+    window.addEventListener('scroll', this.update, true);
+    window.addEventListener('resize', this.update);
+  }
+  
+  componentWillUnmount() {
+    window.removeEventListener('click', this.update);
+    window.removeEventListener('scroll', this.update);
+    window.removeEventListener('resize', this.update)
+  }
   render() {
       var target;
       if (this.props.isTarget){
         target = (
-          <Row>
-              <Col xs="6"><ComponentDnDTarget isInput={true} component={this.props.component} handleDidNotDrop={this.props.handleDidNotDrop} handleComponentDrop={this.props.handleComponentDrop} handleComponentClick={this.props.handleComponentClick}/></Col>
-              <Col xs="6"><ComponentDnDTarget isInput={false} component={this.props.component} handleDidNotDrop={this.props.handleDidNotDrop} handleComponentDrop={this.props.handleComponentDrop} handleComponentClick={this.props.handleComponentClick}/></Col>
-          </Row>  
+            <Row>
+                <Col xs="6"><ComponentDnDTarget isInput={true} component={this.props.component} handleComponentClick={this.props.handleComponentClick} showModal={this.props.showModal} addComponent={this.props.addComponent} removeComponent={this.props.removeComponent} addRelationship={this.props.addRelationship}/></Col>
+                <Col xs="6"><ComponentDnDTarget isInput={false} component={this.props.component} handleComponentClick={this.props.handleComponentClick} showModal={this.props.showModal} addComponent={this.props.addComponent} removeComponent={this.props.removeComponent} addRelationship={this.props.addRelationship}/></Col>
+            </Row>
         );
       }
       var style = {};
-      let inputComponents;
-      let outputComponents; 
-      let id="";
-      let classNames = "component";
-      let archer;
+      let classNames = "component container-fluid";
       if(this.props.component!==undefined){
         style.top = this.props.component.position.top;
         style.left = this.props.component.position.left;
-        style.position = 'relative';
         classNames += " " + this.props.component.type + " " + this.props.component._id;
-        id=this.props.component._id;
-        inputComponents = this.props.component.inputComponents.map(id=>this.mapRelationships(id,'input'));
-        outputComponents = this.props.component.outputComponents.map(id=>this.mapRelationships(id,'output'));
-        archer = (
-          <ArcherElement id={id} relations={[...outputComponents,...inputComponents]}>
-            <span>{id}</span>
-          </ArcherElement>
-        );
       } 
       return this.props.connectDragSource(
-          <div className={classNames} style={style} onClick={this.props.handleComponentClick(this.props.component)}>
-            <span>{this.props.id}</span>
+          <div className={classNames} id={this.props.component._id} style={style} onClick={this.props.handleComponentClick(this.props.component)}>
+            <Row>
+              <Col>
+                <p>{this.props.component.type}</p>
+                <p>{this.props.component._id}</p>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+              <p>{this.props.component.name}</p>
+              </Col>
+            </Row>
             {target}
-            {archer}
           </div>
       )
   }

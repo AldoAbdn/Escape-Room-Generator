@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import { Container, Row, Col, Dropdown, DropdownToggle, DropdownMenu, DropdownItem , ListGroup, ListGroupItem , Button } from 'reactstrap';
 import { saveAs } from 'file-saver';
-import jsPDF from 'jspdf';
+import Modal from '../models/Modal';
+import {escapeRoomToPDF} from '../pdf/pdf';
 
 class Dashboard extends Component {
     constructor(props){
@@ -24,9 +25,7 @@ class Dashboard extends Component {
         saveAs(blob, escapeRoom.details.name+".json");
     }
     savePDF(escapeRoom) {
-        var doc = new jsPDF();
-        doc.text(JSON.stringify(escapeRoom),10,10);
-        doc.save(escapeRoom.details.name+'.pdf');
+        escapeRoomToPDF(escapeRoom);
     }
     handleItemClick = (i, action) => (e) => {
         const escapeRoom = this.props.escapeRooms[i];
@@ -43,7 +42,7 @@ class Dashboard extends Component {
                 break;
             case 'DELETE':
                 if(this.props.deleteEscapeRoom)
-                    this.props.deleteEscapeRoom(escapeRoom);
+                    this.props.showModal(new Modal("Warning","Are you sure you want to delete "+escapeRoom.details.name+"?","Yes",()=>{this.props.deleteEscapeRoom(escapeRoom)},"No",()=>{}));
                 break;
             default:
                 return;
@@ -55,7 +54,7 @@ class Dashboard extends Component {
             <Dropdown style={{display:'inline', position: 'absolute', right:'20px'}} isOpen={this.state.dropdownOpen[i]} toggle={this.handleToggle(i)}>
                 <DropdownToggle caret/>
                 <DropdownMenu right>
-                    <DropdownItem onClick={this.handleItemClick(i,'EDIT')}>Edit</DropdownItem>
+                    <DropdownItem onClick={this.handleItemClick(i,'EDIT')} disabled={this.props.escapeRooms[i].components[0].version!==undefined?false:true}>Edit</DropdownItem>
                     <DropdownItem onClick={this.handleItemClick(i,'JSON')}>Export as JSON</DropdownItem>
                     <DropdownItem onClick={this.handleItemClick(i,'PDF')}>Export as PDF</DropdownItem>
                     <DropdownItem onClick={this.handleItemClick(i,'DELETE')}>Delete</DropdownItem>

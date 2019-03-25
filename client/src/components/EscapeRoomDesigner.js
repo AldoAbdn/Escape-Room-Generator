@@ -3,68 +3,41 @@ import { Container, Dropdown, DropdownToggle , DropdownMenu , DropdownItem , Row
 import { Details, Accessibility, Design } from './index';
 import classnames from 'classnames';
 import { saveAs } from 'file-saver';
-import jsPDF from 'jspdf';
+import {escapeRoomToPDF} from '../pdf/pdf';
 import EscapeRoom from '../models/EscapeRoom';
+import '../styles/EscapeRoomDesigner.css';
 
 class EscapeRoomDesigner extends Component {
     constructor(){
         super();
-        this.state = {activeTab:'details', dropdownOpen: false, escapeRoom:new EscapeRoom()};
+        this.state = {activeTab:'design', dropdownOpen: false};
     }
     saveJSON(escapeRoom) {
         const blob = new Blob([JSON.stringify(escapeRoom)],{type:'text/plain;charset=utf-8'});
         saveAs(blob, escapeRoom.details.name+".json");
     }
     savePDF(escapeRoom) {
-        var doc = new jsPDF();
-        doc.text(JSON.stringify(escapeRoom),10,10);
-        doc.save(escapeRoom.details.name+'.pdf');
+        escapeRoomToPDF(escapeRoom);
     }
     handleClick = (action) => (e) => {
         switch(action){
             case 'EXIT':
                 if(this.props.saveEscapeRoom)
-                    this.props.saveEscapeRoom(this.state.escapeRoom);
+                    this.props.saveEscapeRoom(this.props.escapeRoom);
                 break;
             case 'JSON':
                 if(this.props.saveEscapeRoom)
-                    this.props.saveEscapeRoom(this.state.escapeRoom);
-                this.saveJSON(this.state.escapeRoom);
+                    this.props.saveEscapeRoom(this.props.escapeRoom);
+                this.saveJSON(this.props.escapeRoom);
                 break;
             case 'PDF':
                 if(this.props.saveEscapeRoom)
-                    this.props.saveEscapeRoom(this.state.escapeRoom);
-                this.savePDF(this.state.escapeRoom);
+                    this.props.saveEscapeRoom(this.props.escapeRoom);
+                this.savePDF(this.props.escapeRoom);
                 break;
             default:
                 return;
         }
-    }
-    handleChange = (event) => {
-        this.setState({
-            [event.target.id]: event.target.value
-        })
-    }
-    //Changes state on input change
-    handleDetailsChange = (state) => { 
-        var escapeRoom = {...this.state.escapeRoom};
-        var newState = {...escapeRoom.details, ...state};
-        escapeRoom.details = newState;
-        this.setState({escapeRoom});
-    }
-    //Changes state on input change
-    handleAccessibilityChange = (state) => { 
-        var escapeRoom = {...this.state.escapeRoom};
-        var newState = {...this.state.escapeRoom.accessibility, ...state};
-        escapeRoom.accessibility = newState;
-        this.setState({escapeRoom});
-    }
-    //Changes state on input change
-    handleDesignChange = (state) => { 
-        var escapeRoom = {...this.state.escapeRoom};
-        var newState = [...state];
-        escapeRoom.components = newState;
-        this.setState({escapeRoom});
     }
     handleToggle = (e) => {
         this.setState({dropdownOpen: !this.state.dropdownOpen});
@@ -81,17 +54,35 @@ class EscapeRoomDesigner extends Component {
         if(escapeRoom===undefined){
             this.props.history.push('/');
         }
-        this.setState({escapeRoom: escapeRoom},()=>{
-        });
+    }
+    componentDidUpdate(prevProps,prevState){
+        if(prevState.activeTab!==this.state.activeTab){
+            this.toggleSvgs();
+        }
+    }
+    toggleSvgs=()=>{
+        let lines = document.querySelectorAll("body > div:not(#root)");
+        if(this.state.activeTab!=="design"){
+            for (let i = 0; i < lines.length;i++){
+                lines[i].style.display = 'none';
+            }
+        } else {
+            for (let i = 0; i < lines.length;i++){
+                lines[i].style.display = 'block';
+            }
+        }
+    }
+    calculateOutput=(id)=>{
+        return EscapeRoom.calculateComponentOutput(this.props.escapeRoom,id);
     }
     render() {
         return (
-            <Container>
-                <Row>
+            <Container fluid>
+                <Row className="save-options">
                     <Col xs="6" md="3" lg="3"><Button block onClick={this.handleClick('EXIT')}>Save and Exit</Button></Col>
                     <Col xs="6" md="3" lg="3">
-                        <Dropdown block isOpen={this.state.dropdownOpen} toggle={this.handleToggle}>
-                            <DropdownToggle caret>Save and Export</DropdownToggle>
+                        <Dropdown isOpen={this.state.dropdownOpen} toggle={this.handleToggle}>
+                            <DropdownToggle  className="full-width" caret>Save and Export</DropdownToggle>
                             <DropdownMenu right>
                                 <DropdownItem onClick={this.handleClick('JSON')}>Export as JSON</DropdownItem>
                                 <DropdownItem onClick={this.handleClick('PDF')}>Export as PDF</DropdownItem>
@@ -134,13 +125,13 @@ class EscapeRoomDesigner extends Component {
                     <Col>
                         <TabContent activeTab={this.state.activeTab}>
                             <TabPane tabId="details">
-                                <Details state={this.state.escapeRoom.details} handleChange={this.handleDetailsChange}/>
+                                <Details details={this.props.escapeRoom.details} updateDetails={this.props.updateDetails}/>
                             </TabPane>
                             <TabPane tabId="accessibility">
-                                <Accessibility state={this.state.escapeRoom.accessibility} handleChange={this.handleAccessibilityChange}/>
+                                <Accessibility accessibility={this.props.escapeRoom.accessibility} updateAccessibility={this.props.updateAccessibility}/>
                             </TabPane>
                             <TabPane tabId="design">
-                                <Design state={{components:this.state.escapeRoom.components}} handleChange={this.handleDesignChange}/>
+                                <Design calculateOutput={this.calculateOutput} components={{components:this.props.escapeRoom.components}} showModal={this.props.showModal} accessibility={this.props.escapeRoom.accessibility} addComponent={this.props.addComponent} removeComponent={this.props.removeComponent} updateComponent={this.props.updateComponent} addRelationship={this.props.addRelationship} removeRelationship={this.props.removeRelationship}/>
                             </TabPane>
                         </TabContent>
                     </Col>

@@ -24,7 +24,10 @@ import About from './About';
 import Tutorials from './Tutorials';
 import ProtectedRoute from './ProtectedRoute';
 import NotFound from './NotFound';
+import LockGenerator from './LockGenerator';
+import PuzzleGenerator from './PuzzleGenerator';
+import ListCreator from './ListCreator';
 
 export {
-    App, Main, BusinessLogic, Dashboard, Profile, EscapeRoomDesigner, Details, Pallet, ComponentArranger , AreaDnDSource, AreaDnDTarget, ComponentDnDSource, ComponentDnDTarget , ComponentDetails, Design, Accessibility, Login, Signup, About, Tutorials, ProtectedRoute, NotFound
+    App, Main, BusinessLogic, Dashboard, Profile, EscapeRoomDesigner, Details, Pallet, ComponentArranger , AreaDnDSource, AreaDnDTarget, ComponentDnDSource, ComponentDnDTarget , ComponentDetails, Design, Accessibility, Login, Signup, About, Tutorials, ProtectedRoute, NotFound, LockGenerator, PuzzleGenerator, ListCreator
 }

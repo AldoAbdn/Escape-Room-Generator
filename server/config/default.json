@@ -30,5 +30,5 @@
       "passwordField": "password"
     }
   },
-  "mongodb": "mongodb://Aldo:Aldo95@ds161024.mlab.com:61024/escape-room-generator"
+  "mongodb": "MONGOURI"
 }

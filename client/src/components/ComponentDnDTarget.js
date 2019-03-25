@@ -1,8 +1,8 @@
 import React, {Component}  from 'react';
-import { Card, CardBody } from 'reactstrap';
+import { Card, CardBody, UncontrolledTooltip } from 'reactstrap';
 import '../styles/Component.css';
 import { DropTarget } from 'react-dnd';
-import { Puzzle, Event, Music, Lock } from '../models/index';
+import { Puzzle, Event, Music, Lock, Prop } from '../models/index';
 
 const Types = {
     COMPONENT: 'COMPONENT'
@@ -47,31 +47,49 @@ class ComponentDnDTarget extends Component {
                 case 'Music':
                     component = new Music();
                     break;
+                case 'Prop':
+                    component = new Prop();
+                    break;
                 default:
                     return;
             }
-        } else {
+            this.props.addComponent(component,this.props.component._id);
+        }else {
             component = item;
+            if(component._id!==this.props.component._id)
+                this.props.addRelationship(component._id,this.props.component._id,isInput);
         }
-        this.props.handleComponentDrop(component,this.props.component._id,isInput);
-    }
-    handleDidNotDrop = (component) => {
-        this.props.handleDidNotDrop(component);
+
     }
     render() {
-        var classNames;
+        let id=this.props.component._id;
+        var classNames = "hide-border";
         if(this.props.isOver && this.props.canDrop){
-            classNames="canDrop";
-        } else if(this.props.isOver){
-            classNames="cantDrop";
+            classNames+=" canDrop";
+        } else if(this.props.isOver && !this.props.canDrop){
+            classNames+=" cantDrop";
+        } else if(this.props.canDrop){
+            classNames+=" couldDrop";
+        }
+        let tooltip;
+        if(this.props.isInput){
+            id+="-input"
+            classNames+=" isInput";
+            tooltip = "Drag another component to this blue square to add it as an input to this component"
+        }
+        else {
+            id+="-output"
+            classNames+=" isOutput";
+            tooltip = "Drag another component to this green square to add it as an output of this component"
         }
         return this.props.connectDropTarget(
-            <div className={classNames} key={this.props.component._id}>
-                <Card onClick={this.props.handleComponentClick(this.props.component)}>
+            <div key={this.props.component._id} id={id}>
+                <Card className={classNames} onClick={this.props.handleComponentClick(this.props.component)}>
                     <CardBody>
 
                     </CardBody>
                 </Card>
+                <UncontrolledTooltip target={id}>{tooltip}</UncontrolledTooltip>
             </div>
         )
     }

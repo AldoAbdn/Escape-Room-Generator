@@ -1,0 +1,13 @@
+.pallet {
+    margin-bottom: 10vh;
+}
+.pallet-item {
+    width: 100px; height: 100px;
+    margin: auto;
+    margin-top: 1rem;
+    position: relative !important;
+}
+.pallet-item-icon{
+    float: right;
+    padding: 4%;
+}

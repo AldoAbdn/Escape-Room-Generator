@@ -13,6 +13,7 @@ import Main from './Main';
 import * as userActionCreators from '../actions/user';
 import * as escapeRoomsActionCreators from '../actions/escapeRooms';
 import * as escapeRoomActionCreators from '../actions/escapeRoom';
+import * as modalActionCreators from '../actions/modal';
 
 function mapStateToProps(state) {
   return {
@@ -21,10 +22,11 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch){
-  const userFuncs = bindActionCreators(userActionCreators,dispatch);
-  const escapeRoomsFuncs = bindActionCreators(escapeRoomsActionCreators,dispatch);
-  const escapeRoomFuncs = bindActionCreators(escapeRoomActionCreators, dispatch);
-  return {...userFuncs, ...escapeRoomsFuncs, ...escapeRoomFuncs};
+  const user = bindActionCreators(userActionCreators, dispatch);
+  const escapeRooms = bindActionCreators(escapeRoomsActionCreators, dispatch);
+  const escapeRoom = bindActionCreators(escapeRoomActionCreators, dispatch);
+  const modal = bindActionCreators(modalActionCreators, dispatch);
+  return {user, escapeRooms, escapeRoom, modal};
 }
 
 function mergeProps(stateProps, dispatchProps, ownProps) {

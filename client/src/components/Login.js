@@ -36,7 +36,7 @@ class Login extends Component {
 
     render() {
         return (
-            <div className="full-container verticaly-center-content">
+            <div className="login full-container verticaly-center-content">
                 <Container>
                     <Row>
                         <Col>

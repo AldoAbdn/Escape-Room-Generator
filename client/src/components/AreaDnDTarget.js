@@ -5,7 +5,6 @@ import '../styles/Component.css';
 import { DropTarget } from 'react-dnd';
 import ComponentDnDSource from './ComponentDnDSource';
 import { Puzzle, Prop, Lock, Music, Event } from '../models/index.js';
-import { ArcherContainer } from 'react-archer';
 
 const Types = {
     COMPONENT: 'COMPONENT'
@@ -17,18 +16,9 @@ const componentTarget = {
             return;
         }
         const item = monitor.getItem();
-        if (item.position === undefined){
-            let clientOffset = monitor.getClientOffset();
-            let targetRect = ReactDOM.findDOMNode(component).getBoundingClientRect();
-            console.log(clientOffset);
-            console.log(targetRect);
-            item.position = {top:clientOffset.y-targetRect.y-(targetRect.height*0.20),left:clientOffset.x-targetRect.x-(targetRect.width*0.10)};
-            console.log(item);
-        } else {
-            const delta = monitor.getDifferenceFromInitialOffset()
-            item.position.left = Math.round(item.position.left + delta.x);
-            item.position.top = Math.round(item.position.top + delta.y);
-        }
+        let clientOffset = monitor.getClientOffset();
+        let targetRect = ReactDOM.findDOMNode(component).getBoundingClientRect();
+        item.position = {top:(((clientOffset.y-targetRect.y)/targetRect.height)*100)+"%",left:(((clientOffset.x-targetRect.x)/targetRect.width)*100)+"%"};
         component.handleComponentDrop(item);
         return {moved:true};
     }
@@ -45,6 +35,13 @@ function collect(connect, monitor) {
 }
 
 class AreaDnDTarget extends Component {
+    constructor(){
+        super()
+        this.state={render:true,screenWidth:0,screenHeight:0};
+    }
+    updateScreenSize=()=>{
+        this.setState({screenWidth:window.innerHeight,screenHeight:window.innerHeight})
+    }
     handleComponentDrop(item,isInput=false){
         var component = null;
         if (item.id!==undefined && item._id === undefined){
@@ -72,28 +69,39 @@ class AreaDnDTarget extends Component {
                 default:
                     return;
             }
+            this.props.addComponent(component,this.props.component._id);
         } else {
             component = item;
+            this.props.updateComponent(component,this.props.component._id);
         }
-        this.props.handleComponentDrop(component,this.props.component._id,isInput);
+    }
+    componentDidMount(){
+        this.updateScreenSize();
+        window.addEventListener('resize', this.updateScreenSize);
+    }
+    componentWillUnmount(){
+        window.removeEventListener('resize',this.updateScreenSize);
     }
     render() {
-        var classNames;
+        var classNames = "Area";
         if(this.props.isOver && this.props.canDrop){
-            classNames="canDrop";
-        } else if(this.props.isOver){
-            classNames="cantDrop";
+            classNames+=" canDrop";
+        } else if(this.props.isOver && !this.props.canDrop){
+            classNames+=" cantDrop";
+        } else if(this.props.canDrop){
+            classNames+=" couldDrop"
         }
+        let title = this.props.component.type + " (" + this.props.component._id + ") " + this.props.component.name;
         return this.props.connectDropTarget(
-            <div className={classNames} key={this.props.component._id}>                
-                <Card className={this.props.component.type} onClick={this.props.handleComponentClick(this.props.component)}>
+            <div className={this.props.component.type} key={this.props.component._id}>                
+                <Card className={classNames} onClick={this.props.handleComponentClick(this.props.component)}>
                     <CardBody>
-                        <CardTitle>{this.props.component.type}</CardTitle>
-                        <ArcherContainer>   
-                            {this.props.outputComponents.map((component,i)=>{
-                                return(<ComponentDnDSource key={component._id} isTarget handleComponentDrop={this.props.handleComponentDrop} handleComponentClick={this.props.handleComponentClick} handleDidNotDrop={this.props.handleDidNotDrop} component={component} findComponent={this.props.findComponent} id={component.type}/>)
+                        <CardTitle>{title}</CardTitle>  
+                            {this.props.outputComponents.map((origComponent,i)=>{
+                                let component;
+                                component = this.props.findComponent(origComponent._id);
+                                return(<ComponentDnDSource addRef={this.props.addRef} key={i} renderTrigger={JSON.stringify(this.props.outputComponents)} isTarget handleComponentClick={this.props.handleComponentClick}  component={component} findComponent={this.props.findComponent} id={component.type} showModal={this.props.showModal} addComponent={this.props.addComponent} removeComponent={this.props.removeComponent} addRelationship={this.props.addRelationship}/>)
                             })}
-                            </ArcherContainer>
                     </CardBody>
                 </Card>   
             </div>

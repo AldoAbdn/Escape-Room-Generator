@@ -2,7 +2,8 @@
  * Main file, starts front end and renders App 
  * @author Alistair Quinn
  */
-
+//Polyfills
+import 'react-app-polyfill/ie9';
 //React Imports 
 import React from 'react';
 import ReactDOM from 'react-dom';
