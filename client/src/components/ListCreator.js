@@ -20,9 +20,7 @@ class ListCreator extends Component {
         alert('item');
         let items = [...this.state.items];
         items.push("");
-        this.setState({items},()=>{
-            console.log(this.state);
-        })
+        this.setState({items})
     }
 
     removeItem = (index) => (e) => {
@@ -46,7 +44,6 @@ class ListCreator extends Component {
 
     render() {
         let items = this.state.items.map(this.mapItemsToInputs);
-        console.log(this.state.items);
         return (
             <Row>
                 <Col>
