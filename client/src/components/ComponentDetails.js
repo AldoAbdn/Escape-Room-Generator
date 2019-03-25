@@ -12,6 +12,8 @@ class ComponentDetails extends Component {
         this.setState({[event.target.id]:!this.state[event.target.id]});
     }
     convertCamelCase(string){
+        if(typeof string !== 'string')
+            string = string.toString();
         return string.replace(/([A-Z])/g, ' $1').replace(/^./,(str)=>{ return str.toUpperCase(); })
     }
     //Changes state on input change
