@@ -110,10 +110,11 @@ class ComponentDetails extends Component {
                 let detail;
                 if(property.includes('DATA')){
                     detail = "Export as PDF to View";
-                }else if(typeof component[key][property] === Object || typeof[key][property] === Array)
+                }else if(typeof component[key][property] === Object)
                     detail = JSON.stringify(component[key][property]);
-                else 
+                else{
                     detail = component[key][property];
+                } 
                 return(
                 <Row key={key} id={key}>
                     <Col>
