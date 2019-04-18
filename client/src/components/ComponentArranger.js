@@ -72,11 +72,19 @@ class ComponentArranger extends Component {
     }
       
     componentWillUnmount() {
+        this.removeAllRelationships();
         window.removeEventListener('scroll', this.update);
         window.removeEventListener('resize', this.update)
     }
 
+    removeAllRelationships(){
+        if(document){
+            document.querySelectorAll("body > div:not(#root)").remove();
+        }
+    }
+
     render() {
+        this.removeAllRelationships();
         var classNames = "row component-arranger";
         if(this.props.isOver && this.props.canDrop){
             classNames+=" canDrop"

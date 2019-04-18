@@ -17,16 +17,17 @@ class ListCreator extends Component {
     }
 
     addItem =  (e) => {
-        alert('item');
         let items = [...this.state.items];
         items.push("");
-        this.setState({items})
+        this.setState({items});
+        this.props.handleChange(items);
     }
 
     removeItem = (index) => (e) => {
         let items = [...this.state.items];
         items = [...items.slice(0,index),...items.slice(index+1)];
         this.setState({items});
+        this.props.handleChange(items);
     }
     
     mapItemsToInputs = (item,index,array)=>{
