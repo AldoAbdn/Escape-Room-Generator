@@ -35,8 +35,8 @@ function collect(connect, monitor) {
 }
 
 class AreaDnDTarget extends Component {
-    constructor(){
-        super()
+    constructor(props){
+        super(props)
         this.state={render:true,screenWidth:0,screenHeight:0};
     }
     updateScreenSize=()=>{
@@ -100,7 +100,7 @@ class AreaDnDTarget extends Component {
                             {this.props.outputComponents.map((origComponent,i)=>{
                                 let component;
                                 component = this.props.findComponent(origComponent._id);
-                                return(<ComponentDnDSource addRef={this.props.addRef} key={i} renderTrigger={JSON.stringify(this.props.outputComponents)} isTarget handleComponentClick={this.props.handleComponentClick}  component={component} findComponent={this.props.findComponent} id={component.type} showModal={this.props.showModal} addComponent={this.props.addComponent} removeComponent={this.props.removeComponent} addRelationship={this.props.addRelationship}/>)
+                                return(<ComponentDnDSource update={this.update} isTarget handleComponentClick={this.props.handleComponentClick}  component={component} findComponent={this.props.findComponent} id={component.type} showModal={this.props.showModal} addComponent={this.props.addComponent} removeComponent={this.props.removeComponent} addRelationship={this.props.addRelationship}/>)
                             })}
                     </CardBody>
                 </Card>   

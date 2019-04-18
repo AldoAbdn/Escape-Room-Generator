@@ -39,7 +39,7 @@ function collect(connect, monitor) {
 class ComponentArranger extends Component {
     constructor(){
         super()
-        this.state = {refs:[]}
+        this.state = {lines:[]}
     }
     mapAreas = (area,i)=>{
         if(area.type==='Area'){
@@ -64,6 +64,12 @@ class ComponentArranger extends Component {
         if(JSON.stringify(this.props.components)!==JSON.stringify(props.components)){
             this.forceUpdate();
         }
+        for(let component of this.props.components){
+            if(document.getElementById(component._id)===null){
+                this.forceUpdate();
+                break;
+            }
+        }
     }
     update = () => this.forceUpdate()
     componentDidMount() {
@@ -72,19 +78,11 @@ class ComponentArranger extends Component {
     }
       
     componentWillUnmount() {
-        this.removeAllRelationships();
         window.removeEventListener('scroll', this.update);
-        window.removeEventListener('resize', this.update)
-    }
-
-    removeAllRelationships(){
-        if(document){
-            document.querySelectorAll("body > div:not(#root)").remove();
-        }
+        window.removeEventListener('resize', this.update);
     }
 
     render() {
-        this.removeAllRelationships();
         var classNames = "row component-arranger";
         if(this.props.isOver && this.props.canDrop){
             classNames+=" canDrop"
@@ -92,20 +90,20 @@ class ComponentArranger extends Component {
             classNames+=" cantDrop"
         }
         let lines = [];
-        this.props.components.forEach((component,index,array)=>{
+        for(let component of this.props.components){
             if(component!==undefined && component.inputComponents!==undefined && component.type!=="Area"){
                 let inputComponents = component.inputComponents;
                 let outputComponents = component.outputComponents;
-                inputComponents.forEach((inputComponent,index,array)=>{
+                for(let inputComponent of inputComponents){
                     inputComponent = this.props.findComponent(inputComponent);
-                    lines.push(<LineTo key={index} from={component._id} to={inputComponent._id} borderColor={"#007bff"}/>);
-                });
-                outputComponents.forEach((outputComponent,index,array)=>{
+                    lines.push(<LineTo key={component._id+inputComponent._id+'input'} from={component._id} to={inputComponent._id} borderColor={"#007bff"}/>);
+                };
+                for(let outputComponent of outputComponents){
                     outputComponent = this.props.findComponent(outputComponent);
-                    lines.push(<LineTo key={index} from={component._id} to={outputComponent._id} borderColor={"#28a745"}/>)
-                });
+                    lines.push(<LineTo key={component._id+outputComponent._id+'output'} from={component._id} to={outputComponent._id} borderColor={"#28a745"}/>)
+                };
             }
-        });
+        };
         return this.props.connectDropTarget(
             <div className={classNames}>
                 {lines}

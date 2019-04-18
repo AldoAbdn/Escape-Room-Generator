@@ -95,7 +95,7 @@ class AreaDnDSource extends Component{
         <div onClick={this.props.handleComponentClick(this.props.component)}>
           <Card className={classNames}>
             <div className={id===undefined?"d-none":""}>
-              <p style={{"font-weight":"bold"}}>{id}<span id={iconId} class="pallet-item-icon"><i className="fa fa-question-circle text-right" aria-hidden="true"></i></span></p>     
+              <p style={{"fontWeight":"bold"}}>{id}<span id={iconId} className="pallet-item-icon"><i className="fa fa-question-circle text-right" aria-hidden="true"></i></span></p>     
               <UncontrolledTooltip target={iconId}>Represents a collection of components. Can be used to represent physical areas such as two seperate rooms or logical areas</UncontrolledTooltip>
             </div>
             {target}

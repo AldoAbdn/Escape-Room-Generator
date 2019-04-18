@@ -221,7 +221,7 @@ class ComponentDetails extends Component {
             if(visualKeys.length>0)
                 visualWarning = (                
                 <Col className="col text-center">
-                    <p id="visualWarning"><i class="fa fa-wheelchair text-success"  aria-hidden="true"></i></p>  
+                    <p id="visualWarning"><i className="fa fa-wheelchair text-success"  aria-hidden="true"></i></p>  
                     <UncontrolledTooltip id="visual" target="visualWarning">
                     You selected: {visualKeys.join(',')} be careful with colour choices
                     </UncontrolledTooltip>
