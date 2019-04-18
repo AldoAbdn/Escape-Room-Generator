@@ -64,12 +64,6 @@ class ComponentArranger extends Component {
         if(JSON.stringify(this.props.components)!==JSON.stringify(props.components)){
             this.forceUpdate();
         }
-        for(let component of this.props.components){
-            if(document.getElementById(component._id)===null){
-                this.forceUpdate();
-                break;
-            }
-        }
     }
     update = () => this.forceUpdate()
     componentDidMount() {
