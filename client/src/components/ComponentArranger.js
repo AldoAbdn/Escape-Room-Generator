@@ -67,6 +67,9 @@ class ComponentArranger extends Component {
     }
     update = () => this.forceUpdate()
     componentDidMount() {
+        setTimeout(()=>{
+            this.forceUpdate();
+        },100)
         window.addEventListener('scroll', this.update, true);
         window.addEventListener('resize', this.update);
     }
