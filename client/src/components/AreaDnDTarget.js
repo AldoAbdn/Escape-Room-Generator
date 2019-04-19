@@ -97,10 +97,9 @@ class AreaDnDTarget extends Component {
                 <Card className={classNames} onClick={this.props.handleComponentClick(this.props.component)}>
                     <CardBody>
                         <CardTitle>{title}</CardTitle>  
-                            {this.props.outputComponents.map((origComponent,i)=>{
-                                let component;
-                                component = this.props.findComponent(origComponent._id);
-                                return(<ComponentDnDSource update={this.update} isTarget handleComponentClick={this.props.handleComponentClick}  component={component} findComponent={this.props.findComponent} id={component.type} showModal={this.props.showModal} addComponent={this.props.addComponent} removeComponent={this.props.removeComponent} addRelationship={this.props.addRelationship}/>)
+                            {this.props.outputComponents.map((component,i)=>{
+                                component = this.props.findComponent(component._id);
+                                return(<ComponentDnDSource key={component._id} update={this.update} isTarget handleComponentClick={this.props.handleComponentClick}  component={component} findComponent={this.props.findComponent} id={component.type} showModal={this.props.showModal} addComponent={this.props.addComponent} removeComponent={this.props.removeComponent} addRelationship={this.props.addRelationship}/>)
                             })}
                     </CardBody>
                 </Card>   

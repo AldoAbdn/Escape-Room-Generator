@@ -116,7 +116,7 @@ class ComponentDetails extends Component {
                     detail = component[key][property];
                 } 
                 return(
-                <Row key={key} id={key}>
+                <Row key={property} id={key}>
                     <Col>
                         <p>{" " + this.convertCamelCase(property) + ": "+this.convertCamelCase(detail)}</p>
                     </Col>
@@ -125,7 +125,7 @@ class ComponentDetails extends Component {
             });
             if(Object.keys(component[key]).length>0){
                 return (
-                    <Row key={key}>
+                    <Row key={i}>
                         <Col>
                             <Label>{this.convertCamelCase(key)}</Label>
                             {details}

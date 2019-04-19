@@ -34,8 +34,8 @@ class ListCreator extends Component {
         return (
             <InputGroup key={index}>
                 <Input type="text" id={index} onChange={this.handleChange}/>
-                <InputGroupAddon>
-                    <InputGroupText onClick={this.removeItem(index)} addonType="append">
+                <InputGroupAddon addonType="append">
+                    <InputGroupText onClick={this.removeItem(index)}>
                         delete
                     </InputGroupText>
                 </InputGroupAddon>
