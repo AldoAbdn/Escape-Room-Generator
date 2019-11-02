@@ -44,7 +44,6 @@ let backend = MultiBackend(pipline);
 //Feathers Configuration 
 export const feathersClient = feathers()
     .configure(feathers.socketio(io()))
-    .configure(feathers.hooks())
     .configure(feathers.authentication({
         storage:window.localStorage
     }));
