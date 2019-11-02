@@ -18,8 +18,8 @@
       "header": {
         "typ": "access"
       },
-      "audience": "https://yourdomain.com",
-      "issuer": "feathers",
+      "audience": "https://escape-room-generator-app.herokuapp.com",
+      "issuer": "escape-room-generator",
       "algorithm": "HS256",
       "expiresIn": "1d"
     },
