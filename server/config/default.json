@@ -9,10 +9,15 @@
   "authentication": {
     "entity": "user",
     "service": "users",
-    "secret": "<your secret>",
-    "authStrategies": [ "jwt", "local" ],
+    "secret": "PjKOQ+CSIjoteQGaTZrLZXuR8i0=",
+    "authStrategies": [
+      "jwt",
+      "local"
+    ],
     "jwtOptions": {
-      "header": { "typ": "access" },
+      "header": {
+        "typ": "access"
+      },
       "audience": "https://yourdomain.com",
       "issuer": "feathers",
       "algorithm": "HS256",

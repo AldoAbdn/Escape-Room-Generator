@@ -38,7 +38,6 @@ node_modules
 
 # IDE - VSCode
 .vscode/*
-!.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
@@ -110,9 +109,3 @@ $RECYCLE.BIN/
 # Others
 lib/
 data/
-
-# Temporarily disable liscence 
-LICENCE
-
-# Env
-.env
