@@ -68,7 +68,7 @@ class Main extends Component {
     authenticate = async() => {
         //Authenticates JWT and then populates user/escapeRooms
         try{
-            let { user } = await feathersClient.reAuthenticate();
+            let { user } = await this.props.feathersClient.reAuthenticate();
             if(user!=null){
                 user.token = window.localStorage.getItem('feathers-jwt');
                 this.props.redux.actions.user.login(user);

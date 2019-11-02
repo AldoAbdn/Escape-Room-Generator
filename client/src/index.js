@@ -14,7 +14,7 @@ import { Provider } from 'react-redux';
 import configureStore from './stores/store'
 //Feathers
 import io from 'socket.io-client';
-import feathers from 'feathers-client';
+import feathers from '@feathersjs/client';
 //Feathers-Redux
 import reduxifyServices, {getServicesStatus, bindWithDispatch} from 'feathers-redux';
 //CSS
