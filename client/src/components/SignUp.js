@@ -16,10 +16,7 @@ class Signup extends Component {
     //Handles login form submit event
     handleSubmit = async (event) => {
         event.preventDefault();
-        if(this.props.password!==this.props.password2){
-            this.setState({errorMessage:"Passwords Must Match"});
-        }
-        if(this.props.signUp){
+        if(this.props.password===this.props.password2 && this.props.signUp){
             let err = await this.props.signUp({email:this.state.email,password:this.state.password});
             this.setState({errorMessage:err});
         }

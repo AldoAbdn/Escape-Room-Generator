@@ -67,46 +67,16 @@ class Main extends Component {
      */
     authenticate = async() => {
         //Authenticates JWT and then populates user/escapeRooms
-        let jwt = await this.authenticateJWT();
-        let user = await this.populateUserFromJWT(jwt);
-        if(user!=null)
-            await this.populateEscapeRooms(user._id);
-    }
-    /**
-     * Authenticates JWT 
-     * @function 
-     * @returns string
-     */
-    authenticateJWT = async() => {
-        try {
-            let response = await this.props.feathersClient.authenticate();
-            return response.accessToken;
-        } catch(error) {
+        try{
+            let { user } = await feathersClient.reAuthenticate();
+            if(user!=null){
+                user.token = window.localStorage.getItem('feathers-jwt');
+                this.props.redux.actions.user.login(user);
+                await this.populateEscapeRooms(user._id);
+            }
+        } catch(error){
             this.logout();
         }
-    }
-    /**
-     * Populates user from a jwt
-     * @function
-     * @param {String} jwt 
-     * @returns {Object}
-     */
-    populateUserFromJWT = async(jwt) => {
-        if(jwt===undefined||jwt===null||jwt===""){
-            this.setState({profile:false});
-            return null;
-        }
-        let response = await this.props.feathersClient.passport.verifyJWT(jwt);
-        response = await this.props.services.users.get(response.userId);
-        var user = response.value;
-        if(user.email===undefined||user.email===""){
-            this.setState({profile:false});
-            return null;
-        }
-        user.token = window.localStorage.getItem('feathers-jwt');
-        this.props.redux.actions.user.login(user);
-        this.setState({profile:true});
-        return user;
     }
     /**
      * Popultes escape rooms by user ID

@@ -28,10 +28,8 @@ class BusinessLogic extends Component {
      */
     authenticateCredentials = async(credentials)=>{
         try {
-            await this.props.feathersClient.authenticate(credentials);
-            let queryResult = await this.props.services.users.find({query:{email:credentials.email}});
-            if(queryResult.action.type.includes('FULFILLED')&&queryResult.value.total>0){
-                var user = queryResult.value.data[0];
+            let { user } = await this.props.feathersClient.authenticate(credentials);
+            if(user!=null){
                 user.token = window.localStorage.getItem('feathers-jwt');
                 this.props.redux.actions.user.login(user);
                 this.props.history.push('/dashboard');

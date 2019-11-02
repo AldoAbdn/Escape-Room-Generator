@@ -12,9 +12,9 @@ module.exports = {
     all: [],
     find: [ authenticate('jwt') ],
     get: [ authenticate('jwt') ],
-    create: [hashPassword(), checkIfExists() ,gravatar()],
-    update: [ hashPassword(),  authenticate('jwt') ],
-    patch: [ hashPassword(),  authenticate('jwt') ],
+    create: [hashPassword('password'), checkIfExists() ,gravatar()],
+    update: [ hashPassword('password'),  authenticate('jwt') ],
+    patch: [ hashPassword('password'),  authenticate('jwt') ],
     remove: [ authenticate('jwt') ]
   },
 
