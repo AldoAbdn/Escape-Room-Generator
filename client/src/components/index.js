@@ -27,7 +27,8 @@ import NotFound from './NotFound';
 import LockGenerator from './LockGenerator';
 import PuzzleGenerator from './PuzzleGenerator';
 import ListCreator from './ListCreator';
+import PasswordStrengthMeter from './PasswordStrengthMeter';
 
 export {
-    App, Main, BusinessLogic, Dashboard, Profile, EscapeRoomDesigner, Details, Pallet, ComponentArranger , AreaDnDSource, AreaDnDTarget, ComponentDnDSource, ComponentDnDTarget , ComponentDetails, Design, Accessibility, Login, Signup, About, Tutorials, ProtectedRoute, NotFound, LockGenerator, PuzzleGenerator, ListCreator
+    App, Main, BusinessLogic, Dashboard, Profile, EscapeRoomDesigner, Details, Pallet, ComponentArranger , AreaDnDSource, AreaDnDTarget, ComponentDnDSource, ComponentDnDTarget , ComponentDetails, Design, Accessibility, Login, Signup, About, Tutorials, ProtectedRoute, NotFound, LockGenerator, PuzzleGenerator, ListCreator, PasswordStrengthMeter
 }

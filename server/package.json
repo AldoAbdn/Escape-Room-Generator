@@ -46,7 +46,8 @@
     "mongodb": "^3.3.3",
     "mongodb-core": "^3.2.7",
     "serve-favicon": "^2.5.0",
-    "winston": "^3.2.1"
+    "winston": "^3.2.1",
+    "zxcvbn": "^4.4.2"
   },
   "devDependencies": {
     "axios": "^0.19.0",

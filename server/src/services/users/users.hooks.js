@@ -5,14 +5,15 @@ const {
 } = require('@feathersjs/authentication-local').hooks;
 
 const gravatar = require('../../hooks/gravatar');
-const checkIfExists = require('../../hooks/checkIfExists');
+const emailCheck = require('../../hooks/emailCheck');
+const passwordCheck = require('../../hooks/passwordCheck')
 
 module.exports = {
   before: {
     all: [],
     find: [ authenticate('jwt') ],
     get: [ authenticate('jwt') ],
-    create: [ hashPassword('password'), checkIfExists() ,gravatar() ],
+    create: [ hashPassword('password'), emailCheck() , passwordCheck(), gravatar() ],
     update: [ hashPassword('password'),  authenticate('jwt') ],
     patch: [ hashPassword('password'),  authenticate('jwt') ],
     remove: [ authenticate('jwt') ]
