@@ -13,15 +13,6 @@ import EscapeRoom from '../models/EscapeRoom.js';
  */
 class BusinessLogic extends Component {
     /**
-     * Main construcutor
-     * handles initialising state
-     * @constructor
-     */
-    constructor(){
-        super();
-        this.state = {profile:null};
-    }
-    /**
      * Authenticates login credentials 
      * @function
      * @param {Object} credentials 
@@ -33,8 +24,6 @@ class BusinessLogic extends Component {
                 user.token = window.localStorage.getItem('feathers-jwt');
                 this.props.redux.actions.user.login(user);
                 this.props.history.push('/dashboard');
-            } else {
-                this.setState({})
             }
         } catch(err){
             return err.message;
@@ -99,7 +88,6 @@ class BusinessLogic extends Component {
         this.props.services['escape-rooms'].remove(escapeRoom._id);
         this.props.redux.actions.escapeRooms.removeEscapeRoom(escapeRoom);
     }
-
     /**
      * Saves an escape room
      * @function
@@ -112,6 +100,47 @@ class BusinessLogic extends Component {
             await this.props.redux.actions.escapeRooms.updateEscapeRoom(escapeRoom);
         }
         this.props.history.push('/');
+    }
+    /**
+     * Verifies a user account via token
+     * @function
+     * @param {String} token
+     */
+    verify = async(token)=>{
+        let result = await this.props.services.authManagement.create({action:'verifySignupLong'},{value:token});
+        if(result.action.type.include('FULFILLED')){
+            return {color:"success", message:"Account Verified"};
+        } else {
+            return {color:"danger", message:"Error"}
+        }
+    }
+    /**
+     * Resets users password
+     * @function
+     * @param {String} email
+     * @param {String} token
+     * @param {String} password
+     */
+    reset = async(email, token, password) => {
+        let result = await this.props.services.authManagement.create({action:'resetPwdLong'},{token,password});
+        if(result.action.type.include('FULFILLED')){
+            return {color:"success", message:"Password Reset"};
+        } else {
+            return {color:"danger", message:"Error"}
+        }
+    }
+    /**
+     * Sends password reset
+     * @function
+     * @param {String} email
+     */
+    sendReset = async(email) => {
+        let result = await this.props.services.authManagement.create({action:'sendResetPwd'},{value:{email}});
+        if(result.action.type.include('FULFILLED')){
+            return {color:"success", message:"Password Reset Send, Check Emails"};
+        } else {
+            return {color:"danger", message:"Error"}
+        }
     }
     /**
      * React lifecycle method
@@ -132,6 +161,8 @@ class BusinessLogic extends Component {
                 <Route path="/signup" render={(routeProps) => (<Signup signUp={this.signUp}/>)}/>
                 <Route path="/about" component={About}/>
                 <Route path="/tutorials" component={Tutorials}/>
+                <Route path="/verify/:token" render={(routeProps) => (<Verify token={routeProps.match.params.token} verify={this.verify}/>)}/>
+                <Route path="/reset/:token" componet={(routeProps) => (<Reset token={routeProps.match.params.token} reset={this.reset}/>)}/>
                 <Route component={NotFound}/>
             </Switch> 
         )

@@ -87,9 +87,9 @@ class Main extends Component {
     populateEscapeRooms = async (userId) => {
         //Get User Details and Update Redux Store
         if (userId !== null && userId !== undefined){
-            let queryResult = await this.props.services['escape-rooms'].find({query:{userId:userId}});
-            if(queryResult.action.type.includes('FULFILLED')){
-                const escapeRooms = queryResult.value.data;
+            let result = await this.props.services['escape-rooms'].find({query:{userId:userId}});
+            if(result.action.type.includes('FULFILLED')){
+                const escapeRooms = result.value.data;
                 if (escapeRooms!==null && escapeRooms!==undefined)
                     this.props.redux.actions.escapeRooms.updateEscapeRooms(escapeRooms);
                     this.setState({loading:false});
@@ -101,24 +101,25 @@ class Main extends Component {
      * @function
      */
     logout = () => {
+        this.props.feathersClient.logout();
         window.localStorage.removeItem('feathers-jwt');
         this.setState({profile:null});
         this.props.redux.actions.user.logout();
         this.props.history.push('/');
     }
     /**
-     * Updates users details 
+     * Edits a users email
      * @function
-     * @param {Object} update
+     * @param {String} email
+     * @param {String} password
+     * @param {Object} change
      */
-    updateUser = async (update) => {
-        try{
-            const user = this.props.redux.state.user;
-            let response = await this.props.services.users.patch(user._id,update);
-            this.props.redux.actions.user.login(response.value);
-            return true;
-        }catch(error){
-            return error.message;
+    identityChange = async(user, password, changes)=>{
+        let result = await this.props.services.authManagement.create({action:'identityChange'},{user,password,changes});
+        if(result.action.type.include('FULFILLED')){
+            return {color:"success", message:"Email Saved"};
+        } else {
+            return {color:"danger", message:"Error"}
         }
     }
     /**
@@ -128,7 +129,7 @@ class Main extends Component {
      * @returns {JSX}
      */
     render() {
-        const loading = this.state.loading || this.props.redux.state.usersService.isLoading || this.props.redux.state.escapeRoomsService.isLoading;
+        const loading = this.state.loading || this.props.redux.state.usersService.isLoading || this.props.redux.state.escapeRoomsService.isLoading || this.props.redux.state.authManagementService.isLoading;
         const modal = this.props.redux.state.modal;
         const hideModal = this.props.redux.actions.modal.hideModal;
         let user = this.props.redux.state.user;
@@ -140,7 +141,7 @@ class Main extends Component {
                 Profile
                 </DropdownToggle>
                 <DropdownMenu right>
-                    <Profile user={user} updateUser={this.updateUser}/>
+                    <Profile user={user} identityChange={this.identityChange}/>
                     <Button id="LogoutButton" onClick={this.logout} block>Logout</Button>
                 </DropdownMenu>
             </Dropdown>

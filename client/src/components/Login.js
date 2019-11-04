@@ -8,7 +8,8 @@ class Login extends Component {
         this.state = {
             email:"",
             password:"",
-            errorMessage: ""
+            message: "",
+            color: "success"
         }
     }
 
@@ -18,7 +19,7 @@ class Login extends Component {
         //Authenticate credentials 
         if(this.props.authenticateCredentials){
             var err = await this.props.authenticateCredentials({strategy:'local',email:this.state.email,password:this.state.password});
-            this.setState({errorMessage:err});
+            this.setState({message:err, color:"danger"});
         }
     }
 
@@ -31,7 +32,16 @@ class Login extends Component {
 
     //Handles error dismiss
     handleDismiss = (event) => {
-        this.setState({errorMessage: ""});
+        this.setState({message: "", color:"success"});
+    }
+
+    //Handles button click
+    handleClick = (event) => {
+        event.preventDefault();
+        if(this.props.sendReset){
+            let result = await this.props.sendReset(this.state.email);
+            this.setState({message:result.message, color:result.color});
+        }
     }
 
     render() {
@@ -53,7 +63,10 @@ class Login extends Component {
                                 <FormText>
                                     Don't have an account? Sign Up <Link to="/signup">Here</Link>
                                 </FormText>
-                                <Alert isOpen={this.state.errorMessage !== ""} toggle={this.handleDismiss} color="danger">{this.state.errorMessage}</Alert>
+                                <FormText>
+                                    Forgotten Password? Enter your email above and then <button onClick={handleClick} className="form-control">Click Here</button>
+                                </FormText>
+                                <Alert isOpen={this.state.message !== ""} toggle={this.handleDismiss} color="danger">{this.state.message}</Alert>
                             </Form>
                         </Col>
                     </Row>

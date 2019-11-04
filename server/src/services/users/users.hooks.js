@@ -7,15 +7,31 @@ const {
 const gravatar = require('../../hooks/gravatar');
 const emailCheck = require('../../hooks/emailCheck');
 const passwordCheck = require('../../hooks/passwordCheck')
+const verifyHooks = require('feathers-authentication-management').hooks;
+const notifier = require('../authmanagement/notifier');
 
 module.exports = {
   before: {
     all: [],
     find: [ authenticate('jwt') ],
     get: [ authenticate('jwt') ],
-    create: [ hashPassword('password'), emailCheck() , passwordCheck(), gravatar() ],
-    update: [ hashPassword('password'),  authenticate('jwt') ],
-    patch: [ hashPassword('password'),  authenticate('jwt') ],
+    create: [ hashPassword('password'), verifyHooks.addVerification(), emailCheck() , passwordCheck(), gravatar() ],
+    update: [ commonHooks.disallow('external')],
+    patch: [ hashPassword('password'),  authenticate('jwt'), commonHooks.iff(
+      commonHooks.isProvider('external'),
+        commonHooks.preventChanges(
+          'isVerified',
+          'verifyToken',
+          'verifyShortToken',
+          'verifyExpires',
+          'verifyChanges',
+          'resetToken',
+          'resetShortToken',
+          'resetExpires'
+        ),
+        hashPassword(),
+        authenticate('jwt')
+      ) ],
     remove: [ authenticate('jwt') ]
   },
 
@@ -27,7 +43,7 @@ module.exports = {
     ],
     find: [],
     get: [],
-    create: [],
+    create: [ context => {notifier(context.app).notifier('resendVerifySignup', context.result)}, verifyHooks.removeVerification() ],
     update: [],
     patch: [],
     remove: []

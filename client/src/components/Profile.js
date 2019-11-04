@@ -6,10 +6,10 @@ class Profile extends Component {
         super();
         this.state = {
             edit: false,
-            errorMessage: "",
+            message: "",
             email: "",
             password: "",
-            _id: ""
+            color: "success"
         };
     }
     //Handles login form submit event
@@ -28,7 +28,7 @@ class Profile extends Component {
 
     //Handles error dismiss
     handleDismiss = (event) => {
-        this.setState({errorMessage: ""});
+        this.setState({message: ""});
     }
 
     handleClick = async (event) => {
@@ -40,22 +40,17 @@ class Profile extends Component {
             case 'saveButton':
                 let user = this.props.user;
                 if(this.state.email===""){
-                    this.setState({errorMessage:"Email Required"});
+                    this.setState({message:"Email Required",color:"danger"});
                     return;
-                } else {
-                    user.email = this.state.email;
                 }
-                if(this.state.password!=="")
-                    user.password = this.state.password;
-                if(this.props.updateUser!==undefined){
-                    let response = await this.props.updateUser(user);
-                    if(response===true){
-                        this.setState({edit:false});
-                    } else {
-                        this.setState({errorMessage:"Error, Please Try Again Later"});
-                    }
+                if(this.state.password===""){
+                    this.setState({message:"Your current password is required for authentication",color:"danger"})
+                    return;
                 }
-                    
+                if(this.props.identityChange){
+                    let result = await this.props.identityChange(user.email, this.state.password, {email:this.state.email});
+                    this.setState({message:result.message, color:result.color});
+                }
                 break;
             default:
         }
@@ -74,7 +69,6 @@ class Profile extends Component {
             const user = this.props.user;
             this.setState({
                 email: user.email,
-                _id: user._id
             })
         }
     }
@@ -86,7 +80,7 @@ class Profile extends Component {
                     <Col>
                         <img id="ProfileImage" className="img-fluid" src={this.props.user.avatar} alt="Profile" />
                         <p className="text-center">{this.props.user.email}</p>
-                        <Button id="editButton" block className="text-center" onClick={this.handleClick}>Edit Profile</Button>
+                        <Button id="editButton" block className="text-center" onClick={this.handleClick}>Edit Email</Button>
                     </Col>
                 </Row>
             </Container>
@@ -100,11 +94,11 @@ class Profile extends Component {
                             <Input type="email" name="email" id="email" value={this.state.email} onChange={this.handleChange}/>
                         </FormGroup>
                         <FormGroup>
-                            <Label for="password">Password</Label>
+                            <Label for="password">Confirm Password</Label>
                             <Input type="password" name="password" id="password" value={this.state.password} onChange={this.handleChange}/>
                         </FormGroup>
                         <Button id="saveButton" onClick={this.handleClick} block>Save</Button>
-                        <Alert isOpen={this.state.errorMessage !== ""} toggle={this.handleDismiss} color="danger">{this.state.errorMessage}</Alert>
+                        <Alert isOpen={this.state.message !== ""} toggle={this.handleDismiss} color={this.state.color}>{this.state.message}</Alert>
                     </Form>
                 </Col>
             </Row>
