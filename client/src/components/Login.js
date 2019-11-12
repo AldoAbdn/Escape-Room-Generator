@@ -19,7 +19,7 @@ class Login extends Component {
     handleSubmit = async (event) => {
         event.preventDefault();
         //Authenticate credentials 
-        if(this.props.email!=="" && this.props.password!=="" && this.props.recaptcha && this.props.authenticateCredentials){
+        if(this.state.email!=="" && this.state.password!=="" && this.state.recaptcha && this.props.authenticateCredentials){
             var err = await this.props.authenticateCredentials({strategy:'local',email:this.state.email,password:this.state.password});
             this.setState({message:err, color:"danger"});
         } else {

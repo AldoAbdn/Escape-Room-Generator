@@ -20,7 +20,7 @@ class Signup extends Component {
     //Handles login form submit event
     handleSubmit = async (event) => {
         event.preventDefault();
-        if(this.props.email!=="" && this.props.password!=="" && this.props.password2!=="" && this.props.password===this.props.password2 && this.props.recaptcha && this.props.signUp){
+        if(this.state.email!=="" && this.state.password!=="" && this.state.password2!=="" && this.state.password===this.state.password2 && this.state.recaptcha && this.props.signUp){
             let err = await this.props.signUp({email:this.state.email,password:this.state.password});
             this.setState({message:err});
         } else {
