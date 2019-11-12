@@ -9,9 +9,7 @@ module.exports = {
     get: [],
     create: [ 
       commonHooks.iff(isAction('passwordChange', 'identityChange'),
-        auth.authenticate('jwt'),
-        auth.populateUser(),
-        auth.restrictToAuthenticated()
+        auth.authenticate('jwt')
       ),
     ],
     update: [],
