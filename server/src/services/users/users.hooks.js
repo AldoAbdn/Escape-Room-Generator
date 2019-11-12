@@ -20,7 +20,7 @@ module.exports = {
     update: [ commonHooks.disallow('external')],
     patch: [ hashPassword('password'),  authenticate('jwt'), commonHooks.iff(
       commonHooks.isProvider('external'),
-        commonHooks.preventChanges(
+        commonHooks.preventChanges(true,
           'isVerified',
           'verifyToken',
           'verifyShortToken',
@@ -30,7 +30,7 @@ module.exports = {
           'resetShortToken',
           'resetExpires'
         ),
-        hashPassword(),
+        hashPassword('password'),
         authenticate('jwt')
       ) ],
     remove: [ authenticate('jwt') ]
