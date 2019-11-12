@@ -1,4 +1,4 @@
-import zxcvbn from 'zxcvbn';
+const zxcvbn = require('zxcvbn');
 
 module.exports = function (options = {}) { 
     return async context => {
