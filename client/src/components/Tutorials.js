@@ -9,7 +9,7 @@ class Tutorials extends Component {
                 width={'100%'}
                 height={'70%'}
                 api_key={process.env.REACT_APP_YOUTUBE_API_KEY}
-                playlist_id={process.env.REACT_APP_TUTORIALS_PLAYLIST_URL}
+                playlist_id={process.env.REACT_APP_TUTORIALS_PLAYLIST_ID}
                 scrolling={"auto"}
             />
         )

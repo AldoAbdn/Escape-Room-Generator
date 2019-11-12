@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col, Alert, Button, Form, FormGroup, Label, Input, FormText} from 'reactstrap';
+import ReCAPTCHA from "react-google-recaptcha";
 
 class Login extends Component {
     constructor(props) {
@@ -9,7 +10,8 @@ class Login extends Component {
             email:"",
             password:"",
             message: "",
-            color: "success"
+            color: "success",
+            recaptcha: false
         }
     }
 
@@ -17,9 +19,11 @@ class Login extends Component {
     handleSubmit = async (event) => {
         event.preventDefault();
         //Authenticate credentials 
-        if(this.props.authenticateCredentials){
+        if(this.props.email!=="" && this.props.password!=="" && this.props.recaptcha && this.props.authenticateCredentials){
             var err = await this.props.authenticateCredentials({strategy:'local',email:this.state.email,password:this.state.password});
             this.setState({message:err, color:"danger"});
+        } else {
+            this.setState({message:"Error"})
         }
     }
 
@@ -44,6 +48,10 @@ class Login extends Component {
         }
     }
 
+    handleReCAPTCHA = (value) => {
+        this.setState({recaptcha:value})
+    }
+
     render() {
         return (
             <div className="login full-container verticaly-center-content">
@@ -59,7 +67,11 @@ class Login extends Component {
                                     <Label for="password">Password</Label>
                                     <Input type="password" name="password" id="password" value={this.state.password} onChange={this.handleChange}/>
                                 </FormGroup>
-                                <Button>Login</Button>
+                                <ReCAPTCHA
+                                    sitekey={process.env.REACT_APP_RECAPTCHA}
+                                    onChange={handleReCAPTCHA}
+                                />
+                                <Button disabled={this.state.email==="" || this.state.password==="" || this.state.message!=="" || this.state.recaptcha}>Login</Button>
                                 <FormText>
                                     Don't have an account? Sign Up <Link to="/signup">Here</Link>
                                 </FormText>
