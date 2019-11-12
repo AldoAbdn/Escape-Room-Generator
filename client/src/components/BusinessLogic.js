@@ -69,7 +69,7 @@ class BusinessLogic extends Component {
     newEscapeRoom = async() => {
         const userId = this.props.redux.state.user._id;
         const newEscapeRoom = new EscapeRoom(userId);
-        let response = await this.props.services['escape-rooms'].create(newEscapeRoom)
+        let response = await this.props.services['escape-rooms'].create(newEscapeRoom);
         if(response.action.type.includes('FULFILLED')){
             const escapeRoom = response.value;
             if (escapeRoom!==null){
