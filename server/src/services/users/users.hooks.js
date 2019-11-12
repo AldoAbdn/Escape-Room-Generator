@@ -6,7 +6,8 @@ const {
 
 const gravatar = require('../../hooks/gravatar');
 const emailCheck = require('../../hooks/emailCheck');
-const passwordCheck = require('../../hooks/passwordCheck')
+const passwordCheck = require('../../hooks/passwordCheck');
+const commonHooks = require('feathers-hooks-common');
 const verifyHooks = require('feathers-authentication-management').hooks;
 const notifier = require('../authmanagement/notifier');
 
