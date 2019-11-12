@@ -92,7 +92,7 @@ class Signup extends Component {
                                     sitekey={process.env.REACT_APP_RECAPTCHA}
                                     onChange={this.handleReCAPTCHA}
                                 />
-                                <Button disabled={this.state.email==="" || this.state.password==="" || this.state.password !== this.state.password2 || this.state.message!=="" || this.state.recaptcha}>Sign Up</Button>
+                                <Button disabled={this.state.email==="" || this.state.password==="" || this.state.password !== this.state.password2 || this.state.message!=="" || !this.state.recaptcha}>Sign Up</Button>
                                 <FormText>
                                     Passwords must be strong and 8 characters in length or more
                                 </FormText>

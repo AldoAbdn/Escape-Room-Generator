@@ -71,7 +71,7 @@ class Login extends Component {
                                     sitekey={process.env.REACT_APP_RECAPTCHA}
                                     onChange={this.handleReCAPTCHA}
                                 />
-                                <Button disabled={this.state.email==="" || this.state.password==="" || this.state.message!=="" || this.state.recaptcha}>Login</Button>
+                                <Button disabled={this.state.email==="" || this.state.password==="" || this.state.message!=="" || !this.state.recaptcha}>Login</Button>
                                 <FormText>
                                     Don't have an account? Sign Up <Link to="/signup">Here</Link>
                                 </FormText>
