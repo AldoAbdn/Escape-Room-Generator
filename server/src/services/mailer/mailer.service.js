@@ -13,10 +13,10 @@ const Mailer = require('feathers-mailer')(smtpTransport(configuration));
 
 module.exports = function (app) {
   // Initialize our service 
-  app.use('/mailer', );
+  app.use('/mailer', Mailer);
 
   // Get our initialized service so that we can register hooks
-  const service = app.service('mailer',Mailer);
+  const service = app.service('mailer');
 
   service.hooks(hooks);
 };
