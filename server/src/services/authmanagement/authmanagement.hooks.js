@@ -1,4 +1,4 @@
-const auth = require('@feathersjs/authentication').hooks;
+const auth = require('@feathersjs/authentication');
 const commonHooks = require('feathers-hooks-common');
 const isAction = (...args) => hook => args.includes(hook.data.action);
 
