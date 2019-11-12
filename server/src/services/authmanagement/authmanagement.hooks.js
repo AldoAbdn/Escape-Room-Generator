@@ -1,4 +1,4 @@
-const verifyHooks = require('feathers-authentication-management').hooks;
+const auth = require('@feathersjs/authentication').hooks;
 const commonHooks = require('feathers-hooks-common');
 const isAction = (...args) => hook => args.includes(hook.data.action);
 
@@ -9,9 +9,9 @@ module.exports = {
     get: [],
     create: [ 
       commonHooks.iff(isAction('passwordChange', 'identityChange'),
-        verifyHooks.verifyToken(),
-        verifyHooks.populateUser(),
-        verifyHooks.restrictToAuthenticated()
+        auth.verifyToken(),
+        auth.populateUser(),
+        auth.restrictToAuthenticated()
       ),
     ],
     update: [],
