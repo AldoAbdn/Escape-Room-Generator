@@ -40,7 +40,7 @@ class Login extends Component {
     }
 
     //Handles button click
-    handleClick = (event) => {
+    handleClick = async (event) => {
         event.preventDefault();
         if(this.props.sendReset){
             let result = await this.props.sendReset(this.state.email);
@@ -69,14 +69,14 @@ class Login extends Component {
                                 </FormGroup>
                                 <ReCAPTCHA
                                     sitekey={process.env.REACT_APP_RECAPTCHA}
-                                    onChange={handleReCAPTCHA}
+                                    onChange={this.handleReCAPTCHA}
                                 />
                                 <Button disabled={this.state.email==="" || this.state.password==="" || this.state.message!=="" || this.state.recaptcha}>Login</Button>
                                 <FormText>
                                     Don't have an account? Sign Up <Link to="/signup">Here</Link>
                                 </FormText>
                                 <FormText>
-                                    Forgotten Password? Enter your email above and then <button onClick={handleClick} className="form-control">Click Here</button>
+                                    Forgotten Password? Enter your email above and then <button onClick={this.handleClick} className="form-control">Click Here</button>
                                 </FormText>
                                 <Alert isOpen={this.state.message !== ""} toggle={this.handleDismiss} color="danger">{this.state.message}</Alert>
                             </Form>

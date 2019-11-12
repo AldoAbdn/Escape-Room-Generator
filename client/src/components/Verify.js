@@ -20,7 +20,7 @@ class Verify extends Component {
             <Container fluid>
                 <Row>
                     <Col>
-                        <Alert isOpen={this.state.message!=""} color={this.state.color}>{this.state.message}</Alert>
+                        <Alert isOpen={this.state.message!==""} color={this.state.color}>{this.state.message}</Alert>
                     </Col>
                 </Row>
             </Container>

@@ -2,7 +2,7 @@ import React, {Component}  from 'react';
 import { Route, Switch } from 'react-router';
 import { Redirect } from 'react-router-dom';
 //Components
-import { Dashboard, EscapeRoomDesigner, Login, Signup, Tutorials, About, ProtectedRoute, NotFound } from '../components/index.js';
+import { Dashboard, EscapeRoomDesigner, Login, Signup, Tutorials, About, ProtectedRoute, NotFound, Verify, Reset } from '../components/index.js';
 import EscapeRoom from '../models/EscapeRoom.js';
 /**
  * Business logic of app 
