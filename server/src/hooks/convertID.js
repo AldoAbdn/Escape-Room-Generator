@@ -2,7 +2,7 @@ const ObjectID = require('mongodb').ObjectID;
 
 module.exports = function (options = {}) { 
     return async context => {
-      const { id } = context;
+      let { id } = context;
       
       if(id){
         id = new ObjectID(id); 
