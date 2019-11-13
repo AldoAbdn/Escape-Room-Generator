@@ -44,9 +44,7 @@ let backend = MultiBackend(pipline);
 //Feathers Configuration 
 export const feathersClient = feathers()
     .configure(feathers.socketio(io()))
-    .configure(feathers.authentication({
-        storage:window.localStorage
-    }));
+    .configure(feathers.authentication());
 
 //Configure Redux
 const rawServices = reduxifyServices(feathersClient, ['users', 'escape-rooms', 'authmanagement']);

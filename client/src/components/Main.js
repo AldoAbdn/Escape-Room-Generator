@@ -87,6 +87,8 @@ class Main extends Component {
     populateEscapeRooms = async (userId) => {
         //Get User Details and Update Redux Store
         if (userId !== null && userId !== undefined){
+            const escapeRooms = await this.props.feathersClient.service('escape-rooms').find({query:{userId:userId}});
+            console.log(escapeRooms);
             let result = await this.props.services['escape-rooms'].find({query:{userId:userId}});
             if(result.action.type.includes('FULFILLED')){
                 const escapeRooms = result.value.data;
