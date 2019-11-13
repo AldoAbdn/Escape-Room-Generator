@@ -16,7 +16,7 @@ module.exports = {
   before: {
     all: [],
     find: [ userQueryConversions(),authenticate('jwt') ],
-    get: [ authenticate('jwt') ],
+    get: [ userQueryConversions(),authenticate('jwt') ],
     create: [ hashPassword('password'), verifyHooks.addVerification(), emailCheck() , passwordCheck(), gravatar() ],
     update: [ commonHooks.disallow('external')],
     patch: [ hashPassword('password'),  authenticate('jwt'), commonHooks.iff(

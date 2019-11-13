@@ -8,7 +8,7 @@ module.exports = function (options = {}) {
         query._id = new ObjectID(query._id); 
       
       context.params.query = query;
-  
+      console.log(context);
       // Best practice: hooks should always return the context
       return context;
     };
