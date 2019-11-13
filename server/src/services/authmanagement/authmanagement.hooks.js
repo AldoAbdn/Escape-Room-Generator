@@ -1,5 +1,6 @@
 const auth = require('@feathersjs/authentication').hooks;
 const commonHooks = require('feathers-hooks-common');
+const convertID = require('../../hooks/convertID');
 const isAction = (...args) => hook => args.includes(hook.data.action);
 
 module.exports = {
@@ -9,7 +10,7 @@ module.exports = {
     get: [],
     create: [ 
       commonHooks.iff(isAction('passwordChange', 'identityChange'),
-        auth.authenticate('jwt')
+        convertID(),auth.authenticate('jwt')
       ),
     ],
     update: [],

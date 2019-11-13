@@ -1,8 +1,9 @@
 const auth = require('@feathersjs/authentication').hooks;
+const convertID = require('../../hooks/convertID');
 
 module.exports = {
   before: {
-    all: [auth.authenticate('jwt')],
+    all: [convertID(), auth.authenticate('jwt')],
     find: [],
     get: [],
     create: [],

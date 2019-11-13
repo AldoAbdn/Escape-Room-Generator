@@ -7,19 +7,19 @@ const {
 const gravatar = require('../../hooks/gravatar');
 const emailCheck = require('../../hooks/emailCheck');
 const passwordCheck = require('../../hooks/passwordCheck');
-const userQueryConversions = require('../../hooks/userQueryConversions');
+const convertID = require('../../hooks/convertID');
 const commonHooks = require('feathers-hooks-common');
 const verifyHooks = require('feathers-authentication-management').hooks;
 const notifier = require('../authmanagement/notifier');
 
 module.exports = {
   before: {
-    all: [],
-    find: [ userQueryConversions(),authenticate('jwt') ],
-    get: [ userQueryConversions(),authenticate('jwt') ],
+    all: [convertID()],
+    find: [ authenticate('jwt') ],
+    get: [ authenticate('jwt') ],
     create: [ hashPassword('password'), verifyHooks.addVerification(), emailCheck() , passwordCheck(), gravatar() ],
     update: [ commonHooks.disallow('external')],
-    patch: [ hashPassword('password'),  authenticate('jwt'), commonHooks.iff(
+    patch: [ hashPassword('password'),authenticate('jwt'), commonHooks.iff(
       commonHooks.isProvider('external'),
         commonHooks.preventChanges(true,
           'isVerified',
