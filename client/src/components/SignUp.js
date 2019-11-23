@@ -50,7 +50,7 @@ class Signup extends Component {
             messages.push("Password Not Strong Enough");
         if(this.state.password.length < 8)
             messages.push("Password Too Short");
-        if(this.state.email.contains(" ") || this.state.email.contains("$"))
+        if(this.state.email.includes(" ") || this.state.email.includes("$"))
             messages.push("Invalid Email");
         return messages.join(", ");   
     }

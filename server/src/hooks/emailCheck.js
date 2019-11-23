@@ -10,7 +10,7 @@ module.exports = function (options = {}) {
       if(result.data.length)
         throw new Error('Invalid Email');
       // Check for spaces
-      if(this.state.email.contains(" ") || this.state.email.contains("$"))
+      if(this.state.email.includes(" ") || this.state.email.includes("$"))
         throw new Error("Invalid Email");
   
       // Best practice: hooks should always return the context
