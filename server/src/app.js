@@ -3,7 +3,7 @@ const favicon = require('serve-favicon');
 const compress = require('compression');
 const helmet = require('helmet');
 const cors = require('cors');
-const logger = require('./logger');
+const errorHandler = require('feathers-errors/handler');
 
 const feathers = require('@feathersjs/feathers');
 const configuration = require('@feathersjs/configuration');
@@ -49,9 +49,12 @@ app.configure(services);
 app.configure(channels);
 
 // Configure a middleware for 404s and the error handler
-app.use(express.notFound());
-app.use(express.errorHandler({ logger }));
-
+/* app.use(express.notFound());
+app.use(express.errorHandler());
+app.use(errorHandler({
+    404: app.get('public')
+}));
+ */
 app.hooks(appHooks);
 
 module.exports = app;
