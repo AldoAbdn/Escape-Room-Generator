@@ -1,7 +1,6 @@
 module.exports = function (options = {}) { 
     return async context => {
-      let email = context.arguments[0].email;
-      console.log(context);
+      let email = context.data.email;
       // Check if account already exists 
       let result = await context.service.find({
           query: {
@@ -11,7 +10,7 @@ module.exports = function (options = {}) {
       if(result.data.length)
         throw new Error('Invalid Email');
       // Check for spaces
-      if(this.state.email.includes(" ") || this.state.email.includes("$"))
+      if(email.includes(" ") || email.includes("$"))
         throw new Error("Invalid Email");
   
       // Best practice: hooks should always return the context
