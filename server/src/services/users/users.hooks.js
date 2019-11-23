@@ -5,7 +5,7 @@ const {
 } = require('@feathersjs/authentication-local').hooks;
 
 const gravatar = require('../../hooks/gravatar');
-const emailCheck = require('../../hooks/emailCheck');
+const credentialsCheck = require('../../hooks/credentialsCheck');
 const passwordCheck = require('../../hooks/passwordCheck');
 const convertID = require('../../hooks/convertID');
 const commonHooks = require('feathers-hooks-common');
@@ -17,7 +17,7 @@ module.exports = {
     all: [convertID()],
     find: [ authenticate('jwt') ],
     get: [ authenticate('jwt') ],
-    create: [ hashPassword('password'), verifyHooks.addVerification(), emailCheck() , passwordCheck(), gravatar() ],
+    create: [ hashPassword('password'), verifyHooks.addVerification(), credentialsCheck() , passwordCheck(), gravatar() ],
     update: [ commonHooks.disallow('external')],
     patch: [ hashPassword('password'),authenticate('jwt'), commonHooks.iff(
       commonHooks.isProvider('external'),
