@@ -1,6 +1,7 @@
 module.exports = function (options = {}) { 
     return async context => {
       let email = context.data.email;
+      console.log(context);
       // Check if account already exists 
       let result = await context.service.find({
           query: {

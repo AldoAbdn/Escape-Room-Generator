@@ -76,7 +76,7 @@ class Login extends Component {
                                     Don't have an account? Sign Up <Link to="/signup">Here</Link>
                                 </FormText>
                                 <FormText>
-                                    Forgotten Password? Enter your email above and then <button onClick={this.handleClick} className="btn btn-link">Click Here</button>
+                                    Forgotten Password? Enter your email above and then <button onClick={this.handleClick} className="btn btn-link" style={{padding:0,fontSize:'inherit'}}>Click Here</button>
                                 </FormText>
                                 <Alert isOpen={this.state.message !== ""} toggle={this.handleDismiss} color="danger">{this.state.message}</Alert>
                             </Form>
