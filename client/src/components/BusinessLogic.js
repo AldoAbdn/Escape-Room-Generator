@@ -107,7 +107,7 @@ class BusinessLogic extends Component {
      * @param {String} token
      */
     verify = async(token)=>{
-        let result = await this.props.services.authManagement.create({action:'verifySignupLong'},{value:token});
+        let result = await this.props.services.authManagement.create({action:'verifySignupLong',value:token});
         if(result.action.type.include('FULFILLED')){
             return {color:"success", message:"Account Verified"};
         } else {
@@ -122,7 +122,7 @@ class BusinessLogic extends Component {
      * @param {String} password
      */
     reset = async(email, token, password) => {
-        let result = await this.props.services.authManagement.create({action:'resetPwdLong'},{token,password});
+        let result = await this.props.services.authManagement.create({action:'resetPwdLong',value:{token,password}});
         if(result.action.type.include('FULFILLED')){
             return {color:"success", message:"Password Reset"};
         } else {
@@ -135,7 +135,7 @@ class BusinessLogic extends Component {
      * @param {String} email
      */
     sendReset = async(email) => {
-        let result = await this.props.services.authManagement.create({action:'sendResetPwd'},{value:{email}});
+        let result = await this.props.services.authManagement.create({action:'sendResetPwd',value:{email}});
         if(result.action.type.include('FULFILLED')){
             return {color:"success", message:"Password Reset Send, Check Emails"};
         } else {
