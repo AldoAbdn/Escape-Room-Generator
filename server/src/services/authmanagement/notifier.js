@@ -1,11 +1,9 @@
 module.exports = function(app) {
   function getLink(type, hash) {
-    let url;
-    let port = app.get('port');
-    let host = app.get('host')
-    let protocal = app.get('protocal');
-    protocal += "://"
-    return `${protocal}${host}${port}/${type}/${hash}`
+    let protocol = app.get('protocol');
+    protocol += "://";
+    let host = app.get('host');
+    return `${protocol}${host}/${type}/${hash}`;
   }
 
   function sendEmail(email) {
