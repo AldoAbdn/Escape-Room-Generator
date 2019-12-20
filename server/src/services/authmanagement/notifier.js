@@ -1,9 +1,9 @@
 module.exports = function(app) {
   function getLink(type, hash) {
-    let url
-    let port = (app.get('port') === '80') ? '' : ':' + app.get('port')
-    let host = (app.get('host') === 'HOST') ? 'localhost' : app.get('host')
-    let protocal = (app.get('protocal') === 'PROTOCAL') ? 'http' : app.get('protocal')
+    let url;
+    let port = app.get('port');
+    let host = app.get('host')
+    let protocal = app.get('protocal');
     protocal += "://"
     return `${protocal}${host}${port}/${type}/${hash}`
   }
