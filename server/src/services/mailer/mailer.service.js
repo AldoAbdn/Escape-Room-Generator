@@ -1,6 +1,6 @@
 // Initializes the `mailer` service on path `/mailer`
 const hooks = require('./mailer.hooks');
-const smtpTransport = require('nodemailer-smtp-transport');
+const Mailer = require('feathers-mailer')
 const configuration = {
   host: process.env.SMTP_HOST,
   auth: {
@@ -8,15 +8,13 @@ const configuration = {
     password: process.env.SMTP_PASS
   }
 };
-const Mailer = require('feathers-mailer')(smtpTransport(configuration));
 
 module.exports = function (app) {
   // Initialize our service 
-  app.use('/mailer', Mailer);
+  app.use('/mailer', Mailer(configuration));
 
   // Get our initialized service so that we can register hooks
   const service = app.service('mailer');
-  console.log(SMTP)
 
   service.hooks(hooks);
 };
