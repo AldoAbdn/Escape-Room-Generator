@@ -9,10 +9,10 @@ module.exports = function (options = {}) {
               email
           }
       });
-      if(result.data.length > 0)
+      if(result.data.length)
         throw new Error('Invalid Email');
       // Check email valid
-      if(email.includes(" ") || email.includes("$") || email.includes("@"))
+      if(email.includes(" ") || email.includes("$") || !email.includes("@"))
         throw new Error("Invalid Email");
       // Check password valid 
       if(testResult.score<4)
