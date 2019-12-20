@@ -3,7 +3,6 @@ const hooks = require('./mailer.hooks');
 const smtpTransport = require('nodemailer-smtp-transport');
 const configuration = {
   host: process.env.SMTP_HOST,
-  secure: true,
   auth: {
     user: process.env.SMTP_USER,
     password: process.env.SMTP_PASS
@@ -17,6 +16,7 @@ module.exports = function (app) {
 
   // Get our initialized service so that we can register hooks
   const service = app.service('mailer');
+  console.log(SMTP)
 
   service.hooks(hooks);
 };
