@@ -10,7 +10,7 @@ export default function(reduxifiedServices){
     return combineReducers({
         usersService: reduxifiedServices.users.reducer,
         escapeRoomsService: reduxifiedServices['escape-rooms'].reducer,
-        authManagementService: reduxifiedServices.authmanagement.reducer,
+        authManagementService: reduxifiedServices.authManagement.reducer,
         routing: routerReducer,
         user,
         escapeRooms,
