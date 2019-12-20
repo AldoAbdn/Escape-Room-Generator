@@ -9,7 +9,7 @@ module.exports = function (options = {}) {
               email
           }
       });
-      if(result.data.length)
+      if(result.data.length > 0)
         throw new Error('Invalid Email');
       // Check email valid
       if(email.includes(" ") || email.includes("$") || email.includes("@"))
