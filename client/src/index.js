@@ -47,7 +47,7 @@ export const feathersClient = feathers()
     .configure(feathers.authentication());
 
 //Configure Redux
-const rawServices = reduxifyServices(feathersClient, ['users', 'escape-rooms', 'authManagement']);
+const rawServices = reduxifyServices(feathersClient, ['users', 'escape-rooms', 'auth-management']);
 const store = configureStore(rawServices,{user:{},escapeRooms:[],escapeRoom:{}});
 const services = bindWithDispatch(store.dispatch, rawServices);
 
