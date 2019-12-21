@@ -25,7 +25,7 @@ module.exports = function(app) {
               from: process.env.FROM_EMAIL,
               to: user.email,
               subject: 'Verify Signup',
-              html: tokenLink
+              html: 'Click here to verify your account: ' + tokenLink
           }
           return sendEmail(email)
 
@@ -74,10 +74,9 @@ module.exports = function(app) {
               from: process.env.FROM_EMAIL,
               to: user.email,
               subject: 'Identity Changed',
-              html: tokenLink
+              html: 'Click here to verify your account: ' + tokenLink
             }
           return sendEmail(email)
-
         default:
           break
         }
