@@ -22,6 +22,7 @@ class BusinessLogic extends Component {
             let { user } = await this.props.feathersClient.authenticate(credentials);
             if(user!=null){
                 user.token = window.localStorage.getItem('feathers-jwt');
+                console.log(user);
                 this.props.redux.actions.user.login(user);
                 this.props.history.push('/dashboard');
             }
