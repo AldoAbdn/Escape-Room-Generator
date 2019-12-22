@@ -16,7 +16,7 @@ module.exports = app => {
   app.service("authentication").hooks({
     before: {
       create: [
-        auth.authenticate(authentication.getStrategies('local')),
+        auth.authenticate(authentication.strategies),
         verifyHooks.isVerified() // !!! Add the isVerified hook before authentication
       ],
       remove: [
