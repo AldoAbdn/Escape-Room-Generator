@@ -16,7 +16,7 @@ class Verify extends Component {
         this.verify();
     }
     render() {
-        if(token!="" || token!=null){
+        if(this.props.token!="" || this.props.token!=null){
             return (
                 <Container fluid>
                     <Row>
@@ -25,16 +25,18 @@ class Verify extends Component {
                         </Col>
                     </Row>
                 </Container>
-            )
+            );
         } else {
-            <Container fluid>
-                <Row>
-                    <Col>
-                        <h1>Verify your account</h1>
-                        <p>To access The Escape Room Generator, you must first verify your account. Please check your emails and click the link.</p>
-                    </Col>
-                </Row>
-            </Container>
+            return(
+                <Container fluid>
+                    <Row>
+                        <Col>
+                            <h1>Verify your account</h1>
+                            <p>To access The Escape Room Generator, you must first verify your account. Please check your emails and click the link.</p>
+                        </Col>
+                    </Row>
+                </Container>
+            );
         }
     }
 };
