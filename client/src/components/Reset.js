@@ -62,36 +62,48 @@ class Reset extends Component {
     }
 
     render() {
-        return (
-            <div className="sign-up full-container verticaly-center-content">
-                <Container>
-                    <Row>
-                        <Col>
-                            <Form noValidate onSubmit={this.handleSubmit}>
-                                <FormGroup>
-                                    <Label for="email">Email</Label>
-                                    <Input required type="email" name="email" id="email" value={this.state.email} onChange={this.handleChange}/>
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label for="password">Password</Label>
-                                    <Input required type="password" name="password" id="password" value={this.state.password} onChange={this.handleChange}/>
-                                    <PasswordStrengthMeter score={this.state.testResult.score}/>
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label for="password2">Re-Type Password</Label>
-                                    <Input required type="password" name="password2" id="password2" value={this.state.password2} onChange={this.handleChange}/>
-                                </FormGroup>
-                                <Button disabled={this.state.email==="" || this.state.password==="" || this.state.password !== this.state.password2 || this.state.message!==""}>Sign Up</Button>
-                                <FormText>
-                                    Passwords must be strong and 8 characters in length or more
-                                </FormText>
-                                <Alert isOpen={this.state.message !== ""} toggle={this.handleDismiss} color={this.state.color}>{this.state.message}</Alert>
-                            </Form>
-                        </Col>
-                    </Row>
-                </Container>
-            </div>
-        )
+        if(this.props.token!="" || this.props.token!=null){
+            return (
+                <div className="sign-up full-container verticaly-center-content">
+                    <Container>
+                        <Row>
+                            <Col>
+                                <Form noValidate onSubmit={this.handleSubmit}>
+                                    <FormGroup>
+                                        <Label for="email">Email</Label>
+                                        <Input required type="email" name="email" id="email" value={this.state.email} onChange={this.handleChange}/>
+                                    </FormGroup>
+                                    <FormGroup>
+                                        <Label for="password">Password</Label>
+                                        <Input required type="password" name="password" id="password" value={this.state.password} onChange={this.handleChange}/>
+                                        <PasswordStrengthMeter score={this.state.testResult.score}/>
+                                    </FormGroup>
+                                    <FormGroup>
+                                        <Label for="password2">Re-Type Password</Label>
+                                        <Input required type="password" name="password2" id="password2" value={this.state.password2} onChange={this.handleChange}/>
+                                    </FormGroup>
+                                    <Button disabled={this.state.email==="" || this.state.password==="" || this.state.password !== this.state.password2 || this.state.message!==""}>Sign Up</Button>
+                                    <FormText>
+                                        Passwords must be strong and 8 characters in length or more
+                                    </FormText>
+                                    <Alert isOpen={this.state.message !== ""} toggle={this.handleDismiss} color={this.state.color}>{this.state.message}</Alert>
+                                </Form>
+                            </Col>
+                        </Row>
+                    </Container>
+                </div>
+            )
+        } else {
+            <Container fluid>
+            <Row>
+                <Col>
+                    <h1>Password Reset</h1>
+                    <p>To reset your password login to your account, click the profile dropdown and click edit email.</p>
+                    <p>Enter your current password and you should recieve an email link to reset your password</p>
+                </Col>
+            </Row>
+        </Container>
+        }
     }
 };
 

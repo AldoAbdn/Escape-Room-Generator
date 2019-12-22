@@ -25,8 +25,8 @@ class BusinessLogic extends Component {
                 this.props.redux.actions.user.login(user);
                 this.props.history.push('/dashboard');
             }
-        } catch(err){
-            return err.message;
+        } catch(error){
+            return error.message;
         }
     }
     /**
@@ -37,16 +37,9 @@ class BusinessLogic extends Component {
     signUp = async(credentials)=>{
         //Create a new user 
         try{
-            await this.props.services.users.create(credentials);
-            //Authenticate with feathersjs
-            await this.props.feathersClient.authenticate({strategy:'local',email:credentials.email,password:credentials.password});
-            //Get User Details and Update Redux Store
-            let queryResult = await this.props.services.users.find({query:{email:credentials.email}});
+            let queryResult = await this.props.services.users.create(credentials);
             if(queryResult.action.type.includes('FULFILLED')){
-                var user = queryResult.value.data[0];
-                user.token = window.localStorage.getItem('feathers-jwt');
-                this.props.redux.actions.user.login(user);
-                this.props.history.push('/dashboard');
+                this.props.history.push('/verify');
             }
         } catch(error){
             return error.message;

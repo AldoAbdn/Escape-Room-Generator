@@ -16,15 +16,26 @@ class Verify extends Component {
         this.verify();
     }
     render() {
-        return (
+        if(token!="" || token!=null){
+            return (
+                <Container fluid>
+                    <Row>
+                        <Col>
+                            <Alert isOpen={this.state.message!==""} color={this.state.color}>{this.state.message}</Alert>
+                        </Col>
+                    </Row>
+                </Container>
+            )
+        } else {
             <Container fluid>
                 <Row>
                     <Col>
-                        <Alert isOpen={this.state.message!==""} color={this.state.color}>{this.state.message}</Alert>
+                        <h1>Verify your account</h1>
+                        <p>To access The Escape Room Generator, you must first verify your account. Please check your emails and click the link.</p>
                     </Col>
                 </Row>
             </Container>
-        )
+        }
     }
 };
 
