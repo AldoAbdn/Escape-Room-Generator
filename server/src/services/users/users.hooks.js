@@ -13,8 +13,8 @@ const notifier = require('../auth-management/notifier');
 module.exports = {
   before: {
     all: [convertID()],
-    find: [ auth.authenticate('jwt'), verifyHooks.isVerified() ],
-    get: [ auth.authenticate('jwt'), verifyHooks.isVerified() ],
+    find: [ auth.authenticate('jwt') ],
+    get: [ auth.authenticate('jwt') ],
     create: [ authlocal.hashPassword('password'), credentialsCheck(), passwordCheck(), gravatar() ],
     update: [ commonHooks.disallow('external')],
     patch: [ authlocal.hashPassword('password'), auth.authenticate('jwt'), commonHooks.iff(
@@ -32,7 +32,7 @@ module.exports = {
         authlocal.hashPassword('password'),
         auth.authenticate('jwt')
       ) ],
-    remove: [ auth.authenticate('jwt'), verifyHooks.isVerified() ]
+    remove: [ auth.authenticate('jwt') ]
   },
 
   after: {
