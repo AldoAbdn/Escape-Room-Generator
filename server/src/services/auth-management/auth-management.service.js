@@ -7,7 +7,7 @@ module.exports = function (app) {
   app.configure(authManagement(notifier(app)));
 
   // Get our initialized service so that we can register hooks
-  const service = app.service('auth-management');
+  const service = app.service('authManagement');
 
   service.hooks(hooks);
 };
