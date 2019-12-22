@@ -1,7 +1,6 @@
 // Feathers hooks
 const auth = require('@feathersjs/authentication').hooks;
 const commonHooks = require('feathers-hooks-common');
-const verifyHooks = require('feathers-authentication-management').hooks;
 // Custom hooks
 const convertID = require('../../hooks/convertID');
 const isAction = (...args) => hook => args.includes(hook.data.action);
