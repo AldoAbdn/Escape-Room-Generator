@@ -13,6 +13,35 @@ import EscapeRoom from '../models/EscapeRoom.js';
  */
 class BusinessLogic extends Component {
     /**
+     * Popultes escape rooms by user ID
+     * @function
+     * @param {String} userId
+     * @returns {Array}
+     */
+    populateEscapeRooms = async (userId) => {
+        //Get User Details and Update Redux Store
+        if (userId !== null && userId !== undefined){
+            try{
+                let result = await this.props.services['escape-rooms'].find({query:{userId:userId}});
+                if(result.action.type.includes('FULFILLED')){
+                    const escapeRooms = result.value.data;
+                    if (escapeRooms!==null && escapeRooms!==undefined){
+                        this.props.redux.actions.escapeRooms.updateEscapeRooms(escapeRooms);
+                        this.setState({loading:false});
+                    }
+                }
+                return true;
+            }catch(e){
+                // User Not Verified
+                if(e.message.includes("verified")){
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
+    }
+    /**
      * Authenticates login credentials 
      * @function
      * @param {Object} credentials 
@@ -22,6 +51,8 @@ class BusinessLogic extends Component {
             let { user } = await this.props.feathersClient.authenticate(credentials);
             if(user!=null){
                 user.token = window.localStorage.getItem('feathers-jwt');
+                const verified = await this.populateEscapeRooms(user._id);
+                user.verified = verified;
                 this.props.redux.actions.user.login(user);
                 this.props.history.push('/dashboard');
             }
@@ -141,6 +172,7 @@ class BusinessLogic extends Component {
      * @function
      */
     render() {
+        const user = this.props.redux.state.user;
         const escapeRooms = this.props.redux.state.escapeRooms;
         const escapeRoom = this.props.redux.state.escapeRoom;
         const escapeRoomActions = this.props.redux.actions.escapeRoom;
@@ -148,7 +180,7 @@ class BusinessLogic extends Component {
         return (
             <Switch>
                 <Redirect exact from="/" to="dashboard"/>
-                <ProtectedRoute path="/dashboard" render={(routeProps) => (<Dashboard escapeRooms={escapeRooms} showModal={showModal} editEscapeRoom={this.editEscapeRoom} newEscapeRoom={this.newEscapeRoom} deleteEscapeRoom={this.deleteEscapeRoom}/>)}/>
+                <ProtectedRoute path="/dashboard" condition={user.verified} redirect={'/verify'} render={(routeProps) => (<Dashboard escapeRooms={escapeRooms} showModal={showModal} editEscapeRoom={this.editEscapeRoom} newEscapeRoom={this.newEscapeRoom} deleteEscapeRoom={this.deleteEscapeRoom}/>)}/>
                 <ProtectedRoute path="/designer" condition={Object.keys(escapeRoom).length > 0 &&escapeRoom!==undefined} redirect={'/'} render={(routeProps) =>(<EscapeRoomDesigner showModal={showModal} escapeRoom={escapeRoom} saveEscapeRoom={this.saveEscapeRoom} updateDetails={escapeRoomActions.updateDetails} updateAccessibility={escapeRoomActions.updateAccessibility} addComponent={escapeRoomActions.addComponent} removeComponent={escapeRoomActions.removeComponent} updateComponent={escapeRoomActions.updateComponent} addRelationship={escapeRoomActions.addRelationship} removeRelationship={escapeRoomActions.removeRelationship}/>)}/>
                 <Route path="/login" render={(routeProps) => (<Login authenticateCredentials={this.authenticateCredentials}/>)}/>
                 <Route path="/signup" render={(routeProps) => (<Signup signUp={this.signUp}/>)}/>

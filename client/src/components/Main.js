@@ -39,9 +39,8 @@ class Main extends Component {
      * @function
      * @param {Object} prevProps 
      */
-    async componentDidUpdate(prevProps){
+    componentDidUpdate(prevProps){
         if(prevProps.redux.state.user.email!==this.props.redux.state.user.email){
-            this.populateEscapeRooms(this.props.redux.state.user._id);
             if(this.props.redux.state.user.email !== undefined){
                 this.setState({profile:true});
             } else {
@@ -71,8 +70,10 @@ class Main extends Component {
             let { user } = await this.props.feathersClient.reAuthenticate();
             if(user!=null){
                 user.token = window.localStorage.getItem('feathers-jwt');
+                const verified = await this.populateEscapeRooms(user._id);
+                user.verified = verified;
                 this.props.redux.actions.user.login(user);
-                await this.populateEscapeRooms(user._id);
+                this.props.history.push('/dashboard');
             }
         } catch(error){
             this.logout();
@@ -96,8 +97,14 @@ class Main extends Component {
                         this.setState({loading:false});
                     }
                 }
+                return true;
             }catch(e){
-                console.log(e);
+                // User Not Verified
+                if(e.message.includes("verified")){
+                    return false;
+                } else {
+                    return true;
+                }
             }
         }
     }
