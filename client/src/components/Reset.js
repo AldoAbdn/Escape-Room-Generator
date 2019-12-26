@@ -62,7 +62,7 @@ class Reset extends Component {
     }
 
     render() {
-        if(this.props.token!=="" && this.props.token!==null){
+        if(this.props.token!==undefined && this.props.token!==""){
             return (
                 <div className="sign-up full-container verticaly-center-content">
                     <Container>

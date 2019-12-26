@@ -16,7 +16,8 @@ class Verify extends Component {
         this.verify();
     }
     render() {
-        if(this.props.token!=="" && this.props.token!==null){
+        if(this.props.token!==undefined && this.props.token!==""){
+            alert(this.props.token);
             return (
                 <Container fluid>
                     <Row>
