@@ -39,7 +39,7 @@ class Main extends Component {
      * @function
      * @param {Object} prevProps 
      */
-    componentDidUpdate(prevProps){
+    async componentDidUpdate(prevProps){
         if(prevProps.redux.state.user.email!==this.props.redux.state.user.email){
             this.populateEscapeRooms(this.props.redux.state.user._id);
             if(this.props.redux.state.user.email !== undefined){
@@ -87,19 +87,17 @@ class Main extends Component {
     populateEscapeRooms = async (userId) => {
         //Get User Details and Update Redux Store
         if (userId !== null && userId !== undefined){
-            const escapeRooms = await this.props.feathersClient.service('escape-rooms').find({query:{userId:userId}});
-            console.log(escapeRooms);
-            let result = await this.props.services['escape-rooms'].find({query:{userId:userId}});
-            console.log(result);
-            console.log(this.props);
-            if(result.action.type.includes('FULFILLED')){
-                const escapeRooms = result.value.data;
-                if (escapeRooms!==null && escapeRooms!==undefined){
-                    this.props.redux.actions.escapeRooms.updateEscapeRooms(escapeRooms);
-                    this.setState({loading:false});
+            try{
+                let result = await this.props.services['escape-rooms'].find({query:{userId:userId}});
+                if(result.action.type.includes('FULFILLED')){
+                    const escapeRooms = result.value.data;
+                    if (escapeRooms!==null && escapeRooms!==undefined){
+                        this.props.redux.actions.escapeRooms.updateEscapeRooms(escapeRooms);
+                        this.setState({loading:false});
+                    }
                 }
-            } else {
-
+            }catch(e){
+                console.log(e);
             }
         }
     }
