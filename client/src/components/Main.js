@@ -90,12 +90,17 @@ class Main extends Component {
             const escapeRooms = await this.props.feathersClient.service('escape-rooms').find({query:{userId:userId}});
             console.log(escapeRooms);
             let result = await this.props.services['escape-rooms'].find({query:{userId:userId}});
+            console.log(result);
+            console.log(this.props);
             if(result.action.type.includes('FULFILLED')){
                 const escapeRooms = result.value.data;
-                if (escapeRooms!==null && escapeRooms!==undefined)
+                if (escapeRooms!==null && escapeRooms!==undefined){
                     this.props.redux.actions.escapeRooms.updateEscapeRooms(escapeRooms);
                     this.setState({loading:false});
                 }
+            } else {
+
+            }
         }
     }
     /**
