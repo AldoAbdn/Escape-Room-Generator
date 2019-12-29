@@ -52,6 +52,15 @@ class Profile extends Component {
                     this.setState({message:result.message, color:result.color});
                 }
                 break;
+            case 'cancelButton':
+                this.setState({edit:false});
+                break;
+            case 'passwordButton':
+                if(this.props.sendPasswordReset){
+                    let result = await this.props.sendPasswordReset();
+                    this.setState({message:result.message, color:result.color});
+                }
+                break;
             default:
         }
     }
@@ -74,39 +83,43 @@ class Profile extends Component {
     }
 
     render() {
-        this.profile = 
+        if(this.state.edit)
+            // Edit Profile
+            return (
+            <Container fluid>
+                <Row>
+                    <Col>
+                        <Form onSubmit={this.handleSubmit}>
+                            <FormGroup>
+                                <Label for="email">Email</Label>
+                                <Input type="email" name="email" id="email" value={this.state.email} onChange={this.handleChange}/>
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for="password">Confirm Password</Label>
+                                <Input type="password" name="password" id="password" value={this.state.password} onChange={this.handleChange}/>
+                            </FormGroup>
+                            <Button id="cancelButton" onClick={this.handleClick} block>Cancel</Button>
+                            <Button id="saveButton" onClick={this.handleClick} block>Save</Button>
+                            <Alert isOpen={this.state.message !== ""} toggle={this.handleDismiss} color={this.state.color}>{this.state.message}</Alert>
+                        </Form>
+                    </Col>
+                </Row>
+            </Container>
+            );
+        else 
+            // Profile
+            return (
             <Container fluid>
                 <Row>
                     <Col>
                         <img id="ProfileImage" className="img-fluid" src={this.props.user.avatar} alt="Profile" />
                         <p className="text-center">{this.props.user.email}</p>
                         <Button id="editButton" block className="text-center" onClick={this.handleClick}>Edit Email</Button>
+                        <Button id="passwordButton" block className="text-center" onClick={this.handleClick}>Password Reset</Button>
                     </Col>
                 </Row>
             </Container>
-        this.editProfile = 
-        <Container fluid>
-            <Row>
-                <Col>
-                    <Form onSubmit={this.handleSubmit}>
-                        <FormGroup>
-                            <Label for="email">Email</Label>
-                            <Input type="email" name="email" id="email" value={this.state.email} onChange={this.handleChange}/>
-                        </FormGroup>
-                        <FormGroup>
-                            <Label for="password">Confirm Password</Label>
-                            <Input type="password" name="password" id="password" value={this.state.password} onChange={this.handleChange}/>
-                        </FormGroup>
-                        <Button id="saveButton" onClick={this.handleClick} block>Save</Button>
-                        <Alert isOpen={this.state.message !== ""} toggle={this.handleDismiss} color={this.state.color}>{this.state.message}</Alert>
-                    </Form>
-                </Col>
-            </Row>
-        </Container>
-        if(this.state.edit)
-            return this.editProfile;
-        else 
-            return this.profile;
+            );
     }
 };
 
