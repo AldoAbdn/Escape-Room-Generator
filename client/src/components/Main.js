@@ -134,6 +134,21 @@ class Main extends Component {
             return {color:"danger", message:"Error"}
         }
     }
+        /**
+     * Edits a users email
+     * @function
+     * @param {String} email
+     * @param {String} password
+     * @param {Object} change
+     */
+    sendPasswordReset = async()=>{
+        let result = await this.props.services['auth-management'].create({action:'sendResetPwd'},{value:{email:this.props.redux.state.user.email}});
+        if(result.action.type.include('FULFILLED')){
+            return {color:"success", message:"Email Saved"};
+        } else {
+            return {color:"danger", message:"Error"}
+        }
+    }
     /**
      * React lifecycle method 
      * Renders main layout
@@ -153,7 +168,7 @@ class Main extends Component {
                 Profile
                 </DropdownToggle>
                 <DropdownMenu right>
-                    <Profile user={user} identityChange={this.identityChange}/>
+                    <Profile user={user} identityChange={this.identityChange} sendPasswordReset={this.sendPasswordReset}/>
                     <Button id="LogoutButton" onClick={this.logout} block>Logout</Button>
                 </DropdownMenu>
             </Dropdown>
