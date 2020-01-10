@@ -134,12 +134,9 @@ class Main extends Component {
             return {color:"danger", message:"Error"}
         }
     }
-        /**
-     * Edits a users email
+    /**
+     * Sends Password Reset
      * @function
-     * @param {String} email
-     * @param {String} password
-     * @param {Object} change
      */
     sendPasswordReset = async()=>{
         let result = await this.props.services['auth-management'].create({action:'sendResetPwd'},{value:{email:this.props.redux.state.user.email}});

@@ -12,8 +12,18 @@ class Verify extends Component {
             this.setState({color:result.type,message:result.message});
         }
     }
+    sendVerify = async () => {
+        if(this.props.sendVerify){
+            var result = await this.props.sendVerify();
+            this.setState({colour:result.type,message:result.message});
+        }
+    }
     componentDidMount(){
-        this.verify();
+        if(this.props.token!==undefined && this.props.token!==""){
+            this.verify();
+        } else {
+            this.sendVerify();
+        }
     }
     render() {
         if(this.props.token!==undefined && this.props.token!==""){

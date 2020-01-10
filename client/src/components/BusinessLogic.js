@@ -138,6 +138,14 @@ class BusinessLogic extends Component {
             return {color:"danger", message:"Error"}
         }
     }
+    sendVerify = async()=>{
+        let result = await this.props.services['auth-management'].create({action:'resendVerifySignup',value:{email:this.props.redux.state.user._id}});
+        if(result.action.type.includes('FULFILLED')){
+            return {color:"success", message:"Account Verified"};
+        } else {
+            return {color:"danger", message:"Error"}
+        }
+    }
     /**
      * Resets users password
      * @function
@@ -186,7 +194,7 @@ class BusinessLogic extends Component {
                 <Route path="/signup" render={(routeProps) => (<Signup signUp={this.signUp}/>)}/>
                 <Route path="/about" component={About}/>
                 <Route path="/tutorials" component={Tutorials}/>
-                <Route path="/verify" component={Verify}/>
+                <Route path="/verify" component={Verify} sendVerify={this.sendVerify}/>
                 <Route path="/verify/:token" render={(routeProps) => (<Verify token={routeProps.match.params.token} verify={this.verify}/>)}/>
                 <Route path="/reset" component={Reset}/>
                 <Route path="/reset/:token" componet={(routeProps) => (<Reset token={routeProps.match.params.token} reset={this.reset}/>)}/>
