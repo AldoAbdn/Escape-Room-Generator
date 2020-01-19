@@ -4,6 +4,7 @@ import ComponentDnDTarget from './ComponentDnDTarget';
 import { Row, Col } from 'reactstrap'
 import '../styles/Component.css';
 import Modal from '../models/Modal';
+import PropTypes from 'prop-types';
 
 // Drag sources and drop targets only interact
 // if they have the same string type.
@@ -117,5 +118,17 @@ class ComponentDnDSource extends Component{
       )
   }
 };
+
+ComponentDnDSource.propTypes = {
+  removeComponent: PropTypes.func,
+  renderTrigger: PropTypes.string,
+  component: PropTypes.object,
+  findComponent: PropTypes.func,
+  isTarget: PropTypes.bool,
+  handleComponentClick: PropTypes.func,
+  showModal: PropTypes.func,
+  addComponent: PropTypes.func,
+  addRelationship: PropTypes.func,
+}
 
 export default DragSource(Types.COMPONENT, componentSource, collect)(ComponentDnDSource);

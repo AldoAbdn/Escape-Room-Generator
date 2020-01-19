@@ -5,6 +5,7 @@ import '../styles/Component.css';
 import { DropTarget } from 'react-dnd';
 import ComponentDnDSource from './ComponentDnDSource';
 import { Puzzle, Prop, Lock, Music, Event } from '../models/index.js';
+import PropTypes from 'prop-types';
 
 const Types = {
     COMPONENT: 'COMPONENT'
@@ -107,5 +108,19 @@ class AreaDnDTarget extends Component {
         )
     }
 };
+
+AreaDnDTarget.propTypes = {
+    component: PropTypes.object,
+    outputComponents: PropTypes.array,
+    isOver: PropTypes.bool,
+    canDrop: PropTypes.bool,
+    addComponent: PropTypes.func,
+    removeComponent: PropTypes.func,
+    updateComponent: PropTypes.func,
+    addRelationship: PropTypes.func,
+    findComponent: PropTypes.func,
+    showModal: PropTypes.func,
+    handleComponentClick: PropTypes.func,
+}
 
 export default DropTarget(Types.COMPONENT, componentTarget, collect)(AreaDnDTarget);

@@ -1,8 +1,9 @@
 import React, {Component}  from 'react';
 import { Card, CardBody, UncontrolledTooltip } from 'reactstrap';
-import '../styles/Component.css';
 import { DropTarget } from 'react-dnd';
 import { Puzzle, Event, Music, Lock, Prop } from '../models/index';
+import PropTypes from 'prop-types';
+import '../styles/Component.css';
 
 const Types = {
     COMPONENT: 'COMPONENT'
@@ -59,7 +60,6 @@ class ComponentDnDTarget extends Component {
             if(component._id!==this.props.component._id)
                 this.props.addRelationship(component._id,this.props.component._id,isInput);
         }
-
     }
     render() {
         let id=this.props.component._id;
@@ -94,5 +94,9 @@ class ComponentDnDTarget extends Component {
         )
     }
 };
+
+ComponentDnDTarget.propTypes = {
+    
+}
 
 export default DropTarget(Types.COMPONENT, componentTarget, collect)(ComponentDnDTarget);

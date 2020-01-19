@@ -6,6 +6,7 @@ import Area from './AreaDnDSource';
 import AreaModel from '../models/Area';
 import { DropTarget } from 'react-dnd';
 import LineTo from 'react-lineto';
+import PropTypes from 'prop-types';
 
 const Types = {
     AREA: 'AREA'
@@ -120,5 +121,19 @@ class ComponentArranger extends Component {
         )
     }
 };
+
+ComponentArranger.propTypes = {
+    renderTrigger: PropTypes.string,
+    components: PropTypes.array,
+    isOver: PropTypes.bool,
+    canDrop: PropTypes.bool,
+    findComponent: PropTypes.func,
+    showModal: PropTypes.func,
+    handleComponentClick: PropTypes.func,
+    updateComponent: PropTypes.func,
+    addComponent: PropTypes.func,
+    removeComponent: PropTypes.func,
+    addRelationship: PropTypes.func
+}
 
 export default DropTarget(Types.AREA, areaArrangerTarget,collect)(ComponentArranger);

@@ -4,6 +4,7 @@ import AreaDnDTarget from './AreaDnDTarget';
 import '../styles/Component.css';
 import { Card, UncontrolledTooltip } from 'reactstrap';
 import Modal from '../models/Modal';
+import PropTypes from 'prop-types';
 
 // Drag sources and drop targets only interact
 // if they have the same string type.
@@ -104,5 +105,21 @@ class AreaDnDSource extends Component{
     )
   }
 };
+
+AreaDnDSource.propTypes = {
+  removeComponent: PropTypes.func,
+  addComponent: PropTypes.func,
+  addRelationship: PropTypes.func,
+  renderTrigger: PropTypes.string,
+  addComponent: PropTypes.object,
+  addRef: PropTypes.func,
+  findComponent: PropTypes.func,
+  handleComponentClick: PropTypes.func,
+  outputComponents: PropTypes.array,
+  showModal: PropTypes.func,
+  updateComponent: PropTypes.func,
+  connectDragSource: PropTypes.func,
+  palletItem: PropTypes.bool
+}
 
 export default DragSource(Types.AREA, areaSource, collect)(AreaDnDSource);

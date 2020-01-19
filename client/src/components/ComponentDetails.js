@@ -1,6 +1,7 @@
 import React, {Component}  from 'react';
 import { Container, Row, Col, Input, Label, UncontrolledTooltip, ListGroupItem, Button, ListGroup } from 'reactstrap';
 import {LockGenerator,PuzzleGenerator} from './index';
+import PropTypes from 'prop-types';
 import '../styles/ComponentDetails.css';
 
 class ComponentDetails extends Component {
@@ -261,5 +262,12 @@ class ComponentDetails extends Component {
         )
     }
 };
+
+ComponentDetails.propTypes = {
+    calculateOutput: PropTypes.func,
+    accessibility: PropTypes.object,
+    selected: PropTypes.object,
+    updateComponent: PropTypes.func
+}
 
 export default ComponentDetails;

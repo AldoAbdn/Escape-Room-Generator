@@ -1,5 +1,6 @@
 import React, {Component}  from 'react';
 import { Container, Row, Col, Alert } from 'reactstrap';
+import PropTypes from 'prop-types';
 
 class Verify extends Component {
     constructor(props){
@@ -51,5 +52,11 @@ class Verify extends Component {
         }
     }
 };
+
+Verify.propTypes = {
+    token: PropTypes.string,
+    verify: PropTypes.func,
+    sendVerify: PropTypes.func
+}
 
 export default Verify;

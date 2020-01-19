@@ -4,6 +4,7 @@ import { Redirect } from 'react-router-dom';
 //Components
 import { Dashboard, EscapeRoomDesigner, Login, Signup, Tutorials, About, ProtectedRoute, NotFound, Verify, Reset } from '../components/index.js';
 import EscapeRoom from '../models/EscapeRoom.js';
+import PropTypes from 'prop-types';
 /**
  * Business logic of app 
  * handles creating and updating of data 
@@ -203,5 +204,12 @@ class BusinessLogic extends Component {
         )
     }
 };
+
+BusinessLogic.propTypes = {
+    history: PropTypes.object,
+    feathersClient: PropTypes.object,
+    redux: PropTypes.object,
+    services: PropTypes.object
+}
 
 export default BusinessLogic;

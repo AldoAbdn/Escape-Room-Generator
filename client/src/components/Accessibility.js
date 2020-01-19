@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { Container, Row, Col, Card, CustomInput, UncontrolledTooltip } from 'reactstrap';
+import PropTypes from 'prop-types';
 import '../styles/Accessibility.css';
 
 class Accessibility extends Component {
@@ -145,6 +146,29 @@ class Accessibility extends Component {
             </Container>
         )
     }
+}
+
+Accessibility.propTypes = {
+    accessibility: PropTypes.exact(
+        {   
+            visual:{
+                protanomaly: PropTypes.bool,
+                protanopia: PropTypes.bool,
+                deuteranomaly: PropTypes.bool,
+                deuteranopia: PropTypes.bool,
+                tritanomaly: PropTypes.bool,
+                tritanopia: PropTypes.bool,
+                coneMonochromacy: PropTypes.bool,
+                rodMonochromacy: PropTypes.bool,
+                largeFonts: PropTypes.bool,
+                highContrast: PropTypes.bool
+            },
+            physical:{
+                wheelchairAccessible: PropTypes.bool,
+                motorAccessible: PropTypes.bool
+            } 
+        }
+    )
 }
 
 export default Accessibility;
