@@ -1,21 +1,22 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import '../styles/PasswordStrengthMeter.css';
 
 class PasswordStrengthMeter extends Component {
     convertScoreToLabel = (score) => {
         switch(score) {
             case 0:
-                return 'Weak';
-              case 1:
-                return 'Weak';
-              case 2:
-                return 'Fair';
-              case 3:
-                return 'Good';
-              case 4:
-                return 'Strong';
-              default:
-                return 'Weak';
+              return 'Weak';
+            case 1:
+              return 'Weak';
+            case 2:
+              return 'Fair';
+            case 3:
+              return 'Good';
+            case 4:
+              return 'Strong';
+            default:
+              return 'Weak';
         }
     }
     render() {
@@ -30,5 +31,9 @@ class PasswordStrengthMeter extends Component {
         )
     }
 };
+
+PasswordStrengthMeter.propTypes = {
+  score: PropTypes.number
+}
 
 export default PasswordStrengthMeter;

@@ -110,7 +110,7 @@ class AreaDnDTarget extends Component {
 };
 
 AreaDnDTarget.propTypes = {
-    component: PropTypes.object,
+    component: PropTypes.instanceOf(Area),
     outputComponents: PropTypes.array,
     isOver: PropTypes.bool,
     canDrop: PropTypes.bool,

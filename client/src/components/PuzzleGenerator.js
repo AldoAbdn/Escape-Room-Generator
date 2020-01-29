@@ -2,6 +2,8 @@ import React, {Component}  from 'react';
 import {Row,Col,Button,Input} from 'reactstrap'
 import puzzleGenerator from '../generators/PuzzleGenerator';
 import ListCreator from '../components/ListCreator';
+import PropTypes from 'prop-types';
+import { Puzzle } from '../puzzles';
 
 class PuzzleGenerator extends Component {
     constructor(){
@@ -76,5 +78,10 @@ class PuzzleGenerator extends Component {
 
     }
 };
+
+PuzzleGenerator.propTypes = {
+    puzzleType: PropTypes.string,
+    handlePuzzleChange: PropTypes.func,
+}
 
 export default PuzzleGenerator;

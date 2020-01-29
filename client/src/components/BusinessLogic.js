@@ -195,10 +195,10 @@ class BusinessLogic extends Component {
                 <Route path="/signup" render={(routeProps) => (<Signup signUp={this.signUp}/>)}/>
                 <Route path="/about" component={About}/>
                 <Route path="/tutorials" component={Tutorials}/>
-                <Route path="/verify" component={Verify} sendVerify={this.sendVerify}/>
+                <Route path="/verify" render={(routeProps) => (<Verify token={routeProps.match.params.token} sendVerify={this.sendVerify}/>)}/>
                 <Route path="/verify/:token" render={(routeProps) => (<Verify token={routeProps.match.params.token} verify={this.verify}/>)}/>
                 <Route path="/reset" component={Reset}/>
-                <Route path="/reset/:token" componet={(routeProps) => (<Reset token={routeProps.match.params.token} reset={this.reset}/>)}/>
+                <Route path="/reset/:token" render={(routeProps) => (<Reset token={routeProps.match.params.token} reset={this.reset}/>)}/>
                 <Route component={NotFound}/>
             </Switch> 
         )

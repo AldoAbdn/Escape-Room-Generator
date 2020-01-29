@@ -3,6 +3,7 @@ import { Container, Row, Col, Input, Label, UncontrolledTooltip, ListGroupItem, 
 import {LockGenerator,PuzzleGenerator} from './index';
 import PropTypes from 'prop-types';
 import '../styles/ComponentDetails.css';
+import Accessibility from './Accessibility';
 
 class ComponentDetails extends Component {
     constructor(){
@@ -265,8 +266,8 @@ class ComponentDetails extends Component {
 
 ComponentDetails.propTypes = {
     calculateOutput: PropTypes.func,
-    accessibility: PropTypes.object,
-    selected: PropTypes.object,
+    accessibility: PropTypes.instanceOf(Accessibility),
+    selected: PropTypes.instanceOf(Component),
     updateComponent: PropTypes.func
 }
 

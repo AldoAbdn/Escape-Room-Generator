@@ -5,6 +5,7 @@ import classnames from 'classnames';
 import { saveAs } from 'file-saver';
 import {escapeRoomToPDF} from '../pdf/pdf';
 import EscapeRoom from '../models/EscapeRoom';
+import PropTypes from 'prop-types';
 import '../styles/EscapeRoomDesigner.css';
 
 class EscapeRoomDesigner extends Component {
@@ -140,5 +141,18 @@ class EscapeRoomDesigner extends Component {
         )
     }
 };
+
+EscapeRoomDesigner.propTypes = {
+    saveEscapeRoom: PropTypes.func,
+    escapeRoom: PropTypes.instanceOf(EscapeRoom),
+    history: PropTypes.object,
+    updateDetails: PropTypes.func,
+    updateAccessibility: PropTypes.func,
+    addComponent: PropTypes.func,
+    removeComponent: PropTypes.func,
+    updateComponent: PropTypes.func,
+    addRelationship: PropTypes.func,
+    removeRelationship: PropTypes.func,
+}
 
 export default EscapeRoomDesigner;

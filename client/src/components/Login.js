@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col, Alert, Button, Form, FormGroup, Label, Input, FormText} from 'reactstrap';
 import ReCAPTCHA from "react-google-recaptcha";
+import PropTypes from 'prop-types';
 
 class Login extends Component {
     constructor(props) {
@@ -87,5 +88,9 @@ class Login extends Component {
         )
     }
 };
+
+Login.propTypes = {
+    authenticateCredentials: PropTypes.func,
+}
 
 export default Login;

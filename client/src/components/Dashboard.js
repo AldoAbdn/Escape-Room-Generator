@@ -3,6 +3,7 @@ import { Container, Row, Col, Dropdown, DropdownToggle, DropdownMenu, DropdownIt
 import { saveAs } from 'file-saver';
 import Modal from '../models/Modal';
 import {escapeRoomToPDF} from '../pdf/pdf';
+import PropTypes from 'prop-types';
 
 class Dashboard extends Component {
     constructor(props){
@@ -82,5 +83,13 @@ class Dashboard extends Component {
         )
     }
 };
+
+Dashboard.propTypes = {
+    newEscapeRoom: PropTypes.func,
+    escapeRooms: PropTypes.array,
+    editEscapeRoom: PropTypes.func,
+    deleteEscapeRoom: PropTypes.func,
+    showModal: PropTypes.func,
+}
 
 export default Dashboard;

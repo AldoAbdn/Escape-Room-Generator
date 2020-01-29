@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import { Pallet, ComponentArranger, ComponentDetails } from './index';
+import PropTypes from 'prop-types';
+import Accessibility from './Accessibility';
 
 class Design extends Component {
     constructor(props){
@@ -35,6 +37,20 @@ class Design extends Component {
             </Container>
         );
     }
+}
+
+Design.propTypes = {
+    updateComponent: PropTypes.func,
+    components: PropTypes.array,
+    findComponent: PropTypes.func,
+    showModal: PropTypes.func,
+    handleComponentClick: PropTypes.func,
+    updateComponent: PropTypes.func,
+    addComponent: PropTypes.func,
+    removeComponent: PropTypes.func,
+    addRelationship: PropTypes.func,
+    calculateOutput: PropTypes.func,
+    accessibility: PropTypes.instanceOf(Accessibility)
 }
 
 export default Design;

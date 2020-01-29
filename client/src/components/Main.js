@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Navbar, NavbarBrand, NavbarToggler, Collapse, Nav, NavItem, NavLink, Dropdown, DropdownToggle, DropdownMenu} from 'reactstrap';
 import LoadingOverlay from 'react-loading-overlay';
 import Profile from '../components/Profile';
+import PropTypes from 'prop-types';
 import '../styles/Main.css';
 
 /**
@@ -222,5 +223,12 @@ class Main extends Component {
         )
     }
 };
+
+Main.propTypes = {
+    redux: PropTypes.object,
+    history: PropTypes.object,
+    services: PropTypes.array,
+    feathersClient: PropTypes.object,
+}
 
 export default Main;

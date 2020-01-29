@@ -1,6 +1,7 @@
 import React, {Component}  from 'react';
 import {Row,Col,Button,Input} from 'reactstrap'
 import lockGen from '../generators/LockGenerator';
+import PropTypes from 'prop-types';
 
 class LockGenerator extends Component {
     constructor(){
@@ -66,5 +67,10 @@ class LockGenerator extends Component {
         }
     }
 };
+
+LockGenerator.propTypes = {
+    handleOutputChange: PropTypes.func,
+    lockType: PropTypes.string,
+}
 
 export default LockGenerator;

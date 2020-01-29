@@ -86,7 +86,7 @@ class AreaDnDSource extends Component{
     let target;
     if (this.props.isTarget){
       target = (
-        <AreaDnDTarget renderTrigger={JSON.stringify(this.props.component)} addRef={this.props.addRef} findComponent={this.props.findComponent} handleComponentClick={this.props.handleComponentClick} outputComponents={this.props.outputComponents} component={this.props.component} showModal={this.props.showModal} addComponent={this.addComponent} updateComponent={this.props.updateComponent} removeComponent={this.props.removeComponent} addRelationship={this.props.addRelationship}/>
+        <AreaDnDTarget findComponent={this.props.findComponent} handleComponentClick={this.props.handleComponentClick} outputComponents={this.props.outputComponents} component={this.props.component} showModal={this.props.showModal} addComponent={this.addComponent} updateComponent={this.props.updateComponent} removeComponent={this.props.removeComponent} addRelationship={this.props.addRelationship}/>
       );
     }
     let classNames;
@@ -107,12 +107,12 @@ class AreaDnDSource extends Component{
 };
 
 AreaDnDSource.propTypes = {
+  component: PropTypes.instanceOf(Area),
+  isTarget: PropTypes.bool,
   removeComponent: PropTypes.func,
   addComponent: PropTypes.func,
   addRelationship: PropTypes.func,
   renderTrigger: PropTypes.string,
-  addComponent: PropTypes.object,
-  addRef: PropTypes.func,
   findComponent: PropTypes.func,
   handleComponentClick: PropTypes.func,
   outputComponents: PropTypes.array,

@@ -122,7 +122,7 @@ class ComponentDnDSource extends Component{
 ComponentDnDSource.propTypes = {
   removeComponent: PropTypes.func,
   renderTrigger: PropTypes.string,
-  component: PropTypes.object,
+  component: PropTypes.instanceOf(Component),
   findComponent: PropTypes.func,
   isTarget: PropTypes.bool,
   handleComponentClick: PropTypes.func,

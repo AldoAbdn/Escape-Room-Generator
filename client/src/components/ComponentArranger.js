@@ -50,7 +50,7 @@ class ComponentArranger extends Component {
             return (
                 <Row key={area._id}>
                     <Col xs="12"> 
-                        <Area renderTrigger={JSON.stringify(area)} addRef={this.addRef} isTarget findComponent={this.props.findComponent} handleComponentClick={this.props.handleComponentClick} component={area} outputComponents={outputComponents} showModal={this.props.showModal} addComponent={this.props.addComponent} removeComponent={this.props.removeComponent} updateComponent={this.props.updateComponent} addRelationship={this.props.addRelationship}/>
+                        <Area renderTrigger={JSON.stringify(area)} isTarget findComponent={this.props.findComponent} handleComponentClick={this.props.handleComponentClick} component={area} outputComponents={outputComponents} showModal={this.props.showModal} addComponent={this.props.addComponent} removeComponent={this.props.removeComponent} updateComponent={this.props.updateComponent} addRelationship={this.props.addRelationship}/>
                     </Col>
                 </Row>
             )  

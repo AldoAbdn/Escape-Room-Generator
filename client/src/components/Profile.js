@@ -1,5 +1,6 @@
 import React, {Component}  from 'react';
 import { Container, Row, Col, Alert, Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import PropTypes from 'prop-types';
 
 class Profile extends Component {
     constructor(){
@@ -122,5 +123,11 @@ class Profile extends Component {
             );
     }
 };
+
+Profile.propTypes = {
+    user: PropTypes.object,
+    identityChange: PropTypes.func,
+    sendPasswordReset: PropTypes.func,
+}
 
 export default Profile;

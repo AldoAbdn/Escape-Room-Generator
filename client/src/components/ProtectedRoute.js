@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router'
 import { Redirect } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 class ProtectedRoute extends Component {
     render(){
@@ -18,6 +19,11 @@ class ProtectedRoute extends Component {
             return (<Redirect to='/login' state={this.props.location}/>)
         }
     }
+}
+
+ProtectedRoute.propTypes = {
+    condition: PropTypes.bool,
+    location: PropTypes.string,
 }
 
 export default ProtectedRoute;

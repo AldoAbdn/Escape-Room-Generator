@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { Container, Row, Col, Form, FormGroup, Label, Input, UncontrolledTooltip} from 'reactstrap';
+import PropTypes from 'prop-types';
 
 class Details extends Component {
     //Changes state on input change
@@ -69,6 +70,11 @@ class Details extends Component {
             </Row>
         </Container>)
     }
+}
+
+Details.propTypes = {
+    updateDetails: PropTypes.func,
+    details: PropTypes.instanceOf(Details)
 }
 
 export default Details;

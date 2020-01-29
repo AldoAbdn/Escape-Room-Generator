@@ -4,6 +4,7 @@ import { Container, Row, Col, Alert, Button, Form, FormGroup, Label, Input, Form
 import PasswordStrengthMeter from './PasswordStrengthMeter'
 import zxcvbn from 'zxcvbn';
 import ReCAPTCHA from "react-google-recaptcha";
+import PropTypes from 'prop-types';
 
 class Signup extends Component {
     constructor(props) {
@@ -108,5 +109,9 @@ class Signup extends Component {
         )
     }
 };
+
+Signup.propTypes = {
+    signUp: PropTypes.func
+}
 
 export default Signup;

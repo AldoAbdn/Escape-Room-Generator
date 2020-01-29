@@ -96,7 +96,13 @@ class ComponentDnDTarget extends Component {
 };
 
 ComponentDnDTarget.propTypes = {
-    
+    addComponent: PropTypes.func,
+    component: PropTypes.instanceOf(Area),
+    addRelationship: PropTypes.func,
+    isOver: PropTypes.bool,
+    canDrop: PropTypes.bool,
+    isInput: PropTypes.bool,
+    handleComponentClick: PropTypes.func
 }
 
 export default DropTarget(Types.COMPONENT, componentTarget, collect)(ComponentDnDTarget);

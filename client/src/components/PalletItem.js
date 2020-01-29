@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { UncontrolledTooltip } from 'reactstrap';
 import { DragSource } from 'react-dnd';
+import PropTypes from 'prop-types';
 import '../styles/Component.css';
 
 const descriptions = {
@@ -57,5 +58,9 @@ class PalletItem extends Component{
       )
   }
 };
+
+PalletItem.propTypes = {
+  id: PropTypes.string,
+}
 
 export default DragSource(Types.COMPONENT, componentSource, collect)(PalletItem);
