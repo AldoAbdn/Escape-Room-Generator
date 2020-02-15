@@ -3,6 +3,7 @@ import { DragSource } from 'react-dnd';
 import AreaDnDTarget from './AreaDnDTarget';
 import '../styles/Component.css';
 import { Card, UncontrolledTooltip } from 'reactstrap';
+import Area from '../models/Area';
 import Modal from '../models/Modal';
 import PropTypes from 'prop-types';
 

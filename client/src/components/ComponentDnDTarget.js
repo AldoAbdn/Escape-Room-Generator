@@ -1,7 +1,7 @@
 import React, {Component}  from 'react';
 import { Card, CardBody, UncontrolledTooltip } from 'reactstrap';
 import { DropTarget } from 'react-dnd';
-import { Puzzle, Event, Music, Lock, Prop } from '../models/index';
+import { Area, Puzzle, Event, Music, Lock, Prop } from '../models/index';
 import PropTypes from 'prop-types';
 import '../styles/Component.css';
 

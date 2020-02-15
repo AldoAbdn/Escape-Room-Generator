@@ -58,7 +58,7 @@ class Profile extends Component {
      */
     handleClick = async (e) => {
         e.preventDefault();
-        switch (event.target.id) {
+        switch (e.target.id) {
             case 'editButton':
                 this.setState({edit:true});
                 break;

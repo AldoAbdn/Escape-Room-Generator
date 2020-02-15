@@ -1,4 +1,6 @@
-import { Area, Details, Accessibility } from ".";
+import { Area } from ".";
+import Details from './Details';
+import Accessibility from './Accessibility';
 
 /**
  * Class for EscapeRoom

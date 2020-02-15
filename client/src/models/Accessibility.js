@@ -1,4 +1,5 @@
-import { Visual, Physical } from ".";
+import Visual from './Visual';
+import Physical from './Physical';
 
 /**
  * Class for Accessibility

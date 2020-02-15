@@ -150,7 +150,7 @@ class BusinessLogic extends Component {
      * @returns {Status} Result
      */
     sendVerify = async()=>{
-        let result = await this.props.services['auth-management'].create({action:'resendVerifySignup',value:{email:this.props.redux.state.user._id}});
+        let result = await this.props.services['auth-management'].create({action:'resendVerifySignup',value:{email:this.props.redux.state.user.email}});
         if(result.action.type.includes('FULFILLED')){
             return {color:"success", message:"Account Verified"};
         } else {
