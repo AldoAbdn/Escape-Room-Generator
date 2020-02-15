@@ -35,10 +35,11 @@ class Verify extends Component {
      * Component Mounted
      */
     componentDidMount(){
-        if(this.props.token!==undefined && this.props.token!==""){
-            this.verify().then(result => this.setState(result));
+        let result;
+        if(this.props.token!==undefined && this.props.token!=="" && this.props.token!=="signup"){
+            result = await this.verify();
         } else {
-            this.sendVerify().then(result => this.setState(result));
+            result = await this.sendVerify();
         }
     }
 
@@ -48,7 +49,7 @@ class Verify extends Component {
      * @returns {JSX}
      */
     render() {
-        if(this.props.token!==undefined && this.props.token!==""){
+        if(this.props.token!==undefined && this.props.token!=="" && this.props.token!=="signup"){
             return (
                 <Container fluid>
                     <Row>
