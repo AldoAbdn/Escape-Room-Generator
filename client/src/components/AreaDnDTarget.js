@@ -59,7 +59,7 @@ function collect(connect, monitor) {
 class AreaDnDTarget extends Component {
     /** Creates AreaDnDTarget */
     constructor(){
-
+        super();
     }
 
     /** 
