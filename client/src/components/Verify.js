@@ -19,11 +19,7 @@ class Verify extends Component {
      * @function
      */
     verify = async () => {
-        if(this.props.verify){
-            var result = await this.props.verify(this.props.token);
-            console.log(result);
-            this.setState(result);
-        }
+        return this.props.verify(this.props.token);
     }
 
     /**
@@ -31,10 +27,7 @@ class Verify extends Component {
      * @function
      */
     sendVerify = async () => {
-        if(this.props.sendVerify){
-            var result = await this.props.sendVerify();
-            this.setState(result);
-        }
+        return this.props.sendVerify();
     }
 
     /**
@@ -43,9 +36,9 @@ class Verify extends Component {
      */
     componentDidMount(){
         if(this.props.token!==undefined && this.props.token!==""){
-            this.verify();
+            this.verify().then(result => this.setState(result));
         } else {
-            this.sendVerify();
+            this.sendVerify().then(result => this.setState(result));
         }
     }
 
