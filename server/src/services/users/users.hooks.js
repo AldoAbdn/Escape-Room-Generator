@@ -16,7 +16,7 @@ module.exports = {
     all: [convertID()],
     find: [ auth.authenticate('jwt') ],
     get: [ auth.authenticate('jwt') ],
-    create: [ authlocal.hashPassword('password'), credentialsCheck(), passwordCheck(), gravatar(), verifyHooks.addVerification() ],
+    create: [ verifyHooks.addVerification(), authlocal.hashPassword('password'), credentialsCheck(), passwordCheck(), gravatar() ],
     update: [ commonHooks.disallow('external')],
     patch: [ auth.authenticate('jwt'), commonHooks.iff(
       commonHooks.isProvider('external'),
