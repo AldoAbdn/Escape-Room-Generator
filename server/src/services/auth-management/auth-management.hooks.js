@@ -15,7 +15,7 @@ module.exports = {
     get: [],
     create: [ 
       commonHooks.iff(isAction('passwordChange', 'identityChange'),
-        convertID(),auth.authenticate('jwt')
+        convertID()
       ),
     ],
     update: [],
