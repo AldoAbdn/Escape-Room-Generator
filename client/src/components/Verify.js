@@ -19,6 +19,7 @@ class Verify extends Component {
      * @function
      */
     verify = async () => {
+        alert("verify");
         return this.props.verify(this.props.token);
     }
 
@@ -27,6 +28,7 @@ class Verify extends Component {
      * @function
      */
     sendVerify = async () => {
+        alert("sendverify");
         return this.props.sendVerify();
     }
 
@@ -36,7 +38,8 @@ class Verify extends Component {
      */
     async componentDidMount(){
         let result;
-        if(this.props.token!==undefined && this.props.token!=="" && this.props.verify!=="signup")
+        console.log(this.props);
+        if(this.props.token!==undefined && this.props.token!=="" && this.props.token!=="signup")
             result = await this.verify();
         else
             result = await this.sendVerify();
