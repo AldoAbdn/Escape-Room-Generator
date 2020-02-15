@@ -47,7 +47,7 @@ class Verify extends Component {
             else
                 result = {color:"warning", message: "An error has occured, a verification email may have been sent"};
         }
-        this.setState(result,()=>alert(this.state));
+        this.setState(result);
     }
 
     /** 
