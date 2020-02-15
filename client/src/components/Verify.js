@@ -34,7 +34,7 @@ class Verify extends Component {
      * React Lifecycle Method
      * Component Mounted
      */
-    componentDidMount(){
+    async componentDidMount(){
         let result;
         if(this.props.token!==undefined && this.props.token!=="" && this.props.token!=="signup"){
             result = await this.verify();
