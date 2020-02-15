@@ -40,7 +40,7 @@ class Verify extends Component {
             result = await this.verify();
         else
             result = await this.sendVerify();
-        this.setState(result);
+        this.setState(result,()=>alert(this.state));
     }
 
     /** 
@@ -49,30 +49,17 @@ class Verify extends Component {
      * @returns {JSX}
      */
     render() {
-        if(this.props.token!==undefined && this.props.token!==""){
-            return (
-                <Container fluid>
-                    <Row>
-                        <Col>
-                            <h1>Verifying Account</h1>
-                            <Alert isOpen={this.state.message!==""} color={this.state.color}>{this.state.message}</Alert>
-                        </Col>
-                    </Row>
-                </Container>
-            );
-        } else {
-            return(
-                <Container fluid>
-                    <Row>
-                        <Col>
-                            <h1>Verify Your Account</h1>
-                            <p>To access The Escape Room Generator, you must first verify your account. Please check your emails and click the link.</p>
-                            <Alert isOpen={this.state.message!==""} color={this.state.color}>{this.state.message}</Alert>
-                        </Col>
-                    </Row>
-                </Container>
-            );
-        }
+        return (
+            <Container fluid>
+                <Row>
+                    <Col>
+                        <h1>Verify Your Account</h1>
+                        <p>To access The Escape Room Generator, you must first verify your account. Please check your emails and click the link.</p>
+                        <Alert isOpen={this.state.message!==""} color={this.state.color}>{this.state.message}</Alert>
+                    </Col>
+                </Row>
+            </Container>
+        )
     }
 };
 
