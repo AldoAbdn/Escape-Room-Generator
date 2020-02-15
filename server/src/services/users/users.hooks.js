@@ -18,7 +18,7 @@ module.exports = {
     get: [ auth.authenticate('jwt') ],
     create: [ authlocal.hashPassword('password'), credentialsCheck(), passwordCheck(), gravatar() ],
     update: [ commonHooks.disallow('external')],
-    patch: [ authlocal.hashPassword('password'), auth.authenticate('jwt'), commonHooks.iff(
+    patch: [ auth.authenticate('jwt'), commonHooks.iff(
       commonHooks.isProvider('external'),
         commonHooks.preventChanges(true,
           'isVerified',
@@ -30,7 +30,6 @@ module.exports = {
           'resetShortToken',
           'resetExpires'
         ),
-        authlocal.hashPassword('password'),
         auth.authenticate('jwt')
       ) ],
     remove: [ auth.authenticate('jwt') ]
