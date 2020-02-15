@@ -20,7 +20,6 @@ module.exports = function(app) {
   
   return {
     notifier: function(type, user, notifierOptions) {
-      console.log(user);
       let tokenLink
       let email
       switch (type) {
