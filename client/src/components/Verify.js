@@ -21,7 +21,7 @@ class Verify extends Component {
     verify = async () => {
         if(this.props.verify){
             var result = await this.props.verify(this.props.token);
-            this.setState({color:result.type,message:result.message});
+            this.setState(result);
         }
     }
 
@@ -32,7 +32,7 @@ class Verify extends Component {
     sendVerify = async () => {
         if(this.props.sendVerify){
             var result = await this.props.sendVerify();
-            this.setState({colour:result.type,message:result.message});
+            this.setState(result);
         }
     }
 
@@ -42,7 +42,7 @@ class Verify extends Component {
      */
     componentDidMount(){
         if(this.props.token!==undefined && this.props.token!==""){
-            this.verify();
+            let result = this.verify();
         } else {
             this.sendVerify();
         }
@@ -55,11 +55,11 @@ class Verify extends Component {
      */
     render() {
         if(this.props.token!==undefined && this.props.token!==""){
-            alert(this.props.token);
             return (
                 <Container fluid>
                     <Row>
                         <Col>
+                            <h1>Verifying Account</h1>
                             <Alert isOpen={this.state.message!==""} color={this.state.color}>{this.state.message}</Alert>
                         </Col>
                     </Row>
@@ -70,8 +70,9 @@ class Verify extends Component {
                 <Container fluid>
                     <Row>
                         <Col>
-                            <h1>Verify your account</h1>
+                            <h1>Verify Your Account</h1>
                             <p>To access The Escape Room Generator, you must first verify your account. Please check your emails and click the link.</p>
+                            <Alert isOpen={this.state.message!==""} color={this.state.color}>{this.state.message}</Alert>
                         </Col>
                     </Row>
                 </Container>
