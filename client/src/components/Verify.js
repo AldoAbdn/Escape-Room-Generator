@@ -43,9 +43,9 @@ class Verify extends Component {
      */
     componentDidMount(){
         if(this.props.token!==undefined && this.props.token!==""){
-            await this.verify();
+            this.verify();
         } else {
-            await this.sendVerify();
+            this.sendVerify();
         }
     }
 
