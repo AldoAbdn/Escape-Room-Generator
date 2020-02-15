@@ -129,8 +129,7 @@ class Reset extends Component {
                     <Row>
                         <Col>
                             <h1>Password Reset</h1>
-                            <p>To reset your password login to your account, click the profile dropdown and click edit email.</p>
-                            <p>Enter your current password and you should recieve an email link to reset your password</p>
+                            <p>To reset your password login to your account, click the profile dropdown and click reset password.</p>
                         </Col>
                     </Row>
                 </Container>

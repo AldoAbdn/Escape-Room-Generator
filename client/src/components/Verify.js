@@ -36,10 +36,17 @@ class Verify extends Component {
      */
     async componentDidMount(){
         let result;
-        if(this.props.token!==undefined && this.props.token!=="")
-            result = await this.verify();
-        else
-            result = await this.sendVerify();
+        try{
+            if(this.props.token!==undefined && this.props.token!=="")
+                result = await this.verify();
+            else
+                result = await this.sendVerify();
+        }catch(error){
+            if(this.props.token!==undefined && this.props.token!=="")
+                result = {color:"warning", message: "An error has occured, your account may have been verified"};
+            else
+                result = {color:"warning", message: "An error has occured, a verification email may have been sent"};
+        }
         this.setState(result,()=>alert(this.state));
     }
 

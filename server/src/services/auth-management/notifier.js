@@ -29,7 +29,7 @@ module.exports = function(app) {
               from: process.env.FROM_EMAIL,
               to: user.email,
               subject: 'Verify Signup',
-              html: 'Click here to verify your account: ' + tokenLink
+              html: 'Click here to verify your account: <a href="' + tokenLink + '">Link</a>'
           }
           return sendEmail(email)
 
@@ -49,7 +49,7 @@ module.exports = function(app) {
               from: process.env.FROM_EMAIL,
               to: user.email,
               subject: 'Password Reset',
-              html: tokenLink
+              html: 'Click here to reset your password: <a href="' + tokenLink + '">Link</a>'
           }
           return sendEmail(email)
 
@@ -78,7 +78,7 @@ module.exports = function(app) {
               from: process.env.FROM_EMAIL,
               to: user.email,
               subject: 'Identity Changed',
-              html: 'Click here to verify your account: ' + tokenLink
+              html: 'Click here to verify your account: <a href="' + tokenLink + '">Link</a>'
             }
           return sendEmail(email)
         default:
