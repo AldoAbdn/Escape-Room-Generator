@@ -64,27 +64,31 @@ class Profile extends Component {
                 break;
             case 'saveButton':
                 let user = this.props.user;
-                if(this.state.email===""){
+                if(this.state.email==="")
                     this.setState({message:"Email Required",color:"danger"});
-                    return;
-                }
-                if(this.state.password===""){
+                else if(this.state.password==="")
                     this.setState({message:"Your current password is required for authentication",color:"danger"})
-                    return;
-                }
-                if(this.props.identityChange){
-                    let result = await this.props.identityChange(user.email, this.state.password, {email:this.state.email});
-                    this.setState({message:result.message, color:result.color});
+                else if(this.props.identityChange){
+                    let result;
+                    try{
+                        result = await this.props.identityChange(user.email, this.state.password, {email:this.state.email});
+                    } catch(error) {
+                        result = "An error occured, your email may have been changed"
+                    }
+                    this.setState(result);
                 }
                 break;
             case 'cancelButton':
                 this.setState({edit:false});
                 break;
             case 'passwordButton':
-                if(this.props.sendPasswordReset){
-                    let result = await this.props.sendPasswordReset();
-                    this.setState({message:result.message, color:result.color});
+                let result;
+                try{
+                    result = await this.props.sendPasswordReset();
+                }catch(error){
+                    result = {color:"warning", message:"An error occured, a password reset email may have been sent"}
                 }
+                this.setState(result);
                 break;
             default:
         }
