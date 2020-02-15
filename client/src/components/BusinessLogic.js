@@ -72,7 +72,7 @@ class BusinessLogic extends Component {
             let queryResult = await this.props.services.users.create(credentials);
             if(queryResult.action.type.includes('FULFILLED')){
                 await this.authenticateCredentials(credentials);
-                this.props.history.push('/verify/signup');
+                this.props.history.push('/verify');
             }
         } catch(error){
             return error.message;
