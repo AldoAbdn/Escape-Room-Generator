@@ -36,11 +36,11 @@ class Verify extends Component {
      */
     async componentDidMount(){
         let result;
-        if(this.props.token!==undefined && this.props.token!=="" && this.props.token!=="signup"){
+        if(this.props.token!==undefined && this.props.token!=="" && this.props.verify!=="signup")
             result = await this.verify();
-        } else {
+        else
             result = await this.sendVerify();
-        }
+        this.setState(result);
     }
 
     /** 
@@ -49,7 +49,7 @@ class Verify extends Component {
      * @returns {JSX}
      */
     render() {
-        if(this.props.token!==undefined && this.props.token!=="" && this.props.token!=="signup"){
+        if(this.props.token!==undefined && this.props.token!==""){
             return (
                 <Container fluid>
                     <Row>
