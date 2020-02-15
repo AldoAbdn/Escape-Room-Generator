@@ -7,10 +7,20 @@ import ComponentDnDSource from './ComponentDnDSource';
 import { Puzzle, Prop, Lock, Music, Event } from '../models/index.js';
 import PropTypes from 'prop-types';
 
+/**
+ * Drag sources and drop targets only interact
+ * if they have the same string type.
+ * You want to keep types in a separate file with
+ * the rest of your app's constants.
+ */
 const Types = {
     COMPONENT: 'COMPONENT'
 }
 
+/**
+ * Specifies the drop target contract.
+ * All methods are optional.
+ */
 const componentTarget = {
     drop(props,monitor,component){
         if (monitor.didDrop() || !component || typeof props.component===undefined){
@@ -25,6 +35,12 @@ const componentTarget = {
     }
 }
 
+/**
+ * Specifies which props to inject into your component.
+ * @param {Connect} connect
+ * @param {Monitor} monitor
+ * @returns {object} Props
+ */
 function collect(connect, monitor) {
     return {
         connectDropTarget: connect.dropTarget(),
@@ -35,14 +51,22 @@ function collect(connect, monitor) {
     }
 }
 
+/**
+ * Class for Area drag and drop target for components 
+ * @extends Component
+ * @author Alistair Quinn
+ */
 class AreaDnDTarget extends Component {
-    constructor(props){
-        super(props)
-        this.state={render:true,screenWidth:0,screenHeight:0};
+    /** Creates AreaDnDTarget */
+    constructor(){
+
     }
-    updateScreenSize=()=>{
-        this.setState({screenWidth:window.innerHeight,screenHeight:window.innerHeight})
-    }
+
+    /** 
+     * Adds new components and updates existing
+     * @param {Component} item
+     * @param {bool} isInput 
+     */
     handleComponentDrop(item,isInput=false){
         var component = null;
         if (item.id!==undefined && item._id === undefined){
@@ -76,13 +100,11 @@ class AreaDnDTarget extends Component {
             this.props.updateComponent(component,this.props.component._id);
         }
     }
-    componentDidMount(){
-        this.updateScreenSize();
-        window.addEventListener('resize', this.updateScreenSize);
-    }
-    componentWillUnmount(){
-        window.removeEventListener('resize',this.updateScreenSize);
-    }
+
+    /** 
+     * React Lifecycle Render
+     * @returns {JSX}
+     */
     render() {
         var classNames = "Area";
         if(this.props.isOver && this.props.canDrop){

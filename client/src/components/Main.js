@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Navbar, NavbarBrand, NavbarToggler, Collapse, Nav, NavItem, NavLink, Dropdown, DropdownToggle, DropdownMenu} from 'reactstrap';
 import LoadingOverlay from 'react-loading-overlay';
 import Profile from '../components/Profile';
+import BusinessLogic from './BusinessLogic.js';
 import PropTypes from 'prop-types';
 import '../styles/Main.css';
 
@@ -10,34 +11,34 @@ import '../styles/Main.css';
  * Defines main layout of app 
  * Handles re-authentication of logged in user 
  * Renders business logic 
- * @class Main 
  * @author Alistair Quinn
  */
-import BusinessLogic from './BusinessLogic.js';
 class Main extends Component {
-    /**
-     * Main constructor to set initial state
-     * @constructor
-     */
+    /** Creates Main */
     constructor(){
         super();
         this.state = {profile:false, isProfileOpen:false,tooltipOpen:false, isOpen:false};
     }
 
-    /**
-     * Toggles for bootstrap
+    /** 
+     * Toggles is Open
+     * @function 
      */
-    toggle=()=>{
+    toggle = () => {
         this.setState({isOpen:!this.state.isOpen});
     }
-    toggleProfile=()=>{
+
+    /** 
+     * Toggles is Profile 
+     * @function
+     */
+    toggleProfile = () => {
         this.setState({isProfileOpen:!this.state.isProfileOpen});
     }
 
     /**
      * React lifecycle method
      * Updates profile if user has changed
-     * @function
      * @param {Object} prevProps 
      */
     componentDidUpdate(prevProps){
@@ -49,10 +50,10 @@ class Main extends Component {
             }
         }
     }
+    
     /**
      * React lifecycle method 
      * Updates profile is logged in
-     * @function
      */
     componentDidMount() {
         if (window.localStorage.getItem('feathers-jwt') && this.props.redux.state.user.email!==undefined){
@@ -61,9 +62,10 @@ class Main extends Component {
             this.authenticate();
         }
     }
-    /**
-     * Authentication
-     * @function
+
+    /** 
+     * Authenticates User 
+     * @function 
      */
     authenticate = async() => {
         //Authenticates JWT and then populates user/escapeRooms
@@ -80,6 +82,7 @@ class Main extends Component {
             this.logout();
         }
     }
+
     /**
      * Popultes escape rooms by user ID
      * @function
@@ -109,9 +112,10 @@ class Main extends Component {
             }
         }
     }
-    /**
-     * Logs out user, tidys up
-     * @function
+
+    /** 
+     * Logs out user, tidys up 
+     * @function 
      */
     logout = () => {
         this.props.feathersClient.logout();
@@ -120,14 +124,16 @@ class Main extends Component {
         this.props.redux.actions.user.logout();
         this.props.history.push('/');
     }
+
     /**
      * Edits a users email
      * @function
      * @param {String} email
      * @param {String} password
      * @param {Object} change
+     * @returns {Object} 
      */
-    identityChange = async(user, password, changes)=>{
+    identityChange = async(user, password, changes) => {
         let result = await this.props.services['auth-management'].create({action:'identityChange'},{user,password,changes});
         if(result.action.type.include('FULFILLED')){
             return {color:"success", message:"Email Saved"};
@@ -135,11 +141,13 @@ class Main extends Component {
             return {color:"danger", message:"Error"}
         }
     }
+
     /**
      * Sends Password Reset
      * @function
+     * @returns {Object}
      */
-    sendPasswordReset = async()=>{
+    sendPasswordReset = async() => {
         let result = await this.props.services['auth-management'].create({action:'sendResetPwd'},{value:{email:this.props.redux.state.user.email}});
         if(result.action.type.include('FULFILLED')){
             return {color:"success", message:"Email Saved"};
@@ -147,10 +155,10 @@ class Main extends Component {
             return {color:"danger", message:"Error"}
         }
     }
+
     /**
      * React lifecycle method 
      * Renders main layout
-     * @function
      * @returns {JSX}
      */
     render() {

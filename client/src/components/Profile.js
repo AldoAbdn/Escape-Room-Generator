@@ -2,7 +2,13 @@ import React, {Component}  from 'react';
 import { Container, Row, Col, Alert, Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import PropTypes from 'prop-types';
 
+/**
+ * Class for Profile
+ * @extends Component
+ * @author Alistair Quinn
+ */
 class Profile extends Component {
+    /** Creates Profile */
     constructor(){
         super();
         this.state = {
@@ -13,27 +19,45 @@ class Profile extends Component {
             color: "success"
         };
     }
-    //Handles login form submit event
-    handleSubmit = async (event) => {
-        event.preventDefault();
+    
+    /**
+     * Handles form submit
+     * @function
+     * @param {Event} e
+     */
+    handleSubmit = async (e) => {
+        e.preventDefault();
         if(this.props.updateUser)
             this.props.updateUser({email:this.state.email,password:this.state.password});
     }
 
-    //Changes state on input change
-    handleChange = (event) => {
+    /**
+     * Handles input change
+     * @function
+     * @param {Event} e
+     */
+    handleChange = (e) => {
         this.setState({
-            [event.target.id]: event.target.value
+            [e.target.id]: e.target.value
         });
     }
 
-    //Handles error dismiss
-    handleDismiss = (event) => {
+    /**
+     * Handles Alert Dismiss
+     * @function
+     * @param {Event} e
+     */
+    handleDismiss = (e) => {
         this.setState({message: ""});
     }
 
-    handleClick = async (event) => {
-        event.preventDefault();
+    /**
+     * Handles button clicks
+     * @function
+     * @param {Event} e
+     */
+    handleClick = async (e) => {
+        e.preventDefault();
         switch (event.target.id) {
             case 'editButton':
                 this.setState({edit:true});
@@ -66,6 +90,10 @@ class Profile extends Component {
         }
     }
 
+    /**
+     * React Lifecycle Method
+     * Component Mounted
+     */
     componentDidMount(){
         const user = this.props.user;
         this.setState({
@@ -73,6 +101,11 @@ class Profile extends Component {
         })
     }
 
+    /**
+     * React Lifecycle Method
+     * Component Updated
+     * @param {Object} oldProps 
+     */
     componentDidUpdate(oldProps){
         const newProps = this.props;
         if(oldProps.user.email !== newProps.user.email){
@@ -83,6 +116,11 @@ class Profile extends Component {
         }
     }
 
+    /**
+     * React Lifecycle Method
+     * Renders Layout
+     * @returns {JSX}
+     */
     render() {
         if(this.state.edit)
             // Edit Profile

@@ -1,7 +1,17 @@
 import React, {Component}  from 'react';
 import { Container, Row, Col } from 'reactstrap';
 
+/** 
+ * Class for About Page 
+ * @extends Component
+ * @author Alistair Quinn
+ */
 class About extends Component {
+    /** 
+     * React Lifecycle Render
+     * Renders Layout
+     * @returns {JSX}
+     */
     render() {
         return (
             <Container fluid>

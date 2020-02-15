@@ -1,4 +1,11 @@
 const zxcvbn = require('zxcvbn');
+
+/**
+ * CredentialsCheck checks if email is valid and if password is strong enough 
+ * @function 
+ * @param {Object} options
+ * @returns {Object} context;
+ */
 module.exports = function (options = {}) { 
     return async context => {
       const { email, password } = context.arguments[0];

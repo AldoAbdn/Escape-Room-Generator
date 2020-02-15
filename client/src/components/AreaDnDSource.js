@@ -6,10 +6,12 @@ import { Card, UncontrolledTooltip } from 'reactstrap';
 import Modal from '../models/Modal';
 import PropTypes from 'prop-types';
 
-// Drag sources and drop targets only interact
-// if they have the same string type.
-// You want to keep types in a separate file with
-// the rest of your app's constants.
+/**
+ * Drag sources and drop targets only interact
+ * if they have the same string type.
+ * You want to keep types in a separate file with
+ * the rest of your app's constants.
+ */
 const Types = {
   AREA: 'AREA'
 };
@@ -19,21 +21,36 @@ const Types = {
  * Only `beginDrag` function is required.
  */
 const areaSource = {
+  /**
+   * Determins if object can be draged based on props
+   * @param {object} props 
+   * @returns {bool} 
+   */
   canDrag(props) {
-    // You can disallow drag based on props
     return true;
   },
 
+  /**
+   * If your component gets unmounted while dragged
+   * (like a card in Kanban board dragged between lists)
+   * you can implement something like this to keep its
+   * appearance dragged:
+   * @param {object} props 
+   * @param {Monitor} monitor 
+   * @returns {bool} 
+   */
   isDragging(props, monitor) {
-    // If your component gets unmounted while dragged
-    // (like a card in Kanban board dragged between lists)
-    // you can implement something like this to keep its
-    // appearance dragged:
     return monitor.getItem().id === props.id;
   },
 
+  /**
+   * Return the data describing the dragged item
+   * @param {object} props 
+   * @param {Monitor} monitor 
+   * @param {Component} component
+   * @returns {object} 
+   */
   beginDrag(props, monitor, component) {
-    // Return the data describing the dragged item
     var item = null;
     if (props.id!==undefined){
        item = { id: props.id };
@@ -43,6 +60,12 @@ const areaSource = {
     return item;
   },
 
+  /**
+   * Checks if component was dragged and didn't drop, check if user wants to delete
+   * @param {object} props 
+   * @param {Monitor} monitor 
+   * @param {Component} component 
+   */
   endDrag(props, monitor, component) {
     if (!monitor.didDrop() && component!=null) {
       props.showModal(new Modal("Warning", "Are you sure you want to delete this component?","Yes",component.removeComponent,"No",()=>{}));
@@ -53,6 +76,9 @@ const areaSource = {
 
 /**
  * Specifies which props to inject into your component.
+ * @param {Connect} connect
+ * @param {Monitor} monitor
+ * @returns {object} Props
  */
 function collect(connect, monitor) {
   return {
@@ -64,22 +90,52 @@ function collect(connect, monitor) {
   };
 }
 
+/**
+ * Class for Area drag and drop source 
+ * @extends Component
+ * @author Alistair Quinn
+ */
 class AreaDnDSource extends Component{
+  /** Creates AreaDnDSource */
   constructor(){
     super();
     this.state={render:true};
   }
+
+  /** 
+   * Removes a component 
+   * @function 
+   */
   removeComponent = ()=>{
     this.props.removeComponent(this.props.component._id);
   }
+
+  /** 
+   * Adds a component 
+   * @function 
+   * @param {Component} component
+   * @param {string} parentId
+   */
   addComponent = (component,parentId)=>{
     this.props.addComponent(component,this.props.component._id);
     this.props.addRelationship(component._id,parentId);
   }  
+
+  /**
+   * React Lifecycle called when updated
+   * @function
+   * @param {object} prevProps
+   */
   componentDidUpdate(prevProps){
     if(this.props.renderTrigger!==prevProps.renderTrigger)
       this.forceUpdate();
   }
+
+  /** 
+   * React Lifecycle Method
+   * Renders Layout
+   * @returns {JSX}
+   */
   render() {
     let id = this.props.id;
     let iconId = id+"-icon";

@@ -1,4 +1,8 @@
-export default class Details {
+/**
+ * Class for Details
+ * @author Alistair Quinn
+ */
+class Details {
     constructor(){
         this.name = "Unnamed";
         this.designers= "";
@@ -12,3 +16,5 @@ export default class Details {
         this.estimatedCost = "";
     }  
 }
+
+export default Details;

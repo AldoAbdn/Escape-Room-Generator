@@ -1,7 +1,3 @@
-/**
- * Index that contains all components 
- */
-
 import App from './App';
 import Main from './Main';
 import BusinessLogic from './BusinessLogic';
@@ -31,6 +27,13 @@ import PasswordStrengthMeter from './PasswordStrengthMeter';
 import Verify from './Verify';
 import Reset from './Reset';
 
+/**
+ * Components
+ * @module Components/index
+ * @author Alistair Quinn
+ */
+
+/** All Components */
 export {
     App, Main, BusinessLogic, Dashboard, Profile, EscapeRoomDesigner, Details, Pallet, ComponentArranger , AreaDnDSource, AreaDnDTarget, ComponentDnDSource, ComponentDnDTarget , ComponentDetails, Design, Accessibility, Login, Signup, About, Tutorials, ProtectedRoute, NotFound, LockGenerator, PuzzleGenerator, ListCreator, PasswordStrengthMeter, Verify, Reset
 }

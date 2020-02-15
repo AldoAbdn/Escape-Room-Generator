@@ -2,6 +2,7 @@
 const { Users } = require('./users.class');
 const hooks = require('./users.hooks');
 
+/** Sets up User service */
 module.exports = function (app) {
   const options = {
     paginate: app.get('paginate')

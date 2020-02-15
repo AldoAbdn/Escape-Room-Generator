@@ -10,6 +10,7 @@ const passwordCheck = require('../../hooks/passwordCheck');
 const convertID = require('../../hooks/convertID');
 const notifier = require('../auth-management/notifier');
 
+/** Hoosk for user service */
 module.exports = {
   before: {
     all: [convertID()],

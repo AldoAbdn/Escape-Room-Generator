@@ -1,5 +1,11 @@
 import Component from './Component';
-export default class Puzzle extends Component {
+
+/**
+ * Class for Puzzle
+ * @extends Component
+ * @author Alistair Quinn
+ */
+class Puzzle extends Component {
     constructor(){
         super();
         this.puzzle = {};
@@ -7,3 +13,5 @@ export default class Puzzle extends Component {
         this.type="Puzzle";
     }   
 }
+
+export default Puzzle;

@@ -4,10 +4,26 @@ import AreaDnD from './AreaDnDSource';
 import PalletItem from './PalletItem';
 import '../styles/Pallet.css';
 
+/** 
+ * Class for Pallet 
+ * @extends Component
+ * @author Alistair Quinn 
+ */
 class Pallet extends Component {
+    /**
+     * Handles Component Click
+     * @function
+     * @param {Event} e
+     */
     handleComponentClick = (e) => {
         
     }
+
+    /**
+     * React lifecycle method 
+     * Renders layout
+     * @returns {JSX}
+     */
     render() {
         return (
             <div className="container-fluid pallet">

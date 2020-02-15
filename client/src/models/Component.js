@@ -1,6 +1,10 @@
 import uniqid from 'uniqid';
 
-export default class Component {
+/**
+ * Base Class for Component
+ * @author Alistair Quinn
+ */
+class Component {
     constructor(){
         this._id = uniqid();
         this.version = "1";
@@ -15,3 +19,5 @@ export default class Component {
         this.resources = [];
     }
 }
+
+export default Component;

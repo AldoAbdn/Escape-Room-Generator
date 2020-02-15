@@ -1,5 +1,10 @@
 import { Area, Details, Accessibility } from ".";
-export default class EscapeRoom {
+
+/**
+ * Class for EscapeRoom
+ * @author Alistair Quinn
+ */
+class EscapeRoom {
     constructor(userId){
         this.userId = userId;
         this.details = new Details();
@@ -45,3 +50,5 @@ export default class EscapeRoom {
         }
     }
 }
+
+export default EscapeRoom;

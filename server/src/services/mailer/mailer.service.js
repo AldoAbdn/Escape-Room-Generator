@@ -10,6 +10,9 @@ const configuration = {
 };
 const Mailer = require('feathers-mailer')(smtpTransport(configuration));
 
+/** 
+ * Setups up mailer service for sending emails via SMTP
+ */
 module.exports = function (app) {
   // Initialize our service 
   app.use('/mailer', Mailer);

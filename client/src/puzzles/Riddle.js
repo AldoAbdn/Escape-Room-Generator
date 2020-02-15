@@ -1,5 +1,11 @@
 import riddles from '../generators/riddle.json';
 import Puzzle from './Puzzle';
+
+/**
+ * Class for Riddle
+ * @extends Puzzle
+ * @author Alistair Quinn
+ */
 class Riddle extends Puzzle {
     constructor(){
         super('Riddle');
@@ -11,4 +17,5 @@ class Riddle extends Puzzle {
         return riddles[Math.floor(Math.random()*riddles.length)];
     }
 }
+
 export default Riddle;

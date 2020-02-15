@@ -1,11 +1,14 @@
-// eslint no-unused-vars: 0,
-
 import reduxThunk from 'redux-thunk';
 import reduxPromiseMiddleware from 'redux-promise-middleware';
-// import { routerMiddleware } from 'react-router-redux';
-// import { browserHistory } from 'react-router';
-import logger from './logger'; // eslint-disable-line no-unused-vars
+import logger from './logger'; 
 
+/**
+ * Middleware
+ * @module Middleware/index
+ * @author Alistair Quinn
+ */
+
+/** Middleware */
 export default [
   reduxThunk, // Thunk middleware for Redux
   reduxPromiseMiddleware(), // Resolve, reject promises with conditional optimistic updates

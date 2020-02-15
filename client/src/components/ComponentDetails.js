@@ -5,20 +5,33 @@ import PropTypes from 'prop-types';
 import '../styles/ComponentDetails.css';
 import Accessibility from './Accessibility';
 
+/** 
+ * Class for Component Details allows editing of a components details
+ * @extends Component 
+ * @author Alistair Quinn
+ */
 class ComponentDetails extends Component {
+    /** Creates ComponentDetails */
     constructor(){
         super();
         this.state={visualWarning:false,physicalWarning:false}
     }
-    toggle = (event)=>{
-        this.setState({[event.target.id]:!this.state[event.target.id]});
-    }
+
+    /**
+     * Converts a string to Camel Case
+     * @param {string} string 
+     * @returns {string} 
+     */
     convertCamelCase(string){
         if(typeof string !== 'string')
             string = string.toString();
         return string.replace(/([A-Z])/g, ' $1').replace(/^./,(str)=>{ return str.toUpperCase(); })
     }
-    //Changes state on input change
+
+    /** 
+     * Handles input change 
+     * @param {Event} event
+     * */
     handleChange = (event) => { 
         let state = {};
         state[event.target.id] = event.target.value;  
@@ -29,9 +42,19 @@ class ComponentDetails extends Component {
         state._id = this.props.selected._id;  
         this.props.updateComponent(state);
     }
+
+    /**
+     * Handles Output change
+     * @param {string} event
+     */
     handleOutputChange = (output)=>{
         this.props.updateComponent({output});
     }
+
+    /**
+     * Handles Puzzle change
+     * @param {Puzzle} puzzle
+     */
     handlePuzzleChange = (puzzle)=>{
         if(puzzle.output===undefined){
             puzzle.output = "";
@@ -39,9 +62,18 @@ class ComponentDetails extends Component {
         this.props.updateComponent({_id:this.props.selected._id,puzzle,output:puzzle.output});
         this.forceUpdate();
     }
+
+    /** Generates Output from Inputs */
     generateFromInputs=()=>{
         this.props.updateComponent({_id:this.props.selected._id,output:this.props.calculateOutput(this.props.selected._id)})
     }
+
+    /**
+     * Maps Details to Inputs
+     * @param {string} key
+     * @param {int} i index
+     * @returns {JSX}
+     */
     mapDetailToInput = (key,i) => {
         if(key==='output') {
             let generator;
@@ -146,10 +178,13 @@ class ComponentDetails extends Component {
                     </Col>
                 </Row>)
         }
-    };
-    mapKeysToRow = (property,index,array)=>{
-        
     }
+
+    /**
+     * Deletes a relationship
+     * @param {string} id
+     * @param {bool} isInput
+     */
     handleOnClick = (id,isInput)=> (e) => {
         let component = {...this.props.selected};
         let state = {};
@@ -161,6 +196,14 @@ class ComponentDetails extends Component {
         }
         this.props.updateComponent(state);
     }
+
+    /**
+     * Maps Relationship to List Group Item
+     * @param {string} id
+     * @param {int} i
+     * @param {bool} isInput
+     * @returns {JSX}
+     */
     mapIDToP = (id,i,isInput) => {
         return (
             <ListGroupItem key={i}>
@@ -172,6 +215,10 @@ class ComponentDetails extends Component {
         )
     }
     
+    /** 
+     * React Lifecycle Render
+     * @returns {JSX}
+     */
     render() {
         let component = this.props.selected;
         let id="";

@@ -2,7 +2,17 @@ import React, {Component}  from 'react';
 import YouTubePlaylist from 'react-youtube-playlist';
 import '../styles/Tutorials.css';
 
+/**
+ * Class for Tutorials
+ * @extends Component
+ * @author Alistair Quinn
+ */
 class Tutorials extends Component {
+    /** 
+     * React Lifecycle Method
+     * Renders Layout
+     * @returns {JSX}
+     */
     render() {
         return (
             <YouTubePlaylist

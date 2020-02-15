@@ -1,4 +1,8 @@
 const { disallow } = require('feathers-hooks-common');
+
+/**
+ * Hooks for Mailer
+ */
 module.exports = {
   before: {
     all: [ disallow('external') ],

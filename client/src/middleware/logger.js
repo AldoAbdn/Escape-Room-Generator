@@ -1,8 +1,10 @@
-/*
- A basic middleware logger
- See http://redux.js.org/docs/advanced/Middleware.html
+/**
+ * A basic middleware logger
+ * See http://redux.js.org/docs/advanced/Middleware.html
+ * @module Middleware/logger
  */
 
+ /** Logger */
 const logger = store => next => action => {
     console.groupCollapsed(action.type); // eslint-disable-line no-console
     console.info('dispatching', action); // eslint-disable-line no-console

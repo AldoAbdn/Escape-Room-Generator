@@ -5,6 +5,9 @@ const commonHooks = require('feathers-hooks-common');
 const convertID = require('../../hooks/convertID');
 const isAction = (...args) => hook => args.includes(hook.data.action);
 
+/**
+ * Auth Management Hooks
+ */
 module.exports = {
   before: {
     all: [],

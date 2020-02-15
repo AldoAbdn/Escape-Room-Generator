@@ -8,10 +8,20 @@ import { DropTarget } from 'react-dnd';
 import LineTo from 'react-lineto';
 import PropTypes from 'prop-types';
 
+/**
+ * Drag sources and drop targets only interact
+ * if they have the same string type.
+ * You want to keep types in a separate file with
+ * the rest of your app's constants.
+ */
 const Types = {
     AREA: 'AREA'
 }
 
+/**
+ * Specifies the drop target contract.
+ * All methods are optional.
+ */
 const areaArrangerTarget = {
     drop(props, monitor, component){
         const item = monitor.getItem();
@@ -23,6 +33,9 @@ const areaArrangerTarget = {
 
 /**
  * Specifies which props to inject into your component.
+ * @param {Connect} connect
+ * @param {Monitor} monitor
+ * @returns {object} Props
  */
 function collect(connect, monitor) {
     return {
@@ -35,13 +48,27 @@ function collect(connect, monitor) {
       canDrop: monitor.canDrop(),
       itemType: monitor.getItemType()
     };
-  }
+}
 
+/**
+ * Class for ComponentAranger, Drop target for Area's
+ * @extends Component
+ * @author Alistair Quinn
+ */
 class ComponentArranger extends Component {
+    /** Creates ComponentArranger */
     constructor(){
         super()
         this.state = {lines:[]}
     }
+
+    /**
+     * Maps Area to a Row
+     * @function
+     * @param {Area} area
+     * @param {int} i Index
+     * @returns {JSX} Row
+     */
     mapAreas = (area,i)=>{
         if(area.type==='Area'){
             let outputComponents = this.props.components.filter((component)=>{
@@ -56,17 +83,22 @@ class ComponentArranger extends Component {
             )  
         }
     }
-    addRef = (ref)=>{
-        if(ref!==undefined){
-            this.setState({refs:[...this.state.refs,ref]});
-        }
-    }
+
+    /**
+     * React Lifecycle called on Update
+     * @param {object} props 
+     * @param {object} state 
+     */
     componentDidUpdate(props,state) {
         if(JSON.stringify(this.props.components)!==JSON.stringify(props.components)){
             this.forceUpdate();
         }
     }
+
+    /** Calls force update */
     update = () => this.forceUpdate()
+
+    /** React Lifecycle called when component Mounts */
     componentDidMount() {
         setTimeout(()=>{
             this.forceUpdate();
@@ -74,12 +106,17 @@ class ComponentArranger extends Component {
         window.addEventListener('scroll', this.update, true);
         window.addEventListener('resize', this.update);
     }
-      
+    
+    /** React Lifecycle called when component unmounts */
     componentWillUnmount() {
         window.removeEventListener('scroll', this.update);
         window.removeEventListener('resize', this.update);
     }
 
+    /** 
+     * React Lifecycle Render
+     * @returns {JSX}
+     */
     render() {
         var classNames = "row component-arranger";
         if(this.props.isOver && this.props.canDrop){

@@ -6,10 +6,12 @@ import '../styles/Component.css';
 import Modal from '../models/Modal';
 import PropTypes from 'prop-types';
 
-// Drag sources and drop targets only interact
-// if they have the same string type.
-// You want to keep types in a separate file with
-// the rest of your app's constants.
+/**
+ * Drag sources and drop targets only interact
+ * if they have the same string type.
+ * You want to keep types in a separate file with
+ * the rest of your app's constants.
+ */
 const Types = {
   COMPONENT: 'COMPONENT'
 };
@@ -19,21 +21,47 @@ const Types = {
  * Only `beginDrag` function is required.
  */
 const componentSource = {
+  /**
+   * Determins if object can be dragged based on props
+   * @param {object} props 
+   * @returns {bool}
+   */
   canDrag(props) {
-    // You can disallow drag based on props
     return true;
   },
 
+  /**
+   * If your component gets unmounted while dragged
+   * (like a card in Kanban board dragged between lists)
+   * you can implement something like this to keep its
+   * appearance dragged:
+   * @param {object} props 
+   * @param {Monitor} monitor 
+   * @returns {bool} 
+   */
   isDragging(props, monitor) {
     return monitor.getItem().id === props.id;
   },
 
+  /**
+   * Return the data describing the dragged item
+   * @param {object} props 
+   * @param {Monitor} monitor 
+   * @param {Component} component
+   * @returns {object} 
+   */
   beginDrag(props, monitor, component) {
     // Return the data describing the dragged item
     var item = {...props.component};
     return item;
   },
 
+  /**
+   * Checks if component was dragged and didn't drop, check if user wants to delete
+   * @param {object} props 
+   * @param {Monitor} monitor 
+   * @param {Component} component 
+   */
   endDrag(props, monitor, component) {
     if (!monitor.didDrop()) {
       if((props.component!==undefined||props.component!==null)&&props.showModal)
@@ -45,6 +73,9 @@ const componentSource = {
 
 /**
  * Specifies which props to inject into your component.
+ * @param {Connect} connect
+ * @param {Monitor} monitor
+ * @returns {object} Props
  */
 function collect(connect, monitor) {
   return {
@@ -56,14 +87,30 @@ function collect(connect, monitor) {
   };
 }
 
+/**
+ * Class for Component drag and drop source
+ * @extends Component
+ * @author Alistair Quinn
+ */
 class ComponentDnDSource extends Component{
+  /** Removes a component */
   removeComponent = ()=>{
     this.props.removeComponent(this.props.component._id);
   }
+
+  /**
+   * React Lifecycle called after component udpates
+   * @param {object} prevProps 
+   */
   componentDidUpdate(prevProps){
     if(this.props.renderTrigger!==prevProps.renderTrigger)
       this.forceUpdate();
   }
+
+  /**
+   * Finds a component 
+   * @param {Component} component 
+   */
   findComponent(component){
     if(this.props.findComponent!==undefined){
       return this.props.findComponent(component);
@@ -71,18 +118,28 @@ class ComponentDnDSource extends Component{
       return null;
     }
   }
+
+  /** Calls forceUpdate */
   update = () => this.forceUpdate()
+
+  /** React Lifecycle called when Component did Mount */
   componentDidMount() {
     window.addEventListener('click', this.update, true);
     window.addEventListener('scroll', this.update, true);
     window.addEventListener('resize', this.update);
   }
   
+  /** React Lifecycle called when Component did Mount */
   componentWillUnmount() {
     window.removeEventListener('click', this.update);
     window.removeEventListener('scroll', this.update);
     window.removeEventListener('resize', this.update)
   }
+
+  /** 
+   * React Lifecycle Render
+   * @returns {JSX}
+   */
   render() {
       var target;
       if (this.props.isTarget){

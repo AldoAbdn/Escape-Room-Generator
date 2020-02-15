@@ -2,6 +2,7 @@
 
 const log = require('./hooks/log');
 
+/** Hooks for app */
 module.exports = {
   before: {
     all: [log()],

@@ -3,7 +3,17 @@ import { Route } from 'react-router'
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+/**
+ * Class for ProtectedRoute
+ * @extends Component
+ * @author Alistair Quinn
+ */
 class ProtectedRoute extends Component {
+  /** 
+   * React Lifecycle Method
+   * Renders Layout
+   * @returns {JSX}
+   */
     render(){
         if (window.localStorage.getItem('feathers-jwt')){
             if(this.props.condition!==undefined){

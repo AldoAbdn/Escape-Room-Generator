@@ -6,7 +6,13 @@ import zxcvbn from 'zxcvbn';
 import ReCAPTCHA from "react-google-recaptcha";
 import PropTypes from 'prop-types';
 
+/**
+ * Class for Signup
+ * @extends Component
+ * @author Alistair Quinn
+ */
 class Signup extends Component {
+    /** Creates Signup */
     constructor(props) {
         super(props);
         this.state = {
@@ -18,9 +24,13 @@ class Signup extends Component {
         }
     }
 
-    //Handles login form submit event
-    handleSubmit = async (event) => {
-        event.preventDefault();
+    /**
+     * Handles Form Submit
+     * @function
+     * @param {Event} e
+     */
+    handleSubmit = async (e) => {
+        e.preventDefault();
         if(this.state.email!=="" && this.state.password!=="" && this.state.password2!=="" && this.state.password===this.state.password2 && this.state.recaptcha && this.props.signUp){
             let err = await this.props.signUp({email:this.state.email,password:this.state.password});
             this.setState({message:err});
@@ -29,20 +39,29 @@ class Signup extends Component {
         }
     }
 
-    //Changes state on input change
-    handleChange = (event) => {
-        if(event.target.id === "password"){
+    /**
+     * Handles Input Change
+     * @function
+     * @param {Event} e
+     */
+    handleChange = (e) => {
+        if(e.target.id === "password"){
             this.setState({
-                [event.target.id]: event.target.value,
-                testResult: zxcvbn(event.target.value)
+                [e.target.id]: e.target.value,
+                testResult: zxcvbn(e.target.value)
             },()=>this.setState({message:this.composemessage()}));
         } else {
             this.setState({
-                [event.target.id]: event.target.value,
+                [e.target.id]: e.target.value,
             },()=>this.setState({message:this.composemessage()}));
         }
     }
 
+    /**
+     * Composes Error Message
+     * @function
+     * @returns {String}
+     */
     composemessage = () => {
         let messages = [];
         if(this.state.password!==""&&this.state.password!==this.state.password2)
@@ -56,19 +75,36 @@ class Signup extends Component {
         return messages.join(", ");   
     }
 
-    //Handles error dismiss
-    handleDismiss = (event) => {
+    /**
+     * Handles Alert Dismiss
+     * @function
+     */
+    handleDismiss = () => {
         this.setState({message: ""});
     }
 
+    /**
+     * Handles Test Result
+     * @function
+     */
     handleTestResult = (testResult) => {
         this.setState({testResult:testResult});
     }
 
+    /**
+     * Handles ReCAPTCHA
+     * @function
+     * @param {bool} value
+     */
     handleReCAPTCHA = (value) => {
         this.setState({recaptcha:value})
     }
 
+    /** 
+     * React Lifecycle Method
+     * Renders Layout
+     * @returns {JSX}
+     */
     render() {
         return (
             <div className="sign-up full-container verticaly-center-content">

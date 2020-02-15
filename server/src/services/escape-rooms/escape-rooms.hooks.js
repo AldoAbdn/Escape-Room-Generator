@@ -4,6 +4,9 @@ const verifyHooks = require('feathers-authentication-management').hooks;
 // Custom hooks
 const convertID = require('../../hooks/convertID');
 
+/**
+ * Hooks for Escape Rooms
+ */
 module.exports = {
   before: {
     all: [ convertID(), auth.authenticate('jwt'), verifyHooks.isVerified() ],

@@ -3,7 +3,13 @@ import { Container, Row, Col, Alert, Button, Form, FormGroup, Label, Input, Form
 import PasswordStrengthMeter from './PasswordStrengthMeter'
 import zxcvbn from 'zxcvbn';
 
+/**
+ * Class for Reset
+ * @extends Component
+ * @author Alistair Quinn
+ */
 class Reset extends Component {
+    /** Creates Reset */
     constructor(props) {
         super(props);
         this.state = {
@@ -16,29 +22,41 @@ class Reset extends Component {
         }
     }
 
-    //Handles login form submit event
-    handleSubmit = async (event) => {
-        event.preventDefault();
+    /**
+     * Handles Form Submit
+     * @function
+     * @param {Event} e
+     */
+    handleSubmit = async (e) => {
+        e.preventDefault();
         if(this.props.password!=="" && this.props.password===this.props.password2 && this.props.signUp){
             let result = await this.props.reset(this.state.email,this.props.token,this.state.password);
             this.setState({message:result.message, color:result.color});
         }
     }
 
-    //Changes state on input change
-    handleChange = (event) => {
-        if(event.target.id === "password"){
+    /**
+     * Handles Input Change
+     * @function
+     */
+    handleChange = (e) => {
+        if(e.target.id === "password"){
             this.setState({
-                [event.target.id]: event.target.value,
-                testResult: zxcvbn(event.target.value)
+                [e.target.id]: e.target.value,
+                testResult: zxcvbn(e.target.value)
             },()=>this.setState({message:this.composemessage()}));
         } else {
             this.setState({
-                [event.target.id]: event.target.value,
+                [e.target.id]: e.target.value,
             },()=>this.setState({message:this.composemessage()}));
         }
     }
 
+    /**
+     * Composes Error Message
+     * @function
+     * @returns {String}
+     */
     composemessage = () => {
         let messages = [];
         if(this.state.password!==""&&this.state.password!==this.state.password2)
@@ -52,15 +70,27 @@ class Reset extends Component {
         return messages.join(", ");   
     }
 
-    //Handles error dismiss
+    /**
+     * Handles Alert Dismiss
+     * @function
+     */
     handleDismiss = (event) => {
         this.setState({message: ""});
     }
 
+    /**
+     * Handles Test Result
+     * @function
+     */
     handleTestResult = (testResult) => {
         this.setState({testResult:testResult});
     }
 
+    /** 
+     * React Lifecycle Method
+     * Renders Layout
+     * @returns {JSX}
+     */
     render() {
         if(this.props.token!==undefined && this.props.token!==""){
             return (
@@ -107,6 +137,6 @@ class Reset extends Component {
             );
         }
     }
-};
+}
 
 export default Reset;

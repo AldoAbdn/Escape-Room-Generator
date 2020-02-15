@@ -1,3 +1,7 @@
+/**
+ * Class for Modal
+ * @author Alistair Quinn
+ */
 class Modal {
     constructor(header,body,confirmText,confirmCallback,cancelText,cancelCallback,isOpen=true){
         this.header = header;
@@ -8,4 +12,4 @@ class Modal {
     }
 }
 
-export default Modal
+export default Modal;

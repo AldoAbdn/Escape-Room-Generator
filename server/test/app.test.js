@@ -12,6 +12,9 @@ const getUrl = pathname => url.format({
   pathname
 });
 
+/**
+ * Test for App
+ */
 describe('Feathers application tests', () => {
   let server;
 

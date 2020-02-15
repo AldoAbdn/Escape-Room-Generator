@@ -1,5 +1,6 @@
 const MongoClient = require('mongodb').MongoClient;
 
+/** Setups MongoDB */
 module.exports = function (app) {
   const connection = app.get('mongodb');
   const database = connection.substr(connection.lastIndexOf('/') + 1);

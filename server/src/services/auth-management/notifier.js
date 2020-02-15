@@ -1,3 +1,7 @@
+/**
+ * Notifier sends emails for auth-management with tokens
+ * @function
+ */
 module.exports = function(app) {
   function getLink(type, hash) {
     let protocol = app.get('protocol');

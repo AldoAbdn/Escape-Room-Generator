@@ -1,23 +1,22 @@
 import React, {Component}  from 'react';
 import { Route, Switch } from 'react-router';
 import { Redirect } from 'react-router-dom';
-//Components
 import { Dashboard, EscapeRoomDesigner, Login, Signup, Tutorials, About, ProtectedRoute, NotFound, Verify, Reset } from '../components/index.js';
 import EscapeRoom from '../models/EscapeRoom.js';
 import PropTypes from 'prop-types';
+
 /**
  * Business logic of app 
  * handles creating and updating of data 
  * handles navigation 
- * @class
+ * @extends Component
  * @author Alistair Quinn
  */
 class BusinessLogic extends Component {
     /**
      * Popultes escape rooms by user ID
-     * @function
      * @param {String} userId
-     * @returns {Array}
+     * @returns {bool} success
      */
     populateEscapeRooms = async (userId) => {
         //Get User Details and Update Redux Store
@@ -44,8 +43,8 @@ class BusinessLogic extends Component {
     }
     /**
      * Authenticates login credentials 
-     * @function
      * @param {Object} credentials 
+     * @returns {string} Error
      */
     authenticateCredentials = async(credentials)=>{
         try {
@@ -61,10 +60,11 @@ class BusinessLogic extends Component {
             return error.message;
         }
     }
+
     /**
      * Creates a new user 
-     * @function
      * @param {Object} credentials 
+     * @returns {string} Error
      */
     signUp = async(credentials)=>{
         //Create a new user 
@@ -77,19 +77,19 @@ class BusinessLogic extends Component {
             return error.message;
         }
     }
+
     /**
      * Opens escape room designer
-     * @function
      * @param {EscapeRoom} escapeRoom
      */
     editEscapeRoom = (escapeRoom) => {
         this.props.redux.actions.escapeRoom.setSelectedEscapeRoom(escapeRoom);
         this.props.history.push('/designer');
     }
+    
     /**
      * Creates a new escape room 
      * then opens designer
-     * @function
      */
     newEscapeRoom = async() => {
         const userId = this.props.redux.state.user._id;
@@ -104,6 +104,7 @@ class BusinessLogic extends Component {
             }
         }
     }
+
     /**
      * Deletes an escape room
      * @function
@@ -113,6 +114,7 @@ class BusinessLogic extends Component {
         this.props.services['escape-rooms'].remove(escapeRoom._id);
         this.props.redux.actions.escapeRooms.removeEscapeRoom(escapeRoom);
     }
+
     /**
      * Saves an escape room
      * @function
@@ -126,10 +128,12 @@ class BusinessLogic extends Component {
         }
         this.props.history.push('/');
     }
+
     /**
      * Verifies a user account via token
      * @function
      * @param {String} token
+     * @returns {Status} Result
      */
     verify = async(token)=>{
         let result = await this.props.services['auth-management'].create({action:'verifySignupLong',value:token});
@@ -139,6 +143,12 @@ class BusinessLogic extends Component {
             return {color:"danger", message:"Error"}
         }
     }
+
+    /**
+     * Sends a verify link
+     * @function
+     * @returns {Status} Result
+     */
     sendVerify = async()=>{
         let result = await this.props.services['auth-management'].create({action:'resendVerifySignup',value:{email:this.props.redux.state.user._id}});
         if(result.action.type.includes('FULFILLED')){
@@ -147,12 +157,14 @@ class BusinessLogic extends Component {
             return {color:"danger", message:"Error"}
         }
     }
+
     /**
      * Resets users password
      * @function
      * @param {String} email
      * @param {String} token
      * @param {String} password
+     * @returns {Status} Result
      */
     reset = async(email, token, password) => {
         let result = await this.props.services['auth-management'].create({action:'resetPwdLong',value:{token,password}});
@@ -162,10 +174,12 @@ class BusinessLogic extends Component {
             return {color:"danger", message:"Error"}
         }
     }
+
     /**
      * Sends password reset
      * @function
      * @param {String} email
+     * @returns {Status} Result
      */
     sendReset = async(email) => {
         let result = await this.props.services['auth-management'].create({action:'sendResetPwd',value:{email}});
@@ -175,10 +189,10 @@ class BusinessLogic extends Component {
             return {color:"danger", message:"Error"}
         }
     }
-    /**
-     * React lifecycle method
-     * Renders navigation 
-     * @function
+
+    /** 
+     * React Lifecycle Render
+     * @returns {JSX}
      */
     render() {
         const user = this.props.redux.state.user;

@@ -1,5 +1,10 @@
 const zxcvbn = require('zxcvbn');
 
+/**
+ * PasswordCheck checks if password is strong enough 
+ * @param {Object} options
+ * @returns {Object} context;
+ */
 module.exports = function (options = {}) { 
     return async context => {
       let { password }= context.data;

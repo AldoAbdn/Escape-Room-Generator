@@ -1,4 +1,8 @@
-export default class Visual {
+/**
+ * Class for Visual
+ * @author Alistair Quinn
+ */
+class Visual {
     constructor(){
         this.protanomaly = false;
         this.protanopia = false;
@@ -12,3 +16,5 @@ export default class Visual {
         this.highContrast = false;
     }  
 }
+
+export default Visual;

@@ -1,8 +1,16 @@
 import Component from './Component';
-export default class Lock extends Component {
+
+/**
+ * Class for Lock
+ * @extends Component
+ * @author Alistair Quinn
+ */
+class Lock extends Component {
     constructor(){
         super();
         this.lockType="Numeric";
         this.type="Lock";
     }   
 }
+
+export default Lock;

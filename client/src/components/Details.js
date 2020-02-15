@@ -2,13 +2,26 @@ import React, {Component} from 'react';
 import { Container, Row, Col, Form, FormGroup, Label, Input, UncontrolledTooltip} from 'reactstrap';
 import PropTypes from 'prop-types';
 
+/**
+ * Class for Editing Escape Room Details
+ * @extends Component
+ * @author Alistair Quinn
+ */
 class Details extends Component {
-    //Changes state on input change
+    /**
+     * Handles Input Change
+     * @param {Event} event
+     */
     handleChange = (event) => { 
         var state = {};
         state[event.target.id] = event.target.value;    
         this.props.updateDetails(state);
     }
+
+    /** 
+     * React Lifecycle Render
+     * @returns {JSX}
+     */
     render(){
         return (
         <Container fluid>

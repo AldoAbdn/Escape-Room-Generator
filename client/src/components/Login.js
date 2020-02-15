@@ -4,7 +4,13 @@ import { Container, Row, Col, Alert, Button, Form, FormGroup, Label, Input, Form
 import ReCAPTCHA from "react-google-recaptcha";
 import PropTypes from 'prop-types';
 
+/**
+ * Class for Login
+ * @extends Component
+ * @author Alistair Quinn
+ */
 class Login extends Component {
+    /** Creates Login */
     constructor(props) {
         super(props);
         this.state = {
@@ -16,9 +22,13 @@ class Login extends Component {
         }
     }
 
-    //Handles login form submit event
-    handleSubmit = async (event) => {
-        event.preventDefault();
+    /**
+     * Handles form submit
+     * @function
+     * @param {Event} e
+     */
+    handleSubmit = async (e) => {
+        e.preventDefault();
         //Authenticate credentials 
         if(this.state.email!=="" && this.state.password!=="" && this.state.recaptcha && this.props.authenticateCredentials){
             var err = await this.props.authenticateCredentials({strategy:'local',email:this.state.email,password:this.state.password});
@@ -28,31 +38,52 @@ class Login extends Component {
         }
     }
 
-    //Changes state on input change
-    handleChange = (event) => {
+    /**
+     * Handles Input Change
+     * @function
+     * @param {Event} e
+     */
+    handleChange = (e) => {
         this.setState({
-            [event.target.id]: event.target.value
+            [e.target.id]: e.target.value
         });
     }
 
-    //Handles error dismiss
-    handleDismiss = (event) => {
+    /**
+     * Handles Alert Dismiss
+     * @function
+     * @param {Event} e
+     */
+    handleDismiss = (e) => {
         this.setState({message: "", color:"success"});
     }
 
-    //Handles button click
-    handleClick = async (event) => {
-        event.preventDefault();
+    /**
+     * Handles Reset Password Click
+     * @function
+     * @param {Event} e
+     */
+    handleClick = async (e) => {
+        e.preventDefault();
         if(this.props.sendReset){
             let result = await this.props.sendReset(this.state.email);
             this.setState({message:result.message, color:result.color});
         }
     }
 
+    /**
+     * Handles ReCAPTCHA
+     * @function
+     * @param {bool} value
+     */
     handleReCAPTCHA = (value) => {
         this.setState({recaptcha:value})
     }
 
+    /** 
+     * React Lifecycle Render
+     * @returns {JSX}
+     */
     render() {
         return (
             <div className="login full-container verticaly-center-content">

@@ -1,4 +1,10 @@
 import Puzzle from './Puzzle';
+
+/**
+ * Class for Colour
+ * @extends Puzzle
+ * @author Alistair Quinn
+ */
 class Colour extends Puzzle{
     constructor(){
         super('Colour')
@@ -20,4 +26,5 @@ class Colour extends Puzzle{
         return {num1,num2,num3,num4,numbers};
     }
 }
+
 export default Colour;

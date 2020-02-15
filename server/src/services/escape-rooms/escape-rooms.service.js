@@ -2,6 +2,9 @@
 const { EscapeRooms } = require('./escape-rooms.class');
 const hooks = require('./escape-rooms.hooks');
 
+/**
+ * Registers Escape Rooms Service
+ */
 module.exports = function (app) {
   const options = {
     paginate: app.get('paginate')

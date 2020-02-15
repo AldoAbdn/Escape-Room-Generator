@@ -1,3 +1,9 @@
+/**
+ * Reducer for Escape Rooms state
+ * @param {Array<EscapeRoom>} state 
+ * @param {Action} action 
+ * @returns {Array<EscapeRoom>}
+ */
 function escapeRooms(state=[],action){
     let i;
     switch(action.type){
