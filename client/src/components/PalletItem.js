@@ -72,8 +72,8 @@ class PalletItem extends Component{
       let classNames = id + " component pallet-item"
       return this.props.connectDragSource(
           <div className={classNames} id={id} >
-            <p>{id}<span id={iconId} className="pallet-item-icon"><i className="fa fa-question-circle text-right" aria-hidden="true"></i></span></p>     
-            <UncontrolledTooltip target={iconId}>{this.descriptions[id]}</UncontrolledTooltip>
+            <p>{id}</p>     
+            <UncontrolledTooltip target={id}>{this.descriptions[id]}</UncontrolledTooltip>
           </div>
       )
   }

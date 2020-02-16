@@ -134,11 +134,15 @@ class Main extends Component {
      * @returns {Object} 
      */
     identityChange = async(user, password, changes) => {
-        let result = await this.props.services['auth-management'].create({action:'identityChange'},{user,password,changes});
-        if(result.action.type.include('FULFILLED')){
-            return {color:"success", message:"Email Saved"};
-        } else {
-            return {color:"danger", message:"Error"}
+        try {
+            let result = await this.props.services['auth-management'].create({action:'identityChange'},{user,password,changes});
+            if(result.action.type.include('FULFILLED')){
+                return {color:"success", message:"Email Saved"};
+            } else {
+                return {color:"danger", message:"Error"}
+            }
+        } catch(error){
+            return {color:"warning", message: "An error has occured, changed may have been made"};
         }
     }
 
@@ -148,11 +152,15 @@ class Main extends Component {
      * @returns {Object}
      */
     sendPasswordReset = async() => {
-        let result = await this.props.services['auth-management'].create({action:'sendResetPwd'},{value:{email:this.props.redux.state.user.email}});
-        if(result.action.type.include('FULFILLED')){
-            return {color:"success", message:"Email Saved"};
-        } else {
-            return {color:"danger", message:"Error"}
+        try {
+            let result = await this.props.services['auth-management'].create({action:'sendResetPwd'},{value:{email:this.props.redux.state.user.email}});
+            if(result.action.type.include('FULFILLED')){
+                return {color:"success", message:"Email Saved"};
+            } else {
+                return {color:"danger", message:"Error"}
+            }
+        } catch(error){
+            return {color:"warning", message:"An error has occured, a password reset email may have been sent"};
         }
     }
 

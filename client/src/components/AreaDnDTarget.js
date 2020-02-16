@@ -30,7 +30,7 @@ const componentTarget = {
         const item = monitor.getItem();
         let clientOffset = monitor.getClientOffset();
         let targetRect = ReactDOM.findDOMNode(component).getBoundingClientRect();
-        let offset = component.state.width * 0.05;
+        let offset = component.state.width * 0.025;
         item.position = {top:(((clientOffset.y-targetRect.y-offset)/targetRect.height)*100)+"%",left:(((clientOffset.x-targetRect.x-offset)/targetRect.width)*100)+"%"};
         component.handleComponentDrop(item);
         return {moved:true};
