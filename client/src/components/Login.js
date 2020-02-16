@@ -66,8 +66,13 @@ class Login extends Component {
     handleClick = async (e) => {
         e.preventDefault();
         if(this.props.sendReset){
-            let result = await this.props.sendReset(this.state.email);
-            this.setState({message:result.message, color:result.color});
+            let result;
+            try {
+                result = await this.props.sendReset(this.state.email);
+            } catch (error) {
+                result = {color:"warning", message:"An error occured, a password reset email may have been sent"};
+            }
+            this.setState(result);
         }
     }
 

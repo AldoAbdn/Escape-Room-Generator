@@ -159,6 +159,7 @@ class Profile extends Component {
                         <p className="text-center">{this.props.user.email}</p>
                         <Button id="editButton" block className="text-center" onClick={this.handleClick}>Edit Email</Button>
                         <Button id="passwordButton" block className="text-center" onClick={this.handleClick}>Password Reset</Button>
+                        <Alert isOpen={this.state.message !== ""} toggle={this.handleDismiss} color={this.state.color}>{this.state.message}</Alert>
                     </Col>
                 </Row>
             </Container>

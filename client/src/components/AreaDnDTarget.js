@@ -4,7 +4,8 @@ import { Card, CardBody ,CardTitle } from 'reactstrap';
 import '../styles/Component.css';
 import { DropTarget } from 'react-dnd';
 import ComponentDnDSource from './ComponentDnDSource';
-import { Area, Puzzle, Prop, Lock, Music, Event } from '../models/index.js';
+import { Puzzle, Prop, Lock, Music, Event } from '../models/index.js';
+import Area from '../models/Area';
 import PropTypes from 'prop-types';
 
 /**
@@ -29,9 +30,8 @@ const componentTarget = {
         const item = monitor.getItem();
         let clientOffset = monitor.getClientOffset();
         let targetRect = ReactDOM.findDOMNode(component).getBoundingClientRect();
-        let top = (((clientOffset.y-targetRect.y-(targetRect.height*0.5))/targetRect.height)*100)+"%";
-        let left = (((clientOffset.x-targetRect.x-(targetRect.width*0.5))/targetRect.width)*100)+"%"
-        item.position = {top:top,left:left};
+        let offset = component.state.width * 0.05;
+        item.position = {top:(((clientOffset.y-targetRect.y-offset)/targetRect.height)*100)+"%",left:(((clientOffset.x-targetRect.x-offset)/targetRect.width)*100)+"%"};
         component.handleComponentDrop(item);
         return {moved:true};
     }
@@ -62,6 +62,28 @@ class AreaDnDTarget extends Component {
     /** Creates AreaDnDTarget */
     constructor(){
         super();
+        this.state = { width: 0, height: 0};
+    }
+
+    /**
+     * React Lifecycle Method
+     * Called when compoent mounts
+     */
+    componentDidMount() {
+        this.updateScreenDimensions();
+        window.addEventListener("resize", this.updateScreenDimensions);
+    }
+
+    /**
+     * React Lifecycle Method
+     * Called when component will unmount
+     */
+    componentWillUnmount(){
+        window.removeEventListener("resize", this.updateScreenDimensions);
+    }
+
+    updateScreenDimensions = () => {
+        this.setState({ width: window.innerWidth, height: window.innerHeight });
     }
 
     /** 
