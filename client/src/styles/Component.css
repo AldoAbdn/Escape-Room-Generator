@@ -53,8 +53,9 @@
 	font-weight: bold;
     background-color: white;
     position: relative;
-    width:5vw;
-    height:5vw;
+    width:5vw; height:5vw;
+    max-width: 5vw; max-height: 5vw;
+    overflow: hidden;
     border: 1px solid rgba(0,0,0,.125);
     border-radius: .25rem;
 }
