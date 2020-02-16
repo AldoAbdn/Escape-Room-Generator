@@ -104,11 +104,17 @@ class Login extends Component {
                                     <Label for="password">Password</Label>
                                     <Input type="password" name="password" id="password" value={this.state.password} onChange={this.handleChange}/>
                                 </FormGroup>
-                                <ReCAPTCHA
-                                    sitekey={process.env.REACT_APP_RECAPTCHA}
-                                    onChange={this.handleReCAPTCHA}
-                                />
-                                <Button disabled={this.state.email==="" || this.state.password==="" || this.state.message!=="" || !this.state.recaptcha}>Login</Button>
+                                <FormGroup>
+                                    <div style={{"width":"fit-content","margin":"auto"}}>
+                                        <ReCAPTCHA
+                                            sitekey={process.env.REACT_APP_RECAPTCHA}
+                                            onChange={this.handleReCAPTCHA}
+                                        />
+                                    </div>
+                                </FormGroup>
+                                <FormGroup>
+                                    <Button block disabled={this.state.email==="" || this.state.password==="" || this.state.message!=="" || !this.state.recaptcha}>Login</Button>
+                                </FormGroup>
                                 <FormText>
                                     Don't have an account? Sign Up <Link to="/signup">Here</Link>
                                 </FormText>

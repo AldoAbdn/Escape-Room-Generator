@@ -125,11 +125,17 @@ class Signup extends Component {
                                     <Label for="password2">Re-Type Password</Label>
                                     <Input required type="password" name="password2" id="password2" value={this.state.password2} onChange={this.handleChange}/>
                                 </FormGroup>
-                                <ReCAPTCHA
-                                    sitekey={process.env.REACT_APP_RECAPTCHA}
-                                    onChange={this.handleReCAPTCHA}
-                                />
-                                <Button disabled={this.state.email==="" || this.state.password==="" || this.state.password !== this.state.password2 || this.state.message!=="" || !this.state.recaptcha}>Sign Up</Button>
+                                <FormGroup>
+                                    <div style={{"width":"fit-content","margin":"auto"}}>
+                                        <ReCAPTCHA
+                                            sitekey={process.env.REACT_APP_RECAPTCHA}
+                                            onChange={this.handleReCAPTCHA}
+                                        />
+                                    </div>
+                                </FormGroup>
+                                <FormGroup>
+                                    <Button block disabled={this.state.email==="" || this.state.password==="" || this.state.message!=="" || !this.state.recaptcha}>Login</Button>
+                                </FormGroup>
                                 <FormText>
                                     Passwords must be strong and 8 characters in length or more
                                 </FormText>
