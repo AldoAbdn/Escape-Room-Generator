@@ -152,7 +152,7 @@ class AreaDnDSource extends Component{
     return this.props.connectDragSource(
         <div onClick={this.props.handleComponentClick(this.props.component)}>
           <Card className={classNames}>
-            <div className={id===undefined?"d-none":""}>
+            <div id={id} className={id===undefined?"d-none":""}>
               <p style={{"fontWeight":"bold"}}>{id}</p>     
               <UncontrolledTooltip target={id}>Represents a collection of components. Can be used to represent physical areas such as two seperate rooms or logical areas</UncontrolledTooltip>
             </div>
