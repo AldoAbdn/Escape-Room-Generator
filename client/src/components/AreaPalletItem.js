@@ -64,7 +64,7 @@ class AreaPalletItem extends Component{
       return this.props.connectDragSource(
           <div className={classNames} id={id} >
             <p>{id}</p>     
-            <UncontrolledTooltip target={id}>{this.descriptions[id]}</UncontrolledTooltip>
+            <UncontrolledTooltip target={id}>Represents a collection of components. Can be used to represent physical areas such as two seperate rooms or logical areas</UncontrolledTooltip>
           </div>
       )
   }
