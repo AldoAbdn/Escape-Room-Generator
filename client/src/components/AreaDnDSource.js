@@ -138,7 +138,6 @@ class AreaDnDSource extends Component{
    * @returns {JSX}
    */
   render() {
-    let id = this.props.id;
     let target;
     if (this.props.isTarget){
       target = (

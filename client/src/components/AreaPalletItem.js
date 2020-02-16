@@ -59,7 +59,7 @@ class AreaPalletItem extends Component{
    * @returns {JSX}
    */
   render() {
-      let id=this.props.id || "";
+      let id="Area";
       let classNames = id + " component pallet-item"
       return this.props.connectDragSource(
           <div className={classNames} id={id} >

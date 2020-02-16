@@ -25,7 +25,7 @@ class Pallet extends Component {
                 </Row>
                 <Row>
                     <Col xs="6" md="12" lg="12">
-                        <AreaPalletItem id="Area"/>
+                        <AreaPalletItem/>
                     </Col>
                     <Col xs="6" md="12" lg="12">
                         <PalletItem id="Puzzle"/>
