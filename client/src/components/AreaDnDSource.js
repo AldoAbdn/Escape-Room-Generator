@@ -139,7 +139,6 @@ class AreaDnDSource extends Component{
    */
   render() {
     let id = this.props.id;
-    let iconId = id+"-icon";
     let target;
     if (this.props.isTarget){
       target = (
@@ -147,15 +146,9 @@ class AreaDnDSource extends Component{
       );
     }
     let classNames;
-    if(this.props.palletItem)
-      classNames += " pallet-item";
     return this.props.connectDragSource(
         <div onClick={this.props.handleComponentClick(this.props.component)}>
           <Card className={classNames}>
-            <div className={id===undefined?"d-none":""}>
-              <p style={{"fontWeight":"bold"}}>{id}<span id={iconId} className="pallet-item-icon"><i className="fa fa-question-circle text-right" aria-hidden="true"></i></span></p>     
-              <UncontrolledTooltip target={iconId}>Represents a collection of components. Can be used to represent physical areas such as two seperate rooms or logical areas</UncontrolledTooltip>
-            </div>
             {target}
           </Card>
         </div>
@@ -176,7 +169,6 @@ AreaDnDSource.propTypes = {
   showModal: PropTypes.func,
   updateComponent: PropTypes.func,
   connectDragSource: PropTypes.func,
-  palletItem: PropTypes.bool
 }
 
 export default DragSource(Types.AREA, areaSource, collect)(AreaDnDSource);

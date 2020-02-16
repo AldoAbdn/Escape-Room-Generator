@@ -1,6 +1,6 @@
 import React, {Component}  from 'react';
 import { Row, Col } from 'reactstrap';
-import AreaDnD from './AreaDnDSource';
+import AreaPalletItem from './AreaPalletItem';
 import PalletItem from './PalletItem';
 import '../styles/Pallet.css';
 
@@ -10,15 +10,6 @@ import '../styles/Pallet.css';
  * @author Alistair Quinn 
  */
 class Pallet extends Component {
-    /**
-     * Handles Component Click
-     * @function
-     * @param {Event} e
-     */
-    handleComponentClick = (e) => {
-        
-    }
-
     /**
      * React lifecycle method 
      * Renders layout
@@ -34,22 +25,22 @@ class Pallet extends Component {
                 </Row>
                 <Row>
                     <Col xs="6" md="12" lg="12">
-                        <AreaDnD palletItem={true} id="Area" handleComponentClick={this.handleComponentClick}/>
+                        <AreaPalletItem id="Area"/>
                     </Col>
                     <Col xs="6" md="12" lg="12">
-                        <PalletItem id="Puzzle" handleComponentClick={this.handleComponentClick}/>
+                        <PalletItem id="Puzzle"/>
                     </Col>
                     <Col xs="6" md="12" lg="12">
-                        <PalletItem id="Prop" handleComponentClick={this.handleComponentClick}/>
+                        <PalletItem id="Prop"/>
                     </Col>
                     <Col xs="6" md="12" lg="12">
-                        <PalletItem id="Lock" handleComponentClick={this.handleComponentClick}/>
+                        <PalletItem id="Lock"/>
                     </Col>
                     <Col xs="6" md="12" lg="12">
-                        <PalletItem id="Event" handleComponentClick={this.handleComponentClick}/>
+                        <PalletItem id="Event"/>
                     </Col>
                     <Col xs="6" md="12" lg="12">
-                        <PalletItem id="Music" handleComponentClick={this.handleComponentClick}/>
+                        <PalletItem id="Music"/>
                     </Col>
                 </Row>
             </div>
