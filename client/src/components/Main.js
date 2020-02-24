@@ -197,9 +197,6 @@ class Main extends Component {
                             <Collapse isOpen={this.state.isOpen} navbar>
                                 <Nav className="ml-auto" navbar>
                                 <NavItem>
-                                    <NavLink href="https://forms.office.com/Pages/ResponsePage.aspx?id=nKagUU8OPUu2QhLgExmGNYQo7GuPpvBIkCZBfnEHlpZUOUZWQkVHTlNCOVNQS0xOWlMyTzZSRjU2Mi4u">Survey</NavLink>
-                                </NavItem>
-                                <NavItem>
                                     <NavLink href="https://github.com/AldoAbdn/Escape-Room-Generator">GitHub</NavLink>
                                 </NavItem>
                                 <NavItem>
