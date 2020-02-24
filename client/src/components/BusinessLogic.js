@@ -201,15 +201,14 @@ class BusinessLogic extends Component {
         const escapeRoom = this.props.redux.state.escapeRoom;
         const escapeRoomActions = this.props.redux.actions.escapeRoom;
         const showModal = this.props.redux.actions.modal.showModal;
-        const loggedIn = window.localStorage.getItem('feathers-jwt') != null; // Used to check if user is logged in
-        console.log(user.verified && loggedIn);
+        const loggedIn = Object.entries(user).length !== 0 && user.constructor === Object; // Used to check if user is logged in
         return (
             <Switch>
                 <Redirect exact from="/" to="dashboard"/>
                 <ConditionalRoute path="/dashboard" condition={user.verified && loggedIn} redirect={'/verify'} render={(routeProps) => (<Dashboard escapeRooms={escapeRooms} showModal={showModal} editEscapeRoom={this.editEscapeRoom} newEscapeRoom={this.newEscapeRoom} deleteEscapeRoom={this.deleteEscapeRoom}/>)}/>
                 <ConditionalRoute path="/designer" condition={Object.keys(escapeRoom).length > 0 && escapeRoom!==undefined && loggedIn} redirect={'/'} render={(routeProps) =>(<EscapeRoomDesigner showModal={showModal} escapeRoom={escapeRoom} saveEscapeRoom={this.saveEscapeRoom} updateDetails={escapeRoomActions.updateDetails} updateAccessibility={escapeRoomActions.updateAccessibility} addComponent={escapeRoomActions.addComponent} removeComponent={escapeRoomActions.removeComponent} updateComponent={escapeRoomActions.updateComponent} addRelationship={escapeRoomActions.addRelationship} removeRelationship={escapeRoomActions.removeRelationship}/>)}/>
-                <ConditionalRoute path="/login" condition={Object.entries(user).length === 0 && user.constructor === Object} redirect={'/dashboard'} render={(routeProps) => (<Login authenticateCredentials={this.authenticateCredentials}/>)}/>
-                <ConditionalRoute path="/signup" condition={Object.entries(user).length === 0 && user.constructor === Object} redirect={'/dashboard'} render={(routeProps) => (<Signup signUp={this.signUp}/>)}/>
+                <ConditionalRoute path="/login" condition={!loggedIn} redirect={'/dashboard'} render={(routeProps) => (<Login authenticateCredentials={this.authenticateCredentials}/>)}/>
+                <ConditionalRoute path="/signup" condition={!loggedIn} redirect={'/dashboard'} render={(routeProps) => (<Signup signUp={this.signUp}/>)}/>
                 <Route path="/about" component={About}/>
                 <Route path="/tutorials" component={Tutorials}/>
                 <ConditionalRoute exact path="/verify" condition={user!={} && user.email != undefined && user.email != "" && loggedIn} redirect={'/login'} render={(routeProps) => (<Verify token={routeProps.match.params.token} sendVerify={this.sendVerify}/>)}/>
