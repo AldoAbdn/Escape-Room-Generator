@@ -201,8 +201,7 @@ class BusinessLogic extends Component {
         const escapeRoom = this.props.redux.state.escapeRoom;
         const escapeRoomActions = this.props.redux.actions.escapeRoom;
         const showModal = this.props.redux.actions.modal.showModal;
-        const loggedIn = Object.entries(user).length !== 0 && user.constructor === Object; // Used to check if user is logged in
-        console.log(loggedIn);
+        const loggedIn = window.localStorage.getItem("feathers-jwt") != null;
         return (
             <Switch>
                 <Redirect exact from="/" to="dashboard"/>
