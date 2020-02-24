@@ -1,8 +1,15 @@
-const { authenticate } = require('@feathersjs/authentication').hooks;
+// Feathers hooks
+const auth = require('@feathersjs/authentication').hooks;
+const verifyHooks = require('feathers-authentication-management').hooks;
+// Custom hooks
+const convertID = require('../../hooks/convertID');
 
+/**
+ * Hooks for Escape Rooms
+ */
 module.exports = {
   before: {
-    all: [ authenticate('jwt') ],
+    all: [ convertID(), auth.authenticate('jwt'), verifyHooks.isVerified() ],
     find: [],
     get: [],
     create: [],

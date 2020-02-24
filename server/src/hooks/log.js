@@ -7,6 +7,9 @@ const util = require('util');
 // To see more detailed messages, uncomment the following line:
 // logger.level = 'debug';
 
+/*
+ * Logger
+ */
 module.exports = function () {
   return context => {
     // This debugs the service call and a stringified version of the hook context

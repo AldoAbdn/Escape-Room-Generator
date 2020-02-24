@@ -1,35 +1,66 @@
 import React, {Component}  from 'react';
 import {Row,Col,Button,Input} from 'reactstrap'
 import lockGen from '../generators/LockGenerator';
+import PropTypes from 'prop-types';
 
+/**
+ * Class for Lock Generator
+ * @extends Component
+ * @author Alistair Quinn
+ */
 class LockGenerator extends Component {
+    /** Creates LockGenerator */
     constructor(){
         super();
         this.state={length:1,wordsPerString:1}
         this.lockGenerator = new lockGen();
     }
 
-    handleChange = (event) => { 
+    /**
+     * Handles Input Change
+     * @function
+     * @param {Event} e
+     */
+    handleChange = (e) => { 
         let state = {};
-        state[event.target.name] = event.target.value;  
+        state[e.target.name] = e.target.value;  
         this.setState(state);
     }
 
-    handleNumericClick = (e)=>{
+    /**
+     * Handles Numeric Lock Click
+     * @function
+     * @param {Event} e
+     */
+    handleNumericClick = (e) => {
         let output = this.lockGenerator.generateNumericCombination(this.state.length);
         this.props.handleOutputChange(output);
     }
 
+    /**
+     * Handles Word Lock Click
+     * @function
+     * @param {Event} e
+     */
     handleWordClick = (e) => {
         let output = this.lockGenerator.generateWords(this.state.length,this.state.wordsPerString);
         this.props.handleOutputChange(output);
     }
 
+    /**
+     * Handles Directional Lock Click
+     * @function
+     * @param {Event} e
+     */
     handleDirectionalClick = (e) => {
         let output = this.lockGenerator.generateDirectionSequence(this.state.length);
         this.props.handleOutputChange(output);
     }
 
+    /** 
+     * React Lifecycle Render
+     * @returns {JSX}
+     */
     render() {
         switch(this.props.lockType){
             case 'Numeric':
@@ -66,5 +97,10 @@ class LockGenerator extends Component {
         }
     }
 };
+
+LockGenerator.propTypes = {
+    handleOutputChange: PropTypes.func,
+    lockType: PropTypes.string,
+}
 
 export default LockGenerator;

@@ -3,45 +3,46 @@ import { Link } from 'react-router-dom';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Navbar, NavbarBrand, NavbarToggler, Collapse, Nav, NavItem, NavLink, Dropdown, DropdownToggle, DropdownMenu} from 'reactstrap';
 import LoadingOverlay from 'react-loading-overlay';
 import Profile from '../components/Profile';
+import BusinessLogic from './BusinessLogic.js';
+import PropTypes from 'prop-types';
 import '../styles/Main.css';
 
 /**
  * Defines main layout of app 
  * Handles re-authentication of logged in user 
  * Renders business logic 
- * @class Main 
  * @author Alistair Quinn
  */
-import BusinessLogic from './BusinessLogic.js';
 class Main extends Component {
-    /**
-     * Main constructor to set initial state
-     * @constructor
-     */
+    /** Creates Main */
     constructor(){
         super();
         this.state = {profile:false, isProfileOpen:false,tooltipOpen:false, isOpen:false};
     }
 
-    /**
-     * Toggles for bootstrap
+    /** 
+     * Toggles is Open
+     * @function 
      */
-    toggle=()=>{
+    toggle = () => {
         this.setState({isOpen:!this.state.isOpen});
     }
-    toggleProfile=()=>{
+
+    /** 
+     * Toggles is Profile 
+     * @function
+     */
+    toggleProfile = () => {
         this.setState({isProfileOpen:!this.state.isProfileOpen});
     }
 
     /**
      * React lifecycle method
      * Updates profile if user has changed
-     * @function
      * @param {Object} prevProps 
      */
     componentDidUpdate(prevProps){
         if(prevProps.redux.state.user.email!==this.props.redux.state.user.email){
-            this.populateEscapeRooms(this.props.redux.state.user._id);
             if(this.props.redux.state.user.email !== undefined){
                 this.setState({profile:true});
             } else {
@@ -49,10 +50,10 @@ class Main extends Component {
             }
         }
     }
+    
     /**
      * React lifecycle method 
      * Updates profile is logged in
-     * @function
      */
     componentDidMount() {
         if (window.localStorage.getItem('feathers-jwt') && this.props.redux.state.user.email!==undefined){
@@ -61,53 +62,25 @@ class Main extends Component {
             this.authenticate();
         }
     }
-    /**
-     * Authentication
-     * @function
+
+    /** 
+     * Authenticates User 
+     * @function 
      */
     authenticate = async() => {
         //Authenticates JWT and then populates user/escapeRooms
-        let jwt = await this.authenticateJWT();
-        let user = await this.populateUserFromJWT(jwt);
-        if(user!=null)
-            await this.populateEscapeRooms(user._id);
-    }
-    /**
-     * Authenticates JWT 
-     * @function 
-     * @returns string
-     */
-    authenticateJWT = async() => {
-        try {
-            let response = await this.props.feathersClient.authenticate();
-            return response.accessToken;
-        } catch(error) {
+        try{
+            let { user } = await this.props.feathersClient.reAuthenticate();
+            if(user!=null){
+                user.token = window.localStorage.getItem('feathers-jwt');
+                await this.populateEscapeRooms(user._id);
+                this.props.redux.actions.user.login(user);
+            }
+        } catch(error){
             this.logout();
         }
     }
-    /**
-     * Populates user from a jwt
-     * @function
-     * @param {String} jwt 
-     * @returns {Object}
-     */
-    populateUserFromJWT = async(jwt) => {
-        if(jwt===undefined||jwt===null||jwt===""){
-            this.setState({profile:false});
-            return null;
-        }
-        let response = await this.props.feathersClient.passport.verifyJWT(jwt);
-        response = await this.props.services.users.get(response.userId);
-        var user = response.value;
-        if(user.email===undefined||user.email===""){
-            this.setState({profile:false});
-            return null;
-        }
-        user.token = window.localStorage.getItem('feathers-jwt');
-        this.props.redux.actions.user.login(user);
-        this.setState({profile:true});
-        return user;
-    }
+
     /**
      * Popultes escape rooms by user ID
      * @function
@@ -117,48 +90,85 @@ class Main extends Component {
     populateEscapeRooms = async (userId) => {
         //Get User Details and Update Redux Store
         if (userId !== null && userId !== undefined){
-            let queryResult = await this.props.services['escape-rooms'].find({query:{userId:userId}});
-            if(queryResult.action.type.includes('FULFILLED')){
-                const escapeRooms = queryResult.value.data;
-                if (escapeRooms!==null && escapeRooms!==undefined)
-                    this.props.redux.actions.escapeRooms.updateEscapeRooms(escapeRooms);
-                    this.setState({loading:false});
+            try{
+                let result = await this.props.services['escape-rooms'].find({query:{userId:userId}});
+                if(result.action.type.includes('FULFILLED')){
+                    const escapeRooms = result.value.data;
+                    if (escapeRooms!==null && escapeRooms!==undefined){
+                        this.props.redux.actions.escapeRooms.updateEscapeRooms(escapeRooms);
+                        this.setState({loading:false});
+                    }
                 }
+                return true;
+            }catch(e){
+                // User Not Verified
+                if(e.message.includes("verified")){
+                    return false;
+                } else {
+                    return true;
+                }
+            }
         }
     }
-    /**
-     * Logs out user, tidys up
-     * @function
+
+    /** 
+     * Logs out user, tidys up 
+     * @function 
      */
     logout = () => {
+        this.props.feathersClient.logout();
         window.localStorage.removeItem('feathers-jwt');
         this.setState({profile:null});
         this.props.redux.actions.user.logout();
         this.props.history.push('/');
     }
+
     /**
-     * Updates users details 
+     * Edits a users email
      * @function
-     * @param {Object} update
+     * @param {String} email
+     * @param {String} password
+     * @param {Object} change
+     * @returns {Object} 
      */
-    updateUser = async (update) => {
-        try{
-            const user = this.props.redux.state.user;
-            let response = await this.props.services.users.patch(user._id,update);
-            this.props.redux.actions.user.login(response.value);
-            return true;
-        }catch(error){
-            return error.message;
+    identityChange = async(user, password, changes) => {
+        try {
+            let result = await this.props.services['auth-management'].create({action:'identityChange',value:{user,password,changes}});
+            if(result.action.type.include('FULFILLED')){
+                return {color:"success", message:"Email Saved"};
+            } else {
+                return {color:"danger", message:"Error"}
+            }
+        } catch(error){
+            return {color:"warning", message: "An error has occured, changed may have been made"};
         }
     }
+
+    /**
+     * Sends Password Reset
+     * @function
+     * @returns {Object}
+     */
+    sendPasswordReset = async() => {
+        try {
+            let result = await this.props.services['auth-management'].create({action:'sendResetPwd', value:{email:this.props.redux.state.user.email},notifierOptions:{}});
+            if(result.action.type.include('FULFILLED')){
+                return {color:"success", message:"Email Saved"};
+            } else {
+                return {color:"danger", message:"Error"}
+            }
+        } catch(error){
+            return {color:"warning", message:"An error has occured, a password reset email may have been sent"};
+        }
+    }
+
     /**
      * React lifecycle method 
      * Renders main layout
-     * @function
      * @returns {JSX}
      */
     render() {
-        const loading = this.state.loading || this.props.redux.state.usersService.isLoading || this.props.redux.state.escapeRoomsService.isLoading;
+        const loading = this.state.loading || this.props.redux.state.usersService.isLoading || this.props.redux.state.escapeRoomsService.isLoading || this.props.redux.state.authManagementService.isLoading;
         const modal = this.props.redux.state.modal;
         const hideModal = this.props.redux.actions.modal.hideModal;
         let user = this.props.redux.state.user;
@@ -170,7 +180,7 @@ class Main extends Component {
                 Profile
                 </DropdownToggle>
                 <DropdownMenu right>
-                    <Profile user={user} updateUser={this.updateUser}/>
+                    <Profile user={user} identityChange={this.identityChange} sendPasswordReset={this.sendPasswordReset}/>
                     <Button id="LogoutButton" onClick={this.logout} block>Logout</Button>
                 </DropdownMenu>
             </Dropdown>
@@ -182,13 +192,10 @@ class Main extends Component {
                 <LoadingOverlay className={'loading-overlay'} active={loading} spinner>       
                     <header>
                         <Navbar color="light" light expand="md">
-                            <NavbarBrand href="/"><img src="/images/logos/main.svg" alt="Logo"/></NavbarBrand>
+                            <NavbarBrand href="/#/"><img src="/images/logos/main.svg" alt="Logo"/></NavbarBrand>
                             <NavbarToggler onClick={this.toggle} />
                             <Collapse isOpen={this.state.isOpen} navbar>
                                 <Nav className="ml-auto" navbar>
-                                <NavItem>
-                                    <NavLink href="https://forms.office.com/Pages/ResponsePage.aspx?id=nKagUU8OPUu2QhLgExmGNYQo7GuPpvBIkCZBfnEHlpZUOUZWQkVHTlNCOVNQS0xOWlMyTzZSRjU2Mi4u">Survey</NavLink>
-                                </NavItem>
                                 <NavItem>
                                     <NavLink href="https://github.com/AldoAbdn/Escape-Room-Generator">GitHub</NavLink>
                                 </NavItem>
@@ -227,5 +234,12 @@ class Main extends Component {
         )
     }
 };
+
+Main.propTypes = {
+    redux: PropTypes.object,
+    history: PropTypes.object,
+    services: PropTypes.array,
+    feathersClient: PropTypes.object,
+}
 
 export default Main;

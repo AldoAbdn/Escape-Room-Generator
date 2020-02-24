@@ -5,20 +5,44 @@ import classnames from 'classnames';
 import { saveAs } from 'file-saver';
 import {escapeRoomToPDF} from '../pdf/pdf';
 import EscapeRoom from '../models/EscapeRoom';
+import PropTypes from 'prop-types';
 import '../styles/EscapeRoomDesigner.css';
 
+/**
+ * Class for Designing an Escape Room, Manages tabs
+ * @extends Component
+ * @author Alistair Quinn
+ */
 class EscapeRoomDesigner extends Component {
+    /** Creates EscapeRoom Designer */
     constructor(){
         super();
         this.state = {activeTab:'design', dropdownOpen: false};
     }
+
+    /**
+     * Saves an EscapeRoom as JSON
+     * @param {EscapeRoom} escapeRoom 
+     */
     saveJSON(escapeRoom) {
         const blob = new Blob([JSON.stringify(escapeRoom)],{type:'text/plain;charset=utf-8'});
         saveAs(blob, escapeRoom.details.name+".json");
     }
+
+    /**
+     * Saves Escape Room as PDF
+     * @param {EscapeRoom} escapeRoom 
+     */
     savePDF(escapeRoom) {
         escapeRoomToPDF(escapeRoom);
     }
+
+    /**
+     * Handles Button Clicks
+     * @function
+     * @param {string} action
+     * @param {Event} e
+     */
     handleClick = (action) => (e) => {
         switch(action){
             case 'EXIT':
@@ -39,9 +63,20 @@ class EscapeRoomDesigner extends Component {
                 return;
         }
     }
+
+    /**
+     * Toggles Bool
+     * @param {Event} e
+     */
     handleToggle = (e) => {
         this.setState({dropdownOpen: !this.state.dropdownOpen});
     }
+
+    /**
+     * Toggles Active Tab
+     * @param {string} tab
+     * @param {Event} e 
+     */
     handleNav = (tab) => (e) => {
         if (this.state.activeTab !== tab) {
             this.setState({
@@ -49,17 +84,26 @@ class EscapeRoomDesigner extends Component {
             })
         }
     }
+
+    /** React Lifecycle Called when Component Mounts */
     componentDidMount(){
         const escapeRoom = this.props.escapeRoom;
         if(escapeRoom===undefined){
             this.props.history.push('/');
         }
     }
+
+    /** React Lifecycle Called when Components Updates */
     componentDidUpdate(prevProps,prevState){
         if(prevState.activeTab!==this.state.activeTab){
             this.toggleSvgs();
         }
     }
+
+    /** 
+     * Hides SVGs when design not current tab
+     * @function 
+     */
     toggleSvgs=()=>{
         let lines = document.querySelectorAll("body > div:not(#root)");
         if(this.state.activeTab!=="design"){
@@ -72,9 +116,18 @@ class EscapeRoomDesigner extends Component {
             }
         }
     }
+
+    /**
+     * Calculates Output of Component
+     */
     calculateOutput=(id)=>{
         return EscapeRoom.calculateComponentOutput(this.props.escapeRoom,id);
     }
+
+    /** 
+     * React Lifecycle Render
+     * @returns {JSX}
+     */
     render() {
         return (
             <Container fluid>
@@ -140,5 +193,18 @@ class EscapeRoomDesigner extends Component {
         )
     }
 };
+
+EscapeRoomDesigner.propTypes = {
+    saveEscapeRoom: PropTypes.func,
+    escapeRoom: PropTypes.instanceOf(EscapeRoom),
+    history: PropTypes.object,
+    updateDetails: PropTypes.func,
+    updateAccessibility: PropTypes.func,
+    addComponent: PropTypes.func,
+    removeComponent: PropTypes.func,
+    updateComponent: PropTypes.func,
+    addRelationship: PropTypes.func,
+    removeRelationship: PropTypes.func,
+}
 
 export default EscapeRoomDesigner;

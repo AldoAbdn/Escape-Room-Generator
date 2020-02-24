@@ -1,12 +1,25 @@
 import React, {Component}  from 'react';
 import {Row, Col, Button, Input, InputGroup, InputGroupAddon, InputGroupText} from 'reactstrap';
+import PropTypes from 'prop-types';
+import EscapeRoom from '../models/EscapeRoom';
 
+/**
+ * Class for ListCreator
+ * @extends Component
+ * @author Alistair Quinn
+ */
 class ListCreator extends Component {
+    /** Creates ListCreator */
     constructor(){
         super();
         this.state = {items:[""]};
     }
 
+    /**
+     * Handles Input Change
+     * @function
+     * @param {Event} event
+     */
     handleChange = (event) => { 
         let index = event.target.id;
         let items = [...this.state.items];
@@ -16,13 +29,22 @@ class ListCreator extends Component {
         });
     }
 
-    addItem =  (e) => {
+    /**
+     * Adds a string to items
+     * @function
+     * @param {Event} e
+     */
+    addItem = (e) => {
         let items = [...this.state.items];
         items.push("");
         this.setState({items});
         this.props.handleChange(items);
     }
 
+    /**
+     * Removes an item from the 
+     * @param {Event} e
+     */
     removeItem = (index) => (e) => {
         let items = [...this.state.items];
         items = [...items.slice(0,index),...items.slice(index+1)];
@@ -30,6 +52,13 @@ class ListCreator extends Component {
         this.props.handleChange(items);
     }
     
+    /**
+     * Maps items to Inputs
+     * @param {string} item
+     * @param {int} index
+     * @param {Array} array
+     * @returns {JSX}
+     */
     mapItemsToInputs = (item,index,array)=>{
         return (
             <InputGroup key={index}>
@@ -43,6 +72,10 @@ class ListCreator extends Component {
         )
     }
 
+    /** 
+     * React Lifecycle Render
+     * @returns {JSX}
+     */
     render() {
         let items = this.state.items.map(this.mapItemsToInputs);
         return (
@@ -55,5 +88,18 @@ class ListCreator extends Component {
         )
     }
 };
+
+ListCreator.propTypes = {
+    saveEscapeRoom: PropTypes.func,
+    escapeRoom: PropTypes.instanceOf(EscapeRoom),
+    updateDetails: PropTypes.func,
+    updateAccessibility: PropTypes.func,
+    showModal: PropTypes.func,
+    addComponent: PropTypes.func,
+    removeComponent: PropTypes.func,
+    updateComponent: PropTypes.func,
+    addRelationship: PropTypes.func,
+    removeRelationship: PropTypes.func
+}
 
 export default ListCreator;

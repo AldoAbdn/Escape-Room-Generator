@@ -1,38 +1,17 @@
 import { Area } from ".";
-export default class EscapeRoom {
+import Details from './Details';
+import Accessibility from './Accessibility';
+
+/**
+ * Class for EscapeRoom
+ * @author Alistair Quinn
+ */
+class EscapeRoom {
     constructor(userId){
         this.userId = userId;
-        this.details = {
-            name: "Unnamed",
-            designers: "",
-            theme: "",
-            minPlayers: "",
-            maxPlayers: "",
-            targetTime: "",
-            difficulty: "3",
-            objective: "",
-            description: "",
-            estimatedCost: ""
-        }
-        this.accessibility = {   
-            visual:{
-                protanomaly: false,
-                protanopia: false,
-                deuteranomaly: false,
-                deuteranopia: false,
-                tritanomaly: false,
-                tritanopia: false,
-                coneMonochromacy: false,
-                rodMonochromacy: false,
-                largeFonts: false,
-                highContrast: false
-            },
-            physical:{
-                wheelchairAccessible: false,
-                motorAccessible: false
-            } 
-        }
-        this.components = [new Area()]
+        this.details = new Details();
+        this.accessibility = new Accessibility();
+        this.components = [new Area()];
     }  
 
     static calculateCost(escapeRoom){
@@ -73,3 +52,5 @@ export default class EscapeRoom {
         }
     }
 }
+
+export default EscapeRoom;

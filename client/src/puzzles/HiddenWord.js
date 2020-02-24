@@ -1,4 +1,10 @@
 import Puzzle from './Puzzle';
+
+/**
+ * Class for HiddenWord
+ * @extends Puzzle
+ * @author Alistair Quinn
+ */
 class HiddenWord extends Puzzle{
     constructor(word,words,hints,answers){
         super('HiddenWord');
@@ -19,4 +25,5 @@ class HiddenWord extends Puzzle{
         return matrix;
     }
 }
+
 export default HiddenWord;

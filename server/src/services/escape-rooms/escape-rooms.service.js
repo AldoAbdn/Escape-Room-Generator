@@ -1,21 +1,20 @@
-// Initializes the `escape-rooms` service on path `/escape-rooms`
-const createService = require('feathers-mongodb');
+// Initializes the `escape rooms` service on path `/escaperooms`
+const { EscapeRooms } = require('./escape-rooms.class');
 const hooks = require('./escape-rooms.hooks');
 
+/**
+ * Registers Escape Rooms Service
+ */
 module.exports = function (app) {
-  const paginate = app.get('paginate');
-  const mongoClient = app.get('mongoClient');
-  const options = { paginate };
+  const options = {
+    paginate: app.get('paginate')
+  };
 
   // Initialize our service with any options it requires
-  app.use('/escape-rooms', createService(options));
+  app.use('/escape-rooms', new EscapeRooms(options, app));
 
-  // Get our initialized service so that we can register hooks and filters
+  // Get our initialized service so that we can register hooks
   const service = app.service('escape-rooms');
-
-  mongoClient.then(db => {
-    service.Model = db.collection('escape-rooms');
-  });
 
   service.hooks(hooks);
 };

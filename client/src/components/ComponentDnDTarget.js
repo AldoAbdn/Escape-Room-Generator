@@ -1,13 +1,24 @@
 import React, {Component}  from 'react';
 import { Card, CardBody, UncontrolledTooltip } from 'reactstrap';
-import '../styles/Component.css';
 import { DropTarget } from 'react-dnd';
-import { Puzzle, Event, Music, Lock, Prop } from '../models/index';
+import { Area, Puzzle, Event, Music, Lock, Prop } from '../models/index';
+import PropTypes from 'prop-types';
+import '../styles/Component.css';
 
+/**
+ * Drag sources and drop targets only interact
+ * if they have the same string type.
+ * You want to keep types in a separate file with
+ * the rest of your app's constants.
+ */
 const Types = {
     COMPONENT: 'COMPONENT'
 }
 
+/**
+ * Specifies the drop target contract.
+ * All methods are optional.
+ */
 const componentTarget = {
     drop(props,monitor,component){
         if (monitor.didDrop()){
@@ -20,6 +31,12 @@ const componentTarget = {
     }
 }
 
+/**
+ * Specifies which props to inject into your component.
+ * @param {Connect} connect
+ * @param {Monitor} monitor
+ * @returns {object} Props
+ */
 function collect(connect, monitor) {
     return {
         connectDropTarget: connect.dropTarget(),
@@ -30,7 +47,17 @@ function collect(connect, monitor) {
     }
 }
 
+/**
+ * Class for Component drag and drop target for components 
+ * @extends Component
+ * @author Alistair Quinn
+ */
 class ComponentDnDTarget extends Component {
+    /**
+     * Handles Component Drop
+     * @param {Component} item 
+     * @param {bool} isInput 
+     */
     handleComponentDrop(item,isInput=true){
         var component = null;
         if (item.id!==undefined){
@@ -59,8 +86,12 @@ class ComponentDnDTarget extends Component {
             if(component._id!==this.props.component._id)
                 this.props.addRelationship(component._id,this.props.component._id,isInput);
         }
-
     }
+
+    /** 
+     * React Lifecycle Render
+     * @returns {JSX}
+     */
     render() {
         let id=this.props.component._id;
         var classNames = "hide-border";
@@ -94,5 +125,15 @@ class ComponentDnDTarget extends Component {
         )
     }
 };
+
+ComponentDnDTarget.propTypes = {
+    addComponent: PropTypes.func,
+    component: PropTypes.instanceOf(Area),
+    addRelationship: PropTypes.func,
+    isOver: PropTypes.bool,
+    canDrop: PropTypes.bool,
+    isInput: PropTypes.bool,
+    handleComponentClick: PropTypes.func
+}
 
 export default DropTarget(Types.COMPONENT, componentTarget, collect)(ComponentDnDTarget);

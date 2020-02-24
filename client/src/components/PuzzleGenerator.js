@@ -2,38 +2,76 @@ import React, {Component}  from 'react';
 import {Row,Col,Button,Input} from 'reactstrap'
 import puzzleGenerator from '../generators/PuzzleGenerator';
 import ListCreator from '../components/ListCreator';
+import PropTypes from 'prop-types';
+import { Puzzle } from '../puzzles';
 
+/** 
+ * Class for PuzzleGenerator
+ * @extends Component
+ * @author Alistair Quinn
+ */
 class PuzzleGenerator extends Component {
+    /** Creates PuzzleGenerator */
     constructor(){
         super();
         this.state = {word:"",words:[],hints:[],answers:[],cipher:"pigpen"};
         this.PuzzleGenerator = new puzzleGenerator();
     }
 
-    //Changes state on input change
-    handleChange = (event) => { 
+    /**
+     * Handles Input Change
+     * @function
+     * @param {Event} e
+     */
+    handleChange = (e) => { 
         this.setState({
-            [event.target.id]: event.target.value
+            [e.target.id]: e.target.value
         });
     }
 
+    /**
+     * Handles List Change
+     * @function
+     * @param {String} key
+     * @param {Array} list
+     */
     handleListChange = (key) => (list) => {
         this.setState({[key]:list});
     }
 
+    /**
+     * Handles Word Puzzle Click
+     * @function
+     * @param {Event} e
+     */
     handleWordClick = (e) => {
         let options = {...this.state};
         this.props.handlePuzzleChange(this.PuzzleGenerator.generateWord('hidden',options))
     }
 
+    /**
+     * Handles Riddle Puzzle Click
+     * @function
+     * @param {Event} e
+     */
     handleRiddleClick = (e) => {
         this.props.handlePuzzleChange(this.PuzzleGenerator.generateWord('riddle'))
     }
 
+    /**
+     * Handles Cipher Puzzle Click
+     * @function
+     * @param {Event} e
+     */
     handleCipherClick = (e) => {
         this.props.handlePuzzleChange(this.PuzzleGenerator.generateCipher(this.state.cipher))
     }
 
+    /** 
+     * React Lifecycle Method
+     * Renders Layout
+     * @returns {JSX}
+     */
     render() {
         switch(this.props.puzzleType){
             case 'Hidden Word':
@@ -75,6 +113,11 @@ class PuzzleGenerator extends Component {
         }
 
     }
-};
+}
+
+PuzzleGenerator.propTypes = {
+    puzzleType: PropTypes.string,
+    handlePuzzleChange: PropTypes.func,
+}
 
 export default PuzzleGenerator;

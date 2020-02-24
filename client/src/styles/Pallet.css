@@ -1,8 +1,10 @@
+/* Styles for Pallet Component */
+
 .pallet {
     margin-bottom: 10vh;
 }
 .pallet-item {
-    width: 100px; height: 100px;
+    width: 5vw; height: 5vw;
     margin: auto;
     margin-top: 1rem;
     position: relative !important;

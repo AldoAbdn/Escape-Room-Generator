@@ -1,19 +1,40 @@
 import React, {Component} from 'react';
 import { Container, Row, Col, Card, CustomInput, UncontrolledTooltip } from 'reactstrap';
+import PropTypes from 'prop-types';
 import '../styles/Accessibility.css';
 
+/** 
+ * Class for Editing an EscapeRoom's Accessibility 
+ * @extends Component 
+ * @author Alistair Quinn
+ */
 class Accessibility extends Component {
+    /** 
+     * Updates visual changes 
+     * @function
+     * @param {Event} event
+     */
     handleVisualChange = (event) => {
         var state = {...this.props.accessibility};
         state.visual[event.target.id] = event.target.value===true?false:true;
         this.props.updateAccessibility(state);
     }
-    //Changes state on input change
+
+    /** 
+     * Updates physical change 
+     * @function
+     * @param {Event} event
+     */
     handlePhysicalChange = (event) => {
         var state = {...this.props.accessibility};
         state.physical[event.target.id] = event.target.value===true?false:true;
         this.props.updateAccessibility(state);
     }
+
+    /** 
+     * React Lifecycle Render
+     * @returns {JSX}
+     */
     render(){
         return (
             <Container fluid className="accessibility">
@@ -145,6 +166,10 @@ class Accessibility extends Component {
             </Container>
         )
     }
+}
+
+Accessibility.propTypes = {
+    accessibility: PropTypes.instanceOf(Accessibility)
 }
 
 export default Accessibility;

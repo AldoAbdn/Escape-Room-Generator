@@ -1,5 +1,11 @@
 import Component from './Component';
-export default class Music extends Component {
+
+/**
+ * Class for Music
+ * @extends Component
+ * @author Alistair Quinn
+ */
+class Music extends Component {
     constructor(){
         super();
         this.startTime="";
@@ -7,3 +13,5 @@ export default class Music extends Component {
         this.type="Music";
     }   
 }
+
+export default Music;

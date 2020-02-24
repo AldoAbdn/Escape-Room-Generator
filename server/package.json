@@ -1,15 +1,15 @@
 {
   "name": "escape-room-generator-server",
-  "description": "Honours Project for Computing: Application Software Development at RGU. Web app for designing an escape room. ",
-  "version": "1.1.0",
-  "homepage": "http://escape-room-generator.herokuapp.com",
+  "description": "Server that provides an API for updating escape rooms ",
+  "version": "1.2.0",
+  "homepage": "",
   "main": "src",
   "keywords": [
     "feathers"
   ],
   "author": {
-    "name": "Alistair Quinn",
-    "email": "1701183@rgu.ac.uk"
+    "name": "AldoAbdn",
+    "email": "escaperoomgenerator@gmail.com"
   },
   "contributors": [],
   "bugs": {},
@@ -19,39 +19,44 @@
     "config": "config/"
   },
   "engines": {
-    "node": "^10.0.0",
+    "node": "^12.0.0",
     "npm": ">= 3.0.0"
   },
   "scripts": {
-    "test": "npm run eslint && NODE_ENV= npm run mocha",
+    "test": "npm run eslint && npm run mocha",
     "eslint": "eslint src/. test/. --config .eslintrc.json",
     "dev": "nodemon src/",
-    "start": "NODE_ENV=production node src/",
+    "start": "node src/",
     "mocha": "mocha test/ --recursive --exit"
   },
   "dependencies": {
-    "@feathersjs/authentication": "^2.1.15",
-    "@feathersjs/authentication-jwt": "^2.0.9",
-    "@feathersjs/authentication-local": "^1.2.9",
-    "@feathersjs/configuration": "^2.0.6",
-    "@feathersjs/errors": "^3.3.6",
-    "@feathersjs/express": "^1.3.1",
-    "@feathersjs/feathers": "^3.3.1",
-    "@feathersjs/socketio": "^3.2.9",
-    "compression": "^1.7.3",
+    "@feathersjs/authentication": "^4.3.10",
+    "@feathersjs/authentication-local": "^4.3.10",
+    "@feathersjs/authentication-oauth": "^4.3.10",
+    "@feathersjs/configuration": "^4.3.10",
+    "@feathersjs/errors": "^4.3.10",
+    "@feathersjs/express": "^4.3.10",
+    "@feathersjs/feathers": "^4.3.10",
+    "@feathersjs/socketio": "^4.3.10",
+    "@feathersjs/transport-commons": "^4.3.10",
+    "compression": "^1.7.4",
     "cors": "^2.8.5",
-    "feathers-mongodb": "^4.0.2",
-    "helmet": "^3.15.0",
-    "mongodb": "^3.1.10",
-    "mongodb-core": "^3.1.9",
+    "feathers-authentication-management": "^2.0.1",
+    "feathers-hooks-common": "^4.20.7",
+    "feathers-mailer": "^3.0.1",
+    "feathers-mongodb": "^6.0.0",
+    "helmet": "^3.21.2",
+    "mongodb": "^3.3.3",
+    "mongodb-core": "^3.2.7",
+    "nodemailer-smtp-transport": "^2.7.4",
     "serve-favicon": "^2.5.0",
-    "winston": "^3.1.0"
+    "winston": "^3.2.1",
+    "zxcvbn": "^4.4.2"
   },
   "devDependencies": {
-    "eslint": "^5.12.0",
-    "mocha": "^5.2.0",
-    "nodemon": "^1.18.9",
-    "request": "^2.88.0",
-    "request-promise": "^4.2.2"
+    "axios": "^0.19.0",
+    "eslint": "^6.6.0",
+    "mocha": "^6.2.2",
+    "nodemon": "^1.19.4"
   }
 }

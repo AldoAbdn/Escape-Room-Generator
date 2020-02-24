@@ -5,11 +5,23 @@ import '../styles/Component.css';
 import { DropTarget } from 'react-dnd';
 import ComponentDnDSource from './ComponentDnDSource';
 import { Puzzle, Prop, Lock, Music, Event } from '../models/index.js';
+import Area from '../models/Area';
+import PropTypes from 'prop-types';
 
+/**
+ * Drag sources and drop targets only interact
+ * if they have the same string type.
+ * You want to keep types in a separate file with
+ * the rest of your app's constants.
+ */
 const Types = {
     COMPONENT: 'COMPONENT'
 }
 
+/**
+ * Specifies the drop target contract.
+ * All methods are optional.
+ */
 const componentTarget = {
     drop(props,monitor,component){
         if (monitor.didDrop() || !component || typeof props.component===undefined){
@@ -18,12 +30,19 @@ const componentTarget = {
         const item = monitor.getItem();
         let clientOffset = monitor.getClientOffset();
         let targetRect = ReactDOM.findDOMNode(component).getBoundingClientRect();
-        item.position = {top:(((clientOffset.y-targetRect.y)/targetRect.height)*100)+"%",left:(((clientOffset.x-targetRect.x)/targetRect.width)*100)+"%"};
+        let offset = component.state.width * 0.025;
+        item.position = {top:(((clientOffset.y-targetRect.y-offset)/targetRect.height)*100)+"%",left:(((clientOffset.x-targetRect.x-offset)/targetRect.width)*100)+"%"};
         component.handleComponentDrop(item);
         return {moved:true};
     }
 }
 
+/**
+ * Specifies which props to inject into your component.
+ * @param {Connect} connect
+ * @param {Monitor} monitor
+ * @returns {object} Props
+ */
 function collect(connect, monitor) {
     return {
         connectDropTarget: connect.dropTarget(),
@@ -34,14 +53,44 @@ function collect(connect, monitor) {
     }
 }
 
+/**
+ * Class for Area drag and drop target for components 
+ * @extends Component
+ * @author Alistair Quinn
+ */
 class AreaDnDTarget extends Component {
-    constructor(props){
-        super(props)
-        this.state={render:true,screenWidth:0,screenHeight:0};
+    /** Creates AreaDnDTarget */
+    constructor(){
+        super();
+        this.state = { width: 0, height: 0};
     }
-    updateScreenSize=()=>{
-        this.setState({screenWidth:window.innerHeight,screenHeight:window.innerHeight})
+
+    /**
+     * React Lifecycle Method
+     * Called when compoent mounts
+     */
+    componentDidMount() {
+        this.updateScreenDimensions();
+        window.addEventListener("resize", this.updateScreenDimensions);
     }
+
+    /**
+     * React Lifecycle Method
+     * Called when component will unmount
+     */
+    componentWillUnmount(){
+        window.removeEventListener("resize", this.updateScreenDimensions);
+    }
+
+    updateScreenDimensions = () => {
+        this.setState({ width: window.innerWidth, height: window.innerHeight });
+    }
+
+    /** 
+     * Adds new components and updates existing
+     * @param {Component} item
+     * @param {bool} isInput 
+     */
     handleComponentDrop(item,isInput=false){
         var component = null;
         if (item.id!==undefined && item._id === undefined){
@@ -75,13 +124,11 @@ class AreaDnDTarget extends Component {
             this.props.updateComponent(component,this.props.component._id);
         }
     }
-    componentDidMount(){
-        this.updateScreenSize();
-        window.addEventListener('resize', this.updateScreenSize);
-    }
-    componentWillUnmount(){
-        window.removeEventListener('resize',this.updateScreenSize);
-    }
+
+    /** 
+     * React Lifecycle Render
+     * @returns {JSX}
+     */
     render() {
         var classNames = "Area";
         if(this.props.isOver && this.props.canDrop){
@@ -107,5 +154,19 @@ class AreaDnDTarget extends Component {
         )
     }
 };
+
+AreaDnDTarget.propTypes = {
+    component: PropTypes.instanceOf(Area),
+    outputComponents: PropTypes.array,
+    isOver: PropTypes.bool,
+    canDrop: PropTypes.bool,
+    addComponent: PropTypes.func,
+    removeComponent: PropTypes.func,
+    updateComponent: PropTypes.func,
+    addRelationship: PropTypes.func,
+    findComponent: PropTypes.func,
+    showModal: PropTypes.func,
+    handleComponentClick: PropTypes.func,
+}
 
 export default DropTarget(Types.COMPONENT, componentTarget, collect)(AreaDnDTarget);

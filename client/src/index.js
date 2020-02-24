@@ -7,14 +7,14 @@ import 'react-app-polyfill/ie9';
 //React Imports 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 //Redux Imports
 import { Provider } from 'react-redux';
 //Store 
 import configureStore from './stores/store'
 //Feathers
 import io from 'socket.io-client';
-import feathers from 'feathers-client';
+import feathers from '@feathersjs/client';
 //Feathers-Redux
 import reduxifyServices, {getServicesStatus, bindWithDispatch} from 'feathers-redux';
 //CSS
@@ -44,13 +44,10 @@ let backend = MultiBackend(pipline);
 //Feathers Configuration 
 export const feathersClient = feathers()
     .configure(feathers.socketio(io()))
-    .configure(feathers.hooks())
-    .configure(feathers.authentication({
-        storage:window.localStorage
-    }));
+    .configure(feathers.authentication());
 
 //Configure Redux
-const rawServices = reduxifyServices(feathersClient, ['users', 'escape-rooms']);
+const rawServices = reduxifyServices(feathersClient, ['users', 'escape-rooms', 'auth-management']);
 const store = configureStore(rawServices,{user:{},escapeRooms:[],escapeRoom:{}});
 const services = bindWithDispatch(store.dispatch, rawServices);
 
@@ -58,9 +55,9 @@ const services = bindWithDispatch(store.dispatch, rawServices);
 const router = (
     <DragDropContextProvider backend={backend}>
         <Provider store={store}>
-            <BrowserRouter>
+            <HashRouter>
                 <App feathersClient={feathersClient} services={services} getServicesStatus={getServicesStatus}/>
-            </BrowserRouter>
+            </HashRouter>
         </Provider>
     </DragDropContextProvider>
 );

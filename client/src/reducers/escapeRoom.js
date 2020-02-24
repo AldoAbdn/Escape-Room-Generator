@@ -1,4 +1,11 @@
 import EscapeRoom from '../models/EscapeRoom';
+
+/**
+ * Reducer for Escape Room State
+ * @param {EscapeRoom} state 
+ * @param {Action} action 
+ * @returns {EscapeRoom}
+ */
 function escapeRoom(state={},action){
     let newState = {};
     let i;

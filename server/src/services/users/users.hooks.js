@@ -1,32 +1,49 @@
-const { authenticate } = require('@feathersjs/authentication').hooks;
-
-const {
-  hashPassword, protect
-} = require('@feathersjs/authentication-local').hooks;
-
+// Feathers hooks
+const auth = require('@feathersjs/authentication').hooks;
+const authlocal = require('@feathersjs/authentication-local').hooks;
+const verifyHooks = require('feathers-authentication-management').hooks;
+const commonHooks = require('feathers-hooks-common');
+// Custom hooks
 const gravatar = require('../../hooks/gravatar');
-const checkIfExists = require('../../hooks/checkIfExists');
+const credentialsCheck = require('../../hooks/credentialsCheck');
+const passwordCheck = require('../../hooks/passwordCheck');
+const convertID = require('../../hooks/convertID');
+const notifier = require('../auth-management/notifier');
 
+/** Hoosk for user service */
 module.exports = {
   before: {
-    all: [],
-    find: [ authenticate('jwt') ],
-    get: [ authenticate('jwt') ],
-    create: [hashPassword(), checkIfExists() ,gravatar()],
-    update: [ hashPassword(),  authenticate('jwt') ],
-    patch: [ hashPassword(),  authenticate('jwt') ],
-    remove: [ authenticate('jwt') ]
+    all: [convertID()],
+    find: [ auth.authenticate('jwt') ],
+    get: [ auth.authenticate('jwt') ],
+    create: [ authlocal.hashPassword('password'), credentialsCheck(), passwordCheck(), gravatar(), verifyHooks.addVerification("auth-management") ],
+    update: [ commonHooks.disallow('external')],
+    patch: [ auth.authenticate('jwt'), commonHooks.iff(
+      commonHooks.isProvider('external'),
+        commonHooks.preventChanges(true,
+          'isVerified',
+          'verifyToken',
+          'verifyShortToken',
+          'verifyExpires',
+          'verifyChanges',
+          'resetToken',
+          'resetShortToken',
+          'resetExpires'
+        ),
+        auth.authenticate('jwt')
+      ) ],
+    remove: [ auth.authenticate('jwt') ]
   },
 
   after: {
     all: [ 
       // Make sure the password field is never sent to the client
       // Always must be the last hook
-      protect('password')
+      authlocal.protect('password')
     ],
     find: [],
     get: [],
-    create: [],
+    create: [ context => {notifier(context.app).notifier('resendVerifySignup', context.result)}, verifyHooks.removeVerification() ],
     update: [],
     patch: [],
     remove: []
