@@ -76,7 +76,6 @@ class Main extends Component {
                 const verified = await this.populateEscapeRooms(user._id);
                 user.verified = verified;
                 this.props.redux.actions.user.login(user);
-                this.props.history.push('/dashboard');
             }
         } catch(error){
             this.logout();

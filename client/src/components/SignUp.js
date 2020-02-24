@@ -134,7 +134,7 @@ class Signup extends Component {
                                     </div>
                                 </FormGroup>
                                 <FormGroup>
-                                    <Button block disabled={this.state.email==="" || this.state.password==="" || this.state.message!=="" || !this.state.recaptcha}>Login</Button>
+                                    <Button block disabled={this.state.email==="" || this.state.password==="" || this.state.message!=="" || !this.state.recaptcha}>Sign Up</Button>
                                 </FormGroup>
                                 <FormText>
                                     Passwords must be strong and 8 characters in length or more
