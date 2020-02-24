@@ -15,7 +15,7 @@ class About extends Component {
     render() {
         return (
             <div className="full-container verticaly-center-content">
-                <Container fluid>
+                <Container>
                     <Row>
                         <Col>
                             <p>

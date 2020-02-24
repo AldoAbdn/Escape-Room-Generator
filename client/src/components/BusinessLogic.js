@@ -14,6 +14,13 @@ import PropTypes from 'prop-types';
  */
 class BusinessLogic extends Component {
     /**
+     * React lifecycle method
+     */
+    componentWillReceiveProps(){
+        this.setState({user:this.props.redux.state.user});
+    }
+
+    /**
      * Popultes escape rooms by user ID
      * @param {String} userId
      * @returns {bool} success
@@ -211,8 +218,8 @@ class BusinessLogic extends Component {
                 <ConditionalRoute path="/signup" condition={!loggedIn} redirect={'/dashboard'} render={(routeProps) => (<Signup signUp={this.signUp}/>)}/>
                 <Route path="/about" component={About}/>
                 <Route path="/tutorials" component={Tutorials}/>
-                <ConditionalRoute exact path="/verify" condition={loggedIn} redirect={'/login'} render={(routeProps) => (<Verify token={routeProps.match.params.token} sendVerify={this.sendVerify}/>)}/>
-                <ConditionalRoute path="/verify/:token" condition={loggedIn} redirect={'/login'} render={(routeProps) => (<Verify token={routeProps.match.params.token} verify={this.verify} />)}/>
+                <ConditionalRoute exact path="/verify" condition={!user.isVerified && loggedIn} redirect={'/login'} render={(routeProps) => (<Verify token={routeProps.match.params.token} sendVerify={this.sendVerify}/>)}/>
+                <ConditionalRoute path="/verify/:token" condition={!user.isVerified && loggedIn} redirect={'/login'} render={(routeProps) => (<Verify token={routeProps.match.params.token} verify={this.verify} />)}/>
                 <ConditionalRoute exact path="/reset" condition={loggedIn} redirect={'/login'} component={Reset}/>
                 <ConditionalRoute path="/reset/:token" condition={loggedIn} redirect={'/login'} render={(routeProps) => (<Reset token={routeProps.match.params.token} reset={this.reset}/>)}/>
                 <Route component={NotFound}/>
