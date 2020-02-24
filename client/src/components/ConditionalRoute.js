@@ -15,12 +15,8 @@ class ConditionalRoute extends Component {
    * @returns {JSX}
    */
     render(){
-        if(this.props.condition!==undefined){
-            if(!this.props.condition){
-                return(<Redirect to={this.props.redirect} state={this.props.location}/>)
-            } else {
-                return (<Route {...this.props}/>)
-            }
+        if(!this.props.condition){
+            return(<Redirect to={this.props.redirect}/>)
         } else {
             return (<Route {...this.props}/>)
         }
