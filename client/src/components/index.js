@@ -18,7 +18,7 @@ import Login from './Login';
 import Signup from './SignUp';
 import About from './About';
 import Tutorials from './Tutorials';
-import ProtectedRoute from './ProtectedRoute';
+import ConditionalRoute from './ConditionalRoute';
 import NotFound from './NotFound';
 import LockGenerator from './LockGenerator';
 import PuzzleGenerator from './PuzzleGenerator';
@@ -35,5 +35,5 @@ import Reset from './Reset';
 
 /** All Components */
 export {
-    App, Main, BusinessLogic, Dashboard, Profile, EscapeRoomDesigner, Details, Pallet, ComponentArranger , AreaDnDSource, AreaDnDTarget, ComponentDnDSource, ComponentDnDTarget , ComponentDetails, Design, Accessibility, Login, Signup, About, Tutorials, ProtectedRoute, NotFound, LockGenerator, PuzzleGenerator, ListCreator, PasswordStrengthMeter, Verify, Reset
+    App, Main, BusinessLogic, Dashboard, Profile, EscapeRoomDesigner, Details, Pallet, ComponentArranger , AreaDnDSource, AreaDnDTarget, ComponentDnDSource, ComponentDnDTarget , ComponentDetails, Design, Accessibility, Login, Signup, About, Tutorials, ConditionalRoute, NotFound, LockGenerator, PuzzleGenerator, ListCreator, PasswordStrengthMeter, Verify, Reset
 }
