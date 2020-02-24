@@ -73,8 +73,7 @@ class Main extends Component {
             let { user } = await this.props.feathersClient.reAuthenticate();
             if(user!=null){
                 user.token = window.localStorage.getItem('feathers-jwt');
-                const verified = await this.populateEscapeRooms(user._id);
-                user.verified = verified;
+                await this.populateEscapeRooms(user._id);
                 this.props.redux.actions.user.login(user);
             }
         } catch(error){

@@ -14,6 +14,14 @@ import PropTypes from 'prop-types';
  */
 class BusinessLogic extends Component {
     /**
+     * React Lifecycle Method called when new props passed
+     * @param {Object} prop 
+     */
+    componentWillReceiveProps(prop){
+        this.forceUpdate();
+    }
+
+    /**
      * Popultes escape rooms by user ID
      * @param {String} userId
      * @returns {bool} success
@@ -201,8 +209,7 @@ class BusinessLogic extends Component {
         const escapeRoom = this.props.redux.state.escapeRoom;
         const escapeRoomActions = this.props.redux.actions.escapeRoom;
         const showModal = this.props.redux.actions.modal.showModal;
-        const loggedIn = window.localStorage.getItem("feathers-jwt") != null;
-        console.log(this.props);
+        const loggedIn = Object.entries(user).length !== 0 && user.constructor === Object; // Used to check if user is logged in
         return (
             <Switch>
                 <Redirect exact from="/" to="dashboard"/>
