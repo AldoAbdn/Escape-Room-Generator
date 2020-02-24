@@ -7,7 +7,7 @@ module.exports = function(app) {
     let protocol = app.get('protocol');
     protocol += "://";
     let host = app.get('host');
-    return `${protocol}${host}/${type}/${hash}`;
+    return `${protocol}${host}/#/${type}/${hash}`;
   }
 
   function sendEmail(email) {

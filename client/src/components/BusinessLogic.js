@@ -14,14 +14,6 @@ import PropTypes from 'prop-types';
  */
 class BusinessLogic extends Component {
     /**
-     * React Lifecycle Method called when new props passed
-     * @param {Object} prop 
-     */
-    componentWillReceiveProps(prop){
-        this.setState({user:prop});
-    }
-
-    /**
      * Popultes escape rooms by user ID
      * @param {String} userId
      * @returns {bool} success

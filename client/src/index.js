@@ -7,7 +7,7 @@ import 'react-app-polyfill/ie9';
 //React Imports 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 //Redux Imports
 import { Provider } from 'react-redux';
 //Store 
@@ -55,9 +55,9 @@ const services = bindWithDispatch(store.dispatch, rawServices);
 const router = (
     <DragDropContextProvider backend={backend}>
         <Provider store={store}>
-            <BrowserRouter>
+            <HashRouter>
                 <App feathersClient={feathersClient} services={services} getServicesStatus={getServicesStatus}/>
-            </BrowserRouter>
+            </HashRouter>
         </Provider>
     </DragDropContextProvider>
 );
