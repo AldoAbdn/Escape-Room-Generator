@@ -153,7 +153,7 @@ class Main extends Component {
      */
     sendPasswordReset = async() => {
         try {
-            let result = await this.props.services['auth-management'].create({action:'sendResetPwd', value:{email:this.props.redux.state.user.email}});
+            let result = await this.props.services['auth-management'].create({action:'sendResetPwd', value:{email:this.props.redux.state.user.email},notifierOptions:{}});
             if(result.action.type.include('FULFILLED')){
                 return {color:"success", message:"Email Saved"};
             } else {
