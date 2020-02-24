@@ -211,10 +211,10 @@ class BusinessLogic extends Component {
                 <ConditionalRoute path="/signup" condition={!loggedIn} redirect={'/dashboard'} render={(routeProps) => (<Signup signUp={this.signUp}/>)}/>
                 <Route path="/about" component={About}/>
                 <Route path="/tutorials" component={Tutorials}/>
-                <ConditionalRoute exact path="/verify" condition={user!={} && user.email != undefined && user.email != "" && loggedIn} redirect={'/login'} render={(routeProps) => (<Verify token={routeProps.match.params.token} sendVerify={this.sendVerify}/>)}/>
-                <ConditionalRoute path="/verify/:token" condition={user!={} && user.email != undefined && user.email != "" && loggedIn} redirect={'/login'} render={(routeProps) => (<Verify token={routeProps.match.params.token} verify={this.verify} />)}/>
-                <ConditionalRoute exact path="/reset" condition={user!={} && user.email != undefined && user.email != "" && loggedIn} redirect={'/login'} component={Reset}/>
-                <ConditionalRoute path="/reset/:token" condition={user!={} && user.email != undefined && user.email != "" && loggedIn} redirect={'/login'} render={(routeProps) => (<Reset token={routeProps.match.params.token} reset={this.reset}/>)}/>
+                <ConditionalRoute exact path="/verify" condition={loggedIn} redirect={'/login'} render={(routeProps) => (<Verify token={routeProps.match.params.token} sendVerify={this.sendVerify}/>)}/>
+                <ConditionalRoute path="/verify/:token" condition={loggedIn} redirect={'/login'} render={(routeProps) => (<Verify token={routeProps.match.params.token} verify={this.verify} />)}/>
+                <ConditionalRoute exact path="/reset" condition={loggedIn} redirect={'/login'} component={Reset}/>
+                <ConditionalRoute path="/reset/:token" condition={loggedIn} redirect={'/login'} render={(routeProps) => (<Reset token={routeProps.match.params.token} reset={this.reset}/>)}/>
                 <Route component={NotFound}/>
             </Switch> 
         )

@@ -71,7 +71,7 @@ class Profile extends Component {
                 else if(this.props.identityChange){
                     let result;
                     try{
-                        result = await this.props.identityChange(user.email, this.state.password, {email:this.state.email});
+                        result = await this.props.identityChange({email:user.email}, this.state.password, {email:this.state.email});
                     } catch(error) {
                         result = "An error occured, your email may have been changed"
                     }

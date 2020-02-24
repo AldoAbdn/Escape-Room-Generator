@@ -134,7 +134,7 @@ class Main extends Component {
      */
     identityChange = async(user, password, changes) => {
         try {
-            let result = await this.props.services['auth-management'].create({action:'identityChange',user,password,changes});
+            let result = await this.props.services['auth-management'].create({action:'identityChange',value:{user,password,changes}});
             if(result.action.type.include('FULFILLED')){
                 return {color:"success", message:"Email Saved"};
             } else {
