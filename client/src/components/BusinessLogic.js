@@ -18,7 +18,7 @@ class BusinessLogic extends Component {
      * @param {Object} prop 
      */
     componentWillReceiveProps(prop){
-        this.forceUpdate();
+        this.setState({user:prop});
     }
 
     /**
@@ -209,9 +209,7 @@ class BusinessLogic extends Component {
         const escapeRoom = this.props.redux.state.escapeRoom;
         const escapeRoomActions = this.props.redux.actions.escapeRoom;
         const showModal = this.props.redux.actions.modal.showModal;
-        const loggedIn = Object.entries(user).length !== 0 && user.constructor === Object; // Used to check if user is logged in
-        console.log(loggedIn);
-        console.log(user);
+        const loggedIn = window.localStorage.getItem("feathers-jwt") != null;
         return (
             <Switch>
                 <Redirect exact from="/" to="dashboard"/>
