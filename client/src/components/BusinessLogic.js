@@ -206,14 +206,14 @@ class BusinessLogic extends Component {
                 <Redirect exact from="/" to="dashboard"/>
                 <ProtectedRoute path="/dashboard" condition={user.verified} redirect={'/verify'} render={(routeProps) => (<Dashboard escapeRooms={escapeRooms} showModal={showModal} editEscapeRoom={this.editEscapeRoom} newEscapeRoom={this.newEscapeRoom} deleteEscapeRoom={this.deleteEscapeRoom}/>)}/>
                 <ProtectedRoute path="/designer" condition={Object.keys(escapeRoom).length > 0 &&escapeRoom!==undefined} redirect={'/'} render={(routeProps) =>(<EscapeRoomDesigner showModal={showModal} escapeRoom={escapeRoom} saveEscapeRoom={this.saveEscapeRoom} updateDetails={escapeRoomActions.updateDetails} updateAccessibility={escapeRoomActions.updateAccessibility} addComponent={escapeRoomActions.addComponent} removeComponent={escapeRoomActions.removeComponent} updateComponent={escapeRoomActions.updateComponent} addRelationship={escapeRoomActions.addRelationship} removeRelationship={escapeRoomActions.removeRelationship}/>)}/>
-                <ProtectedRoute path="/login" condition={user==null} redirect={'/dashboard'} render={(routeProps) => (<Login authenticateCredentials={this.authenticateCredentials}/>)}/>
-                <ProtectedRoute path="/signup" condition={user==null} redirect={'/dashboard'} render={(routeProps) => (<Signup signUp={this.signUp}/>)}/>
+                <ProtectedRoute path="/login" condition={user=={}} redirect={'/dashboard'} render={(routeProps) => (<Login authenticateCredentials={this.authenticateCredentials}/>)}/>
+                <ProtectedRoute path="/signup" condition={user=={}} redirect={'/dashboard'} render={(routeProps) => (<Signup signUp={this.signUp}/>)}/>
                 <Route path="/about" component={About}/>
                 <Route path="/tutorials" component={Tutorials}/>
-                <ProtectedRoute exact path="/verify" condition={user!=null && user!={} && user.email != undefined && user.email != ""} redirect={'/login'} render={(routeProps) => (<Verify token={routeProps.match.params.token} sendVerify={this.sendVerify}/>)}/>
-                <ProtectedRoute path="/verify/:token" condition={user!=null && user!={} && user.email != undefined && user.email != ""} redirect={'/login'} render={(routeProps) => (<Verify token={routeProps.match.params.token} verify={this.verify} />)}/>
-                <ProtectedRoute exact path="/reset" condition={user!=null && user!={} && user.email != undefined && user.email != ""} redirect={'/login'} component={Reset}/>
-                <ProtectedRoute path="/reset/:token" condition={user!=null && user!={} && user.email != undefined && user.email != ""} redirect={'/login'} render={(routeProps) => (<Reset token={routeProps.match.params.token} reset={this.reset}/>)}/>
+                <ProtectedRoute exact path="/verify" condition={user!={} && user.email != undefined && user.email != ""} redirect={'/login'} render={(routeProps) => (<Verify token={routeProps.match.params.token} sendVerify={this.sendVerify}/>)}/>
+                <ProtectedRoute path="/verify/:token" condition={user!={} && user.email != undefined && user.email != ""} redirect={'/login'} render={(routeProps) => (<Verify token={routeProps.match.params.token} verify={this.verify} />)}/>
+                <ProtectedRoute exact path="/reset" condition={user!={} && user.email != undefined && user.email != ""} redirect={'/login'} component={Reset}/>
+                <ProtectedRoute path="/reset/:token" condition={user!={} && user.email != undefined && user.email != ""} redirect={'/login'} render={(routeProps) => (<Reset token={routeProps.match.params.token} reset={this.reset}/>)}/>
                 <Route component={NotFound}/>
             </Switch> 
         )
