@@ -1,6 +1,6 @@
 {
   "name": "escape-room-generator-client",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "private": true,
   "dependencies": {
     "@feathersjs/client": "^4.3.10",
