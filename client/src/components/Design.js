@@ -75,7 +75,6 @@ Design.propTypes = {
     findComponent: PropTypes.func,
     showModal: PropTypes.func,
     handleComponentClick: PropTypes.func,
-    updateComponent: PropTypes.func,
     addComponent: PropTypes.func,
     removeComponent: PropTypes.func,
     addRelationship: PropTypes.func,

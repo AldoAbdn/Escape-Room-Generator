@@ -1,8 +1,17 @@
 import jsPDF from 'jspdf';
+import images from '../data/images.json';
 /**
  * PDF Module
  * @module PDF
  */
+
+ // Parameters 
+ var blockedKeys = ["userId"];
+ var startHeight = 25;
+ var startIndent = 35;
+ var endHeight = 275;
+ var newLineHeight = 10;
+ var indentWidth = 3;
 
 /**
  * Converts an Escape Room to PDF
@@ -10,10 +19,11 @@ import jsPDF from 'jspdf';
  */
 function escapeRoomToPDF(escapeRoom){
     let doc = jsPDF('p','mm','a4');
-    let x = 35; let y = 25;
-    doc.text("The Escape Room Generator",x,y);
-    doc = convertEscapRoom(escapeRoom,doc,x,y);
-    doc.save(escapeRoom.details.name+".pdf");
+    let x = startIndent; let y = startHeight;
+    doc.addImage(images.logo,'PNG',x + 55,y);
+    y+=newLineHeight;
+    let convertedObject = convertObject(escapeRoom,doc,x,y);
+    convertedObject.doc.save(escapeRoom.details.name+".pdf");
 }
 
 /**
@@ -22,52 +32,97 @@ function escapeRoomToPDF(escapeRoom){
  * @param {jsPDF} doc 
  * @param {int} x 
  * @param {int} y 
- * @returns {jsPDF}
+ * @returns {jsPDF} doc
  */
-function convertEscapRoom(escapeRoom,doc,x,y){
+function convertObject(escapeRoom,doc,x,y){
+    console.log(escapeRoom);
     for(let key of Object.keys(escapeRoom)){
-        if(key.includes('DATA')){
+        // Page Control 
+        // Blocked Keys
+        if(blockedKeys.includes(key)){
+            continue;
+        }
+        else if(key.includes('DATA')){
             //Add Images from DATA url
             doc.addPage();
-            y=25;
-            doc.text(key+": ",x,y);
+            y=startHeight;
+            doc = drawTitle(doc, key, x, y);
             doc.addImage(escapeRoom[key],'JPEG',x,y);
-            y=275;
+            y=endHeight;
             continue;
         }else if(y >= 275){
+            // Page height exceeded
             doc.addPage();
-            y=25;
+            y=startHeight;
         } else {
-            y+=10;
+            // New Line
+            y+=newLineHeight;
         }
+        // Object Rendering 
+        // Draw Array
         if(typeof escapeRoom[key]==='object'&&escapeRoom[key].constructor===Array){
-            if(escapeRoom[key].length > 0 && typeof escapeRoom[key][0]==="string"){
-                doc.text(key+": " + JSON.stringify(escapeRoom[key]),x,y);
-            } else if (escapeRoom[key].length > 0 && typeof escapeRoom[key][0]==="object"){
-                doc.text(key,x,y);
-                doc.line(x, y, x+120, y);
+            // Object Array 
+            if (escapeRoom[key].length > 0 && typeof escapeRoom[key][0]==="object"){
+                doc = drawTitle(doc, key, x, y);
+                x+=indentWidth;
                 for(let childObject of escapeRoom[key]){
-                    doc.line(x, y, x+120, y);
-                    let convertedObject = convertEscapRoom(childObject,doc,x,y);
-                    doc = convertedObject.doc;
-                    x = convertedObject.x;
-                    y = convertedObject.y;
+                    y+=newLineHeight;
+                    doc = drawTitle(doc, `${childObject.name} (${childObject._id})`, x, y);
+                    x+=indentWidth;
+                    ({doc, x, y} = convertObject(childObject,doc,x,y));
+                    x-=indentWidth;
                 }
+                x-=indentWidth;
+            } else if(escapeRoom[key].length > 0 && typeof escapeRoom[key][0]==="string"){
+                doc.text(capitaliseFirstLetter(key)+":",x,y);
+                for(let id of escapeRoom[key]){
+                    y+=newLineHeight;
+                    x+=indentWidth;
+                    doc.text(id,x,y);
+                    x-=indentWidth;
+                }   
+            } else if(escapeRoom[key].length === 0){
+                doc.text(capitaliseFirstLetter(key)+":",x,y);
             }
         }
+        // Draw Object
         else if(typeof escapeRoom[key]==='object'){
-            doc.text(key,x,y);
-            doc.line(x, y, x+120, y);
-            let convertedObject = convertEscapRoom(escapeRoom[key],doc,x,y);
-            doc = convertedObject.doc;
-            x = convertedObject.x;
-            y = convertedObject.y;
+            doc = drawTitle(doc, key, x, y);
+            x+=indentWidth;
+            ({doc, x, y} = convertObject(escapeRoom[key],doc,x,y));
+            x-=indentWidth;
         }
+        // Draw Key
         else{
-            doc.text(key+": "+escapeRoom[key],x,y);
+            doc.text(capitaliseFirstLetter(key)+": "+escapeRoom[key],x,y);
         }   
     }
+    return {doc, x, y}
+}
+
+/**
+ * Draws an underlined title
+ * @param {jsPDF} doc 
+ * @param {string} text 
+ * @param {int} x 
+ * @param {int} y 
+ * @returns {jsPDF} doc
+ */
+function drawTitle(doc, text, x, y){
+    text = capitaliseFirstLetter(text);
+    doc.setTextColor(255,0,0);
+    doc.text(text,x,y);
+    doc.line(x, y + 3, x + 140, y + 3);
+    doc.setTextColor(0,0,0);
     return doc;
+}
+
+/**
+ * Capitalizes first character of a string
+ * @param {string} text 
+ */
+function capitaliseFirstLetter(text){
+    return text.replace(/^\w/, c => c.toUpperCase());
 }
 
 export {escapeRoomToPDF};

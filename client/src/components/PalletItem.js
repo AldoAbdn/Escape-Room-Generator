@@ -68,8 +68,7 @@ class PalletItem extends Component{
    */
   render() {
       let id=this.props.id || "";
-      let iconId = this.props.id + "-icon";
-      let classNames = id + " component pallet-item"
+      let classNames = id + " component pallet-item";
       return this.props.connectDragSource(
           <div className={classNames} id={id} >
             <p>{id}</p>     
