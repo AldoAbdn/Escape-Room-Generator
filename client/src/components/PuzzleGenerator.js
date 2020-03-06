@@ -3,7 +3,6 @@ import {Row,Col,Button,Input} from 'reactstrap'
 import puzzleGenerator from '../generators/PuzzleGenerator';
 import ListCreator from '../components/ListCreator';
 import PropTypes from 'prop-types';
-import { Puzzle } from '../puzzles';
 
 /** 
  * Class for PuzzleGenerator

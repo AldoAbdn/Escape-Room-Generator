@@ -1,5 +1,3 @@
-import { Accessibility } from "../components"
-
 /**
  * Redux Actions for EscapeRoom
  * @module Actions/EscapeRoom
