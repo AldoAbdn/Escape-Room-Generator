@@ -81,7 +81,7 @@ function convertObject(escapeRoom,doc,x,y){
                     doc.text(id,x,y);
                     x-=indentWidth;
                 }   
-            } else if(escapeRoom[key].length == 0){
+            } else if(escapeRoom[key].length === 0){
                 doc.text(capitaliseFirstLetter(key)+":",x,y);
             }
         }
