@@ -22,7 +22,7 @@ module.exports = function (options = {}) {
       if(email.includes(" ") || email.includes("$") || !email.includes("@"))
         throw new Error("Invalid Email");
       // Check password valid 
-      if(testResult.score<4)
+      if(testResult.score < 3)
         throw new Error("Password Not Strong Enough");
       if(password.length < 8)
         throw new Error("Password Too Short");

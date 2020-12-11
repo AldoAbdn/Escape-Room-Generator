@@ -66,7 +66,7 @@ class Signup extends Component {
         let messages = [];
         if(this.state.password!==""&&this.state.password!==this.state.password2)
             messages.push("Passwords Must Match");
-        if(this.state.testResult.score<4)
+        if(this.state.testResult.score < 3)
             messages.push("Password Not Strong Enough");
         if(this.state.password.length < 8)
             messages.push("Password Too Short");
