@@ -1,7 +1,6 @@
 import React, {Component}  from 'react';
 import {Row, Col, Button, Input, InputGroup, InputGroupAddon, InputGroupText} from 'reactstrap';
 import PropTypes from 'prop-types';
-import EscapeRoom from '../models/EscapeRoom';
 
 /**
  * Class for ListCreator
@@ -90,16 +89,7 @@ class ListCreator extends Component {
 };
 
 ListCreator.propTypes = {
-    saveEscapeRoom: PropTypes.func,
-    escapeRoom: PropTypes.instanceOf(EscapeRoom),
-    updateDetails: PropTypes.func,
-    updateAccessibility: PropTypes.func,
-    showModal: PropTypes.func,
-    addComponent: PropTypes.func,
-    removeComponent: PropTypes.func,
-    updateComponent: PropTypes.func,
-    addRelationship: PropTypes.func,
-    removeRelationship: PropTypes.func
+    handleChange: PropTypes.func
 }
 
 export default ListCreator;

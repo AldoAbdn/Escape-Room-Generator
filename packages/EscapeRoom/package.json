@@ -1,0 +1,50 @@
+{
+  "name": "@aldoabdn/escaperoom",
+  "version": "1.0.0",
+  "description": "React web components for making websites",
+  "main": "index.js",
+  "author": {
+    "name": "Alistair Quinn",
+    "email": "alistairaldo@hotmail.co.uk"
+  },
+  "dependencies": {
+    "@feathersjs/client": "^4.3.10",
+    "bootstrap": "^4.2.1",
+    "classnames": "^2.2.6",
+    "cwg": "^0.2.1",
+    "feathers-redux": "^3.0.0",
+    "file-saver": "^2.0.0",
+    "jspdf": "^1.5.3",
+    "prop-types": "^15.7.2",
+    "random-words": "^1.1.0",
+    "react": "^16.8.4",
+    "react-app-polyfill": "^0.2.2",
+    "react-archer": "^1.0.2",
+    "react-dnd": "^7.0.2",
+    "react-dnd-html5-backend": "^7.0.2",
+    "react-dnd-multi-backend": "^3.1.11",
+    "react-dnd-touch-backend": "^0.8.1",
+    "react-dom": "^16.8.4",
+    "react-google-recaptcha": "^2.0.1",
+    "react-lineto": "^3.1.3",
+    "react-loading-overlay": "^1.0.1",
+    "react-password-strength": "^2.4.0",
+    "react-redux": "^6.0.0",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
+    "react-router-redux": "^4.0.8",
+    "react-scripts": "^3.2.0",
+    "react-youtube-playlist": "^2.2.8",
+    "reactstrap": "^7.1.0",
+    "redux": "^4.0.1",
+    "redux-form": "^8.1.0",
+    "redux-promise-middleware": "^5.1.1",
+    "redux-thunk": "^2.3.0",
+    "socket.io-client": "^2.2.0",
+    "uniqid": "^5.0.3",
+    "zxcvbn": "^4.4.2"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/@aldoabdn"
+  }
+}
