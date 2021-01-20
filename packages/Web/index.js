@@ -10,8 +10,8 @@ import Verify from './components/Verify';
 import Reset from './components/Reset';
 
 /**
- * Components
- * @module Components/index
+ * Common Web Components for creating Web Apps
+ * @module index
  * @author Alistair Quinn
  */
 

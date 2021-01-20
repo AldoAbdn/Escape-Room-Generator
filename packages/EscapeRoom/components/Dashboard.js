@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import { Container, Row, Col, Dropdown, DropdownToggle, DropdownMenu, DropdownItem , ListGroup, ListGroupItem , Button } from 'reactstrap';
 import { saveAs } from 'file-saver';
-import Modal from '../models/Modal';
-import {escapeRoomToPDF} from '../pdf/pdf';
+import Modal from '../../../client/src/models/Modal';
+import {escapeRoomToPDF} from '../../../client/src/pdf/pdf';
 import PropTypes from 'prop-types';
 
 /**

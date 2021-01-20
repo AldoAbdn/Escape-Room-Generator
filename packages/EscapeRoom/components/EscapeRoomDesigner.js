@@ -1,10 +1,10 @@
 import React, {Component}  from 'react';
 import { Container, Dropdown, DropdownToggle , DropdownMenu , DropdownItem , Row, Col, Nav, NavItem, NavLink, TabContent, TabPane , Button } from 'reactstrap';
-import { Details, Accessibility, Design } from './index';
+import { Details, Accessibility, Design } from '../../../client/src/components/index';
 import classnames from 'classnames';
 import { saveAs } from 'file-saver';
-import {escapeRoomToPDF} from '../pdf/pdf';
-import EscapeRoom from '../models/EscapeRoom';
+import {escapeRoomToPDF} from '../../../client/src/pdf/pdf';
+import EscapeRoom from '../../../client/src/models/EscapeRoom';
 import PropTypes from 'prop-types';
 import '../styles/EscapeRoomDesigner.css';
 

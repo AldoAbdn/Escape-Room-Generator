@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom';
 import { Card, CardBody ,CardTitle } from 'reactstrap';
 import '../styles/Component.css';
 import { DropTarget } from 'react-dnd';
-import ComponentDnDSource from './ComponentDnDSource';
-import { Puzzle, Prop, Lock, Music, Event } from '../models/index.js';
-import Area from '../models/Area';
+import ComponentDnDSource from '../../../client/src/components/ComponentDnDSource';
+import { Puzzle, Prop, Lock, Music, Event } from '../../../client/src/models/index.js';
+import Area from '../../../client/src/models/Area';
 import PropTypes from 'prop-types';
 
 /**

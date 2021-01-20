@@ -3,7 +3,7 @@ import { Row, Col } from 'reactstrap';
 import '../styles/Component.css';
 import '../styles/ComponentArranger.css';
 import Area from './AreaDnDSource';
-import AreaModel from '../models/Area';
+import AreaModel from '../../../client/src/models/Area';
 import { DropTarget } from 'react-dnd';
 import LineTo from 'react-lineto';
 import PropTypes from 'prop-types';

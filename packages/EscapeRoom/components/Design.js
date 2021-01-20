@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { Container, Row, Col } from 'reactstrap';
-import { Pallet, ComponentArranger, ComponentDetails } from './index';
+import { Pallet, ComponentArranger, ComponentDetails } from '../../../client/src/components/index';
 import PropTypes from 'prop-types';
 import Accessibility from './Accessibility';
 
