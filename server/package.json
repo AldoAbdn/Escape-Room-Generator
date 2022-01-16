@@ -54,7 +54,7 @@
     "zxcvbn": "^4.4.2"
   },
   "devDependencies": {
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "eslint": "^6.6.0",
     "mocha": "^6.2.2",
     "nodemon": "^1.19.4"
