@@ -11,8 +11,8 @@ import Accessibility from './Accessibility';
  */
 class Design extends Component {
     /** Creates Design */
-    constructor(props){
-        super(props);
+    constructor(){
+        super();
         this.state = {selected: {}};
     }
 

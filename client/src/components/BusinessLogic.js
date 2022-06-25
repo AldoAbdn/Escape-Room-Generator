@@ -16,7 +16,7 @@ class BusinessLogic extends Component {
     /**
      * React lifecycle method
      */
-    componentWillReceiveProps(){
+    UNSAFE_componentWillReceiveProps(){
         this.setState({user:this.props.redux.state.user});
     }
 

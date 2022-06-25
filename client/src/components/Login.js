@@ -11,8 +11,8 @@ import PropTypes from 'prop-types';
  */
 class Login extends Component {
     /** Creates Login */
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         this.state = {
             email:"",
             password:"",

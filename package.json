@@ -4,9 +4,9 @@
   "description": "This is my honours project for BsC(Hons) Computing: Application Software Development at Robert Gordon University",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "cd server && npm start",
     "custombuild": "cd client && npm run build && cd .. && xcopy \"client\\build\" \"server\\public\" /E /I",
+    "buildandstart": "npm custombuild && npm start",
     "dev": "concurrently \"cd server && npm run-script dev\" \"cd client && npm start\"",
     "postinstall": "concurrently \"cd server && npm install\" \"cd client && npm install\""
   },

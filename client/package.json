@@ -54,5 +54,5 @@
     "not ie <= 11",
     "not op_mini all"
   ],
-  "proxy": "https://theescaperoomgenerator.herokuapp.com/"
+  "proxy": "http://127.0.0.1:3030"
 }

@@ -16,7 +16,6 @@ import '../styles/EscapeRoomDesigner.css';
 class EscapeRoomDesigner extends Component {
     /** Creates EscapeRoom Designer */
     constructor(){
-        super();
         this.state = {activeTab:'design', dropdownOpen: false};
     }
 

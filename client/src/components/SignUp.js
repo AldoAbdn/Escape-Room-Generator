@@ -13,8 +13,8 @@ import PropTypes from 'prop-types';
  */
 class Signup extends Component {
     /** Creates Signup */
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         this.state = {
             email:"",
             password:"",

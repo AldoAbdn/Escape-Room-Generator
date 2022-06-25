@@ -12,8 +12,8 @@ import PropTypes from 'prop-types';
  */
 class Dashboard extends Component {
     /** Creates Dashboard */
-    constructor(props){
-        super(props);
+    constructor(){
+        super();
         this.state = {
             dropdownOpen: [false,false]
         }

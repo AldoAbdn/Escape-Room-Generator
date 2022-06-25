@@ -1,7 +1,7 @@
 # Escape Room Generator
 This was my honours project for BsC(Hons) Computing: Application Software Development at Robert Gordon University, I have since graduated with first class honours
 
-This is a web app for designing an escape room using drag and drop components, videos of the project can be found [here](https://www.youtube.com/playlist?list=PLWRRwFEmEuDLqtRkq0rQVgbfJRQ7OqE53)
+This is a web app for designing an escape room using drag and drop components, videos of the project can be found [here](https://www.youtube.com/playlist?list=PLbEHeQNU7jcQWKMR6TECMAHtNvJxbaehY)
 ## Audience 
 This web app is aimed at escape room designers of all levels  
 
@@ -30,5 +30,20 @@ Various methods will be experimented with
 Escape rooms are becoming more and more popular however accessibility within the escape room industry has not been heavily researched   
 
 I have incorporated accessibility options within the designer so that designers can specify the accessibility of their designs 
+## Structure of the Project
+The project is made up of two main packages. One is the client side react app and the other is a node/feathersjs backend server. Please refer to the readmes in the client and server folders.
+## Available Scripts
+In the project directory, you can run:
+### `npm start`
+Starts the server project
+### `npm custombuild`
+Builds the react app and puts the build into the servers public folder.
+Refer to the readme in the client folder for the environment variables needed for the client application.
+### `npm buildandstart`
+Runs the custombuild script first and then starts the server. Use this command to get the project working on your own machine. Please refer to the readmes of the client and server folders.
+### `npm dev`
+Starts both the client server and the main server for easier development of the react application.
+### `npm postinstall`
+Runs npm install in both the client and server package
 ## Use of Project Code 
 Please refer to the attached license

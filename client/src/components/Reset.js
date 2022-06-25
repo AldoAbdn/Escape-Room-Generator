@@ -11,8 +11,8 @@ import ReCAPTCHA from "react-google-recaptcha";
  */
 class Reset extends Component {
     /** Creates Reset */
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         this.state = {
             password:"",
             password2:"",
