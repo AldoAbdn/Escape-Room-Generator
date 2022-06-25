@@ -110,3 +110,7 @@ $RECYCLE.BIN/
 lib/
 data/
 .env
+
+# Public
+/public/*
+!/public/favicon.ico
