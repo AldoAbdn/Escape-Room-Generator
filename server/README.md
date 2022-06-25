@@ -1,6 +1,6 @@
-# escape-room-generator-server
+# Escape Room Generator Server
 
-> Server that provides an API for updating escape rooms 
+> Server that provides an API for updating escape rooms (uses feathersjs)
 
 ## About
 
