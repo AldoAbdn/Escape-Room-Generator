@@ -19,8 +19,8 @@
       "header": {
         "typ": "access"
       },
-      "audience": "https://theescaperoomgenerator.herokuapp.com/",
-      "issuer": "theescaperoomgenerator",
+      "audience": "AUDIENCE",
+      "issuer": "ISSUER",
       "algorithm": "HS256",
       "expiresIn": "1d"
     },

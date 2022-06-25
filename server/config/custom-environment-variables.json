@@ -1,0 +1,7 @@
+{
+    "host": "HOST",
+    "port": "PORT",
+    "mongodb": "MONGOURI",
+    "audience": "AUDIENCE",
+    "issuer": "ISSUER"
+}

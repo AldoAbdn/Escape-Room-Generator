@@ -1,6 +1,6 @@
 {
   "frontend": "../public",
-  "host": "theescaperoomgenerator.herokuapp.com",
+  "host": "HOST",
   "protocol": "https",
   "port": "PORT",
   "mongodb": "MONGOURI"
