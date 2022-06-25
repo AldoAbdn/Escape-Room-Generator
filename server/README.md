@@ -2,6 +2,8 @@
 
 > Server that provides an API for updating escape rooms (uses feathersjs)
 
+## Environment Variables
+
 ## About
 
 This project uses [Feathers](http://feathersjs.com). An open source web framework for building modern real-time applications.
