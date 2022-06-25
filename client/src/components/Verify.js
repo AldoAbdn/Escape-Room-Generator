@@ -15,22 +15,6 @@ class Verify extends Component {
     }
 
     /**
-     * Verifies Token from URL
-     * @function
-     */
-    verify = async () => {
-        return this.props.verify(this.props.token);
-    }
-
-    /**
-     * Sends Verify Email
-     * @function
-     */
-    sendVerify = async () => {
-        return this.props.sendVerify();
-    }
-
-    /**
      * React Lifecycle Method
      * Component Mounted
      */
@@ -38,9 +22,9 @@ class Verify extends Component {
         let result;
         try{
             if(this.props.token!==undefined && this.props.token!=="")
-                result = await this.verify();
+                result = await this.props.verify(this.props.token);
             else
-                result = await this.sendVerify();
+                result = await this.props.sendVerify();
         }catch(error){
             if(this.props.token!==undefined && this.props.token!=="")
                 result = {color:"warning", message: "An error has occured, your account may have been verified"};
@@ -61,7 +45,7 @@ class Verify extends Component {
                 <Row>
                     <Col>
                         <h1>Verify Your Account</h1>
-                        <p>To access The Escape Room Generator, you must first verify your account. Please check your emails and click the link.</p>
+                        <p>To access this app, you must first verify your account. Please check your emails and click the link.</p>
                         <Alert isOpen={this.state.message!==""} color={this.state.color}>{this.state.message}</Alert>
                     </Col>
                 </Row>
