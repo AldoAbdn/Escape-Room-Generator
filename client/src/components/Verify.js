@@ -28,8 +28,10 @@ class Verify extends Component {
         }catch(error){
             if(this.props.token!==undefined && this.props.token!=="")
                 result = {color:"warning", message: "An error has occured, your account may have been verified"};
-            else
+            else if(this.props.email!==undefined && this.props.email!=="") 
                 result = {color:"warning", message: "An error has occured, a verification email may have been sent"};
+            else if(error.message.includes("User is already verified"))
+                this.props.history.push("/dashboard");
         }
         this.setState(result);
     }

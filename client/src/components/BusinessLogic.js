@@ -194,7 +194,6 @@ class BusinessLogic extends Component {
      */
     render() {
         const user = this.props.redux.state.user;
-        console.log(user);
         const escapeRooms = this.props.redux.state.escapeRooms;
         const escapeRoom = this.props.redux.state.escapeRoom;
         const escapeRoomActions = this.props.redux.actions.escapeRoom;
