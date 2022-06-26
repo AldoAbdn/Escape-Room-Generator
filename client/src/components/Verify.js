@@ -21,17 +21,16 @@ class Verify extends Component {
     async componentDidMount(){
         let result;
         try{
-            if(this.props.token!==undefined && this.props.token!=="")
+            if(this.props.token!==undefined && this.props.token!==""){
                 result = await this.props.verify(this.props.token);
+            }
             else if(this.props.email!==undefined && this.props.email!=="")
                 result = await this.props.sendVerify(this.props.email);
         }catch(error){
             if(this.props.token!==undefined && this.props.token!=="")
                 result = {color:"warning", message: "An error has occured, your account may have been verified"};
             else if(this.props.email!==undefined && this.props.email!=="") 
-                result = {color:"warning", message: "An error has occured, a verification email may have been sent"};
-            else if(error.message.includes("User is already verified"))
-                this.props.history.push("/dashboard");
+                result = {color:"warning", message: "An error has occured, a verification email may have been sent"};        
         }
         this.setState(result);
     }
@@ -49,6 +48,7 @@ class Verify extends Component {
                         <Col>
                             <h1>Verifying your account</h1>
                             <p>The app is verifying your account. If you recieve an error please email support.</p>
+                            <p>You will need to re-login when this is complete</p>
                             <Alert isOpen={this.state.message!==""} color={this.state.color}>{this.state.message}</Alert>
                         </Col>
                     </Row>

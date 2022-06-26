@@ -136,7 +136,10 @@ class BusinessLogic extends Component {
     verify = async(token)=>{
         let result = await this.props.services['auth-management'].create({action:'verifySignupLong',value:token});
         if(result.action.type.includes('FULFILLED')){
-            return {color:"success", message:"Account Verified"};
+            setTimeout(() => {
+                this.props.logout();
+            }, 10000);
+            return {color:"success", message:"Account Verified. You will be logged out in 10 seconds. Re-login to use the app."};
         } else {
             return {color:"danger", message:"Error"}
         }
@@ -209,7 +212,7 @@ class BusinessLogic extends Component {
                 <Route path="/about" component={About}/>
                 <Route path="/tutorials" component={Tutorials}/>
                 <ConditionalRoute exact path="/verify" condition={!user.isVerified && loggedIn} redirect={'/login'} render={(routeProps) => (<Verify email={user.email} sendVerify={this.sendVerify}/>)}/>
-                <Route path="/verify/:token" render={(routeProps) => (<Verify token={routeProps.match.params.token} verify={this.verify} />)}/>
+                <Route path="/verify/:token" render={(routeProps) => (<Verify token={routeProps.match.params.token} verify={this.verify}/>)}/>
                 <Route exact path="/reset" component={Reset}/>
                 <Route path="/reset/:token" render={(routeProps) => (<Reset token={routeProps.match.params.token} reset={this.reset}/>)}/>
                 <Route component={NotFound}/>
