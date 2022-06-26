@@ -16,7 +16,7 @@ class BusinessLogic extends Component {
     /**
      * React lifecycle method
      */
-    UNSAFE_componentWillReceiveProps(){
+    componentWillReceiveProps(){
         this.setState({user:this.props.redux.state.user});
     }
 
@@ -160,7 +160,7 @@ class BusinessLogic extends Component {
     sendVerify = async()=>{
         let result = await this.props.services['auth-management'].create({action:'resendVerifySignup',value:{email:this.props.redux.state.user.email}});
         if(result.action.type.includes('FULFILLED')){
-            return {color:"success", message:"Account Verified"};
+            return {color:"success", message:"Verification Email Sent"};
         } else {
             return {color:"danger", message:"Error"}
         }

@@ -9,8 +9,8 @@ import PropTypes from 'prop-types';
  */
 class Verify extends Component {
     /** Creates Verify */
-    constructor(props){
-        super(props);
+    constructor(){
+        super();
         this.state = {color:"success",message:""};
     }
 
