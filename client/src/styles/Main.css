@@ -31,7 +31,7 @@ main {
     margin-top:1rem;
 }
 
-.login, .sign-up {
+.login, .sign-up, .reset {
     position: relative;
     /**https://pixabay.com/illustrations/live-escape-game-live-escape-room-1155620/ Free for commercial use**/
     background-image: url('/images/backgrounds/main.jpg');
