@@ -8,7 +8,9 @@ module.exports = function(app) {
     protocol += "://";
     let host = app.get('host');
     let port = app.get('port');
-    return `${protocol}${host}:${port}/#/${type}/${hash}`;
+    let link = `${protocol}${host}:${port}/#/${type}/${hash}`
+    console.log(link) // Logging links until email works
+    return link;
   }
 
   function sendEmail(email) {
@@ -33,7 +35,6 @@ module.exports = function(app) {
               html: 'Click here to verify your account: <a href="' + tokenLink + '">Link</a>'
           }
           return sendEmail(email)
-          break;
         case 'verifySignup': // confirming verification
           tokenLink = getLink('verify', user.verifyToken)
           email = {
@@ -43,10 +44,8 @@ module.exports = function(app) {
               html: 'Thanks for verifying your email'
           }
           return sendEmail(email)
-          break;
         case 'sendResetPwd':
           tokenLink = getLink('reset', user.resetToken)
-          console.log(tokenLink);
           email = {
               from: process.env.SMTP_USER,
               to: user.email,
@@ -54,7 +53,6 @@ module.exports = function(app) {
               html: 'Click here to reset your password: <a href="' + tokenLink + '">Link</a>'
           }
           return sendEmail(email);
-          break;
         case 'resetPwd':
           tokenLink = getLink('reset', user.resetToken)
           email = {
@@ -64,7 +62,6 @@ module.exports = function(app) {
               html: 'Your password was reset'
             }
           return sendEmail(email)
-          break;
         case 'passwordChange':
           email = {
               from: process.env.SMTP_USER,
@@ -73,7 +70,6 @@ module.exports = function(app) {
               html: 'Your password was changed'
             }
           return sendEmail(email)
-           break;
         case 'identityChange':
           tokenLink = getLink('verify', user.verifyToken)
           email = {
