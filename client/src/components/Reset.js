@@ -106,6 +106,7 @@ class Reset extends Component {
                     <Container>
                         <Row>
                             <Col>
+                                <h1>Password Reset</h1>
                                 <Form noValidate onSubmit={this.handleSubmit}>
                                     <FormGroup>
                                         <Label for="password">Password</Label>
