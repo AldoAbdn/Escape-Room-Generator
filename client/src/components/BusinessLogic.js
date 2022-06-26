@@ -16,8 +16,10 @@ class BusinessLogic extends Component {
     /**
      * React lifecycle method
      */
-    componentWillReceiveProps(){
-        this.setState({user:this.props.redux.state.user});
+    componentDidUpdate(prevProps){
+        if(this.props.redux.state.user !== prevProps.redux.state.user){
+            this.forceUpdate();
+        }
     }
 
     /**
@@ -33,7 +35,6 @@ class BusinessLogic extends Component {
                 const escapeRooms = result.value.data;
                 if (escapeRooms!==null && escapeRooms!==undefined){
                     this.props.redux.actions.escapeRooms.updateEscapeRooms(escapeRooms);
-                    this.setState({loading:false});
                 }
             }
         }
@@ -51,10 +52,10 @@ class BusinessLogic extends Component {
                 user.token = window.localStorage.getItem('feathers-jwt');
                 await this.populateEscapeRooms(user._id);
                 this.props.redux.actions.user.login(user);
-                this.props.history.push('/dashboard');
+                this.props.history.push("/");
             }
         } catch(error){
-            window.location.reload(true);
+            this.props.history.push("/");
             return error.message;
         }
     }
@@ -70,7 +71,6 @@ class BusinessLogic extends Component {
             let queryResult = await this.props.services.users.create(credentials);
             if(queryResult.action.type.includes('FULFILLED')){
                 await this.authenticateCredentials(credentials);
-                this.props.history.push('/verify');
             }
         } catch(error){
             return error.message;
@@ -209,7 +209,7 @@ class BusinessLogic extends Component {
                 <ConditionalRoute path="/signup" condition={!loggedIn} redirect={'/dashboard'} render={(routeProps) => (<Signup signUp={this.signUp}/>)}/>
                 <Route path="/about" component={About}/>
                 <Route path="/tutorials" component={Tutorials}/>
-                <ConditionalRoute exact path="/verify" condition={user.email!=undefined} redirect={'/verify'} render={(routeProps) => (<Verify email={user.email} sendVerify={this.sendVerify}/>)}/>
+                <ConditionalRoute exact path="/verify" condition={loggedIn && !user.isVerified} redirect={'/login'} render={(routeProps) => (<Verify email={user.email} sendVerify={this.sendVerify}/>)}/>
                 <Route path="/verify/:token" render={(routeProps) => (<Verify token={routeProps.match.params.token} verify={this.verify} />)}/>
                 <Route exact path="/reset" component={Reset}/>
                 <Route path="/reset/:token" render={(routeProps) => (<Reset token={routeProps.match.params.token} reset={this.reset}/>)}/>

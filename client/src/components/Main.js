@@ -58,6 +58,7 @@ class Main extends Component {
     async componentDidMount() {
         if (window.localStorage.getItem('feathers-jwt') && this.props.redux.state.user.email!==undefined){
             this.setState({profile:true});
+            await this.authenticate();
         } else if (window.localStorage.getItem('feathers-jwt') && this.props.redux.state.user.email===undefined){
             await this.authenticate();
             this.setState({profile:true});
@@ -74,6 +75,7 @@ class Main extends Component {
         if(user!=null){
             user.token = window.localStorage.getItem('feathers-jwt');
             this.props.redux.actions.user.login(user);
+            this.props.history.push("/");
         }
     }
 

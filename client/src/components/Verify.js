@@ -23,11 +23,8 @@ class Verify extends Component {
         try{
             if(this.props.token!==undefined && this.props.token!=="")
                 result = await this.props.verify(this.props.token);
-            else if(this.props.email!==undefined && this.props.email!==""){
+            else if(this.props.email!==undefined && this.props.email!=="")
                 result = await this.props.sendVerify(this.props.email);
-            } else
-            console.log(this.props);
-
         }catch(error){
             if(this.props.token!==undefined && this.props.token!=="")
                 result = {color:"warning", message: "An error has occured, your account may have been verified"};
