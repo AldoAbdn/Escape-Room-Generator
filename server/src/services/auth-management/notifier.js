@@ -46,6 +46,7 @@ module.exports = function(app) {
           break;
         case 'sendResetPwd':
           tokenLink = getLink('reset', user.resetToken)
+          console.log(tokenLink);
           email = {
               from: process.env.SMTP_USER,
               to: user.email,

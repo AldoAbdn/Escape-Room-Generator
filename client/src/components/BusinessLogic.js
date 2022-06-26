@@ -190,7 +190,7 @@ class BusinessLogic extends Component {
      * @returns {Status} Result
      */
     sendReset = async(email) => {
-        let result = await this.props.services['auth-management'].create({action:'sendResetPwd', value:{email}, notifierOptions:{}});
+        let result = await this.props.services['auth-management'].create({action:'sendResetPwd', value:{email:email}});
         if(result.action.type.includes('FULFILLED')){
             return {color:"success", message:"Password Reset Sent, Check Emails"};
         } else {
@@ -220,8 +220,8 @@ class BusinessLogic extends Component {
                 <Route path="/tutorials" component={Tutorials}/>
                 <ConditionalRoute exact path="/verify" condition={!user.isVerified && loggedIn} redirect={'/login'} render={(routeProps) => (<Verify token={routeProps.match.params.token} sendVerify={this.sendVerify}/>)}/>
                 <ConditionalRoute path="/verify/:token" condition={!user.isVerified && loggedIn} redirect={'/login'} render={(routeProps) => (<Verify token={routeProps.match.params.token} verify={this.verify} />)}/>
-                <ConditionalRoute exact path="/reset" condition={loggedIn} redirect={'/login'} component={Reset}/>
-                <ConditionalRoute path="/reset/:token" condition={loggedIn} redirect={'/login'} render={(routeProps) => (<Reset token={routeProps.match.params.token} reset={this.reset}/>)}/>
+                <Route exact path="/reset" component={Reset}/>
+                <Route path="/reset/:token" render={(routeProps) => (<Reset token={routeProps.match.params.token} reset={this.reset}/>)}/>
                 <Route component={NotFound}/>
             </Switch> 
         )

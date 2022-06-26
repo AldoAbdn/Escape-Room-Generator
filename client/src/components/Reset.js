@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { Link } from 'react-router-dom';
 import { Container, Row, Col, Alert, Button, Form, FormGroup, Label, Input, FormText} from 'reactstrap';
 import PasswordStrengthMeter from './PasswordStrengthMeter'
 import zxcvbn from 'zxcvbn';
@@ -29,7 +30,7 @@ class Reset extends Component {
      */
     handleSubmit = async (e) => {
         e.preventDefault();
-        if(this.props.password!=="" && this.props.password===this.props.password2 && this.props.signUp){
+        if(this.props.password!=="" && this.props.password===this.props.password2 && this.props.reset){
             let result = await this.props.reset(this.props.token,this.state.password);
             this.setState({message:result.message, color:result.color});
         }
@@ -141,8 +142,9 @@ class Reset extends Component {
                 <Container fluid>
                     <Row>
                         <Col>
-                            <h1>Password Reset</h1>
+                            <h1>Invalid Token</h1>
                             <p>To reset your password login to your account, click the profile dropdown and click reset password.</p>
+                            <p>You can also reset your password from the login screen <Link to="/login">Here</Link></p>
                         </Col>
                     </Row>
                 </Container>
