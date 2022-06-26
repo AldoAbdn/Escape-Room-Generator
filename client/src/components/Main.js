@@ -238,7 +238,7 @@ class Main extends Component {
 Main.propTypes = {
     redux: PropTypes.object,
     history: PropTypes.object,
-    services: PropTypes.array,
+    services: PropTypes.object,
     feathersClient: PropTypes.object,
 }
 

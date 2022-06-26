@@ -70,6 +70,7 @@ class Login extends Component {
             try {
                 result = await this.props.sendReset(this.state.email);
             } catch (error) {
+                console.log(error);
                 result = {color:"warning", message:"An error occured, a password reset email may have been sent"};
             }
             this.setState(result);

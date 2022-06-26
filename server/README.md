@@ -9,6 +9,9 @@ The server has 5 environment variables that must be set. These can be put in a .
     MONGOURI=PUT YOUR DB URI HERE
     AUDIENCE=PUT YOUR AUDIENCE HERE
     ISSUER=PUT YOUR ISSUER HERE
+    SMTP_HOST=PUT YOUR SMTP SERVER ADDRESS HERE
+    SMTP_USER=PUT YOUR EMAIL HERE
+    SMTP_PASS=PUT YOUR EMAIL PASSWORD HERE
 Refer to the server/config folder for how these variables are used
 
 ## About
