@@ -55,11 +55,12 @@ class Main extends Component {
      * React lifecycle method 
      * Updates profile is logged in
      */
-    componentDidMount() {
+    async componentDidMount() {
         if (window.localStorage.getItem('feathers-jwt') && this.props.redux.state.user.email!==undefined){
             this.setState({profile:true});
         } else if (window.localStorage.getItem('feathers-jwt') && this.props.redux.state.user.email===undefined){
-            this.authenticate();
+            await this.authenticate();
+            this.setState({profile:true});
         }
     }
 
@@ -69,45 +70,10 @@ class Main extends Component {
      */
     authenticate = async() => {
         //Authenticates JWT and then populates user/escapeRooms
-        try{
-            let { user } = await this.props.feathersClient.reAuthenticate();
-            if(user!=null){
-                user.token = window.localStorage.getItem('feathers-jwt');
-                await this.populateEscapeRooms(user._id);
-                this.props.redux.actions.user.login(user);
-            }
-        } catch(error){
-            this.logout();
-        }
-    }
-
-    /**
-     * Popultes escape rooms by user ID
-     * @function
-     * @param {String} userId
-     * @returns {Array}
-     */
-    populateEscapeRooms = async (userId) => {
-        //Get User Details and Update Redux Store
-        if (userId !== null && userId !== undefined){
-            try{
-                let result = await this.props.services['escape-rooms'].find({query:{userId:userId}});
-                if(result.action.type.includes('FULFILLED')){
-                    const escapeRooms = result.value.data;
-                    if (escapeRooms!==null && escapeRooms!==undefined){
-                        this.props.redux.actions.escapeRooms.updateEscapeRooms(escapeRooms);
-                        this.setState({loading:false});
-                    }
-                }
-                return true;
-            }catch(e){
-                // User Not Verified
-                if(e.message.includes("verified")){
-                    return false;
-                } else {
-                    return true;
-                }
-            }
+        let { user } = await this.props.feathersClient.reAuthenticate();
+        if(user!=null){
+            user.token = window.localStorage.getItem('feathers-jwt');
+            this.props.redux.actions.user.login(user);
         }
     }
 

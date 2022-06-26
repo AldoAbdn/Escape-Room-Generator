@@ -23,8 +23,11 @@ class Verify extends Component {
         try{
             if(this.props.token!==undefined && this.props.token!=="")
                 result = await this.props.verify(this.props.token);
-            else
-                result = await this.props.sendVerify();
+            else if(this.props.email!==undefined && this.props.email!==""){
+                result = await this.props.sendVerify(this.props.email);
+            } else
+            console.log(this.props);
+
         }catch(error){
             if(this.props.token!==undefined && this.props.token!=="")
                 result = {color:"warning", message: "An error has occured, your account may have been verified"};
@@ -40,17 +43,31 @@ class Verify extends Component {
      * @returns {JSX}
      */
     render() {
-        return (
-            <Container fluid>
-                <Row>
-                    <Col>
-                        <h1>Verify Your Account</h1>
-                        <p>To access this app, you must first verify your account. Please check your emails and click the link.</p>
-                        <Alert isOpen={this.state.message!==""} color={this.state.color}>{this.state.message}</Alert>
-                    </Col>
-                </Row>
-            </Container>
-        )
+        if(this.props.token!==undefined && this.props.token!==""){
+            return (
+                <Container fluid>
+                    <Row>
+                        <Col>
+                            <h1>Verifying your account</h1>
+                            <p>The app is verifying your account. If you recieve an error please email support.</p>
+                            <Alert isOpen={this.state.message!==""} color={this.state.color}>{this.state.message}</Alert>
+                        </Col>
+                    </Row>
+                </Container>
+            )
+        } else {
+            return (
+                <Container fluid>
+                    <Row>
+                        <Col>
+                            <h1>Verify Your Account</h1>
+                            <p>To access this app, you must first verify your account. Please check your emails and click the link.</p>
+                            <Alert isOpen={this.state.message!==""} color={this.state.color}>{this.state.message}</Alert>
+                        </Col>
+                    </Row>
+                </Container>
+            )
+        }
     }
 };
 

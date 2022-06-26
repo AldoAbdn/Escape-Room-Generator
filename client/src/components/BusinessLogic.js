@@ -28,26 +28,17 @@ class BusinessLogic extends Component {
     populateEscapeRooms = async (userId) => {
         //Get User Details and Update Redux Store
         if (userId !== null && userId !== undefined){
-            try{
-                let result = await this.props.services['escape-rooms'].find({query:{userId:userId}});
-                if(result.action.type.includes('FULFILLED')){
-                    const escapeRooms = result.value.data;
-                    if (escapeRooms!==null && escapeRooms!==undefined){
-                        this.props.redux.actions.escapeRooms.updateEscapeRooms(escapeRooms);
-                        this.setState({loading:false});
-                    }
-                }
-                return true;
-            }catch(e){
-                // User Not Verified
-                if(e.message.includes("verified")){
-                    return false;
-                } else {
-                    return true;
+            let result = await this.props.services['escape-rooms'].find({query:{userId:userId}});
+            if(result.action.type.includes('FULFILLED')){
+                const escapeRooms = result.value.data;
+                if (escapeRooms!==null && escapeRooms!==undefined){
+                    this.props.redux.actions.escapeRooms.updateEscapeRooms(escapeRooms);
+                    this.setState({loading:false});
                 }
             }
         }
     }
+
     /**
      * Authenticates login credentials 
      * @param {Object} credentials 
@@ -58,12 +49,12 @@ class BusinessLogic extends Component {
             let { user } = await this.props.feathersClient.authenticate(credentials);
             if(user!=null){
                 user.token = window.localStorage.getItem('feathers-jwt');
-                const verified = await this.populateEscapeRooms(user._id);
-                user.verified = verified;
+                await this.populateEscapeRooms(user._id);
                 this.props.redux.actions.user.login(user);
                 this.props.history.push('/dashboard');
             }
         } catch(error){
+            window.location.reload(true);
             return error.message;
         }
     }
@@ -157,8 +148,8 @@ class BusinessLogic extends Component {
      * @function
      * @returns {Status} Result
      */
-    sendVerify = async()=>{
-        let result = await this.props.services['auth-management'].create({action:'resendVerifySignup',value:{email:this.props.redux.state.user.email}});
+    sendVerify = async(email)=>{
+        let result = await this.props.services['auth-management'].create({action:'resendVerifySignup',value:{email:email}});
         if(result.action.type.includes('FULFILLED')){
             return {color:"success", message:"Verification Email Sent"};
         } else {
@@ -218,8 +209,8 @@ class BusinessLogic extends Component {
                 <ConditionalRoute path="/signup" condition={!loggedIn} redirect={'/dashboard'} render={(routeProps) => (<Signup signUp={this.signUp}/>)}/>
                 <Route path="/about" component={About}/>
                 <Route path="/tutorials" component={Tutorials}/>
-                <ConditionalRoute exact path="/verify" condition={!user.isVerified && loggedIn} redirect={'/login'} render={(routeProps) => (<Verify token={routeProps.match.params.token} sendVerify={this.sendVerify}/>)}/>
-                <ConditionalRoute path="/verify/:token" condition={!user.isVerified && loggedIn} redirect={'/login'} render={(routeProps) => (<Verify token={routeProps.match.params.token} verify={this.verify} />)}/>
+                <ConditionalRoute exact path="/verify" condition={user.email!=undefined} redirect={'/verify'} render={(routeProps) => (<Verify email={user.email} sendVerify={this.sendVerify}/>)}/>
+                <Route path="/verify/:token" render={(routeProps) => (<Verify token={routeProps.match.params.token} verify={this.verify} />)}/>
                 <Route exact path="/reset" component={Reset}/>
                 <Route path="/reset/:token" render={(routeProps) => (<Reset token={routeProps.match.params.token} reset={this.reset}/>)}/>
                 <Route component={NotFound}/>
