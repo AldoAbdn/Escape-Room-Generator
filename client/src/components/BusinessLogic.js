@@ -50,12 +50,11 @@ class BusinessLogic extends Component {
             let { user } = await this.props.feathersClient.authenticate(credentials);
             if(user!=null){
                 user.token = window.localStorage.getItem('feathers-jwt');
-                await this.populateEscapeRooms(user._id);
                 this.props.redux.actions.user.login(user);
-                this.props.history.push("/");
+                if(user.isVerified)
+                    await this.populateEscapeRooms(user._id);
             }
         } catch(error){
-            this.props.history.push("/");
             return error.message;
         }
     }
@@ -209,7 +208,7 @@ class BusinessLogic extends Component {
                 <ConditionalRoute path="/signup" condition={!loggedIn} redirect={'/dashboard'} render={(routeProps) => (<Signup signUp={this.signUp}/>)}/>
                 <Route path="/about" component={About}/>
                 <Route path="/tutorials" component={Tutorials}/>
-                <ConditionalRoute exact path="/verify" condition={loggedIn && !user.isVerified} redirect={'/login'} render={(routeProps) => (<Verify email={user.email} sendVerify={this.sendVerify}/>)}/>
+                <ConditionalRoute exact path="/verify" condition={loggedIn} redirect={'/login'} render={(routeProps) => (<Verify email={user.email} sendVerify={this.sendVerify}/>)}/>
                 <Route path="/verify/:token" render={(routeProps) => (<Verify token={routeProps.match.params.token} verify={this.verify} />)}/>
                 <Route exact path="/reset" component={Reset}/>
                 <Route path="/reset/:token" render={(routeProps) => (<Reset token={routeProps.match.params.token} reset={this.reset}/>)}/>

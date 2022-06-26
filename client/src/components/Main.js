@@ -65,17 +65,40 @@ class Main extends Component {
         }
     }
 
+    /**
+     * Popultes escape rooms by user ID
+     * @param {String} userId
+     * @returns {bool} success
+     */
+    populateEscapeRooms = async (userId) => {
+        //Get User Details and Update Redux Store
+        if (userId !== null && userId !== undefined){
+            let result = await this.props.services['escape-rooms'].find({query:{userId:userId}});
+            if(result.action.type.includes('FULFILLED')){
+                const escapeRooms = result.value.data;
+                if (escapeRooms!==null && escapeRooms!==undefined){
+                    this.props.redux.actions.escapeRooms.updateEscapeRooms(escapeRooms);
+                }
+            }
+        }
+    }
+
     /** 
      * Authenticates User 
      * @function 
      */
     authenticate = async() => {
-        //Authenticates JWT and then populates user/escapeRooms
-        let { user } = await this.props.feathersClient.reAuthenticate();
-        if(user!=null){
-            user.token = window.localStorage.getItem('feathers-jwt');
-            this.props.redux.actions.user.login(user);
-            this.props.history.push("/");
+        try{
+            //Authenticates JWT and then populates user/escapeRooms
+            let { user } = await this.props.feathersClient.reAuthenticate();
+            if(user!=null){
+                user.token = window.localStorage.getItem('feathers-jwt');
+                this.props.redux.actions.user.login(user);
+                if(user.isVerified)
+                    await this.populateEscapeRooms(user._id);
+            }
+        }catch(error){
+            return error.message;
         }
     }
 
