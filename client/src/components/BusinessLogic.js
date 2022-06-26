@@ -194,6 +194,7 @@ class BusinessLogic extends Component {
      */
     render() {
         const user = this.props.redux.state.user;
+        console.log(user);
         const escapeRooms = this.props.redux.state.escapeRooms;
         const escapeRoom = this.props.redux.state.escapeRoom;
         const escapeRoomActions = this.props.redux.actions.escapeRoom;
@@ -208,7 +209,7 @@ class BusinessLogic extends Component {
                 <ConditionalRoute path="/signup" condition={!loggedIn} redirect={'/dashboard'} render={(routeProps) => (<Signup signUp={this.signUp}/>)}/>
                 <Route path="/about" component={About}/>
                 <Route path="/tutorials" component={Tutorials}/>
-                <ConditionalRoute exact path="/verify" condition={loggedIn} redirect={'/login'} render={(routeProps) => (<Verify email={user.email} sendVerify={this.sendVerify}/>)}/>
+                <ConditionalRoute exact path="/verify" condition={!user.isVerified && loggedIn} redirect={'/login'} render={(routeProps) => (<Verify email={user.email} sendVerify={this.sendVerify}/>)}/>
                 <Route path="/verify/:token" render={(routeProps) => (<Verify token={routeProps.match.params.token} verify={this.verify} />)}/>
                 <Route exact path="/reset" component={Reset}/>
                 <Route path="/reset/:token" render={(routeProps) => (<Reset token={routeProps.match.params.token} reset={this.reset}/>)}/>
