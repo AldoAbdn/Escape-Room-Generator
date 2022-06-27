@@ -190,11 +190,17 @@ class BusinessLogic extends Component {
      * @returns {Status} Result
      */
     sendReset = async(email) => {
-        let result = await this.props.services['auth-management'].create({action:'sendResetPwd', value:{email:email}});
-        if(result.action.type.includes('FULFILLED')){
-            return {color:"success", message:"Password Reset Sent, Check Emails"};
-        } else {
-            return {color:"danger", message:"Error"}
+        try{
+            let result = await this.props.services['auth-management'].create({action:'sendResetPwd', value:{email:email}});
+            if(result.action.type.includes('FULFILLED')){
+                return {color:"success", message:"Password Reset Sent, Check Emails"};
+            } else {
+                return {color:"danger", message:"Error"}
+            }
+        } 
+        catch(error)
+        {
+            return {color:"danger", message:"Error"};
         }
     }
 

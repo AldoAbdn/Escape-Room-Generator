@@ -32,6 +32,28 @@ class SendReset extends Component {
     }
 
     /**
+     * Handles Input Change
+     * @function
+     */
+    handleChange = (e) => {
+        this.setState({
+            [e.target.id]: e.target.value,
+        },()=>this.setState({message:this.composemessage()}));
+    }
+
+    /**
+     * Composes Error Message
+     * @function
+     * @returns {String}
+     */
+    composemessage = () => {
+        let messages = [];
+        if(this.state.email.includes(" ") || this.state.email.includes("$") || !this.state.email.includes("@") || !this.state.email.includes("."))
+            messages.push("Invalid Email");
+        return messages.join(", ");   
+    }
+
+    /**
      * Handles Alert Dismiss
      * @function
      */
@@ -57,7 +79,7 @@ class SendReset extends Component {
                                     <Input required type="email" name="email" id="email" value={this.state.email} onChange={this.handleChange}/>
                                 </FormGroup>
                                 <FormGroup>
-                                    <Button block disabled={this.state.email==="" || this.state.message!==""}>Send Reset Password</Button>
+                                    <Button block disabled={this.state.email==="" || this.state.message!==""}>Send Password Reset</Button>
                                 </FormGroup>
                                 <FormText>
                                     Forgotten password? Enter your email above and click the button to recieve a password reset email
