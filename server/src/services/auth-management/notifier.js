@@ -29,7 +29,7 @@ module.exports = function(app) {
         case 'resendVerifySignup': //sending the user the verification email
           tokenLink = getLink('verify', user.verifyToken)
           email = {
-              from: process.env.SMTP_USER,
+              from: process.env.SMTP_FROM,
               to: user.email,
               subject: 'Verify Signup',
               html: 'Click here to verify your account: <a href="' + tokenLink + '">Link</a>'
@@ -38,7 +38,7 @@ module.exports = function(app) {
         case 'verifySignup': // confirming verification
           tokenLink = getLink('verify', user.verifyToken)
           email = {
-              from: process.env.SMTP_USER,
+              from: process.env.SMTP_FROM,
               to: user.email,
               subject: 'Confirm Signup',
               html: 'Thanks for verifying your email'
@@ -47,7 +47,7 @@ module.exports = function(app) {
         case 'sendResetPwd':
           tokenLink = getLink('reset', user.resetToken)
           email = {
-              from: process.env.SMTP_USER,
+              from: process.env.SMTP_FROM,
               to: user.email,
               subject: 'Password Reset',
               html: 'Click here to reset your password: <a href="' + tokenLink + '">Link</a>'
@@ -56,7 +56,7 @@ module.exports = function(app) {
         case 'resetPwd':
           tokenLink = getLink('reset', user.resetToken)
           email = {
-              from: process.env.SMTP_USER,
+              from: process.env.SMTP_FROM,
               to: user.email,
               subject: 'Password Was Reset',
               html: 'Your password was reset'
@@ -64,7 +64,7 @@ module.exports = function(app) {
           return sendEmail(email)
         case 'passwordChange':
           email = {
-              from: process.env.SMTP_USER,
+              from: process.env.SMTP_FROM,
               to: user.email,
               subject: 'Password Change',
               html: 'Your password was changed'
@@ -73,7 +73,7 @@ module.exports = function(app) {
         case 'identityChange':
           tokenLink = getLink('verify', user.verifyToken)
           email = {
-              from: process.env.SMTP_USER,
+              from: process.env.SMTP_FROM,
               to: user.email,
               subject: 'Identity Changed',
               html: 'Click here to verify your account: <a href="' + tokenLink + '">Link</a>'

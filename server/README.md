@@ -4,14 +4,19 @@
 
 ## Environment Variables
 The server has 5 environment variables that must be set. These can be put in a .env file that looks like this:
+    # Server
     HOST=127.0.0.1
     PORT=3030
+    # MongoDB 
     MONGOURI=PUT YOUR DB URI HERE
+    # JWT
     AUDIENCE=PUT YOUR AUDIENCE HERE
     ISSUER=PUT YOUR ISSUER HERE
-    SMTP_HOST=PUT YOUR SMTP SERVER ADDRESS HERE
+    # Mailer
+    SMTP_HOST=PUT YOUR SMTP HOST HERE
     SMTP_USER=PUT YOUR EMAIL HERE
     SMTP_PASS=PUT YOUR EMAIL PASSWORD HERE
+    SMTP_FROM=PUT YOUR FROM EMAIL ADDRESS HERE
 Refer to the server/config folder for how these variables are used
 
 ## About
