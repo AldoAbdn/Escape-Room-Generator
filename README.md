@@ -45,5 +45,25 @@ Runs the build script first and then starts the server. Use this command to get 
 Starts both the client server and the main server for easier development of the react application.
 ### `npm install`
 Runs npm install in both the client and server package
+## Developers Guide
+You will need to setup two sets of environment variables, one for the client and one for the server. You can do this using .env files within 
+the client and server folders of this project. Refer to the readmes in the client and server folders to setup your environment variables
+
+Once you've done this, from the root directory run the following script
+    npm run dev
+This will start both the client and server projects in dev mode on your machine
+
+Once you are happy with your build use the following script from the root directory
+    npm run build
+This will build the react app and put the build in the servers public folder
+
+You can then start the server with the following script
+    npm start
+
+Alternativly you can run the script:
+    npm buildandstart
+To build the react app, put it in the servers client folder and then start the server
+
+Refer to your hosting platforms docs for how to host your server with the react build. Remember to set the server environment variables from the readme
 ## Use of Project Code 
 Please refer to the attached license
