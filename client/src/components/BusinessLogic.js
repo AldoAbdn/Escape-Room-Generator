@@ -1,7 +1,7 @@
 import React, {Component}  from 'react';
 import { Route, Switch } from 'react-router';
 import { Redirect } from 'react-router-dom';
-import { Dashboard, EscapeRoomDesigner, Login, Signup, Tutorials, About, ConditionalRoute, NotFound, Verify, Reset } from '../components/index.js';
+import { Dashboard, EscapeRoomDesigner, Login, Signup, Tutorials, About, ConditionalRoute, NotFound, VerifyToken, SendVerify, ResetToken, SendReset } from './index.js';
 import EscapeRoom from '../models/EscapeRoom.js';
 import PropTypes from 'prop-types';
 
@@ -133,7 +133,7 @@ class BusinessLogic extends Component {
      * @param {String} token
      * @returns {Status} Result
      */
-    verify = async(token)=>{
+    verifyToken = async(token)=>{
         let result = await this.props.services['auth-management'].create({action:'verifySignupLong',value:token});
         if(result.action.type.includes('FULFILLED')){
             setTimeout(() => {
@@ -151,11 +151,18 @@ class BusinessLogic extends Component {
      * @returns {Status} Result
      */
     sendVerify = async(email)=>{
-        let result = await this.props.services['auth-management'].create({action:'resendVerifySignup',value:{email:email}});
-        if(result.action.type.includes('FULFILLED')){
-            return {color:"success", message:"Verification Email Sent"};
-        } else {
-            return {color:"danger", message:"Error"}
+        try{
+            let result = await this.props.services['auth-management'].create({action:'resendVerifySignup',value:{email:email}});
+            if(result.action.type.includes('FULFILLED')){
+                return {color:"success", message:"Verification Email Sent"};
+            } else {
+                return {color:"danger", message:"Error"}
+            }
+        } 
+        catch(error)
+        {
+            if(error.message.includes("User is already verified"))
+                this.props.history.push("/");
         }
     }
 
@@ -167,7 +174,7 @@ class BusinessLogic extends Component {
      * @param {String} password
      * @returns {Status} Result
      */
-    reset = async(token, password) => {
+    resetToken = async(token, password) => {
         let result = await this.props.services['auth-management'].create({action:'resetPwdLong',value:{token,password}});
         if(result.action.type.includes('FULFILLED')){
             return {color:"success", message:"Password Reset"};
@@ -211,10 +218,10 @@ class BusinessLogic extends Component {
                 <ConditionalRoute path="/signup" condition={!loggedIn} redirect={'/dashboard'} render={(routeProps) => (<Signup signUp={this.signUp}/>)}/>
                 <Route path="/about" component={About}/>
                 <Route path="/tutorials" component={Tutorials}/>
-                <ConditionalRoute exact path="/verify" condition={!user.isVerified && loggedIn} redirect={'/login'} render={(routeProps) => (<Verify email={user.email} sendVerify={this.sendVerify}/>)}/>
-                <Route path="/verify/:token" render={(routeProps) => (<Verify token={routeProps.match.params.token} verify={this.verify}/>)}/>
-                <Route exact path="/reset" component={Reset}/>
-                <Route path="/reset/:token" render={(routeProps) => (<Reset token={routeProps.match.params.token} reset={this.reset}/>)}/>
+                <ConditionalRoute exact path="/verify" condition={!user.isVerified && loggedIn} redirect={'/login'} render={(routeProps) => (<SendVerify email={user.email} sendVerify={this.sendVerify}/>)}/>
+                <Route path="/verify/:token" render={(routeProps) => (<VerifyToken token={routeProps.match.params.token} verifyToken={this.verifyToken}/>)}/>
+                <Route exact path="/reset" render={(routeProps) => (<SendReset sendReset={this.sendReset}/>)}/>
+                <Route path="/reset/:token" render={(routeProps) => (<ResetToken token={routeProps.match.params.token} resetToken={this.resetToken}/>)}/>
                 <Route component={NotFound}/>
             </Switch> 
         )

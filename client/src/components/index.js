@@ -29,8 +29,10 @@ import ConditionalRoute from './ConditionalRoute';
 import NotFound from './NotFound';
 import ListCreator from './ListCreator';
 import PasswordStrengthMeter from './PasswordStrengthMeter';
-import Verify from './Verify';
-import Reset from './Reset';
+import VerifyToken from './VerifyToken';
+import SendVerify from './SendVerify';
+import ResetToken from './ResetToken';
+import SendReset from './SendReset';
 
 /**
  * Escape Room Generate Application Components
@@ -45,5 +47,5 @@ export {
     // Escape Room
     Accessibility, AreaDnDSource, AreaDnDTarget, AreaPalletItem, ComponentArranger, ComponentDetails, ComponentDnDSource, ComponentDnDTarget, Dashboard, Design, Details, EscapeRoomDesigner, LockGenerator, Pallet, PalletItem, PuzzleGenerator,
     // Web
-    Profile, Login, Signup, ConditionalRoute, NotFound, ListCreator, PasswordStrengthMeter, Verify, Reset
+    Profile, Login, Signup, ConditionalRoute, NotFound, ListCreator, PasswordStrengthMeter, VerifyToken, SendVerify, ResetToken, SendReset
 }

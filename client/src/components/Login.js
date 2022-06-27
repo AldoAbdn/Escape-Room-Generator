@@ -59,25 +59,6 @@ class Login extends Component {
     }
 
     /**
-     * Handles Reset Password Click
-     * @function
-     * @param {Event} e
-     */
-    handleClick = async (e) => {
-        e.preventDefault();
-        if(this.props.sendReset){
-            let result;
-            try {
-                result = await this.props.sendReset(this.state.email);
-            } catch (error) {
-                console.log(error);
-                result = {color:"warning", message:"An error occured, a password reset email may have been sent"};
-            }
-            this.setState(result);
-        }
-    }
-
-    /**
      * Handles ReCAPTCHA
      * @function
      * @param {bool} value
@@ -120,7 +101,7 @@ class Login extends Component {
                                     Don't have an account? Sign Up <Link to="/signup">Here</Link>
                                 </FormText>
                                 <FormText>
-                                    Forgotten Password? Enter your email above and then <button onClick={this.handleClick} className="btn btn-link" style={{padding:0,fontSize:'inherit'}}>Click Here</button>
+                                    Forgotten Password? <Link to="/reset">Click Here</Link>
                                 </FormText>
                                 <Alert isOpen={this.state.message !== ""} toggle={this.handleDismiss} color="danger">{this.state.message}</Alert>
                             </Form>
