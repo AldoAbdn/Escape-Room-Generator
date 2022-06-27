@@ -131,7 +131,7 @@ class Main extends Component {
                 return {color:"danger", message:"Error"}
             }
         } catch(error){
-            return {color:"warning", message: "An error has occured, changed may have been made"};
+            return {color:"danger", message: "An error has occured, changed may have been made"};
         }
     }
 
@@ -142,14 +142,14 @@ class Main extends Component {
      */
     sendPasswordReset = async() => {
         try {
-            let result = await this.props.services['auth-management'].create({action:'sendResetPwd', value:{email:this.props.redux.state.user.email},notifierOptions:{}});
+            let result = await this.props.services['auth-management'].create({action:'sendResetPwd', value:{email:this.props.redux.state.user.email}});
             if(result.action.type.include('FULFILLED')){
                 return {color:"success", message:"Email Saved"};
             } else {
                 return {color:"danger", message:"Error"}
             }
         } catch(error){
-            return {color:"warning", message:"An error has occured, a password reset email may have been sent"};
+            return {color:"danger", message:"An error has occured, a password reset email may have been sent"};
         }
     }
 
