@@ -202,7 +202,7 @@ class Main extends Component {
                         </Navbar>
                     </header>
                     <main>
-                        <BusinessLogic history={this.props.history} feathersClient={this.props.feathersClient} redux={this.props.redux} services={this.props.services} logout={this.logout}/>
+                        <BusinessLogic history={this.props.history} feathersClient={this.props.feathersClient} redux={this.props.redux} services={this.props.services}/>
                     </main>
                 </LoadingOverlay>
                 <Modal isOpen={modal.isOpen} >

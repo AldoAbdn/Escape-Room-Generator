@@ -137,10 +137,12 @@ class BusinessLogic extends Component {
         try{
             let result = await this.props.services['auth-management'].create({action:'verifySignupLong',value:token});
             if(result.action.type.includes('FULFILLED')){
+                // Redirects and reloads app after a successful account verification
                 setTimeout(() => {
-                    this.props.logout();
-                }, 10000);
-                return {color:"success", message:"Account Verified. You will be logged out in 10 seconds. Re-login to use the app."};
+                    window.location.reload(true);
+                    window.location.href="";
+                }, 3000);
+                return {color:"success", message:"Account Verified. You will be directed to the dashboard or login screen"};
             } else {
                 return {color:"danger", message:"Error"};
             }
