@@ -134,14 +134,20 @@ class BusinessLogic extends Component {
      * @returns {Status} Result
      */
     verifyToken = async(token)=>{
-        let result = await this.props.services['auth-management'].create({action:'verifySignupLong',value:token});
-        if(result.action.type.includes('FULFILLED')){
-            setTimeout(() => {
-                this.props.logout();
-            }, 10000);
-            return {color:"success", message:"Account Verified. You will be logged out in 10 seconds. Re-login to use the app."};
-        } else {
-            return {color:"danger", message:"Error"}
+        try{
+            let result = await this.props.services['auth-management'].create({action:'verifySignupLong',value:token});
+            if(result.action.type.includes('FULFILLED')){
+                setTimeout(() => {
+                    this.props.logout();
+                }, 10000);
+                return {color:"success", message:"Account Verified. You will be logged out in 10 seconds. Re-login to use the app."};
+            } else {
+                return {color:"danger", message:"Error"};
+            }
+        }
+        catch(error)
+        {
+            return {color:"danger", message:"Invalid Token"};
         }
     }
 
@@ -175,11 +181,17 @@ class BusinessLogic extends Component {
      * @returns {Status} Result
      */
     resetToken = async(token, password) => {
-        let result = await this.props.services['auth-management'].create({action:'resetPwdLong',value:{token,password}});
-        if(result.action.type.includes('FULFILLED')){
-            return {color:"success", message:"Password Reset"};
-        } else {
-            return {color:"danger", message:"Error"}
+        try{
+            let result = await this.props.services['auth-management'].create({action:'resetPwdLong',value:{token,password}});
+            if(result.action.type.includes('FULFILLED')){
+                return {color:"success", message:"Password Reset"};
+            } else {
+                return {color:"danger", message:"Error"};
+            }
+        }
+        catch(error)
+        {
+            return {color:"danger", message:"Invalid Token"};
         }
     }
 
