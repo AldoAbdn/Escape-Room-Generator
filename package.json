@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "cd server && npm start",
-    "custombuild": "cd client && npm run build && cd .. && xcopy \"client\\build\" \"server\\public\" /E /I",
-    "buildandstart": "npm custombuild && npm start",
+    "build": "cd client && npm run build && cd .. && xcopy \"client\\build\" \"server\\public\" /E /I",
+    "buildandstart": "npm run custombuild && npm run start",
     "dev": "concurrently \"cd server && npm run-script dev\" \"cd client && npm start\"",
-    "postinstall": "concurrently \"cd server && npm install\" \"cd client && npm install\""
+    "install": "concurrently \"cd server && npm install\" \"cd client && npm install\""
   },
   "repository": {
     "type": "git",

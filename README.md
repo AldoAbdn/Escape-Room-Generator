@@ -36,14 +36,14 @@ The project is made up of two main packages. One is the client side react app an
 In the project directory, you can run:
 ### `npm start`
 Starts the server project
-### `npm custombuild`
+### `npm build`
 Builds the react app and puts the build into the servers public folder.
 Refer to the readme in the client folder for the environment variables needed for the client application.
 ### `npm buildandstart`
-Runs the custombuild script first and then starts the server. Use this command to get the project working on your own machine. Please refer to the readmes of the client and server folders.
+Runs the build script first and then starts the server. Use this command to get the project working on your own machine. Please refer to the readmes of the client and server folders.
 ### `npm dev`
 Starts both the client server and the main server for easier development of the react application.
-### `npm postinstall`
+### `npm install`
 Runs npm install in both the client and server package
 ## Use of Project Code 
 Please refer to the attached license
