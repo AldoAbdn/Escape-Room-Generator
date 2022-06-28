@@ -87,10 +87,15 @@ class Main extends Component {
      * Authenticates User 
      * @function 
      */
-    authenticate = async() => {
+    authenticate = async(credentials) => {
         try{
+            let result, user;
             //Authenticates JWT and then populates user/escapeRooms
-            let { user } = await this.props.feathersClient.reAuthenticate();
+            if(credentials!==undefined && credentials!==null)
+                result = await this.props.feathersClient.authenticate(credentials);
+            else 
+                result = await this.props.feathersClient.reAuthenticate();
+            user = result.user;
             if(user!=null){
                 user.token = window.localStorage.getItem('feathers-jwt');
                 this.props.redux.actions.user.login(user);
@@ -208,7 +213,7 @@ class Main extends Component {
                         </Navbar>
                     </header>
                     <main>
-                        <BusinessLogic history={this.props.history} feathersClient={this.props.feathersClient} redux={this.props.redux} services={this.props.services} populateEscapeRooms={this.populateEscapeRooms} authManagement={this.authManagement} sendReset={this.sendReset}/>
+                        <BusinessLogic history={this.props.history} redux={this.props.redux} services={this.props.services} authenticate={this.authenticate} populateEscapeRooms={this.populateEscapeRooms} authManagement={this.authManagement} sendReset={this.sendReset}/>
                     </main>
                 </LoadingOverlay>
                 <Modal isOpen={modal.isOpen} >

@@ -30,8 +30,8 @@ class Login extends Component {
     handleSubmit = async (e) => {
         e.preventDefault();
         //Authenticate credentials 
-        if(this.state.email!=="" && this.state.password!=="" && this.state.recaptcha && this.props.authenticateCredentials){
-            var err = await this.props.authenticateCredentials({strategy:'local',email:this.state.email,password:this.state.password});
+        if(this.state.email!=="" && this.state.password!=="" && this.state.recaptcha && this.props.authenticate){
+            var err = await this.props.authenticate({strategy:'local',email:this.state.email,password:this.state.password});
             this.setState({message:err, color:"danger"});
         } else {
             this.setState({message:"Error"})
@@ -114,7 +114,7 @@ class Login extends Component {
 };
 
 Login.propTypes = {
-    authenticateCredentials: PropTypes.func,
+    authenticate: PropTypes.func,
 }
 
 export default Login;

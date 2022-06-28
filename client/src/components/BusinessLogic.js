@@ -23,25 +23,6 @@ class BusinessLogic extends Component {
     }
 
     /**
-     * Authenticates login credentials 
-     * @param {Object} credentials 
-     * @returns {string} Error
-     */
-    authenticateCredentials = async(credentials)=>{
-        try {
-            let { user } = await this.props.feathersClient.authenticate(credentials);
-            if(user!=null){
-                user.token = window.localStorage.getItem('feathers-jwt');
-                this.props.redux.actions.user.login(user);
-                if(user.isVerified)
-                    await this.props.populateEscapeRooms(user._id);
-            }
-        } catch(error){
-            return error.message;
-        }
-    }
-
-    /**
      * Creates a new user 
      * @param {Object} credentials 
      * @returns {string} Error
@@ -51,7 +32,7 @@ class BusinessLogic extends Component {
         try{
             let queryResult = await this.props.services.users.create(credentials);
             if(queryResult.action.type.includes('FULFILLED')){
-                await this.authenticateCredentials(credentials);
+                await this.props.authenticate(credentials);
             }
         } catch(error){
             return error.message;
@@ -165,7 +146,7 @@ class BusinessLogic extends Component {
                 <Redirect exact from="/" to="dashboard"/>
                 <ConditionalRoute path="/dashboard" condition={user.isVerified && loggedIn} redirect={'/verify'} render={(routeProps) => (<Dashboard escapeRooms={escapeRooms} showModal={showModal} editEscapeRoom={this.editEscapeRoom} newEscapeRoom={this.newEscapeRoom} deleteEscapeRoom={this.deleteEscapeRoom}/>)}/>
                 <ConditionalRoute path="/designer" condition={Object.keys(escapeRoom).length > 0 && escapeRoom!==undefined && loggedIn} redirect={'/'} render={(routeProps) =>(<EscapeRoomDesigner showModal={showModal} escapeRoom={escapeRoom} saveEscapeRoom={this.saveEscapeRoom} updateDetails={escapeRoomActions.updateDetails} updateAccessibility={escapeRoomActions.updateAccessibility} addComponent={escapeRoomActions.addComponent} removeComponent={escapeRoomActions.removeComponent} updateComponent={escapeRoomActions.updateComponent} addRelationship={escapeRoomActions.addRelationship} removeRelationship={escapeRoomActions.removeRelationship}/>)}/>
-                <ConditionalRoute path="/login" condition={!loggedIn} redirect={'/dashboard'} render={(routeProps) => (<Login authenticateCredentials={this.authenticateCredentials} sendReset={this.sendReset}/>)}/>
+                <ConditionalRoute path="/login" condition={!loggedIn} redirect={'/dashboard'} render={(routeProps) => (<Login authenticate={this.authenticate} sendReset={this.sendReset}/>)}/>
                 <ConditionalRoute path="/signup" condition={!loggedIn} redirect={'/dashboard'} render={(routeProps) => (<Signup signUp={this.signUp}/>)}/>
                 <Route path="/about" component={About}/>
                 <Route path="/tutorials" component={Tutorials}/>
@@ -184,6 +165,7 @@ BusinessLogic.propTypes = {
     feathersClient: PropTypes.object,
     redux: PropTypes.object,
     services: PropTypes.object,
+    authenticate: PropTypes.object,
     populateEscapeRooms: PropTypes.func,
     authManagement: PropTypes.func,
     sendReset: PropTypes.func,
