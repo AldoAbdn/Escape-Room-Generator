@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { Link } from 'react-router-dom';
 import { Container, Row, Col, Alert, Button, Form, FormGroup, Label, Input, FormText} from 'reactstrap';
 import PropTypes from 'prop-types';
 
@@ -73,7 +74,7 @@ class SendReset extends Component {
                     <Row>
                         <Col>
                             <h1>Password Reset</h1>
-                            <Form noValidate onSubmit={this.handleSubmit}>
+                            <Form onSubmit={this.handleSubmit}>
                                 <FormGroup>
                                     <Label for="email">Email</Label>
                                     <Input required type="email" name="email" id="email" value={this.state.email} onChange={this.handleChange}/>
@@ -83,6 +84,9 @@ class SendReset extends Component {
                                 </FormGroup>
                                 <FormText>
                                     Forgotten password? Enter your email above and click the button to recieve a password reset email
+                                </FormText>
+                                <FormText>
+                                    Have an account? Login <Link to="/login">Here</Link>
                                 </FormText>
                                 <Alert isOpen={this.state.message !== ""} toggle={this.handleDismiss} color="danger">{this.state.message}</Alert>
                             </Form>

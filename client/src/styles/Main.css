@@ -52,7 +52,7 @@ main {
     opacity: 0.4;
 }
 
-.login .form-text, .sign-up .form-text {
+.login .form-text, .sign-up .form-text, .reset .form-text {
     color: white !important;
     font-weight: bold;
 }
