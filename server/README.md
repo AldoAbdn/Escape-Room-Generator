@@ -3,9 +3,11 @@
 > Server that provides an API for updating escape rooms (uses feathersjs)
 
 ## Environment Variables
-The server has 5 environment variables that must be set. These can be put in a .env file that looks like this:
+The server has 10 environment variables that must be set. These can be put in a .env file that looks like this:
+    # Environment
+    NODE_ENV=default (can be changed to production)
     # Server
-    HOST=127.0.0.1
+    HOST=127.0.0.1 
     PORT=3030
     # MongoDB 
     MONGOURI=PUT YOUR DB URI HERE
