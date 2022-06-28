@@ -40,7 +40,7 @@ main {
     color: white;
 }
 
-.login::before, .sign-up::before {
+.login::before, .sign-up::before .reset::before {
     background-color: black;
     content: "";
     display: block;

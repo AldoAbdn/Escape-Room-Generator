@@ -23,24 +23,6 @@ class BusinessLogic extends Component {
     }
 
     /**
-     * Popultes escape rooms by user ID
-     * @param {String} userId
-     * @returns {bool} success
-     */
-    populateEscapeRooms = async (userId) => {
-        //Get User Details and Update Redux Store
-        if (userId !== null && userId !== undefined){
-            let result = await this.props.services['escape-rooms'].find({query:{userId:userId}});
-            if(result.action.type.includes('FULFILLED')){
-                const escapeRooms = result.value.data;
-                if (escapeRooms!==null && escapeRooms!==undefined){
-                    this.props.redux.actions.escapeRooms.updateEscapeRooms(escapeRooms);
-                }
-            }
-        }
-    }
-
-    /**
      * Authenticates login credentials 
      * @param {Object} credentials 
      * @returns {string} Error
@@ -52,7 +34,7 @@ class BusinessLogic extends Component {
                 user.token = window.localStorage.getItem('feathers-jwt');
                 this.props.redux.actions.user.login(user);
                 if(user.isVerified)
-                    await this.populateEscapeRooms(user._id);
+                    await this.props.populateEscapeRooms(user._id);
             }
         } catch(error){
             return error.message;
@@ -134,23 +116,14 @@ class BusinessLogic extends Component {
      * @returns {Status} Result
      */
     verifyToken = async(token)=>{
-        try{
-            let result = await this.props.services['auth-management'].create({action:'verifySignupLong',value:token});
-            if(result.action.type.includes('FULFILLED')){
-                // Redirects and reloads app after a successful account verification
-                setTimeout(() => {
-                    window.location.reload(true);
-                    window.location.href="";
-                }, 3000);
-                return {color:"success", message:"Account Verified. You will be directed to the dashboard or login screen"};
-            } else {
-                return {color:"danger", message:"Error"};
-            }
-        }
-        catch(error)
-        {
-            return {color:"danger", message:"Invalid Token"};
-        }
+        let result = await this.props.authManagement({action:'verifySignupLong',value:token}, "Account Verified. You will be directed to the dashboard or login screen", "Invalid Token");
+        if(result.color === "success"){
+            setTimeout(() => {
+                window.location.reload(true);
+                window.location.href="";
+            }, 3000);
+        };
+        return result;
     }
 
     /**
@@ -159,19 +132,8 @@ class BusinessLogic extends Component {
      * @returns {Status} Result
      */
     sendVerify = async(email)=>{
-        try{
-            let result = await this.props.services['auth-management'].create({action:'resendVerifySignup',value:{email:email}});
-            if(result.action.type.includes('FULFILLED')){
-                return {color:"success", message:"Verification Email Sent"};
-            } else {
-                return {color:"danger", message:"Error"}
-            }
-        } 
-        catch(error)
-        {
-            if(error.message.includes("User is already verified"))
-                this.props.history.push("/");
-        }
+        let result = await this.props.authManagement({action:'resendVerifySignup',value:{email:email}}, "Verification Email Sent", "An Error occured, Verification email may have been sent");
+        return result;
     }
 
     /**
@@ -183,39 +145,8 @@ class BusinessLogic extends Component {
      * @returns {Status} Result
      */
     resetToken = async(token, password) => {
-        try{
-            let result = await this.props.services['auth-management'].create({action:'resetPwdLong',value:{token,password}});
-            if(result.action.type.includes('FULFILLED')){
-                return {color:"success", message:"Password Reset"};
-            } else {
-                return {color:"danger", message:"Error"};
-            }
-        }
-        catch(error)
-        {
-            return {color:"danger", message:"Invalid Token"};
-        }
-    }
-
-    /**
-     * Sends password reset
-     * @function
-     * @param {String} email
-     * @returns {Status} Result
-     */
-    sendReset = async(email) => {
-        try{
-            let result = await this.props.services['auth-management'].create({action:'sendResetPwd', value:{email:email}});
-            if(result.action.type.includes('FULFILLED')){
-                return {color:"success", message:"Password Reset Sent, Check Emails"};
-            } else {
-                return {color:"danger", message:"Error"}
-            }
-        } 
-        catch(error)
-        {
-            return {color:"danger", message:"Error"};
-        }
+        let result = await this.props.authManagement({action:'resetPwdLong',value:{token,password}}, "Password Reset", "Invalid Token");
+        return result;
     }
 
     /** 
@@ -240,7 +171,7 @@ class BusinessLogic extends Component {
                 <Route path="/tutorials" component={Tutorials}/>
                 <ConditionalRoute exact path="/verify" condition={!user.isVerified && loggedIn} redirect={'/login'} render={(routeProps) => (<SendVerify email={user.email} sendVerify={this.sendVerify}/>)}/>
                 <Route path="/verify/:token" render={(routeProps) => (<VerifyToken token={routeProps.match.params.token} verifyToken={this.verifyToken}/>)}/>
-                <Route exact path="/reset" render={(routeProps) => (<SendReset sendReset={this.sendReset}/>)}/>
+                <Route exact path="/reset" render={(routeProps) => (<SendReset sendReset={this.props.sendReset}/>)}/>
                 <Route path="/reset/:token" render={(routeProps) => (<ResetToken token={routeProps.match.params.token} resetToken={this.resetToken}/>)}/>
                 <Route component={NotFound}/>
             </Switch> 
@@ -252,7 +183,10 @@ BusinessLogic.propTypes = {
     history: PropTypes.object,
     feathersClient: PropTypes.object,
     redux: PropTypes.object,
-    services: PropTypes.object
+    services: PropTypes.object,
+    populateEscapeRooms: PropTypes.func,
+    authManagement: PropTypes.func,
+    sendReset: PropTypes.func,
 }
 
 export default BusinessLogic;

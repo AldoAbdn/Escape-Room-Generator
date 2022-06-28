@@ -83,11 +83,7 @@ class Profile extends Component {
                 break;
             case 'passwordButton':
                 let result;
-                try{
-                    result = await this.props.sendPasswordReset();
-                }catch(error){
-                    result = {color:"warning", message:"An error occured, a password reset email may have been sent"}
-                }
+                result = await this.props.sendReset(this.props.user.email);
                 this.setState(result);
                 break;
             default:
@@ -170,7 +166,7 @@ class Profile extends Component {
 Profile.propTypes = {
     user: PropTypes.object,
     identityChange: PropTypes.func,
-    sendPasswordReset: PropTypes.func,
+    sendReset: PropTypes.func,
 }
 
 export default Profile;

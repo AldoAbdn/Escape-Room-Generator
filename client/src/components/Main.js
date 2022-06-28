@@ -115,42 +115,48 @@ class Main extends Component {
     }
 
     /**
+     * Authentication Management Helper Function
+     * @function
+     * @param {Object} data
+     * @param {String} success
+     * @param {String} error
+     * @returns {Object} Result
+     */
+    authManagement = async(data, success, error) => {
+        try {
+            let result = await this.props.services['auth-management'].create(data);
+            if(result.action.type.include('FULFILLED')){
+                return {color:"success", message:success};
+            } else {
+                return {color:"danger", message:"Error"}
+            }
+        } catch(er){
+            return {color:"danger", message:error};
+        }
+    }
+
+    /**
      * Edits a users email
      * @function
      * @param {String} email
      * @param {String} password
      * @param {Object} change
-     * @returns {Object} 
+     * @returns {Object} Result
      */
     identityChange = async(user, password, changes) => {
-        try {
-            let result = await this.props.services['auth-management'].create({action:'identityChange',value:{user,password,changes}});
-            if(result.action.type.include('FULFILLED')){
-                return {color:"success", message:"Email Saved"};
-            } else {
-                return {color:"danger", message:"Error"}
-            }
-        } catch(error){
-            return {color:"danger", message: "An error has occured, changed may have been made"};
-        }
+        let result = await this.authManagement({action:'identityChange',value:{user,password,changes}}, "Email Saved", "An error has occured, changes may have been saved");
+        return result;
     }
 
     /**
      * Sends Password Reset
      * @function
+     * @param {String} email
      * @returns {Object}
      */
-    sendPasswordReset = async() => {
-        try {
-            let result = await this.props.services['auth-management'].create({action:'sendResetPwd', value:{email:this.props.redux.state.user.email}});
-            if(result.action.type.include('FULFILLED')){
-                return {color:"success", message:"Email Saved"};
-            } else {
-                return {color:"danger", message:"Error"}
-            }
-        } catch(error){
-            return {color:"danger", message:"An error has occured, a password reset email may have been sent"};
-        }
+    sendReset = async(email) => {
+        let result = await this.authManagement({action:'sendResetPwd', value:{email:email}}, "Password Reset Sent", "An error has occured, password reset email may have been sent");
+        return result;
     }
 
     /**
@@ -171,7 +177,7 @@ class Main extends Component {
                 Profile
                 </DropdownToggle>
                 <DropdownMenu right>
-                    <Profile user={user} identityChange={this.identityChange} sendPasswordReset={this.sendPasswordReset}/>
+                    <Profile user={user} identityChange={this.identityChange} sendReset={this.sendReset}/>
                     <Button id="LogoutButton" onClick={this.logout} block>Logout</Button>
                 </DropdownMenu>
             </Dropdown>
@@ -202,7 +208,7 @@ class Main extends Component {
                         </Navbar>
                     </header>
                     <main>
-                        <BusinessLogic history={this.props.history} feathersClient={this.props.feathersClient} redux={this.props.redux} services={this.props.services}/>
+                        <BusinessLogic history={this.props.history} feathersClient={this.props.feathersClient} redux={this.props.redux} services={this.props.services} populateEscapeRooms={this.populateEscapeRooms} authManagement={this.authManagement} sendReset={this.sendReset}/>
                     </main>
                 </LoadingOverlay>
                 <Modal isOpen={modal.isOpen} >
