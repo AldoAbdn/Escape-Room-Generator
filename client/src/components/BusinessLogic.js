@@ -1,6 +1,6 @@
 import React, {Component}  from 'react';
 import { Route, Switch } from 'react-router';
-import { Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { Dashboard, EscapeRoomDesigner, Login, Signup, Tutorials, About, ConditionalRoute, NotFound, VerifyToken, SendVerify, ResetToken, SendReset } from './index.js';
 import EscapeRoom from '../models/EscapeRoom.js';
 import PropTypes from 'prop-types';
@@ -143,7 +143,7 @@ class BusinessLogic extends Component {
         const loggedIn = window.localStorage.getItem("feathers-jwt") != null;
         return (
             <Switch>
-                <Redirect exact from="/" to="dashboard"/>
+                <Navigate exact from="/" to="dashboard"/>
                 <ConditionalRoute path="/dashboard" condition={user.isVerified && loggedIn} redirect={'/verify'} render={(routeProps) => (<Dashboard escapeRooms={escapeRooms} showModal={showModal} editEscapeRoom={this.editEscapeRoom} newEscapeRoom={this.newEscapeRoom} deleteEscapeRoom={this.deleteEscapeRoom}/>)}/>
                 <ConditionalRoute path="/designer" condition={Object.keys(escapeRoom).length > 0 && escapeRoom!==undefined && loggedIn} redirect={'/'} render={(routeProps) =>(<EscapeRoomDesigner showModal={showModal} escapeRoom={escapeRoom} saveEscapeRoom={this.saveEscapeRoom} updateDetails={escapeRoomActions.updateDetails} updateAccessibility={escapeRoomActions.updateAccessibility} addComponent={escapeRoomActions.addComponent} removeComponent={escapeRoomActions.removeComponent} updateComponent={escapeRoomActions.updateComponent} addRelationship={escapeRoomActions.addRelationship} removeRelationship={escapeRoomActions.removeRelationship}/>)}/>
                 <ConditionalRoute path="/login" condition={!loggedIn} redirect={'/dashboard'} render={(routeProps) => (<Login authenticate={this.authenticate} sendReset={this.sendReset}/>)}/>
