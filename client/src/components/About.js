@@ -18,6 +18,7 @@ class About extends Component {
                 <Container>
                     <Row>
                         <Col>
+                            <img src="/images/logos/main.svg" alt="Logo"/>
                             <p>
                                 The Escape Room Generator is a web app for designing an escape room, that allows you to export your design in either JSON or PDF format. This project originally started as my honours project and I have continued its development.
                                 The main goals of the project are: 
