@@ -7,7 +7,7 @@
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import '../styles/App.css';
 import Main from './Main';
 import * as userActionCreators from '../actions/user';
@@ -52,6 +52,28 @@ function mergeProps(stateProps, dispatchProps, ownProps) {
     }
   }
 }
+
+/**
+ * New equivalent of withRouter
+ * May need to update in the future
+ * https://stackoverflow.com/questions/71837081/export-withrouter-imported-as-withrouter-was-not-found-in-react-router-do
+ * @param {*} Component 
+ * @returns 
+ */
+const withRouter = Component => props => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const params = useParams();
+
+  return (
+    <Component
+      {...props}
+      location={location}
+      navigate={navigate}
+      params={params}
+    />
+  );
+};
 
 /** Main App Component */
 const App = connect(mapStateToProps, mapDispatchToProps, mergeProps)(Main);
