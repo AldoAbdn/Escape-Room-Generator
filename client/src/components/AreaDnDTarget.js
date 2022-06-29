@@ -1,13 +1,14 @@
 import React, {Component}  from 'react';
 import ReactDOM from 'react-dom';
 import { Card, CardBody, CardTitle } from 'reactstrap';
-import { DropTarget } from 'react-dnd';
+import { useDrop } from 'react-dnd';
 import { ItemTypes } from '../utilities/items';
 import ComponentDnDSource from '../../../client/src/components/ComponentDnDSource';
 import { Puzzle, Prop, Lock, Music, Event } from '../../../client/src/models/index.js';
 import Area from '../../../client/src/models/Area';
 import PropTypes from 'prop-types';
 import '../styles/Component.css';
+import AreaDnDSource from './AreaDnDSource';
 
 /**
  * Specifies the drop target contract.
@@ -41,6 +42,23 @@ function collect(connect, monitor) {
         isOverCurrent: monitor.isOver(),
         canDrop: monitor.canDrop(),
         itemType: monitor.getItemType()
+    }
+}
+
+/**
+ * Wrapper for React DnD Hooks
+ * https://stackoverflow.com/questions/53371356/how-can-i-use-react-hooks-in-react-classic-class-component
+ * https://reactjs.org/docs/hooks-overview.html
+ * @param {*} Component 
+ * @returns 
+ */
+ function withUseDrop(Component) {
+    return function WrappedComponent(props)
+    {
+    const [collectedProps, drop] = useDrop(() => ({
+        accept: ItemTypes.COMPONENT
+      }))
+      return <AreaDnDSource {...props} collectedProps = {collectedProps} drop = {drop}/>
     }
 }
 
@@ -160,4 +178,4 @@ AreaDnDTarget.propTypes = {
     handleComponentClick: PropTypes.func,
 }
 
-export default DropTarget(ItemTypes.COMPONENT, componentTarget, collect)(AreaDnDTarget);
+export default withUseDrop(AreaDnDTarget);

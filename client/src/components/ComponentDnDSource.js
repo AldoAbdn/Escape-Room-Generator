@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { DragSource } from 'react-dnd';
+import { useDrag } from 'react-dnd';
 import { ItemTypes } from '../utilities/items';
 import ComponentDnDTarget from './ComponentDnDTarget';
 import { Row, Col } from 'reactstrap'
@@ -76,6 +76,24 @@ function collect(connect, monitor) {
     // You can ask the monitor about the current drag state:
     isDragging: monitor.isDragging()
   };
+}
+
+/**
+ * Wrapper for React DnD Hooks
+ * https://stackoverflow.com/questions/53371356/how-can-i-use-react-hooks-in-react-classic-class-component
+ * https://reactjs.org/docs/hooks-overview.html
+ * @param {*} Component 
+ * @returns 
+ */
+ function withUseDrag(Component) {
+  return function WrappedComponent(props)
+  {
+    const [collected, drag, dragPreview] = useDrag(() => ({
+      type: ItemTypes.COMPONENT,
+      item: { id:props.id }
+    }))
+    return <ComponentDnDSource {...props} collected = {collected} drag = {drag} dragPreview = {dragPreview}/>
+  }
 }
 
 /**
@@ -179,4 +197,4 @@ ComponentDnDSource.propTypes = {
   addRelationship: PropTypes.func,
 }
 
-export default DragSource(ItemTypes.COMPONENT, componentSource, collect)(ComponentDnDSource);
+export default withUseDrag(ComponentDnDSource);

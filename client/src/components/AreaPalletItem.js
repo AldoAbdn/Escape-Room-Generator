@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { UncontrolledTooltip } from 'reactstrap';
-import { DragSource } from 'react-dnd';
+import { useDrag } from 'react-dnd';
 import { ItemTypes } from '../utilities/items';
 import PropTypes from 'prop-types';
 import '../styles/Component.css';
@@ -40,6 +40,24 @@ function collect(connect, monitor) {
   };
 }
 
+/**
+ * Wrapper for React DnD Hooks
+ * https://stackoverflow.com/questions/53371356/how-can-i-use-react-hooks-in-react-classic-class-component
+ * https://reactjs.org/docs/hooks-overview.html
+ * @param {*} Component 
+ * @returns 
+ */
+ function withUseDrag(Component) {
+  return function WrappedComponent(props)
+  {
+    const [collected, drag, dragPreview] = useDrag(() => ({
+      type: ItemTypes.AREA,
+      item: { id:props.id }
+    }))
+    return <AreaPalletItem {...props} collected = {collected} drag = {drag} dragPreview = {dragPreview}/>
+  }
+}
+
 /** 
  * Class for AreaPalletItem
  * @extends Component
@@ -67,4 +85,4 @@ AreaPalletItem.propTypes = {
   id: PropTypes.string,
 }
 
-export default DragSource(ItemTypes.AREA, componentSource, collect)(AreaPalletItem);
+export default withUseDrag(AreaPalletItem);
