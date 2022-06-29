@@ -132,8 +132,9 @@ class Main extends Component {
             let result = await this.props.services['auth-management'].create(data);
             if(result.action.type.includes('FULFILLED'))
                 return {color:"success", message:success};
-        } catch(er){
-            console.log(er);
+        } 
+        catch(er) 
+        {
             return {color:"danger", message:error};
         }
     }
