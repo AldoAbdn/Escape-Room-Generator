@@ -165,7 +165,7 @@ BusinessLogic.propTypes = {
     feathersClient: PropTypes.object,
     redux: PropTypes.object,
     services: PropTypes.object,
-    authenticate: PropTypes.object,
+    authenticate: PropTypes.func,
     populateEscapeRooms: PropTypes.func,
     authManagement: PropTypes.func,
     sendReset: PropTypes.func,
