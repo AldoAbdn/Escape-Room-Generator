@@ -23,6 +23,6 @@
   "homepage": "https://github.com/AldoAbdn/Escape-Room-Generator#readme",
   "dependencies": {
     "@feathersjs/errors": "^4.3.11",
-    "concurrently": "^4.1.0"
+    "concurrently": "^7.2.2"
   }
 }
