@@ -88,7 +88,7 @@ class SendReset extends Component {
                                 <FormText>
                                     Have an account? Login <Link to="/login">Here</Link>
                                 </FormText>
-                                <Alert isOpen={this.state.message !== ""} toggle={this.handleDismiss} color="danger">{this.state.message}</Alert>
+                                <Alert isOpen={this.state.message !== ""} toggle={this.handleDismiss} color={this.state.color}>{this.state.message}</Alert>
                             </Form>
                         </Col>
                     </Row>

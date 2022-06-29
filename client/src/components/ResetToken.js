@@ -32,7 +32,7 @@ class ResetToken extends Component {
         e.preventDefault();
         if(this.state.password!=="" && this.state.password===this.state.password2 && this.props.reset){
             let result = await this.props.resetToken(this.props.token,this.state.password);
-            this.setState({message:result.message, color:result.color});
+            this.setState(result);
         }
     }
 
@@ -45,11 +45,11 @@ class ResetToken extends Component {
             this.setState({
                 [e.target.id]: e.target.value,
                 testResult: zxcvbn(e.target.value)
-            },()=>this.setState({message:this.composemessage()}));
+            },()=>this.setState({color:"danger",message:this.composemessage()}));
         } else {
             this.setState({
                 [e.target.id]: e.target.value,
-            },()=>this.setState({message:this.composemessage()}));
+            },()=>this.setState({color:"danger",message:this.composemessage()}));
         }
     }
 
@@ -122,7 +122,7 @@ class ResetToken extends Component {
                                 <FormText>
                                     Passwords must be strong and 8 characters in length or more
                                 </FormText>
-                                <Alert isOpen={this.state.message !== ""} toggle={this.handleDismiss} color="danger">{this.state.message}</Alert>
+                                <Alert isOpen={this.state.message !== ""} toggle={this.handleDismiss} color={this.state.color}>{this.state.message}</Alert>
                             </Form>
                         </Col>
                     </Row>

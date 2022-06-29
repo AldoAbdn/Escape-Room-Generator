@@ -31,10 +31,10 @@ class Login extends Component {
         e.preventDefault();
         //Authenticate credentials 
         if(this.state.email!=="" && this.state.password!=="" && this.state.recaptcha && this.props.authenticate){
-            var err = await this.props.authenticate({strategy:'local',email:this.state.email,password:this.state.password});
-            this.setState({message:err, color:"danger"});
+            var result = await this.props.authenticate({strategy:'local',email:this.state.email,password:this.state.password});
+            this.setState(result);
         } else {
-            this.setState({message:"Error"})
+            this.setState({color:"danger",message:"Error"})
         }
     }
 
@@ -103,7 +103,7 @@ class Login extends Component {
                                 <FormText>
                                     Forgotten Password? <Link to="/reset">Click Here</Link>
                                 </FormText>
-                                <Alert isOpen={this.state.message !== ""} toggle={this.handleDismiss} color="danger">{this.state.message}</Alert>
+                                <Alert isOpen={this.state.message !== ""} toggle={this.handleDismiss} color={this.state.color}>{this.state.message}</Alert>
                             </Form>
                         </Col>
                     </Row>

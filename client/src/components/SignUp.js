@@ -32,10 +32,10 @@ class Signup extends Component {
     handleSubmit = async (e) => {
         e.preventDefault();
         if(this.state.email!=="" && this.state.password!=="" && this.state.password2!=="" && this.state.password===this.state.password2 && this.state.recaptcha && this.props.signUp){
-            let err = await this.props.signUp({email:this.state.email,password:this.state.password});
-            this.setState({message:err});
+            let result = await this.props.signUp({email:this.state.email,password:this.state.password});
+            this.setState(result);
         } else {
-            this.setState({message:"Error"});
+            this.setState({color:"danger",message:"Error"});
         }
     }
 
@@ -49,11 +49,11 @@ class Signup extends Component {
             this.setState({
                 [e.target.id]: e.target.value,
                 testResult: zxcvbn(e.target.value)
-            },()=>this.setState({message:this.composemessage()}));
+            },()=>this.setState({color:"danger",message:this.composemessage()}));
         } else {
             this.setState({
                 [e.target.id]: e.target.value,
-            },()=>this.setState({message:this.composemessage()}));
+            },()=>this.setState({color:"danger",message:this.composemessage()}));
         }
     }
 
@@ -142,7 +142,7 @@ class Signup extends Component {
                                 <FormText>
                                     Have an account? Log In <Link to="/login">Here</Link>
                                 </FormText>
-                                <Alert isOpen={this.state.message !== ""} toggle={this.handleDismiss} color="danger">{this.state.message}</Alert>
+                                <Alert isOpen={this.state.message !== ""} toggle={this.handleDismiss} color={this.state.color}>{this.state.message}</Alert>
                             </Form>
                         </Col>
                     </Row>
