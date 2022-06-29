@@ -30,7 +30,7 @@ class ResetToken extends Component {
      */
     handleSubmit = async (e) => {
         e.preventDefault();
-        if(this.state.password!=="" && this.state.password===this.state.password2 && this.props.reset){
+        if(this.state.password!=="" && this.state.password===this.state.password2 && this.props.resetToken){
             let result = await this.props.resetToken(this.props.token,this.state.password);
             this.setState(result);
         }
