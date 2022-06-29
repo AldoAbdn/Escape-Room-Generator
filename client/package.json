@@ -28,7 +28,7 @@
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "react-router-redux": "^4.0.8",
-    "react-scripts": "^5.0.1",
+    "react-scripts": "^3.2.0",
     "react-youtube-playlist": "^2.2.8",
     "reactstrap": "^7.1.0",
     "redux": "^4.0.1",
