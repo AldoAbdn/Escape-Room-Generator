@@ -1,13 +1,22 @@
 import React, {Component}  from 'react';
 import { Row, Col } from 'reactstrap';
-import Area from './AreaDnDSource';
-import AreaModel from '../../../client/src/models/Area';
-import { useDrop } from 'react-dnd';
-import { ItemTypes } from '../utilities/items';
-import LineTo from 'react-lineto';
-import PropTypes from 'prop-types';
 import '../styles/Component.css';
 import '../styles/ComponentArranger.css';
+import Area from './AreaDnDSource';
+import AreaModel from '../../../client/src/models/Area';
+import { DropTarget } from 'react-dnd';
+import LineTo from 'react-lineto';
+import PropTypes from 'prop-types';
+
+/**
+ * Drag sources and drop targets only interact
+ * if they have the same string type.
+ * You want to keep types in a separate file with
+ * the rest of your app's constants.
+ */
+const Types = {
+    AREA: 'AREA'
+}
 
 /**
  * Specifies the drop target contract.
@@ -39,23 +48,6 @@ function collect(connect, monitor) {
       canDrop: monitor.canDrop(),
       itemType: monitor.getItemType()
     };
-}
-
-/**
- * Wrapper for React DnD Hooks
- * https://stackoverflow.com/questions/53371356/how-can-i-use-react-hooks-in-react-classic-class-component
- * https://reactjs.org/docs/hooks-overview.html
- * @param {*} Component 
- * @returns 
- */
- function withUseDrop(Component) {
-    return function WrappedComponent(props)
-    {
-    const [collectedProps, drop] = useDrop(() => ({
-        accept: ItemTypes.AREA
-      }))
-      return <ComponentArranger {...props} collectedProps = {collectedProps} drop = {drop}/>
-    }
 }
 
 /**
@@ -181,4 +173,4 @@ ComponentArranger.propTypes = {
     addRelationship: PropTypes.func
 }
 
-export default withUseDrop(ComponentArranger);
+export default DropTarget(Types.AREA, areaArrangerTarget,collect)(ComponentArranger);

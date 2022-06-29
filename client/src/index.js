@@ -25,10 +25,10 @@ import App from './components/App';
 //Service Worker 
 import * as serviceWorker from './serviceWorker';
 //ReactDnD
-import { HTML5Backend } from 'react-dnd-html5-backend';
-import { TouchBackend } from 'react-dnd-touch-backend';
+import HTML5Backend from 'react-dnd-html5-backend';
+import TouchBackend from 'react-dnd-touch-backend';
 import MultiBackend, { TouchTransition } from 'react-dnd-multi-backend';
-import { DndProvider } from 'react-dnd';
+import { DragDropContextProvider } from 'react-dnd';
 let pipline = {
     backends: [
         {backend: HTML5Backend},
@@ -53,13 +53,13 @@ const services = bindWithDispatch(store.dispatch, rawServices);
 
 //Router
 const router = (
-    <DndProvider backend={backend}>
+    <DragDropContextProvider backend={backend}>
         <Provider store={store}>
             <HashRouter>
                 <App feathersClient={feathersClient} services={services} getServicesStatus={getServicesStatus}/>
             </HashRouter>
         </Provider>
-    </DndProvider>
+    </DragDropContextProvider>
 );
 
 //Render Router 

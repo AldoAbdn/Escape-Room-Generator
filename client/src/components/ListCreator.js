@@ -1,5 +1,5 @@
 import React, {Component}  from 'react';
-import {Row, Col, Button, Input, InputGroup, InputGroupText} from 'reactstrap';
+import {Row, Col, Button, Input, InputGroup, InputGroupAddon, InputGroupText} from 'reactstrap';
 import PropTypes from 'prop-types';
 
 /**
@@ -62,9 +62,11 @@ class ListCreator extends Component {
         return (
             <InputGroup key={index}>
                 <Input type="text" id={index} onChange={this.handleChange}/>
-                <InputGroupText onClick={this.removeItem(index)}>
-                    delete
-                </InputGroupText>
+                <InputGroupAddon addonType="append">
+                    <InputGroupText onClick={this.removeItem(index)}>
+                        delete
+                    </InputGroupText>
+                </InputGroupAddon>
             </InputGroup>
         )
     }

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Navigate, Route } from 'react-router-dom';
+import { Route } from 'react-router'
+import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 /**
@@ -15,7 +16,7 @@ class ConditionalRoute extends Component {
    */
     render(){
         if(!this.props.condition){
-            return(<Navigate to={this.props.redirect}/>)
+            return(<Redirect to={this.props.redirect}/>)
         } else {
             return (<Route {...this.props}/>)
         }

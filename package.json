@@ -8,7 +8,7 @@
     "build": "cd client && npm run build && cd .. && xcopy \"client\\build\" \"server\\public\" /E /I",
     "buildandstart": "npm run custombuild && npm run start",
     "dev": "concurrently \"cd server && npm run-script dev\" \"cd client && npm start\"",
-    "installboth": "concurrently \"cd server && npm install\" \"cd client && npm install\""
+    "install": "concurrently \"cd server && npm install\" \"cd client && npm install\""
   },
   "repository": {
     "type": "git",
@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/AldoAbdn/Escape-Room-Generator#readme",
   "dependencies": {
-    "concurrently": "^7.2.2"
+    "@feathersjs/errors": "^4.3.11",
+    "concurrently": "^4.1.0"
   }
 }

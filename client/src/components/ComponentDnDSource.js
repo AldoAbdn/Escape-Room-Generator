@@ -1,11 +1,20 @@
 import React, {Component} from 'react';
-import { useDrag } from 'react-dnd';
-import { ItemTypes } from '../utilities/items';
+import { DragSource } from 'react-dnd';
 import ComponentDnDTarget from './ComponentDnDTarget';
 import { Row, Col } from 'reactstrap'
+import '../styles/Component.css';
 import Modal from '../../../client/src/models/Modal';
 import PropTypes from 'prop-types';
-import '../styles/Component.css';
+
+/**
+ * Drag sources and drop targets only interact
+ * if they have the same string type.
+ * You want to keep types in a separate file with
+ * the rest of your app's constants.
+ */
+const Types = {
+  COMPONENT: 'COMPONENT'
+};
 
 /**
  * Specifies the drag source contract.
@@ -76,24 +85,6 @@ function collect(connect, monitor) {
     // You can ask the monitor about the current drag state:
     isDragging: monitor.isDragging()
   };
-}
-
-/**
- * Wrapper for React DnD Hooks
- * https://stackoverflow.com/questions/53371356/how-can-i-use-react-hooks-in-react-classic-class-component
- * https://reactjs.org/docs/hooks-overview.html
- * @param {*} Component 
- * @returns 
- */
- function withUseDrag(Component) {
-  return function WrappedComponent(props)
-  {
-    const [collected, drag, dragPreview] = useDrag(() => ({
-      type: ItemTypes.COMPONENT,
-      item: { id:props.id }
-    }))
-    return <ComponentDnDSource {...props} collected = {collected} drag = {drag} dragPreview = {dragPreview}/>
-  }
 }
 
 /**
@@ -197,4 +188,4 @@ ComponentDnDSource.propTypes = {
   addRelationship: PropTypes.func,
 }
 
-export default withUseDrag(ComponentDnDSource);
+export default DragSource(Types.COMPONENT, componentSource, collect)(ComponentDnDSource);
