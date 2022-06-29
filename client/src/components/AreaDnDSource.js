@@ -83,6 +83,24 @@ function collect(connect, monitor) {
 }
 
 /**
+ * Wrapper for React DnD Hooks
+ * https://stackoverflow.com/questions/53371356/how-can-i-use-react-hooks-in-react-classic-class-component
+ * https://reactjs.org/docs/hooks-overview.html
+ * @param {*} Component 
+ * @returns 
+ */
+ function withUseDrag(Component) {
+  return function WrappedComponent(props)
+  {
+    const [collected, drag, dragPreview] = useDrag(() => ({
+      type: ItemTypes.AREA,
+      item: { id:props.id }
+    }))
+    return <AreaDnDSource {...props} collected = {collected} drag = {drag} dragPreview = {dragPreview}/>
+  }
+}
+
+/**
  * Class for Area drag and drop source 
  * @extends Component
  * @author Alistair Quinn
@@ -91,7 +109,6 @@ class AreaDnDSource extends Component{
   /** Creates AreaDnDSource */
   constructor(){
     super();
-    this.state={render:true};
   }
 
   /** 
