@@ -1,22 +1,13 @@
 import React, {Component}  from 'react';
 import { Row, Col } from 'reactstrap';
-import '../styles/Component.css';
-import '../styles/ComponentArranger.css';
 import Area from './AreaDnDSource';
 import AreaModel from '../../../client/src/models/Area';
 import { DropTarget } from 'react-dnd';
+import { ItemTypes } from '../utilities/items';
 import LineTo from 'react-lineto';
 import PropTypes from 'prop-types';
-
-/**
- * Drag sources and drop targets only interact
- * if they have the same string type.
- * You want to keep types in a separate file with
- * the rest of your app's constants.
- */
-const Types = {
-    AREA: 'AREA'
-}
+import '../styles/Component.css';
+import '../styles/ComponentArranger.css';
 
 /**
  * Specifies the drop target contract.
@@ -173,4 +164,4 @@ ComponentArranger.propTypes = {
     addRelationship: PropTypes.func
 }
 
-export default DropTarget(Types.AREA, areaArrangerTarget,collect)(ComponentArranger);
+export default DropTarget(ItemTypes.AREA, areaArrangerTarget,collect)(ComponentArranger);

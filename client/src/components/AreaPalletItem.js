@@ -1,16 +1,9 @@
 import React, {Component} from 'react';
 import { UncontrolledTooltip } from 'reactstrap';
 import { DragSource } from 'react-dnd';
+import { ItemTypes } from '../utilities/items';
 import PropTypes from 'prop-types';
 import '../styles/Component.css';
-
-// Drag sources and drop targets only interact
-// if they have the same string type.
-// You want to keep types in a separate file with
-// the rest of your app's constants.
-const Types = {
-  AREA: "AREA"
-};
 
 /**
  * Specifies the drag source contract.
@@ -74,4 +67,4 @@ AreaPalletItem.propTypes = {
   id: PropTypes.string,
 }
 
-export default DragSource(Types.AREA, componentSource, collect)(AreaPalletItem);
+export default DragSource(ItemTypes.AREA, componentSource, collect)(AreaPalletItem);

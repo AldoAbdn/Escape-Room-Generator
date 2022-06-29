@@ -1,22 +1,13 @@
 import React, {Component}  from 'react';
 import ReactDOM from 'react-dom';
-import { Card, CardBody ,CardTitle } from 'reactstrap';
-import '../styles/Component.css';
+import { Card, CardBody, CardTitle } from 'reactstrap';
 import { DropTarget } from 'react-dnd';
+import { ItemTypes } from '../utilities/items';
 import ComponentDnDSource from '../../../client/src/components/ComponentDnDSource';
 import { Puzzle, Prop, Lock, Music, Event } from '../../../client/src/models/index.js';
 import Area from '../../../client/src/models/Area';
 import PropTypes from 'prop-types';
-
-/**
- * Drag sources and drop targets only interact
- * if they have the same string type.
- * You want to keep types in a separate file with
- * the rest of your app's constants.
- */
-const Types = {
-    COMPONENT: 'COMPONENT'
-}
+import '../styles/Component.css';
 
 /**
  * Specifies the drop target contract.
@@ -169,4 +160,4 @@ AreaDnDTarget.propTypes = {
     handleComponentClick: PropTypes.func,
 }
 
-export default DropTarget(Types.COMPONENT, componentTarget, collect)(AreaDnDTarget);
+export default DropTarget(ItemTypes.COMPONENT, componentTarget, collect)(AreaDnDTarget);

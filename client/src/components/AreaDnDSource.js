@@ -1,21 +1,12 @@
 import React, {Component} from 'react';
 import { DragSource } from 'react-dnd';
+import { ItemTypes } from '../utilities/items';
 import AreaDnDTarget from './AreaDnDTarget';
-import '../styles/Component.css';
 import { Card } from 'reactstrap';
 import Area from '../../../client/src/models/Area';
 import Modal from '../../../client/src/models/Modal';
 import PropTypes from 'prop-types';
-
-/**
- * Drag sources and drop targets only interact
- * if they have the same string type.
- * You want to keep types in a separate file with
- * the rest of your app's constants.
- */
-const Types = {
-  AREA: 'AREA'
-};
+import '../styles/Component.css';
 
 /**
  * Specifies the drag source contract.
@@ -170,4 +161,4 @@ AreaDnDSource.propTypes = {
   connectDragSource: PropTypes.func,
 }
 
-export default DragSource(Types.AREA, areaSource, collect)(AreaDnDSource);
+export default DragSource(ItemTypes.AREA, areaSource, collect)(AreaDnDSource);

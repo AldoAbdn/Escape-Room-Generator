@@ -1,20 +1,11 @@
 import React, {Component} from 'react';
 import { DragSource } from 'react-dnd';
+import { ItemTypes } from '../utilities/items';
 import ComponentDnDTarget from './ComponentDnDTarget';
 import { Row, Col } from 'reactstrap'
-import '../styles/Component.css';
 import Modal from '../../../client/src/models/Modal';
 import PropTypes from 'prop-types';
-
-/**
- * Drag sources and drop targets only interact
- * if they have the same string type.
- * You want to keep types in a separate file with
- * the rest of your app's constants.
- */
-const Types = {
-  COMPONENT: 'COMPONENT'
-};
+import '../styles/Component.css';
 
 /**
  * Specifies the drag source contract.
@@ -188,4 +179,4 @@ ComponentDnDSource.propTypes = {
   addRelationship: PropTypes.func,
 }
 
-export default DragSource(Types.COMPONENT, componentSource, collect)(ComponentDnDSource);
+export default DragSource(ItemTypes.COMPONENT, componentSource, collect)(ComponentDnDSource);
