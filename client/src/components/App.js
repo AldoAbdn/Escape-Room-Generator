@@ -4,7 +4,7 @@
  * @class App
  * @author Alistair Quinn  
  */
-
+import React from 'react'
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom'

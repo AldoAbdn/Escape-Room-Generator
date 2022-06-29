@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { DragSource } from 'react-dnd';
+import { useDrag } from 'react-dnd';
 import { ItemTypes } from '../utilities/items';
 import AreaDnDTarget from './AreaDnDTarget';
 import { Card } from 'reactstrap';
@@ -106,11 +106,6 @@ function collect(connect, monitor) {
  * @author Alistair Quinn
  */
 class AreaDnDSource extends Component{
-  /** Creates AreaDnDSource */
-  constructor(){
-    super();
-  }
-
   /** 
    * Removes a component 
    * @function 
@@ -178,4 +173,4 @@ AreaDnDSource.propTypes = {
   connectDragSource: PropTypes.func,
 }
 
-export default DragSource(ItemTypes.AREA, areaSource, collect)(AreaDnDSource);
+export default withUseDrag(AreaDnDSource);
