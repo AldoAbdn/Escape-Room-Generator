@@ -130,11 +130,8 @@ class Main extends Component {
     authManagement = async(data, success, error) => {
         try {
             let result = await this.props.services['auth-management'].create(data);
-            if(result.action.type.includes('FULFILLED')){
+            if(result.action.type.includes('FULFILLED'))
                 return {color:"success", message:success};
-            } else {
-                return {color:"danger", message:"Error"}
-            }
         } catch(er){
             console.log(er);
             return {color:"danger", message:error};
