@@ -26,9 +26,11 @@ class SendReset extends Component {
      */
     handleSubmit = async (e) => {
         e.preventDefault();
-        if(this.state.email!=="" && this.props.sendReset){
+        if(this.state.email!=="" && this.composeErrorMessage() === "" && this.props.sendReset){
             let result = await this.props.sendReset(this.state.email);
             this.setState({message:result.message, color:result.color});
+        } else if(this.composeErrorMessage() !== "") {
+            this.setState({color:"danger",message:this.composeErrorMessage()});
         }
     }
 
@@ -39,7 +41,7 @@ class SendReset extends Component {
     handleChange = (e) => {
         this.setState({
             [e.target.id]: e.target.value,
-        },()=>this.setState({message:this.composemessage()}));
+        },()=>this.setState({color:"danger",message:this.composeErrorMessage()}));
     }
 
     /**
@@ -47,9 +49,9 @@ class SendReset extends Component {
      * @function
      * @returns {String}
      */
-    composemessage = () => {
+    composeErrorMessage = () => {
         let messages = [];
-        if(this.state.email.includes(" ") || this.state.email.includes("$") || !this.state.email.includes("@") || !this.state.email.includes("."))
+        if(this.state.email === "" || this.state.email.includes(" ") || this.state.email.includes("$") || !this.state.email.includes("@") || !this.state.email.includes("."))
             messages.push("Invalid Email");
         return messages.join(", ");   
     }
