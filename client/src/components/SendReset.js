@@ -61,7 +61,7 @@ class SendReset extends Component {
      * @function
      */
     handleDismiss = (event) => {
-        this.setState({message: ""});
+        this.setState({color:"success",message: ""});
     }
 
     /** 

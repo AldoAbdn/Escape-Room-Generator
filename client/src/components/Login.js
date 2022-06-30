@@ -33,8 +33,8 @@ class Login extends Component {
         if(this.state.email!=="" && this.state.password!=="" && this.state.recaptcha && this.props.authenticate){
             var result = await this.props.authenticate({strategy:'local',email:this.state.email,password:this.state.password});
             this.setState(result);
-        } else {
-            this.setState({color:"danger",message:"Error"})
+        } else if (this.composeErrorMessage() !== "") {
+            this.setState({color:"danger",message:this.composeErrorMessage()});
         }
     }
 
@@ -46,7 +46,21 @@ class Login extends Component {
     handleChange = (e) => {
         this.setState({
             [e.target.id]: e.target.value
-        });
+        }, ()=>this.setState({color:"danger",message:this.composeErrorMessage()}));
+    }
+
+    /**
+     * Composes Error Message
+     * @function
+     * @returns {String}
+     */
+    composeErrorMessage = () => {
+        let messages = [];
+        if(this.state.email === "" || this.state.email.includes(" ") || this.state.email.includes("$") || !this.state.email.includes("@") || !this.state.email.includes("."))
+            messages.push("Invalid Email");
+        if(this.state.password.length < 8)
+            messages.push("Password Too Short");
+        return messages.join(", ");   
     }
 
     /**

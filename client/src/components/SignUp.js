@@ -35,7 +35,7 @@ class Signup extends Component {
             let result = await this.props.signUp({email:this.state.email,password:this.state.password});
             this.setState(result);
         } else {
-            this.setState({color:"danger",message:"Error"});
+            this.setState({color:"danger",message:this.composeErrorMessage()});
         }
     }
 
@@ -45,16 +45,11 @@ class Signup extends Component {
      * @param {Event} e
      */
     handleChange = (e) => {
-        if(e.target.id === "password"){
-            this.setState({
-                [e.target.id]: e.target.value,
-                testResult: zxcvbn(e.target.value)
-            },()=>this.setState({color:"danger",message:this.composemessage()}));
-        } else {
-            this.setState({
-                [e.target.id]: e.target.value,
-            },()=>this.setState({color:"danger",message:this.composemessage()}));
-        }
+        if(e.target.id === "password")
+            this.setState({testResult: zxcvbn(e.target.value)});
+        this.setState({
+            [e.target.id]: e.target.value,
+        },()=>this.setState({color:"danger",message:this.composeErrorMessage()}));
     }
 
     /**
@@ -62,7 +57,7 @@ class Signup extends Component {
      * @function
      * @returns {String}
      */
-    composemessage = () => {
+    composeErrorMessage = () => {
         let messages = [];
         if(this.state.password!==""&&this.state.password!==this.state.password2)
             messages.push("Passwords Must Match");
@@ -80,15 +75,7 @@ class Signup extends Component {
      * @function
      */
     handleDismiss = () => {
-        this.setState({message: ""});
-    }
-
-    /**
-     * Handles Test Result
-     * @function
-     */
-    handleTestResult = (testResult) => {
-        this.setState({testResult:testResult});
+        this.setState({color:"success",message: ""});
     }
 
     /**
