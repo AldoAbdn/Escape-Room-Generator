@@ -58,7 +58,7 @@ class Login extends Component {
         let messages = [];
         if(this.state.email === "" || this.state.email.includes(" ") || this.state.email.includes("$") || !this.state.email.includes("@") || !this.state.email.includes("."))
             messages.push("Invalid Email");
-        if(this.state.password.length < 8)
+        if(this.state.password === "")
             messages.push("Password Too Short");
         return messages.join(", ");   
     }

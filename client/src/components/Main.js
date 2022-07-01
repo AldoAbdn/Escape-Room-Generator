@@ -101,9 +101,12 @@ class Main extends Component {
                 this.props.redux.actions.user.login(user);
                 if(user.isVerified)
                     await this.populateEscapeRooms(user._id);
+                return {color:"success", message:"Logged In"};
+            } else {
+                return {color:"danger", message:"Authentication Failed"};
             }
         }catch(error){
-            return error.message;
+            return {color:"danger", message:error.message};
         }
     }
 
@@ -133,7 +136,7 @@ class Main extends Component {
             if(result.action.type.includes('FULFILLED'))
                 return {color:"success", message:success};
         } 
-        catch(er) 
+        catch(error) 
         {
             return {color:"danger", message:error};
         }
