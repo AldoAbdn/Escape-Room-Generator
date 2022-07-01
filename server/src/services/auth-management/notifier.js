@@ -32,12 +32,7 @@ module.exports = function(app) {
               from: process.env.SMTP_FROM,
               to: user.email,
               subject: 'Verify Signup',
-              html: '<div><img src="cid:logo"/><p>Click here to verify your account: <a href="' + tokenLink + '">Link</a></p><div>',
-              attachements: [{
-                filename: 'Logo.PNG',
-                path: '../../images/logos/Logo.PNG',
-                cid: 'logo'
-              }]
+              html: '<div><p>Click here to verify your account: <a href="' + tokenLink + '">Link</a></p><div>',
           }
           return sendEmail(email)
         case 'verifySignup': // confirming verification
@@ -46,12 +41,7 @@ module.exports = function(app) {
               from: process.env.SMTP_FROM,
               to: user.email,
               subject: 'Confirm Signup',
-              html: '<div><img src="cid:logo"/><p>Thanks for verifying your email</p></div>',
-              attachements: [{
-                filename: 'Logo.PNG',
-                path: '../../images/logos/Logo.PNG',
-                cid: 'logo'
-              }]
+              html: '<div><p>Thanks for verifying your email</p></div>',
           }
           return sendEmail(email)
         case 'sendResetPwd':
@@ -60,13 +50,9 @@ module.exports = function(app) {
               from: process.env.SMTP_FROM,
               to: user.email,
               subject: 'Password Reset',
-              html: '<div><img src="cid:logo"/><p>Click here to reset your password: <a href="' + tokenLink + '">Link</a></p></div>',
-              attachements: [{
-                filename: 'Logo.PNG',
-                path: '../../images/logos/Logo.PNG',
-                cid: 'logo'
-              }]
+              html: '<div><p>Click here to reset your password: <a href="' + tokenLink + '">Link</a></p></div>',
           }
+          console.log(__dirname);
           return sendEmail(email);
         case 'resetPwd':
           tokenLink = getLink('reset', user.resetToken)
@@ -74,12 +60,7 @@ module.exports = function(app) {
               from: process.env.SMTP_FROM,
               to: user.email,
               subject: 'Password Was Reset',
-              html: '<div><img src="cid:logo"/><p>Your password was reset</p></div>',
-              attachements: [{
-                filename: 'Logo.PNG',
-                path: '../../images/logos/Logo.PNG',
-                cid: 'logo'
-              }]
+              html: '<div><p>Your password was reset</p></div>',
             }
           return sendEmail(email)
         case 'passwordChange':
@@ -87,12 +68,7 @@ module.exports = function(app) {
               from: process.env.SMTP_FROM,
               to: user.email,
               subject: 'Password Change',
-              html: '<div><img src="cid:logo"/><p>Your password was changed</p></div>',
-              attachements: [{
-                filename: 'Logo.PNG',
-                path: '../../images/logos/Logo.PNG',
-                cid: 'logo'
-              }]
+              html: '<div><p>Your password was changed</p></div>',
             }
           return sendEmail(email)
         case 'identityChange':
@@ -101,12 +77,7 @@ module.exports = function(app) {
               from: process.env.SMTP_FROM,
               to: user.email,
               subject: 'Identity Changed',
-              html: '<div><img src="cid:logo"/><p>Click here to verify your account: <a href="' + tokenLink + '">Link</a></p></div>',
-              attachements: [{
-                filename: 'Logo.PNG',
-                path: '../../images/logos/Logo.PNG',
-                cid: 'logo'
-              }]
+              html: '<div><p>Click here to verify your account: <a href="' + tokenLink + '">Link</a></p></div>',
             }
           return sendEmail(email)
         default:
