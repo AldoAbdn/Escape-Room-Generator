@@ -128,7 +128,13 @@ class BusinessLogic extends Component {
      * @returns {Status} Result
      */
     resetToken = async(token, password) => {
-        let result = await this.props.authManagement({action:'resetPwdLong',value:{token,password}}, "Password Reset", "Invalid Token");
+        let result = await this.props.authManagement({action:'resetPwdLong',value:{token,password}}, "Password Reset. You will be redirected to the dashboard or login screen", "Invalid Token");
+        if(result.color === "success"){
+            setTimeout(() => {
+                window.location.reload(true);
+                window.location.href="";
+            }, 10000);
+        };
         return result;
     }
 
