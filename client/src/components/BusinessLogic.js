@@ -30,12 +30,14 @@ class BusinessLogic extends Component {
     signUp = async(credentials)=>{
         //Create a new user 
         try{
-            let queryResult = await this.props.services.users.create(credentials);
-            if(queryResult.action.type.includes('FULFILLED')){
-                await this.props.authenticate(credentials);
+            let result = await this.props.services.users.create(credentials);
+            if(result.action.type.includes('FULFILLED')){
+                credentials.strategy = "local";
+                let result = await this.props.authenticate(credentials);
+                return result;
             }
         } catch(error){
-            return error.message;
+            return {color:"danger", message:error.message};
         }
     }
 
@@ -102,7 +104,7 @@ class BusinessLogic extends Component {
             setTimeout(() => {
                 window.location.reload(true);
                 window.location.href="";
-            }, 3000);
+            }, 10000);
         };
         return result;
     }
