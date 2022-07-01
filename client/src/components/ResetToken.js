@@ -41,16 +41,11 @@ class ResetToken extends Component {
      * @function
      */
     handleChange = (e) => {
-        if(e.target.id === "password"){
-            this.setState({
-                [e.target.id]: e.target.value,
-                testResult: zxcvbn(e.target.value)
-            },()=>this.setState({color:"danger",message:this.composemessage()}));
-        } else {
-            this.setState({
-                [e.target.id]: e.target.value,
-            },()=>this.setState({color:"danger",message:this.composemessage()}));
-        }
+        if(e.target.id === "password")
+            this.setState({testResult: zxcvbn(e.target.value)});
+        this.setState({
+            [e.target.id]: e.target.value,
+        },()=>this.setState({color:"danger",message:this.composemessage()}));
     }
 
     /**
@@ -71,7 +66,7 @@ class ResetToken extends Component {
         let messages = [];
         if(this.state.password!==""&&this.state.password!==this.state.password2)
             messages.push("Passwords Must Match");
-        if(this.state.testResult.score<3)
+        if(this.state.testResult.score < 3)
             messages.push("Password Not Strong Enough");
         if(this.state.password.length < 8)
             messages.push("Password Too Short");
