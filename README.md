@@ -37,14 +37,16 @@ In the project directory, you can run:
 ### `npm start`
 Starts the server project
 ### `npm build`
-Builds the react app and puts the build into the servers public folder.
+Builds the react appp
 Refer to the readme in the client folder for the environment variables needed for the client application.
+### `npm postbuild`
+Puts React App build into servers public directory
 ### `npm buildandstart`
 Runs the build script first and then starts the server. Use this command to get the project working on your own machine. Please refer to the readmes of the client and server folders.
 ### `npm dev`
 Starts both the client server and the main server for easier development of the react application.
-### `npm install`
-Runs npm install in both the client and server package
+### `npm postinstall`
+Runs npm install in both the client and server package after npm install is run
 ## Developers Guide
 You will need to setup two sets of environment variables, one for the client and one for the server. You can do this using .env files within 
 the client and server folders of this project. Refer to the readmes in the client and server folders to setup your environment variables
