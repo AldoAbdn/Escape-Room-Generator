@@ -79,7 +79,6 @@ module.exports = function(app) {
               html: 'Click here to verify your account: <a href="' + tokenLink + '">Link</a>'
             }
           return sendEmail(email)
-          break;
         default:
           break;
         }
