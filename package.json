@@ -8,7 +8,7 @@
     "build": "cd client && npm run build && cd .. && xcopy \"client\\build\" \"server\\public\" /E /I",
     "buildandstart": "npm run build && npm run start",
     "dev": "concurrently \"cd server && npm run-script dev\" \"cd client && npm start\"",
-    "installboth": "concurrently \"cd server && npm install\" \"cd client && npm install\""
+    "install": "concurrently \"cd server && npm install\" \"cd client && npm install\""
   },
   "repository": {
     "type": "git",

@@ -43,7 +43,7 @@ Refer to the readme in the client folder for the environment variables needed fo
 Runs the build script first and then starts the server. Use this command to get the project working on your own machine. Please refer to the readmes of the client and server folders.
 ### `npm dev`
 Starts both the client server and the main server for easier development of the react application.
-### `npm installboth`
+### `npm install`
 Runs npm install in both the client and server package
 ## Developers Guide
 You will need to setup two sets of environment variables, one for the client and one for the server. You can do this using .env files within 
