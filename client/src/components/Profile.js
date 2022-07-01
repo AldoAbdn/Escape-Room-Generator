@@ -1,5 +1,5 @@
 import React, {Component}  from 'react';
-import { Container, Row, Col, Alert, Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Container, Row, Col, Alert, Button } from 'reactstrap';
 import PropTypes from 'prop-types';
 
 /**
@@ -12,23 +12,9 @@ class Profile extends Component {
     constructor(){
         super();
         this.state = {
-            edit: false,
             message: "",
-            email: "",
-            password: "",
             color: "success"
         };
-    }
-    
-    /**
-     * Handles form submit
-     * @function
-     * @param {Event} e
-     */
-    handleSubmit = async (e) => {
-        e.preventDefault();
-        if(this.props.updateUser)
-            this.props.updateUser({email:this.state.email,password:this.state.password});
     }
 
     /**
@@ -58,56 +44,8 @@ class Profile extends Component {
      */
     handleClick = async (e) => {
         e.preventDefault();
-        switch (e.target.id) {
-            case 'editButton':
-                this.setState({edit:true});
-                break;
-            case 'saveButton':
-                let user = this.props.user;
-                if(this.state.email === "" || this.state.email.includes(" ") || this.state.email.includes("$") || !this.state.email.includes("@") || !this.state.email.includes("."))
-                    this.setState({message:"Invalid Email",color:"danger"});
-                else if(this.state.password==="")
-                    this.setState({message:"Password Required",color:"danger"})
-                else if(this.props.identityChange){
-                    let result = await this.props.identityChange({email:user.email}, this.state.password, {email:this.state.email});
-                    this.setState(result);
-                }
-                break;
-            case 'cancelButton':
-                this.setState({edit:false});
-                break;
-            case 'passwordButton':
-                let result = await this.props.sendReset(this.props.user.email);
-                this.setState(result);
-                break;
-            default:
-        }
-    }
-
-    /**
-     * React Lifecycle Method
-     * Component Mounted
-     */
-    componentDidMount(){
-        const user = this.props.user;
-        this.setState({
-            email: user.email
-        })
-    }
-
-    /**
-     * React Lifecycle Method
-     * Component Updated
-     * @param {Object} oldProps 
-     */
-    componentDidUpdate(oldProps){
-        const newProps = this.props;
-        if(oldProps.user.email !== newProps.user.email){
-            const user = this.props.user;
-            this.setState({
-                email: user.email,
-            })
-        }
+        let result = await this.props.sendReset(this.props.user.email);
+        this.setState(result);
     }
 
     /**
@@ -116,50 +54,23 @@ class Profile extends Component {
      * @returns {JSX}
      */
     render() {
-        if(this.state.edit)
-            // Edit Profile
-            return (
-            <Container fluid>
-                <Row>
-                    <Col>
-                        <Form onSubmit={this.handleSubmit}>
-                            <FormGroup>
-                                <Label for="email">Email</Label>
-                                <Input type="email" name="email" id="email" value={this.state.email} onChange={this.handleChange}/>
-                            </FormGroup>
-                            <FormGroup>
-                                <Label for="password">Confirm Password</Label>
-                                <Input type="password" name="password" id="password" value={this.state.password} onChange={this.handleChange}/>
-                            </FormGroup>
-                            <Button id="cancelButton" onClick={this.handleClick} block>Cancel</Button>
-                            <Button id="saveButton" onClick={this.handleClick} block>Save</Button>
-                            <Alert isOpen={this.state.message !== ""} toggle={this.handleDismiss} color={this.state.color}>{this.state.message}</Alert>
-                        </Form>
-                    </Col>
-                </Row>
-            </Container>
-            );
-        else 
-            // Profile
-            return (
-            <Container fluid>
-                <Row>
-                    <Col>
-                        <img id="ProfileImage" className="img-fluid" src={this.props.user.avatar} alt="Profile" />
-                        <p className="text-center">{this.props.user.email}</p>
-                        <Button id="editButton" block className="text-center" onClick={this.handleClick}>Edit Email</Button>
-                        <Button id="passwordButton" block className="text-center" onClick={this.handleClick}>Password Reset</Button>
-                        <Alert isOpen={this.state.message !== ""} toggle={this.handleDismiss} color={this.state.color}>{this.state.message}</Alert>
-                    </Col>
-                </Row>
-            </Container>
-            );
+        return (
+        <Container fluid>
+            <Row>
+                <Col>
+                    <img id="ProfileImage" className="img-fluid" src={this.props.user.avatar} alt="Profile" />
+                    <p className="text-center">{this.props.user.email}</p>
+                    <Button id="passwordButton" block className="text-center" onClick={this.handleClick}>Password Reset</Button>
+                    <Alert isOpen={this.state.message !== ""} toggle={this.handleDismiss} color={this.state.color}>{this.state.message}</Alert>
+                </Col>
+            </Row>
+        </Container>
+        );
     }
 };
 
 Profile.propTypes = {
     user: PropTypes.object,
-    identityChange: PropTypes.func,
     sendReset: PropTypes.func,
 }
 

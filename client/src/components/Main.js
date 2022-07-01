@@ -143,19 +143,6 @@ class Main extends Component {
     }
 
     /**
-     * Edits a users email
-     * @function
-     * @param {String} email
-     * @param {String} password
-     * @param {Object} change
-     * @returns {Object} Result
-     */
-    identityChange = async(user, password, changes) => {
-        let result = await this.authManagement({action:'identityChange',value:{user,password,changes}}, "Email Saved, Verification Email Sent", "An error has occured, changes may have been saved");
-        return result;
-    }
-
-    /**
      * Sends Password Reset
      * @function
      * @param {String} email
@@ -184,7 +171,7 @@ class Main extends Component {
                 Profile
                 </DropdownToggle>
                 <DropdownMenu right>
-                    <Profile user={user} identityChange={this.identityChange} sendReset={this.sendReset}/>
+                    <Profile user={user} sendReset={this.sendReset}/>
                     <Button id="LogoutButton" onClick={this.logout} block>Logout</Button>
                 </DropdownMenu>
             </Dropdown>
