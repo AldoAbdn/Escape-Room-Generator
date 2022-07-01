@@ -64,17 +64,12 @@ class Profile extends Component {
                 break;
             case 'saveButton':
                 let user = this.props.user;
-                if(this.state.email==="")
-                    this.setState({message:"Email Required",color:"danger"});
+                if(this.state.email === "" || this.state.email.includes(" ") || this.state.email.includes("$") || !this.state.email.includes("@") || !this.state.email.includes("."))
+                    this.setState({message:"Invalid Email",color:"danger"});
                 else if(this.state.password==="")
-                    this.setState({message:"Your current password is required for authentication",color:"danger"})
+                    this.setState({message:"Password Required",color:"danger"})
                 else if(this.props.identityChange){
-                    let result;
-                    try{
-                        result = await this.props.identityChange({email:user.email}, this.state.password, {email:this.state.email});
-                    } catch(error) {
-                        result = "An error occured, your email may have been changed"
-                    }
+                    let result = await this.props.identityChange({email:user.email}, this.state.password, {email:this.state.email});
                     this.setState(result);
                 }
                 break;
@@ -82,8 +77,7 @@ class Profile extends Component {
                 this.setState({edit:false});
                 break;
             case 'passwordButton':
-                let result;
-                result = await this.props.sendReset(this.props.user.email);
+                let result = await this.props.sendReset(this.props.user.email);
                 this.setState(result);
                 break;
             default:

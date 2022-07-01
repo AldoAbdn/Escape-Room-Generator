@@ -151,7 +151,8 @@ class Main extends Component {
      * @returns {Object} Result
      */
     identityChange = async(user, password, changes) => {
-        let result = await this.authManagement({action:'identityChange',value:{user,password,changes}}, "Email Saved", "An error has occured, changes may have been saved");
+        console.log(user, password, changes);
+        let result = await this.authManagement({action:'identityChange',value:{user,password,changes}}, "Email Saved, Verification Email Sent", "An error has occured, changes may have been saved");
         return result;
     }
 

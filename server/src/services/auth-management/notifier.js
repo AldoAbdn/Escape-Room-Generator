@@ -9,16 +9,11 @@ module.exports = function(app) {
     let host = app.get('host');
     let port = app.get('port');
     let link = `${protocol}${host}:${port}/#/${type}/${hash}`
-    console.log(link) // Logging links until email works
     return link;
   }
 
   function sendEmail(email) {
-    return app.service('mailer').create(email).then(function(result){
-      console.log('Email Sent', result);
-    }).catch(err => {
-      console.log('Error sending email', err);
-    });
+    return app.service('mailer').create(email);
   }
   
   return {
@@ -52,7 +47,6 @@ module.exports = function(app) {
               subject: 'Password Reset',
               html: '<div><p>Click here to reset your password: <a href="' + tokenLink + '">Link</a></p></div>',
           }
-          console.log(__dirname);
           return sendEmail(email);
         case 'resetPwd':
           tokenLink = getLink('reset', user.resetToken)
