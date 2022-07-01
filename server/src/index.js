@@ -1,3 +1,7 @@
+/*.env*/
+const dotenv = require('dotenv');
+dotenv.config();
+
 /* eslint-disable no-console */
 const logger = require('./logger');
 const app = require('./app');

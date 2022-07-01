@@ -25,7 +25,7 @@ class ConditionalRoute extends Component {
 
 ConditionalRoute.propTypes = {
     condition: PropTypes.bool,
-    location: PropTypes.string,
+    redirect: PropTypes.string,
 }
 
 export default ConditionalRoute;

@@ -11,8 +11,8 @@ import PropTypes from 'prop-types';
  */
 class Login extends Component {
     /** Creates Login */
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         this.state = {
             email:"",
             password:"",
@@ -30,11 +30,11 @@ class Login extends Component {
     handleSubmit = async (e) => {
         e.preventDefault();
         //Authenticate credentials 
-        if(this.state.email!=="" && this.state.password!=="" && this.state.recaptcha && this.props.authenticateCredentials){
-            var err = await this.props.authenticateCredentials({strategy:'local',email:this.state.email,password:this.state.password});
-            this.setState({message:err, color:"danger"});
-        } else {
-            this.setState({message:"Error"})
+        if(this.state.email!=="" && this.state.password!=="" && this.state.recaptcha && this.props.authenticate){
+            var result = await this.props.authenticate({strategy:'local',email:this.state.email,password:this.state.password});
+            this.setState(result);
+        } else if (this.composeErrorMessage() !== "") {
+            this.setState({color:"danger",message:this.composeErrorMessage()});
         }
     }
 
@@ -46,7 +46,19 @@ class Login extends Component {
     handleChange = (e) => {
         this.setState({
             [e.target.id]: e.target.value
-        });
+        }, ()=>this.setState({color:"danger",message:this.composeErrorMessage()}));
+    }
+
+    /**
+     * Composes Error Message
+     * @function
+     * @returns {String}
+     */
+    composeErrorMessage = () => {
+        let messages = [];
+        if(this.state.email === "" || this.state.email.includes(" ") || this.state.email.includes("$") || !this.state.email.includes("@") || !this.state.email.includes("."))
+            messages.push("Invalid Email");
+        return messages.join(", ");   
     }
 
     /**
@@ -56,24 +68,6 @@ class Login extends Component {
      */
     handleDismiss = (e) => {
         this.setState({message: "", color:"success"});
-    }
-
-    /**
-     * Handles Reset Password Click
-     * @function
-     * @param {Event} e
-     */
-    handleClick = async (e) => {
-        e.preventDefault();
-        if(this.props.sendReset){
-            let result;
-            try {
-                result = await this.props.sendReset(this.state.email);
-            } catch (error) {
-                result = {color:"warning", message:"An error occured, a password reset email may have been sent"};
-            }
-            this.setState(result);
-        }
     }
 
     /**
@@ -119,9 +113,9 @@ class Login extends Component {
                                     Don't have an account? Sign Up <Link to="/signup">Here</Link>
                                 </FormText>
                                 <FormText>
-                                    Forgotten Password? Enter your email above and then <button onClick={this.handleClick} className="btn btn-link" style={{padding:0,fontSize:'inherit'}}>Click Here</button>
+                                    Forgotten Password? <Link to="/reset">Click Here</Link>
                                 </FormText>
-                                <Alert isOpen={this.state.message !== ""} toggle={this.handleDismiss} color="danger">{this.state.message}</Alert>
+                                <Alert isOpen={this.state.message !== ""} toggle={this.handleDismiss} color={this.state.color}>{this.state.message}</Alert>
                             </Form>
                         </Col>
                     </Row>
@@ -132,7 +126,7 @@ class Login extends Component {
 };
 
 Login.propTypes = {
-    authenticateCredentials: PropTypes.func,
+    authenticate: PropTypes.func,
 }
 
 export default Login;

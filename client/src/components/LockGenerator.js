@@ -1,6 +1,6 @@
 import React, {Component}  from 'react';
 import {Row,Col,Button,Input} from 'reactstrap'
-import lockGen from '../generators/LockGenerator';
+import lockGen from '../../../client/src/generators/LockGenerator';
 import PropTypes from 'prop-types';
 
 /**

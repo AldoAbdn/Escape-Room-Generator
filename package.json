@@ -1,14 +1,14 @@
 {
   "name": "escape-room-generator",
-  "version": "1.2.1",
+  "version": "1.3.1",
   "description": "This is my honours project for BsC(Hons) Computing: Application Software Development at Robert Gordon University",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "cd server && npm start",
-    "custombuild": "cd client && npm run build && cd .. && xcopy \"client\\build\" \"server\\public\" /E /I",
+    "build": "cd client && npm run build && cd .. && xcopy \"client\\build\" \"server\\public\" /E /I",
+    "buildandstart": "npm run build && npm run start",
     "dev": "concurrently \"cd server && npm run-script dev\" \"cd client && npm start\"",
-    "postinstall": "concurrently \"cd server && npm install\" \"cd client && npm install\""
+    "installboth": "concurrently \"cd server && npm install\" \"cd client && npm install\""
   },
   "repository": {
     "type": "git",
@@ -23,6 +23,6 @@
   "homepage": "https://github.com/AldoAbdn/Escape-Room-Generator#readme",
   "dependencies": {
     "@feathersjs/errors": "^4.3.11",
-    "concurrently": "^4.1.0"
+    "concurrently": "^7.2.2"
   }
 }

@@ -7,7 +7,9 @@ module.exports = function(app) {
     let protocol = app.get('protocol');
     protocol += "://";
     let host = app.get('host');
-    return `${protocol}${host}/#/${type}/${hash}`;
+    let port = app.get('port');
+    let link = `${protocol}${host}:${port}/#/${type}/${hash}`
+    return link;
   }
 
   function sendEmail(email) {
@@ -22,63 +24,58 @@ module.exports = function(app) {
         case 'resendVerifySignup': //sending the user the verification email
           tokenLink = getLink('verify', user.verifyToken)
           email = {
-              from: process.env.FROM_EMAIL,
+              from: process.env.SMTP_FROM,
               to: user.email,
               subject: 'Verify Signup',
-              html: 'Click here to verify your account: <a href="' + tokenLink + '">Link</a>'
+              html: '<div><p>Click here to verify your account: <a href="' + tokenLink + '">Link</a></p><div>',
           }
           return sendEmail(email)
-
         case 'verifySignup': // confirming verification
           tokenLink = getLink('verify', user.verifyToken)
           email = {
-              from: process.env.FROM_EMAIL,
+              from: process.env.SMTP_FROM,
               to: user.email,
               subject: 'Confirm Signup',
-              html: 'Thanks for verifying your email'
+              html: '<div><p>Thanks for verifying your email</p></div>',
           }
           return sendEmail(email)
-            
         case 'sendResetPwd':
           tokenLink = getLink('reset', user.resetToken)
           email = {
-              from: process.env.FROM_EMAIL,
+              from: process.env.SMTP_FROM,
               to: user.email,
               subject: 'Password Reset',
-              html: 'Click here to reset your password: <a href="' + tokenLink + '">Link</a>'
+              html: '<div><p>Click here to reset your password: <a href="' + tokenLink + '">Link</a></p></div>',
           }
-          return sendEmail(email)
-
+          return sendEmail(email);
         case 'resetPwd':
           tokenLink = getLink('reset', user.resetToken)
           email = {
-              from: process.env.FROM_EMAIL,
+              from: process.env.SMTP_FROM,
               to: user.email,
               subject: 'Password Was Reset',
-              html: 'Your password was reset'
+              html: '<div><p>Your password was reset</p></div>',
             }
           return sendEmail(email)
-
         case 'passwordChange':
           email = {
-              from: process.env.FROM_EMAIL,
+              from: process.env.SMTP_FROM,
               to: user.email,
               subject: 'Password Change',
-              html: 'Your password was changed'
+              html: '<div><p>Your password was changed</p></div>',
             }
           return sendEmail(email)
-
         case 'identityChange':
           tokenLink = getLink('verify', user.verifyToken)
           email = {
-              from: process.env.FROM_EMAIL,
+              from: process.env.SMTP_FROM,
               to: user.email,
               subject: 'Identity Changed',
-              html: 'Click here to verify your account: <a href="' + tokenLink + '">Link</a>'
+              html: '<div><p>Click here to verify your account: <a href="' + tokenLink + '">Link</a></p></div>',
             }
           return sendEmail(email)
         default:
-          break
+          break;
         }
       }
     }

@@ -1,5 +1,5 @@
 {
-  "protocol": "https",
+  "protocol": "http",
   "host": "127.0.0.1",
   "port": 3030,
   "public": "../public/",
@@ -19,8 +19,8 @@
       "header": {
         "typ": "access"
       },
-      "audience": "https://theescaperoomgenerator.herokuapp.com/",
-      "issuer": "theescaperoomgenerator",
+      "audience": "AUDIENCE",
+      "issuer": "ISSUER",
       "algorithm": "HS256",
       "expiresIn": "1d"
     },

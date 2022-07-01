@@ -1,3 +1,14 @@
+# Escape Room Generator Client
+This package contains the client side react application for designing escape rooms.
+
+## Environment Variables
+The react app has 3 environment variables that must be set. These can be put into a .env file that looks like this:
+
+    REACT_APP_RECAPTCHA={YOUR CLIENT KEY HERE}
+    REACT_APP_YOUTUBE_API_KEY={YOUR API KEY HERE}
+    REACT_APP_TUTORIALS_PLAYLIST_ID={YOUR YT PLAYLIST ID HERE}
+
+# React
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

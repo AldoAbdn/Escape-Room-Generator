@@ -3,7 +3,7 @@ import { DragSource } from 'react-dnd';
 import ComponentDnDTarget from './ComponentDnDTarget';
 import { Row, Col } from 'reactstrap'
 import '../styles/Component.css';
-import Modal from '../models/Modal';
+import Modal from '../../../client/src/models/Modal';
 import PropTypes from 'prop-types';
 
 /**

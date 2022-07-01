@@ -13,8 +13,8 @@ import PropTypes from 'prop-types';
  */
 class Signup extends Component {
     /** Creates Signup */
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         this.state = {
             email:"",
             password:"",
@@ -32,10 +32,10 @@ class Signup extends Component {
     handleSubmit = async (e) => {
         e.preventDefault();
         if(this.state.email!=="" && this.state.password!=="" && this.state.password2!=="" && this.state.password===this.state.password2 && this.state.recaptcha && this.props.signUp){
-            let err = await this.props.signUp({email:this.state.email,password:this.state.password});
-            this.setState({message:err});
+            let result = await this.props.signUp({email:this.state.email,password:this.state.password});
+            this.setState(result);
         } else {
-            this.setState({message:"Error"});
+            this.setState({color:"danger",message:this.composeErrorMessage()});
         }
     }
 
@@ -45,16 +45,11 @@ class Signup extends Component {
      * @param {Event} e
      */
     handleChange = (e) => {
-        if(e.target.id === "password"){
-            this.setState({
-                [e.target.id]: e.target.value,
-                testResult: zxcvbn(e.target.value)
-            },()=>this.setState({message:this.composemessage()}));
-        } else {
-            this.setState({
-                [e.target.id]: e.target.value,
-            },()=>this.setState({message:this.composemessage()}));
-        }
+        if(e.target.id === "password")
+            this.setState({testResult: zxcvbn(e.target.value)});
+        this.setState({
+            [e.target.id]: e.target.value,
+        },()=>this.setState({color:"danger",message:this.composeErrorMessage()}));
     }
 
     /**
@@ -62,15 +57,15 @@ class Signup extends Component {
      * @function
      * @returns {String}
      */
-    composemessage = () => {
+    composeErrorMessage = () => {
         let messages = [];
         if(this.state.password!==""&&this.state.password!==this.state.password2)
             messages.push("Passwords Must Match");
-        if(this.state.testResult.score<4)
+        if(this.state.testResult.score < 3)
             messages.push("Password Not Strong Enough");
         if(this.state.password.length < 8)
             messages.push("Password Too Short");
-        if(this.state.email.includes(" ") || this.state.email.includes("$") || !this.state.email.includes("@"))
+        if(this.state.email.includes(" ") || this.state.email.includes("$") || !this.state.email.includes("@") || !this.state.email.includes("."))
             messages.push("Invalid Email");
         return messages.join(", ");   
     }
@@ -80,15 +75,7 @@ class Signup extends Component {
      * @function
      */
     handleDismiss = () => {
-        this.setState({message: ""});
-    }
-
-    /**
-     * Handles Test Result
-     * @function
-     */
-    handleTestResult = (testResult) => {
-        this.setState({testResult:testResult});
+        this.setState({color:"success",message: ""});
     }
 
     /**
@@ -142,7 +129,7 @@ class Signup extends Component {
                                 <FormText>
                                     Have an account? Log In <Link to="/login">Here</Link>
                                 </FormText>
-                                <Alert isOpen={this.state.message !== ""} toggle={this.handleDismiss} color="danger">{this.state.message}</Alert>
+                                <Alert isOpen={this.state.message !== ""} toggle={this.handleDismiss} color={this.state.color}>{this.state.message}</Alert>
                             </Form>
                         </Col>
                     </Row>

@@ -1,6 +1,6 @@
 import React, {Component}  from 'react';
 import { Container, Row, Col, Input, Label, UncontrolledTooltip, ListGroupItem, Button, ListGroup } from 'reactstrap';
-import {LockGenerator,PuzzleGenerator} from './index';
+import { LockGenerator, PuzzleGenerator } from '../../../client/src/components/index';
 import PropTypes from 'prop-types';
 import '../styles/ComponentDetails.css';
 import Accessibility from './Accessibility';

@@ -55,11 +55,31 @@ class Main extends Component {
      * React lifecycle method 
      * Updates profile is logged in
      */
-    componentDidMount() {
+    async componentDidMount() {
         if (window.localStorage.getItem('feathers-jwt') && this.props.redux.state.user.email!==undefined){
             this.setState({profile:true});
+            await this.authenticate();
         } else if (window.localStorage.getItem('feathers-jwt') && this.props.redux.state.user.email===undefined){
-            this.authenticate();
+            await this.authenticate();
+            this.setState({profile:true});
+        }
+    }
+
+    /**
+     * Popultes escape rooms by user ID
+     * @param {String} userId
+     * @returns {bool} success
+     */
+    populateEscapeRooms = async (userId) => {
+        //Get User Details and Update Redux Store
+        if (userId !== null && userId !== undefined){
+            let result = await this.props.services['escape-rooms'].find({query:{userId:userId}});
+            if(result.action.type.includes('FULFILLED')){
+                const escapeRooms = result.value.data;
+                if (escapeRooms!==null && escapeRooms!==undefined){
+                    this.props.redux.actions.escapeRooms.updateEscapeRooms(escapeRooms);
+                }
+            }
         }
     }
 
@@ -67,47 +87,26 @@ class Main extends Component {
      * Authenticates User 
      * @function 
      */
-    authenticate = async() => {
-        //Authenticates JWT and then populates user/escapeRooms
+    authenticate = async(credentials) => {
         try{
-            let { user } = await this.props.feathersClient.reAuthenticate();
+            let result, user;
+            //Authenticates JWT and then populates user/escapeRooms
+            if(credentials!==undefined && credentials!==null)
+                result = await this.props.feathersClient.authenticate(credentials);
+            else 
+                result = await this.props.feathersClient.reAuthenticate();
+            user = result.user;
             if(user!=null){
                 user.token = window.localStorage.getItem('feathers-jwt');
-                await this.populateEscapeRooms(user._id);
                 this.props.redux.actions.user.login(user);
+                if(user.isVerified)
+                    await this.populateEscapeRooms(user._id);
+                return {color:"success", message:"Logged In"};
+            } else {
+                return {color:"danger", message:"Authentication Failed"};
             }
-        } catch(error){
-            this.logout();
-        }
-    }
-
-    /**
-     * Popultes escape rooms by user ID
-     * @function
-     * @param {String} userId
-     * @returns {Array}
-     */
-    populateEscapeRooms = async (userId) => {
-        //Get User Details and Update Redux Store
-        if (userId !== null && userId !== undefined){
-            try{
-                let result = await this.props.services['escape-rooms'].find({query:{userId:userId}});
-                if(result.action.type.includes('FULFILLED')){
-                    const escapeRooms = result.value.data;
-                    if (escapeRooms!==null && escapeRooms!==undefined){
-                        this.props.redux.actions.escapeRooms.updateEscapeRooms(escapeRooms);
-                        this.setState({loading:false});
-                    }
-                }
-                return true;
-            }catch(e){
-                // User Not Verified
-                if(e.message.includes("verified")){
-                    return false;
-                } else {
-                    return true;
-                }
-            }
+        }catch(error){
+            return {color:"danger", message:error.message};
         }
     }
 
@@ -124,42 +123,34 @@ class Main extends Component {
     }
 
     /**
-     * Edits a users email
+     * Authentication Management Helper Function
      * @function
-     * @param {String} email
-     * @param {String} password
-     * @param {Object} change
-     * @returns {Object} 
+     * @param {Object} data
+     * @param {String} success
+     * @param {String} error
+     * @returns {Object} Result
      */
-    identityChange = async(user, password, changes) => {
+    authManagement = async(data, success, error) => {
         try {
-            let result = await this.props.services['auth-management'].create({action:'identityChange',value:{user,password,changes}});
-            if(result.action.type.include('FULFILLED')){
-                return {color:"success", message:"Email Saved"};
-            } else {
-                return {color:"danger", message:"Error"}
-            }
-        } catch(error){
-            return {color:"warning", message: "An error has occured, changed may have been made"};
+            let result = await this.props.services['auth-management'].create(data);
+            if(result.action.type.includes('FULFILLED'))
+                return {color:"success", message:success};
+        } 
+        catch(error) 
+        {
+            return {color:"danger", message:error};
         }
     }
 
     /**
      * Sends Password Reset
      * @function
+     * @param {String} email
      * @returns {Object}
      */
-    sendPasswordReset = async() => {
-        try {
-            let result = await this.props.services['auth-management'].create({action:'sendResetPwd', value:{email:this.props.redux.state.user.email},notifierOptions:{}});
-            if(result.action.type.include('FULFILLED')){
-                return {color:"success", message:"Email Saved"};
-            } else {
-                return {color:"danger", message:"Error"}
-            }
-        } catch(error){
-            return {color:"warning", message:"An error has occured, a password reset email may have been sent"};
-        }
+    sendReset = async(email) => {
+        let result = await this.authManagement({action:'sendResetPwd', value:{email:email}}, "Password Reset Sent", "An error has occured, password reset email may have been sent");
+        return result;
     }
 
     /**
@@ -180,7 +171,7 @@ class Main extends Component {
                 Profile
                 </DropdownToggle>
                 <DropdownMenu right>
-                    <Profile user={user} identityChange={this.identityChange} sendPasswordReset={this.sendPasswordReset}/>
+                    <Profile user={user} sendReset={this.sendReset}/>
                     <Button id="LogoutButton" onClick={this.logout} block>Logout</Button>
                 </DropdownMenu>
             </Dropdown>
@@ -192,7 +183,7 @@ class Main extends Component {
                 <LoadingOverlay className={'loading-overlay'} active={loading} spinner>       
                     <header>
                         <Navbar color="light" light expand="md">
-                            <NavbarBrand href="/#/"><img src="/images/logos/main.svg" alt="Logo"/></NavbarBrand>
+                            <NavbarBrand href="/#/"><img src="/images/logos/main.svg" alt="Logo"/> <span>V1.3.1</span></NavbarBrand>
                             <NavbarToggler onClick={this.toggle} />
                             <Collapse isOpen={this.state.isOpen} navbar>
                                 <Nav className="ml-auto" navbar>
@@ -211,7 +202,7 @@ class Main extends Component {
                         </Navbar>
                     </header>
                     <main>
-                        <BusinessLogic history={this.props.history} feathersClient={this.props.feathersClient} redux={this.props.redux} services={this.props.services}/>
+                        <BusinessLogic history={this.props.history} redux={this.props.redux} services={this.props.services} authenticate={this.authenticate} populateEscapeRooms={this.populateEscapeRooms} authManagement={this.authManagement} sendReset={this.sendReset}/>
                     </main>
                 </LoadingOverlay>
                 <Modal isOpen={modal.isOpen} >
@@ -238,7 +229,7 @@ class Main extends Component {
 Main.propTypes = {
     redux: PropTypes.object,
     history: PropTypes.object,
-    services: PropTypes.array,
+    services: PropTypes.object,
     feathersClient: PropTypes.object,
 }
 

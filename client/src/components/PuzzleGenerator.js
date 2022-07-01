@@ -1,6 +1,6 @@
 import React, {Component}  from 'react';
 import {Row,Col,Button,Input} from 'reactstrap'
-import puzzleGenerator from '../generators/PuzzleGenerator';
+import puzzleGenerator from '../../../client/src/generators/PuzzleGenerator';
 import ListCreator from '../components/ListCreator';
 import PropTypes from 'prop-types';
 

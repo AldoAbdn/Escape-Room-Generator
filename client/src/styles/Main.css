@@ -31,7 +31,7 @@ main {
     margin-top:1rem;
 }
 
-.login, .sign-up {
+.login, .sign-up, .reset {
     position: relative;
     /**https://pixabay.com/illustrations/live-escape-game-live-escape-room-1155620/ Free for commercial use**/
     background-image: url('/images/backgrounds/main.jpg');
@@ -40,7 +40,7 @@ main {
     color: white;
 }
 
-.login::before, .sign-up::before {
+.login::before, .sign-up::before .reset::before {
     background-color: black;
     content: "";
     display: block;
@@ -52,7 +52,7 @@ main {
     opacity: 0.4;
 }
 
-.login .form-text, .sign-up .form-text {
+.login .form-text, .sign-up .form-text, .reset .form-text {
     color: white !important;
     font-weight: bold;
 }

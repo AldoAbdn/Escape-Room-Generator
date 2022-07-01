@@ -3,8 +3,8 @@ import { DragSource } from 'react-dnd';
 import AreaDnDTarget from './AreaDnDTarget';
 import '../styles/Component.css';
 import { Card } from 'reactstrap';
-import Area from '../models/Area';
-import Modal from '../models/Modal';
+import Area from '../../../client/src/models/Area';
+import Modal from '../../../client/src/models/Modal';
 import PropTypes from 'prop-types';
 
 /**

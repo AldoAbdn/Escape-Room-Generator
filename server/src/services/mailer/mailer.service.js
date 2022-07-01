@@ -2,7 +2,7 @@
 const hooks = require('./mailer.hooks');
 const smtpTransport = require('nodemailer-smtp-transport');
 const configuration = {
-  host: process.env.SMTP_HOST,
+  service: process.env.SMTP_SERVICE,
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS
