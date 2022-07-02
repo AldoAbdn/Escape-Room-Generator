@@ -54,9 +54,12 @@ class BusinessLogic extends Component {
      * Creates a new escape room 
      * then opens designer
      */
-    newEscapeRoom = async() => {
+    newEscapeRoom = async(newEscapeRoom) => {
         const userId = this.props.redux.state.user._id;
-        const newEscapeRoom = new EscapeRoom(userId);
+        if(newEscapeRoom == null)
+            newEscapeRoom = new EscapeRoom(userId);
+        else
+            newEscapeRoom.userId = userId;
         let response = await this.props.services['escape-rooms'].create(newEscapeRoom);
         if(response.action.type.includes('FULFILLED')){
             const escapeRoom = response.value;

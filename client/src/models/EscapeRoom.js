@@ -51,6 +51,11 @@ class EscapeRoom {
             }
         }
     }
+
+    static convert(obj){
+        let escapeRoom = new EscapeRoom();
+        return Object.assign(escapeRoom, obj);
+    }
 }
 
 export default EscapeRoom;

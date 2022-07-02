@@ -4,6 +4,7 @@ import { saveAs } from 'file-saver';
 import Modal from '../../../client/src/models/Modal';
 import {escapeRoomToPDF} from '../../../client/src/pdf/pdf';
 import PropTypes from 'prop-types';
+import { EscapeRoom } from '../models';
 
 /**
  * Class for Dashboard that shows users escape rooms 
@@ -17,6 +18,7 @@ class Dashboard extends Component {
         this.state = {
             dropdownOpen: [false,false]
         }
+        this.InputFile = React.createRef();
     }
 
     /**
@@ -37,8 +39,17 @@ class Dashboard extends Component {
      * @param {Event} e
      */
     handleClick = async (e) => {
-        if(this.props.newEscapeRoom)
-            this.props.newEscapeRoom();
+        switch(e.target.id){
+            case "newButton":
+                if(this.props.newEscapeRoom)
+                    this.props.newEscapeRoom();
+                    break;
+            case "importButton":
+                this.InputFile.current.click();
+                break;
+            default:
+                return;
+        }
     }
 
     /**
@@ -88,6 +99,32 @@ class Dashboard extends Component {
     }
 
     /**
+     * Handles File Input Change
+     * @param {Event} e 
+     */
+    handleChange = async(e) => {
+        const { files } = e.target;
+        if (files && files.length === 1) {
+            let escapeRoom = await this.convertJSONFileToEscapeRoom(files[0]);
+            if(this.props.newEscapeRoom != null)
+                this.props.newEscapeRoom(escapeRoom);
+        }
+    }
+
+    /**
+     * Reads JSON File and Converts to Object
+     * @param {File} file 
+     * @returns {EscapeRoom}
+     */
+    convertJSONFileToEscapeRoom = async(file) => {
+        let text = await file.text();
+        let escapeRoomObject = JSON.parse(text);
+        delete escapeRoomObject._id; // Delete existing id so a new one is generated
+        let escapeRoom = EscapeRoom.convert(escapeRoomObject);
+        return escapeRoom;
+    }
+
+    /**
      * Maps Escape Rooms to List Item
      * @function
      * @param {EscapeRoom} escapeRoom
@@ -118,9 +155,14 @@ class Dashboard extends Component {
             <Container>
                 <Row>
                     <Col>
-                        <Button block onClick={this.handleClick}>NEW</Button>
+                        <Button id="newButton" block onClick={this.handleClick}>NEW</Button>
+                    </Col>
+                    <Col>
+                        <input id="jsonFile" style={{display: "none"}} accept=".json" ref={this.InputFile} onChange={this.handleChange} type="file" name="file"/>
+                        <Button id="importButton" block onClick={this.handleClick}>IMPORT</Button>
                     </Col>
                 </Row>
+                <br/>
                 <Row>
                     <Col>
                         <ListGroup>
