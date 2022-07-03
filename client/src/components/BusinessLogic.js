@@ -71,7 +71,7 @@ class BusinessLogic extends Component {
             newEscapeRoom.userId = userId;
         let response = await this.props.services['escape-rooms'].create(newEscapeRoom);
         if(response.action.type.includes('FULFILLED')){
-            const escapeRoom = response.value;
+            const escapeRoom = EscapeRoom.convert(response.value);
             if (escapeRoom!==null){
                 this.props.redux.actions.escapeRooms.addEscapeRoom(escapeRoom);
                 this.props.redux.actions.escapeRoom.setSelectedEscapeRoom(escapeRoom);
