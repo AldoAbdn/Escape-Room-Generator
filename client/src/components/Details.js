@@ -45,13 +45,13 @@ class Details extends Component {
                         </FormGroup>                        
                         <FormGroup>
                             <Label>Players <span id="playersTooltip"><i className="fa fa-question-circle" aria-hidden="true"></i></span></Label>
-                            <Input type="text" name="minPlayers" id="minPlayers" placeholder="Min" value={this.props.details.minPlayers} onChange={this.handleChange}/>
-                            <Input type="text" name="maxPlayers" id="maxPlayers" placeholder="Max" value={this.props.details.maxPlayers} onChange={this.handleChange}/>
+                            <Input type="number" min="0" name="minPlayers" id="minPlayers" placeholder="Min" value={this.props.details.minPlayers} onChange={this.handleChange}/>
+                            <Input type="number" min="0" name="maxPlayers" id="maxPlayers" placeholder="Max" value={this.props.details.maxPlayers} onChange={this.handleChange}/>
                             <UncontrolledTooltip target="playersTooltip">The maximum and minimum amount of players your room is designed for</UncontrolledTooltip>
                         </FormGroup>                        
                         <FormGroup>
                             <Label for="targetTime">Target Time <span id="targetTimeTooltip"><i className="fa fa-question-circle" aria-hidden="true"></i></span></Label>
-                            <Input type="text" name="targetTime" id="targetTime" placeholder="Time" value={this.props.details.targetTime} onChange={this.handleChange}/>
+                            <Input type="number" min="0" name="targetTime" id="targetTime" placeholder="Time" value={this.props.details.targetTime} onChange={this.handleChange}/>
                             <UncontrolledTooltip target="targetTimeTooltip">Target Time for the room in whole mintues. So a 1 hour room would be 60</UncontrolledTooltip>
                         </FormGroup>                        
                         <FormGroup>
@@ -63,6 +63,21 @@ class Details extends Component {
                 </Col>
                 <Col>
                     <Form>
+                        <FormGroup>
+                            <Label for="objective">Objective <span id="objectiveTooltip"><i className="fa fa-question-circle" aria-hidden="true"></i></span></Label>
+                            <Input type="text" name="objective" id="objective" placeholder="Main Objective" value={this.props.details.objective} onChange={this.handleChange}/>
+                            <UncontrolledTooltip target="objectiveTooltip">The objective of the room, for example: retrieve the diamond, foil the mad scientists evil plans ect.</UncontrolledTooltip>
+                        </FormGroup>
+                        <FormGroup>
+                            <Label for="image">Image <span id="imageTooltip"><i className="fa fa-question-circle" aria-hidden="true"></i></span></Label>
+                            <Input type="text" name="image" id="image" placeholder="Image" value={this.props.details.image} onChange={this.handleChange}/>
+                            <UncontrolledTooltip target="imageTooltip">URL of an image that represents the room.</UncontrolledTooltip>
+                        </FormGroup>
+                        <FormGroup>
+                            <Label for="music">Image <span id="musicTooltip"><i className="fa fa-question-circle" aria-hidden="true"></i></span></Label>
+                            <Input type="text" name="music" id="music" placeholder="Music" value={this.props.details.music} onChange={this.handleChange}/>
+                            <UncontrolledTooltip target="musicTooltip">URL of background music that accompanies the room.</UncontrolledTooltip>
+                        </FormGroup>
                         <FormGroup>
                             <Label for="objective">Objective <span id="objectiveTooltip"><i className="fa fa-question-circle" aria-hidden="true"></i></span></Label>
                             <Input type="text" name="objective" id="objective" placeholder="Main Objective" value={this.props.details.objective} onChange={this.handleChange}/>
