@@ -1,5 +1,5 @@
 import React, {Component}  from 'react';
-import { Container, Row, Col } from 'reactstrap';
+import { Container, Row, Col, Input } from 'reactstrap';
 import KeyboardEventHandler from 'react-keyboard-event-handler';
 import PropTypes from 'prop-types';
 
@@ -86,9 +86,9 @@ class EscapeRoomRunner extends Component {
                         </span>
                     </Col>
                 </Row>
-                <Row style={{height:"20%", fontSize:"2rem"}}>
+                <Row style={{height:"20%"}}>
                     <Col className="col text-center">
-                        <textarea id="hint" style={{width:"100%", height:"100%"}}
+                        <Input type="textarea" id="hint" style={{width:"100%", height:"100%", fontSize:"2rem"}}
                         defaultValue="Welcome to the escape room runner! Use this space to type hints to your players. You can use chromecast or other screen sharing options to display this timer. To start the timer press 'SHIFT+SPACEBAR', to play a hint sound press 'CTRL+SPACEBAR' and to mute music press 'SHIFT+M'. REMEMBER TO CLEAR THIS TEXT BOX BEFORE STARTING. Enjoy your game!"/>
                     </Col>
                 </Row>

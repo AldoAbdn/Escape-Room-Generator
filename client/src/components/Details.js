@@ -52,7 +52,7 @@ class Details extends Component {
                         <FormGroup>
                             <Label for="targetTime">Target Time <span id="targetTimeTooltip"><i className="fa fa-question-circle" aria-hidden="true"></i></span></Label>
                             <Input type="text" name="targetTime" id="targetTime" placeholder="Time" value={this.props.details.targetTime} onChange={this.handleChange}/>
-                            <UncontrolledTooltip target="targetTimeTooltip">Can be the time players have to try and escape by, or the estimated time it will take players to complete the room</UncontrolledTooltip>
+                            <UncontrolledTooltip target="targetTimeTooltip">Target Time for the room in whole mintues. So a 1 hour room would be 60</UncontrolledTooltip>
                         </FormGroup>                        
                         <FormGroup>
                             <Label for="difficulty">Difficulty <span id="difficultyTooltip"><i className="fa fa-question-circle" aria-hidden="true"></i></span></Label>
