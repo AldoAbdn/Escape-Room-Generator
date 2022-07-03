@@ -83,6 +83,10 @@ class Dashboard extends Component {
                 if(this.props.editEscapeRoom)   
                     this.props.editEscapeRoom(escapeRoom);
                 break;
+            case 'RUN':
+                if(this.props.runEscapeRoom)
+                    this.props.runEscapeRoom(escapeRoom);
+                break;
             case 'JSON':
                 this.saveJSON(escapeRoom);
                 break;
@@ -141,6 +145,7 @@ class Dashboard extends Component {
                 <DropdownToggle caret/>
                 <DropdownMenu right>
                     <DropdownItem onClick={this.handleItemClick(i,'EDIT')} disabled={this.props.escapeRooms[i].components[0].version!==undefined?false:true}>Edit</DropdownItem>
+                    <DropdownItem onClick={this.handleItemClick(i,'RUN')}>Run</DropdownItem>
                     <DropdownItem onClick={this.handleItemClick(i,'JSON')}>Export as JSON</DropdownItem>
                     <DropdownItem onClick={this.handleItemClick(i,'PDF')}>Export as PDF</DropdownItem>
                     <DropdownItem onClick={this.handleItemClick(i,'JSONANDPDF')}>Export as JSON and PDF</DropdownItem>
@@ -181,11 +186,12 @@ class Dashboard extends Component {
 };
 
 Dashboard.propTypes = {
-    newEscapeRoom: PropTypes.func,
     escapeRooms: PropTypes.array,
-    editEscapeRoom: PropTypes.func,
-    deleteEscapeRoom: PropTypes.func,
     showModal: PropTypes.func,
+    editEscapeRoom: PropTypes.func,
+    newEscapeRoom: PropTypes.func,
+    deleteEscapeRoom: PropTypes.func,
+    runEscapeRoom: PropTypes.func,
 }
 
 export default Dashboard;
