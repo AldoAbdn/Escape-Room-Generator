@@ -4,7 +4,6 @@ import { saveAs } from 'file-saver';
 import Modal from '../../../client/src/models/Modal';
 import {escapeRoomToPDF} from '../../../client/src/pdf/pdf';
 import PropTypes from 'prop-types';
-import { EscapeRoom } from '../models';
 
 /**
  * Class for Dashboard that shows users escape rooms 
@@ -126,9 +125,8 @@ class Dashboard extends Component {
      */
     convertJSONFileToEscapeRoom = async(file) => {
         let text = await file.text();
-        let escapeRoomObject = JSON.parse(text);
-        delete escapeRoomObject._id; // Delete existing id so a new one is generated
-        let escapeRoom = EscapeRoom.convert(escapeRoomObject);
+        let escapeRoom = JSON.parse(text);
+        delete escapeRoom._id; // Delete existing id so a new one is generated
         return escapeRoom;
     }
 

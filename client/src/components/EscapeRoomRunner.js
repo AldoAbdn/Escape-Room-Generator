@@ -18,6 +18,13 @@ class EscapeRoomRunner extends Component {
     }
 
     /**
+     * React Lifecycle Methods
+     */
+    componentWillUnmount(){
+        this.music.pause();
+    }
+
+    /**
      * Handles Timer Toggle
      */
     handleTimerToggle = ()=>{
@@ -106,6 +113,14 @@ EscapeRoomRunner.propTypes = {
     background: PropTypes.string,
     music: PropTypes.string,
     hint: PropTypes.string,
+}
+
+EscapeRoomRunner.defaultProps = {
+    name:"Unnamed",
+    time: 60,
+    background:"/images/backgrounds/main.jpg",
+    music:"https://cdn.bensound.com/bensound-wildwildtown.mp3",
+    hint:"/sounds/hint.wav"
 }
 
 export default EscapeRoomRunner;
