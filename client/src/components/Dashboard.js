@@ -89,6 +89,10 @@ class Dashboard extends Component {
             case 'PDF':
                 this.savePDF(escapeRoom);
                 break;
+            case 'JSONANDPDF':
+                this.saveJSON(escapeRoom);
+                this.savePDF(escapeRoom);
+                break;
             case 'DELETE':
                 if(this.props.deleteEscapeRoom)
                     this.props.showModal(new Modal("Warning","Are you sure you want to delete "+escapeRoom.details.name+"?","Yes",()=>{this.props.deleteEscapeRoom(escapeRoom)},"No",()=>{}));
@@ -139,6 +143,7 @@ class Dashboard extends Component {
                     <DropdownItem onClick={this.handleItemClick(i,'EDIT')} disabled={this.props.escapeRooms[i].components[0].version!==undefined?false:true}>Edit</DropdownItem>
                     <DropdownItem onClick={this.handleItemClick(i,'JSON')}>Export as JSON</DropdownItem>
                     <DropdownItem onClick={this.handleItemClick(i,'PDF')}>Export as PDF</DropdownItem>
+                    <DropdownItem onClick={this.handleItemClick(i,'JSONANDPDF')}>Export as JSON and PDF</DropdownItem>
                     <DropdownItem onClick={this.handleItemClick(i,'DELETE')}>Delete</DropdownItem>
                 </DropdownMenu>
             </Dropdown>
