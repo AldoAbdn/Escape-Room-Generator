@@ -148,7 +148,7 @@ class ComponentArranger extends Component {
                                 <h3>Components</h3>
                             </Col>
                         </Row>
-                        <Row>
+                        <Row id="MappedComponents">
                             <Col>
                                 {this.props.components.map(this.mapAreas)}
                             </Col>

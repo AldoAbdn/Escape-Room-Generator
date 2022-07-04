@@ -17,12 +17,13 @@ import images from '../data/images.json';
  * Converts an Escape Room to PDF
  * @param {EscapeRoom} escapeRoom 
  */
-function escapeRoomToPDF(escapeRoom){
+function escapeRoomToPDF(escapeRoom, components){
     let doc = jsPDF('p','mm','a4');
     let x = startIndent; let y = startHeight;
     doc.addImage(images.logo,'PNG',x + 55,y);
-    y+=newLineHeight;
     let convertedObject = convertObject(escapeRoom,doc,x,y);
+    doc.addPage();
+    doc.addImage(components, 'PNG',0,0);
     convertedObject.doc.save(escapeRoom.details.name+".pdf");
 }
 

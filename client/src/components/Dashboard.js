@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import { Container, Row, Col, Dropdown, DropdownToggle, DropdownMenu, DropdownItem , ListGroup, ListGroupItem , Button } from 'reactstrap';
+import ComponentArranger from "./ComponentArranger";
 import { saveAs } from 'file-saver';
 import Modal from '../../../client/src/models/Modal';
+import html2canvas from 'html2canvas';
 import {escapeRoomToPDF} from '../../../client/src/pdf/pdf';
 import PropTypes from 'prop-types';
 
@@ -15,9 +17,11 @@ class Dashboard extends Component {
     constructor(){
         super();
         this.state = {
-            dropdownOpen: [false,false]
+            dropdownOpen: [false,false],
+            escapeRoom: {components:[]},
         }
         this.InputFile = React.createRef();
+        this.ComponentArranger = React.createRef();
     }
 
     /**
@@ -64,8 +68,16 @@ class Dashboard extends Component {
      * Saves an Escape Room as PDF
      * @param {EscapeRoom} escapeRoom 
      */
-    savePDF(escapeRoom) {
-        escapeRoomToPDF(escapeRoom);
+    async savePDF(escapeRoom) {
+        let components = await this.convertComponentsToDataURL();
+        escapeRoomToPDF(escapeRoom, components);
+    }
+
+    async convertComponentsToDataURL() {
+        let canvas;
+        console.log(this.ComponentArranger.current);
+        canvas = await html2canvas(this.ComponentArranger.current);
+        return canvas.toDataURL("image/png");
     }
 
     /**
@@ -77,32 +89,34 @@ class Dashboard extends Component {
      */
     handleItemClick = (i, action) => (e) => {
         const escapeRoom = this.props.escapeRooms[i];
-        switch(action){
-            case 'EDIT':
-                if(this.props.editEscapeRoom)   
-                    this.props.editEscapeRoom(escapeRoom);
-                break;
-            case 'RUN':
-                if(this.props.runEscapeRoom)
-                    this.props.runEscapeRoom(escapeRoom);
-                break;
-            case 'JSON':
-                this.saveJSON(escapeRoom);
-                break;
-            case 'PDF':
-                this.savePDF(escapeRoom);
-                break;
-            case 'JSONANDPDF':
-                this.saveJSON(escapeRoom);
-                this.savePDF(escapeRoom);
-                break;
-            case 'DELETE':
-                if(this.props.deleteEscapeRoom)
-                    this.props.showModal(new Modal("Warning","Are you sure you want to delete "+escapeRoom.details.name+"?","Yes",()=>{this.props.deleteEscapeRoom(escapeRoom)},"No",()=>{}));
-                break;
-            default:
-                return;
-        }
+        this.setState({escapeRoom},() => {
+            switch(action){
+                case 'EDIT':
+                    if(this.props.editEscapeRoom)   
+                        this.props.editEscapeRoom(escapeRoom);
+                    break;
+                case 'RUN':
+                    if(this.props.runEscapeRoom)
+                        this.props.runEscapeRoom(escapeRoom);
+                    break;
+                case 'JSON':
+                    this.saveJSON(escapeRoom);
+                    break;
+                case 'PDF':
+                    this.savePDF(escapeRoom);
+                    break;
+                case 'JSONANDPDF':
+                    this.saveJSON(escapeRoom);
+                    this.savePDF(escapeRoom);
+                    break;
+                case 'DELETE':
+                    if(this.props.deleteEscapeRoom)
+                        this.props.showModal(new Modal("Warning","Are you sure you want to delete "+escapeRoom.details.name+"?","Yes",()=>{this.props.deleteEscapeRoom(escapeRoom)},"No",()=>{}));
+                    break;
+                default:
+                    return;
+            }
+        });
     }
 
     /**
@@ -153,12 +167,22 @@ class Dashboard extends Component {
         </ListGroupItem>)
     };
 
+    /**
+     * Finds a component by ID
+     * @param {string} id
+     * @returns {Component}
+     */
+    findComponent = (id) => {
+        return this.state.escapeRoom.components.find(component=>component._id===id);
+    }
+
     /** 
      * React Lifecycle Render
      * @returns {JSX}
      */
     render() {
         const escapeRooms = this.props.escapeRooms;
+        const empty = function(){}
         return (
             <Container>
                 <Row>
@@ -176,6 +200,17 @@ class Dashboard extends Component {
                         <ListGroup>
                             {escapeRooms.map(this.mapEscapeRoomToList)}
                         </ListGroup>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <div ref={this.ComponentArranger} style={{
+                            position:"absolute",
+                            left:"110vw",
+                            width:"100vw",
+                            }}>
+                            <ComponentArranger components={this.state.escapeRoom.components} findComponent={this.findComponent} showModal={empty} handleComponentClick={empty} updateComponent={empty} addComponent={empty} removeComponent={empty} addRelationship={empty}/>
+                        </div>
                     </Col>
                 </Row>
             </Container>
