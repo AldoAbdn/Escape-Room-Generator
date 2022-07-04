@@ -10,7 +10,7 @@
     width: 100%;
     min-width: 100%;
     min-height: 50%;
-    height: 83vh;
+    height: 70vh !important;
     overflow: hidden;
 }
 

@@ -1,5 +1,5 @@
 import React, {Component}  from 'react';
-import { Row, Col } from 'reactstrap';
+import { Row, Col, Carousel, CarouselIndicators, CarouselItem, CarouselCaption } from 'reactstrap';
 import '../styles/Component.css';
 import '../styles/ComponentArranger.css';
 import Area from './AreaDnDSource';
@@ -133,6 +133,7 @@ class ComponentArranger extends Component {
         } else if (this.props.isOver){
             classNames+=" cantDrop"
         }
+        let items = [];
         let lines = [];
         for(let component of this.props.components){
             if(component!==undefined && component.inputComponents!==undefined && component.type!=="Area"){
