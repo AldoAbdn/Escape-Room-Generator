@@ -9,6 +9,7 @@
     "cwg": "^0.2.1",
     "feathers-redux": "^3.0.0",
     "file-saver": "^2.0.0",
+    "html2canvas": "^1.4.1",
     "jspdf": "^2.3.1",
     "prop-types": "^15.7.2",
     "random-words": "^1.1.0",
