@@ -200,7 +200,7 @@ class Dashboard extends Component {
                             display:"none",
                             position:"fixed",
                             left:"110vw",
-                            width:"90vw",
+                            width:"790px",
                             }}>
                             <ComponentArranger components={this.state.escapeRoom.components} showModal={empty} handleComponentClick={empty} updateComponent={empty} addComponent={empty} removeComponent={empty} addRelationship={empty}/>
                         </div>
