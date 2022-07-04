@@ -25,6 +25,7 @@ class Design extends Component {
     handleComponentClick = (component) => (e) => {
         e.stopPropagation();
         this.setState({selected:component});
+        this.forceUpdate();
     }
 
     /**
@@ -35,6 +36,7 @@ class Design extends Component {
     updateComponent = (component) => {
         this.props.updateComponent(component);
         this.setState({selected:{...this.state.selected,...component}});
+        this.forceUpdate();
     }
 
     /** 
@@ -49,7 +51,7 @@ class Design extends Component {
                         <Pallet/>
                     </Col>
                     <Col md="8">
-                        <ComponentArranger renderTrigger={JSON.stringify(this.props.components.components)} components={this.props.components.components} showModal={this.props.showModal} handleComponentClick={this.handleComponentClick} updateComponent={this.props.updateComponent} addComponent={this.props.addComponent} removeComponent={this.props.removeComponent} addRelationship={this.props.addRelationship}/>            
+                        <ComponentArranger components={this.props.components.components} showModal={this.props.showModal} handleComponentClick={this.handleComponentClick} updateComponent={this.props.updateComponent} addComponent={this.props.addComponent} removeComponent={this.props.removeComponent} addRelationship={this.props.addRelationship}/>            
                     </Col>
                     <Col md="2">
                         <ComponentDetails calculateOutput={this.props.calculateOutput} accessibility={this.props.accessibility} selected={this.state.selected} updateComponent={this.updateComponent}/>

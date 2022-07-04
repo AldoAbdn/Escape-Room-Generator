@@ -1,9 +1,7 @@
 import React, {Component}  from 'react';
-import { Container, Dropdown, DropdownToggle , DropdownMenu , DropdownItem , Row, Col, Nav, NavItem, NavLink, TabContent, TabPane , Button } from 'reactstrap';
+import { Container, Row, Col, Nav, NavItem, NavLink, TabContent, TabPane , Button } from 'reactstrap';
 import { Details, Accessibility, Design } from './index';
 import classnames from 'classnames';
-import { saveAs } from 'file-saver';
-import {escapeRoomToPDF} from '../pdf/pdf';
 import EscapeRoom from '../models/EscapeRoom';
 import PropTypes from 'prop-types';
 import '../styles/EscapeRoomDesigner.css';
@@ -17,24 +15,7 @@ class EscapeRoomDesigner extends Component {
     /** Creates EscapeRoom Designer */
     constructor(){
         super()
-        this.state = {activeTab:'design', dropdownOpen: false};
-    }
-
-    /**
-     * Saves an EscapeRoom as JSON
-     * @param {EscapeRoom} escapeRoom 
-     */
-    saveJSON(escapeRoom) {
-        const blob = new Blob([JSON.stringify(escapeRoom)],{type:'text/plain;charset=utf-8'});
-        saveAs(blob, escapeRoom.details.name+".json");
-    }
-
-    /**
-     * Saves Escape Room as PDF
-     * @param {EscapeRoom} escapeRoom 
-     */
-    savePDF(escapeRoom) {
-        escapeRoomToPDF(escapeRoom);
+        this.state = {activeTab:'design'};
     }
 
     /**
@@ -44,32 +25,8 @@ class EscapeRoomDesigner extends Component {
      * @param {Event} e
      */
     handleClick = (action) => (e) => {
-        switch(action){
-            case 'EXIT':
-                if(this.props.saveEscapeRoom)
-                    this.props.saveEscapeRoom(this.props.escapeRoom);
-                break;
-            case 'JSON':
-                if(this.props.saveEscapeRoom)
-                    this.props.saveEscapeRoom(this.props.escapeRoom);
-                this.saveJSON(this.props.escapeRoom);
-                break;
-            case 'PDF':
-                if(this.props.saveEscapeRoom)
-                    this.props.saveEscapeRoom(this.props.escapeRoom);
-                this.savePDF(this.props.escapeRoom);
-                break;
-            default:
-                return;
-        }
-    }
-
-    /**
-     * Toggles Bool
-     * @param {Event} e
-     */
-    handleToggle = (e) => {
-        this.setState({dropdownOpen: !this.state.dropdownOpen});
+        if(this.props.saveEscapeRoom)
+            this.props.saveEscapeRoom(this.props.escapeRoom);
     }
 
     /**
@@ -83,15 +40,7 @@ class EscapeRoomDesigner extends Component {
                 activeTab: tab
             })
         }
-    }
-
-    /** React Lifecycle Called when Component Mounts */
-    componentDidMount(){
-        const escapeRoom = this.props.escapeRoom;
-        if(escapeRoom===undefined){
-            this.props.history.push('/');
-        }
-    }
+    } 
 
     /** React Lifecycle Called when Components Updates */
     componentDidUpdate(prevProps,prevState){
@@ -132,17 +81,9 @@ class EscapeRoomDesigner extends Component {
         return (
             <Container fluid>
                 <Row className="save-options">
-                    <Col xs="6" md="3" lg="3"><Button block onClick={this.handleClick('EXIT')}>Save and Exit</Button></Col>
-                    <Col xs="6" md="3" lg="3">
-                        <Dropdown isOpen={this.state.dropdownOpen} toggle={this.handleToggle}>
-                            <DropdownToggle  className="full-width" caret>Save and Export</DropdownToggle>
-                            <DropdownMenu right>
-                                <DropdownItem onClick={this.handleClick('JSON')}>Export as JSON</DropdownItem>
-                                <DropdownItem onClick={this.handleClick('PDF')}>Export as PDF</DropdownItem>
-                            </DropdownMenu>
-                        </Dropdown>
+                    <Col xs="12" md="12" lg="12">
+                        <Button block onClick={this.handleClick('EXIT')}>Save and Exit</Button>
                     </Col>
-                    <Col xs="6"/>
                 </Row>
                 <Row>
                     <Col>

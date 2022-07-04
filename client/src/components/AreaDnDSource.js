@@ -122,16 +122,6 @@ class AreaDnDSource extends Component{
     this.props.addRelationship(component._id,parentId);
   }  
 
-  /**
-   * React Lifecycle called when updated
-   * @function
-   * @param {object} prevProps
-   */
-  componentDidUpdate(prevProps){
-    if(this.props.renderTrigger!==prevProps.renderTrigger)
-      this.forceUpdate();
-  }
-
   /** 
    * React Lifecycle Method
    * Renders Layout
@@ -161,7 +151,6 @@ AreaDnDSource.propTypes = {
   removeComponent: PropTypes.func,
   addComponent: PropTypes.func,
   addRelationship: PropTypes.func,
-  renderTrigger: PropTypes.string,
   findComponent: PropTypes.func,
   handleComponentClick: PropTypes.func,
   outputComponents: PropTypes.array,

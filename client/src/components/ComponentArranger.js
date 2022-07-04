@@ -77,7 +77,7 @@ class ComponentArranger extends Component {
             return (
                 <Row key={area._id}>
                     <Col xs="12"> 
-                        <Area renderTrigger={JSON.stringify(area)} isTarget findComponent={this.findComponent} handleComponentClick={this.props.handleComponentClick} component={area} outputComponents={outputComponents} showModal={this.props.showModal} addComponent={this.props.addComponent} removeComponent={this.props.removeComponent} updateComponent={this.props.updateComponent} addRelationship={this.props.addRelationship}/>
+                        <Area isTarget findComponent={this.findComponent} handleComponentClick={this.props.handleComponentClick} component={area} outputComponents={outputComponents} showModal={this.props.showModal} addComponent={this.props.addComponent} removeComponent={this.props.removeComponent} updateComponent={this.props.updateComponent} addRelationship={this.props.addRelationship}/>
                     </Col>
                 </Row>
             )  
@@ -169,7 +169,6 @@ class ComponentArranger extends Component {
 };
 
 ComponentArranger.propTypes = {
-    renderTrigger: PropTypes.string,
     components: PropTypes.array,
     isOver: PropTypes.bool,
     canDrop: PropTypes.bool,
