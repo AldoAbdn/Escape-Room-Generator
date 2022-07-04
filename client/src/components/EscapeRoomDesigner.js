@@ -42,30 +42,6 @@ class EscapeRoomDesigner extends Component {
         }
     } 
 
-    /** React Lifecycle Called when Components Updates */
-    componentDidUpdate(prevProps,prevState){
-        if(prevState.activeTab!==this.state.activeTab){
-            this.toggleSvgs();
-        }
-    }
-
-    /** 
-     * Hides SVGs when design not current tab
-     * @function 
-     */
-    toggleSvgs=()=>{
-        let lines = document.querySelectorAll("body > div:not(#root)");
-        if(this.state.activeTab!=="design"){
-            for (let i = 0; i < lines.length;i++){
-                lines[i].style.display = 'none';
-            }
-        } else {
-            for (let i = 0; i < lines.length;i++){
-                lines[i].style.display = 'block';
-            }
-        }
-    }
-
     /**
      * Calculates Output of Component
      */
