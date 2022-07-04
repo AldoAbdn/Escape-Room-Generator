@@ -7,13 +7,15 @@ class Details {
         this.name = "Unnamed";
         this.designers= "";
         this.theme = "";
-        this.minPlayers = "";
-        this.maxPlayers = "";
-        this.targetTime = "";
-        this.difficulty = "3";
+        this.minPlayers = 0;
+        this.maxPlayers = 0;
+        this.targetTime = 0;
+        this.difficulty = 0;
+        this.image = "";
+        this.music = "";
         this.objective = "";
         this.description = "";
-        this.estimatedCost = "";
+        this.estimatedCost = 0;
     }  
 }
 

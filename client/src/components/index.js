@@ -7,6 +7,7 @@ import Tutorials from './Tutorials';
 // Escape Room
 import Dashboard from './Dashboard';
 import EscapeRoomDesigner from './EscapeRoomDesigner';
+import EscapeRoomRunner from './EscapeRoomRunner';
 import Details from './Details';
 import Design from './Design';
 import Pallet from './Pallet';
@@ -45,7 +46,7 @@ export {
     // Escape Room Generator
     App, Main, BusinessLogic, About, Tutorials,
     // Escape Room
-    Accessibility, AreaDnDSource, AreaDnDTarget, AreaPalletItem, ComponentArranger, ComponentDetails, ComponentDnDSource, ComponentDnDTarget, Dashboard, Design, Details, EscapeRoomDesigner, LockGenerator, Pallet, PalletItem, PuzzleGenerator,
+    Accessibility, AreaDnDSource, AreaDnDTarget, AreaPalletItem, ComponentArranger, ComponentDetails, ComponentDnDSource, ComponentDnDTarget, Dashboard, Design, Details, EscapeRoomDesigner,  EscapeRoomRunner, LockGenerator, Pallet, PalletItem, PuzzleGenerator,
     // Web
     Profile, Login, Signup, ConditionalRoute, NotFound, ListCreator, PasswordStrengthMeter, VerifyToken, SendVerify, ResetToken, SendReset
 }

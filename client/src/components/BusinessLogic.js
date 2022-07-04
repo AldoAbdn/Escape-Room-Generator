@@ -1,7 +1,7 @@
 import React, {Component}  from 'react';
 import { Route, Switch } from 'react-router';
 import { Redirect } from 'react-router-dom';
-import { Dashboard, EscapeRoomDesigner, Login, Signup, Tutorials, About, ConditionalRoute, NotFound, VerifyToken, SendVerify, ResetToken, SendReset } from './index.js';
+import { Dashboard, EscapeRoomDesigner, EscapeRoomRunner, Login, Signup, Tutorials, About, ConditionalRoute, NotFound, VerifyToken, SendVerify, ResetToken, SendReset } from './index.js';
 import EscapeRoom from '../models/EscapeRoom.js';
 import PropTypes from 'prop-types';
 
@@ -49,6 +49,15 @@ class BusinessLogic extends Component {
         this.props.redux.actions.escapeRoom.setSelectedEscapeRoom(escapeRoom);
         this.props.history.push('/designer');
     }
+
+    /**
+     * Opens escape room designer
+     * @param {EscapeRoom} escapeRoom
+     */
+    runEscapeRoom = (escapeRoom) => {
+        this.props.redux.actions.escapeRoom.setSelectedEscapeRoom(escapeRoom);
+        this.props.history.push('/runner');
+    }
     
     /**
      * Creates a new escape room 
@@ -62,7 +71,7 @@ class BusinessLogic extends Component {
             newEscapeRoom.userId = userId;
         let response = await this.props.services['escape-rooms'].create(newEscapeRoom);
         if(response.action.type.includes('FULFILLED')){
-            const escapeRoom = response.value;
+            const escapeRoom = EscapeRoom.convert(response.value);
             if (escapeRoom!==null){
                 this.props.redux.actions.escapeRooms.addEscapeRoom(escapeRoom);
                 this.props.redux.actions.escapeRoom.setSelectedEscapeRoom(escapeRoom);
@@ -155,8 +164,9 @@ class BusinessLogic extends Component {
         return (
             <Switch>
                 <Redirect exact from="/" to="dashboard"/>
-                <ConditionalRoute path="/dashboard" condition={user.isVerified && loggedIn} redirect={'/verify'} render={(routeProps) => (<Dashboard escapeRooms={escapeRooms} showModal={showModal} editEscapeRoom={this.editEscapeRoom} newEscapeRoom={this.newEscapeRoom} deleteEscapeRoom={this.deleteEscapeRoom}/>)}/>
+                <ConditionalRoute path="/dashboard" condition={user.isVerified && loggedIn} redirect={'/verify'} render={(routeProps) => (<Dashboard escapeRooms={escapeRooms} showModal={showModal} editEscapeRoom={this.editEscapeRoom} newEscapeRoom={this.newEscapeRoom} deleteEscapeRoom={this.deleteEscapeRoom} runEscapeRoom={this.runEscapeRoom}/>)}/>
                 <ConditionalRoute path="/designer" condition={Object.keys(escapeRoom).length > 0 && escapeRoom!==undefined && loggedIn} redirect={'/'} render={(routeProps) =>(<EscapeRoomDesigner showModal={showModal} escapeRoom={escapeRoom} saveEscapeRoom={this.saveEscapeRoom} updateDetails={escapeRoomActions.updateDetails} updateAccessibility={escapeRoomActions.updateAccessibility} addComponent={escapeRoomActions.addComponent} removeComponent={escapeRoomActions.removeComponent} updateComponent={escapeRoomActions.updateComponent} addRelationship={escapeRoomActions.addRelationship} removeRelationship={escapeRoomActions.removeRelationship}/>)}/>
+                <ConditionalRoute path="/runner" condition={Object.keys(escapeRoom).length > 0 && escapeRoom!==undefined && loggedIn} redirect={'/'} render={(routeProps) =>(<EscapeRoomRunner name={escapeRoom.details.name} time={escapeRoom.details.targetTime} background={escapeRoom.details.image} music={escapeRoom.details.music} hint="/sounds/hint.wav"/>)}/>
                 <ConditionalRoute path="/login" condition={!loggedIn} redirect={'/dashboard'} render={(routeProps) => (<Login authenticate={this.props.authenticate} sendReset={this.sendReset}/>)}/>
                 <ConditionalRoute path="/signup" condition={!loggedIn} redirect={'/dashboard'} render={(routeProps) => (<Signup signUp={this.signUp}/>)}/>
                 <Route path="/about" component={About}/>

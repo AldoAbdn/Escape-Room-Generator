@@ -4,6 +4,7 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Navbar, NavbarBrand
 import LoadingOverlay from 'react-loading-overlay';
 import Profile from '../components/Profile';
 import BusinessLogic from './BusinessLogic.js';
+import EscapeRoom from '../models/EscapeRoom';
 import PropTypes from 'prop-types';
 import '../styles/Main.css';
 
@@ -76,6 +77,8 @@ class Main extends Component {
             let result = await this.props.services['escape-rooms'].find({query:{userId:userId}});
             if(result.action.type.includes('FULFILLED')){
                 const escapeRooms = result.value.data;
+                for(let i = 0; i < escapeRooms.length; i++) // Convert objects to class
+                    escapeRooms[i] = EscapeRoom.convert(escapeRooms[i]);
                 if (escapeRooms!==null && escapeRooms!==undefined){
                     this.props.redux.actions.escapeRooms.updateEscapeRooms(escapeRooms);
                 }

@@ -4,7 +4,6 @@ import { saveAs } from 'file-saver';
 import Modal from '../../../client/src/models/Modal';
 import {escapeRoomToPDF} from '../../../client/src/pdf/pdf';
 import PropTypes from 'prop-types';
-import { EscapeRoom } from '../models';
 
 /**
  * Class for Dashboard that shows users escape rooms 
@@ -83,6 +82,10 @@ class Dashboard extends Component {
                 if(this.props.editEscapeRoom)   
                     this.props.editEscapeRoom(escapeRoom);
                 break;
+            case 'RUN':
+                if(this.props.runEscapeRoom)
+                    this.props.runEscapeRoom(escapeRoom);
+                break;
             case 'JSON':
                 this.saveJSON(escapeRoom);
                 break;
@@ -122,9 +125,8 @@ class Dashboard extends Component {
      */
     convertJSONFileToEscapeRoom = async(file) => {
         let text = await file.text();
-        let escapeRoomObject = JSON.parse(text);
-        delete escapeRoomObject._id; // Delete existing id so a new one is generated
-        let escapeRoom = EscapeRoom.convert(escapeRoomObject);
+        let escapeRoom = JSON.parse(text);
+        delete escapeRoom._id; // Delete existing id so a new one is generated
         return escapeRoom;
     }
 
@@ -141,6 +143,7 @@ class Dashboard extends Component {
                 <DropdownToggle caret/>
                 <DropdownMenu right>
                     <DropdownItem onClick={this.handleItemClick(i,'EDIT')} disabled={this.props.escapeRooms[i].components[0].version!==undefined?false:true}>Edit</DropdownItem>
+                    <DropdownItem onClick={this.handleItemClick(i,'RUN')}>Run</DropdownItem>
                     <DropdownItem onClick={this.handleItemClick(i,'JSON')}>Export as JSON</DropdownItem>
                     <DropdownItem onClick={this.handleItemClick(i,'PDF')}>Export as PDF</DropdownItem>
                     <DropdownItem onClick={this.handleItemClick(i,'JSONANDPDF')}>Export as JSON and PDF</DropdownItem>
@@ -181,11 +184,12 @@ class Dashboard extends Component {
 };
 
 Dashboard.propTypes = {
-    newEscapeRoom: PropTypes.func,
     escapeRooms: PropTypes.array,
-    editEscapeRoom: PropTypes.func,
-    deleteEscapeRoom: PropTypes.func,
     showModal: PropTypes.func,
+    editEscapeRoom: PropTypes.func,
+    newEscapeRoom: PropTypes.func,
+    deleteEscapeRoom: PropTypes.func,
+    runEscapeRoom: PropTypes.func,
 }
 
 export default Dashboard;
