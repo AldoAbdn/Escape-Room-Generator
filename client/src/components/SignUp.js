@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
-import { Container, Row, Col, Alert, Button, Form, FormGroup, Label, Input, FormText} from 'reactstrap';
+import { Container, Row, Col, Alert, Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import PasswordStrengthMeter from './PasswordStrengthMeter'
 import zxcvbn from 'zxcvbn';
 import ReCAPTCHA from "react-google-recaptcha";
@@ -20,6 +20,7 @@ class Signup extends Component {
             password:"",
             password2:"",
             message: "",
+            tos:false,
             testResult: {}
         }
     }
@@ -47,9 +48,10 @@ class Signup extends Component {
     handleChange = (e) => {
         if(e.target.id === "password")
             this.setState({testResult: zxcvbn(e.target.value)});
-        this.setState({
-            [e.target.id]: e.target.value,
-        },()=>this.setState({color:"danger",message:this.composeErrorMessage()}));
+        if(e.target.id === "tos")
+            this.setState({tos:e.target.checked},()=>this.setState({color:"danger",message:this.composeErrorMessage()}));
+        else
+            this.setState({[e.target.id]: e.target.value},()=>this.setState({color:"danger",message:this.composeErrorMessage()}));
     }
 
     /**
@@ -67,6 +69,8 @@ class Signup extends Component {
             messages.push("Password Too Short");
         if(this.state.email.includes(" ") || this.state.email.includes("$") || !this.state.email.includes("@") || !this.state.email.includes("."))
             messages.push("Invalid Email");
+        if(!this.state.tos)
+            messages.push("You must agree to the terms of service");
         return messages.join(", ");   
     }
 
@@ -120,8 +124,12 @@ class Signup extends Component {
                                         />
                                     </div>
                                 </FormGroup>
+                                <FormGroup style={{marginLeft:"1vw"}}>
+                                    <Input required type="checkbox" name="termsofservice" id="tos" value={this.state.tos} onChange={this.handleChange}/>
+                                    <Label for="termsofservice">   You must agree to the <Link to="termsofservice">Terms of Service</Link></Label>
+                                </FormGroup>
                                 <FormGroup>
-                                    <Button block disabled={this.state.email==="" || this.state.password==="" || this.state.message!=="" || !this.state.recaptcha}>Sign Up</Button>
+                                    <Button block disabled={this.state.email==="" || this.state.password==="" || this.state.message!=="" || !this.state.recaptcha || !this.state.tos}>Sign Up</Button>
                                 </FormGroup>
                                 <FormText>
                                     Passwords must be strong and 8 characters in length or more

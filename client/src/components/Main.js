@@ -199,6 +199,9 @@ class Main extends Component {
                                 <NavItem>
                                     <Link className="nav-link" to="/tutorials">Tutorials</Link>
                                 </NavItem>
+                                <NavItem>
+                                    <Link className="nav-link" to="/termsofservice">ToS</Link>
+                                </NavItem>
                                 {profile}
                                 </Nav>
                             </Collapse>

@@ -1,7 +1,7 @@
 import React, {Component}  from 'react';
 import { Route, Switch } from 'react-router';
 import { Redirect } from 'react-router-dom';
-import { Dashboard, EscapeRoomDesigner, EscapeRoomRunner, Login, Signup, Tutorials, About, ConditionalRoute, NotFound, VerifyToken, SendVerify, ResetToken, SendReset } from './index.js';
+import { Dashboard, EscapeRoomDesigner, EscapeRoomRunner, Login, Signup, Tutorials, About, ConditionalRoute, NotFound, VerifyToken, SendVerify, ResetToken, SendReset, TermsOfService } from './index.js';
 import EscapeRoom from '../models/EscapeRoom.js';
 import PropTypes from 'prop-types';
 
@@ -175,6 +175,7 @@ class BusinessLogic extends Component {
                 <Route path="/verify/:token" render={(routeProps) => (<VerifyToken token={routeProps.match.params.token} verifyToken={this.verifyToken}/>)}/>
                 <Route exact path="/reset" render={(routeProps) => (<SendReset sendReset={this.props.sendReset}/>)}/>
                 <Route path="/reset/:token" render={(routeProps) => (<ResetToken token={routeProps.match.params.token} resetToken={this.resetToken}/>)}/>
+                <Route path="/termsofservice" component={TermsOfService}/>
                 <Route component={NotFound}/>
             </Switch> 
         )
