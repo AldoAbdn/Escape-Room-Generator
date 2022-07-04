@@ -51,8 +51,9 @@ Runs npm install in both the client and server package after npm install is run
 You will need to setup two sets of environment variables, one for the client and one for the server. You can do this using .env files within 
 the client and server folders of this project. Refer to the readmes in the client and server folders to setup your environment variables
 
-Once you've done this, from the root directory run the following script
+Once you've done this, from the root directory run the following scripts
 
+    npm install
     npm run dev
 
 This will start both the client and server projects in dev mode on your machine
