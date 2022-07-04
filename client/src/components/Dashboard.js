@@ -75,8 +75,9 @@ class Dashboard extends Component {
 
     async convertComponentsToDataURL() {
         let canvas;
-        console.log(this.ComponentArranger.current);
+        this.ComponentArranger.current.style.display = "block";
         canvas = await html2canvas(this.ComponentArranger.current);
+        this.ComponentArranger.current.style.display = "none";
         return canvas.toDataURL("image/png");
     }
 
@@ -205,6 +206,7 @@ class Dashboard extends Component {
                 <Row>
                     <Col>
                         <div ref={this.ComponentArranger} style={{
+                            display:"none",
                             position:"absolute",
                             left:"110vw",
                             width:"100vw",

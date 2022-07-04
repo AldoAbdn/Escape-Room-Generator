@@ -36,7 +36,6 @@ function escapeRoomToPDF(escapeRoom, components){
  * @returns {jsPDF} doc
  */
 function convertObject(escapeRoom,doc,x,y){
-    console.log(escapeRoom);
     for(let key of Object.keys(escapeRoom)){
         // Page Control 
         // Blocked Keys
