@@ -114,7 +114,6 @@ class EscapeRoomDesigner extends Component {
 EscapeRoomDesigner.propTypes = {
     saveEscapeRoom: PropTypes.func,
     escapeRoom: PropTypes.instanceOf(EscapeRoom),
-    history: PropTypes.object,
     updateDetails: PropTypes.func,
     updateAccessibility: PropTypes.func,
     addComponent: PropTypes.func,
