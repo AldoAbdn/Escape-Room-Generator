@@ -37,15 +37,6 @@ class Design extends Component {
         this.setState({selected:{...this.state.selected,...component}});
     }
 
-    /**
-     * Finds a component by ID
-     * @param {string} id
-     * @returns {Component}
-     */
-    findComponent = (id) => {
-        return this.props.components.components.find(component=>component._id===id);
-    }
-
     /** 
      * React Lifecycle Render
      * @returns {JSX}
@@ -58,7 +49,7 @@ class Design extends Component {
                         <Pallet/>
                     </Col>
                     <Col md="8">
-                        <ComponentArranger renderTrigger={JSON.stringify(this.props.components.components)} findComponent={this.findComponent} showModal={this.props.showModal} handleComponentClick={this.handleComponentClick} updateComponent={this.props.updateComponent} addComponent={this.props.addComponent} removeComponent={this.props.removeComponent} addRelationship={this.props.addRelationship} components={this.props.components.components}/>            
+                        <ComponentArranger renderTrigger={JSON.stringify(this.props.components.components)} components={this.props.components.components} showModal={this.props.showModal} handleComponentClick={this.handleComponentClick} updateComponent={this.props.updateComponent} addComponent={this.props.addComponent} removeComponent={this.props.removeComponent} addRelationship={this.props.addRelationship}/>            
                     </Col>
                     <Col md="2">
                         <ComponentDetails calculateOutput={this.props.calculateOutput} accessibility={this.props.accessibility} selected={this.state.selected} updateComponent={this.updateComponent}/>
@@ -72,7 +63,6 @@ class Design extends Component {
 Design.propTypes = {
     updateComponent: PropTypes.func,
     components: PropTypes.array,
-    findComponent: PropTypes.func,
     showModal: PropTypes.func,
     handleComponentClick: PropTypes.func,
     addComponent: PropTypes.func,

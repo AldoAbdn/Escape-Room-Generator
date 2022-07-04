@@ -77,7 +77,7 @@ class ComponentArranger extends Component {
             return (
                 <Row key={area._id}>
                     <Col xs="12"> 
-                        <Area renderTrigger={JSON.stringify(area)} isTarget findComponent={this.props.findComponent} handleComponentClick={this.props.handleComponentClick} component={area} outputComponents={outputComponents} showModal={this.props.showModal} addComponent={this.props.addComponent} removeComponent={this.props.removeComponent} updateComponent={this.props.updateComponent} addRelationship={this.props.addRelationship}/>
+                        <Area renderTrigger={JSON.stringify(area)} isTarget findComponent={this.findComponent} handleComponentClick={this.props.handleComponentClick} component={area} outputComponents={outputComponents} showModal={this.props.showModal} addComponent={this.props.addComponent} removeComponent={this.props.removeComponent} updateComponent={this.props.updateComponent} addRelationship={this.props.addRelationship}/>
                     </Col>
                 </Row>
             )  
@@ -113,6 +113,15 @@ class ComponentArranger extends Component {
         window.removeEventListener('resize', this.update);
     }
 
+    /**
+     * Finds a component by ID
+     * @param {string} id
+     * @returns {Component}
+     */
+    findComponent = (id) => {
+        return this.props.components.find(component=>component._id===id);
+    }
+
     /** 
      * React Lifecycle Render
      * @returns {JSX}
@@ -130,11 +139,11 @@ class ComponentArranger extends Component {
                 let inputComponents = component.inputComponents;
                 let outputComponents = component.outputComponents;
                 for(let inputComponent of inputComponents){
-                    inputComponent = this.props.findComponent(inputComponent);
+                    inputComponent = this.findComponent(inputComponent);
                     lines.push(<LineTo key={component._id+inputComponent._id+'input'} from={component._id} to={inputComponent._id} borderColor={"#007bff"}/>);
                 };
                 for(let outputComponent of outputComponents){
-                    outputComponent = this.props.findComponent(outputComponent);
+                    outputComponent = this.findComponent(outputComponent);
                     lines.push(<LineTo key={component._id+outputComponent._id+'output'} from={component._id} to={outputComponent._id} borderColor={"#28a745"}/>)
                 };
             }
@@ -164,7 +173,6 @@ ComponentArranger.propTypes = {
     components: PropTypes.array,
     isOver: PropTypes.bool,
     canDrop: PropTypes.bool,
-    findComponent: PropTypes.func,
     showModal: PropTypes.func,
     handleComponentClick: PropTypes.func,
     updateComponent: PropTypes.func,

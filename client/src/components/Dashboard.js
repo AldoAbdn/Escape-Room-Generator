@@ -168,15 +168,6 @@ class Dashboard extends Component {
         </ListGroupItem>)
     };
 
-    /**
-     * Finds a component by ID
-     * @param {string} id
-     * @returns {Component}
-     */
-    findComponent = (id) => {
-        return this.state.escapeRoom.components.find(component=>component._id===id);
-    }
-
     /** 
      * React Lifecycle Render
      * @returns {JSX}
@@ -207,11 +198,11 @@ class Dashboard extends Component {
                     <Col>
                         <div ref={this.ComponentArranger} style={{
                             display:"none",
-                            position:"absolute",
+                            position:"fixed",
                             left:"110vw",
-                            width:"100vw",
+                            width:"90vw",
                             }}>
-                            <ComponentArranger components={this.state.escapeRoom.components} findComponent={this.findComponent} showModal={empty} handleComponentClick={empty} updateComponent={empty} addComponent={empty} removeComponent={empty} addRelationship={empty}/>
+                            <ComponentArranger components={this.state.escapeRoom.components} showModal={empty} handleComponentClick={empty} updateComponent={empty} addComponent={empty} removeComponent={empty} addRelationship={empty}/>
                         </div>
                     </Col>
                 </Row>
