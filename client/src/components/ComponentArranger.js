@@ -5,7 +5,7 @@ import '../styles/ComponentArranger.css';
 import Area from './AreaDnDSource';
 import AreaModel from '../../../client/src/models/Area';
 import { DropTarget } from 'react-dnd';
-import LineTo from 'react-lineto';
+import Xarrow from "react-xarrows";
 import PropTypes from 'prop-types';
 
 /**
@@ -140,29 +140,29 @@ class ComponentArranger extends Component {
                 let outputComponents = component.outputComponents;
                 for(let inputComponent of inputComponents){
                     inputComponent = this.findComponent(inputComponent);
-                    lines.push(<LineTo key={component._id+inputComponent._id+'input'} from={component._id} to={inputComponent._id} borderColor={"#007bff"}/>);
+                    lines.push(<Xarrow color='blue' start={component._id} end={inputComponent._id}/>);
                 };
                 for(let outputComponent of outputComponents){
                     outputComponent = this.findComponent(outputComponent);
-                    lines.push(<LineTo key={component._id+outputComponent._id+'output'} from={component._id} to={outputComponent._id} borderColor={"#28a745"}/>)
+                    lines.push(<Xarrow color='red' start={component._id} end={outputComponent._id}/>);
                 };
             }
         };
         return this.props.connectDropTarget(
             <div className={classNames}>
+                <Col xs="12">
+                    <Row>
+                        <Col className="col text-center">
+                            <h3>Components</h3>
+                        </Col>
+                    </Row>
+                    <Row id="MappedComponents">
+                        <Col>
+                            {this.props.components.map(this.mapAreas)}
+                        </Col>
+                    </Row>
+                </Col>
                 {lines}
-                    <Col xs="12">
-                        <Row>
-                            <Col className="col text-center">
-                                <h3>Components</h3>
-                            </Col>
-                        </Row>
-                        <Row id="MappedComponents">
-                            <Col>
-                                {this.props.components.map(this.mapAreas)}
-                            </Col>
-                        </Row>
-                    </Col>
             </div>
         )
     }
