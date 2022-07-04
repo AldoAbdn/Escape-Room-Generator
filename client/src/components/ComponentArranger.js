@@ -140,11 +140,11 @@ class ComponentArranger extends Component {
                 let outputComponents = component.outputComponents;
                 for(let inputComponent of inputComponents){
                     inputComponent = this.findComponent(inputComponent);
-                    lines.push(<Xarrow color='blue' start={component._id} end={inputComponent._id}/>);
+                    lines.push(<Xarrow color='blue' start={inputComponent._id} end={component._id}/>);
                 };
                 for(let outputComponent of outputComponents){
                     outputComponent = this.findComponent(outputComponent);
-                    lines.push(<Xarrow color='red' start={component._id} end={outputComponent._id}/>);
+                    lines.push(<Xarrow color='green' start={component._id} end={outputComponent._id}/>);
                 };
             }
         };
