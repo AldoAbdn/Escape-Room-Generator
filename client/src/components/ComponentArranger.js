@@ -59,7 +59,6 @@ class ComponentArranger extends Component {
     /** Creates ComponentArranger */
     constructor(){
         super()
-        this.state = {lines:[]}
     }
 
     /**
@@ -82,35 +81,6 @@ class ComponentArranger extends Component {
                 </Row>
             )  
         }
-    }
-
-    /**
-     * React Lifecycle called on Update
-     * @param {object} props 
-     * @param {object} state 
-     */
-    componentDidUpdate(props,state) {
-        if(JSON.stringify(this.props.components)!==JSON.stringify(props.components)){
-            this.forceUpdate();
-        }
-    }
-
-    /** Calls force update */
-    update = () => this.forceUpdate()
-
-    /** React Lifecycle called when component Mounts */
-    componentDidMount() {
-        setTimeout(()=>{
-            this.forceUpdate();
-        },100)
-        window.addEventListener('scroll', this.update, true);
-        window.addEventListener('resize', this.update);
-    }
-    
-    /** React Lifecycle called when component unmounts */
-    componentWillUnmount() {
-        window.removeEventListener('scroll', this.update);
-        window.removeEventListener('resize', this.update);
     }
 
     /**

@@ -62,7 +62,7 @@ class AreaDnDTarget extends Component {
     /** Creates AreaDnDTarget */
     constructor(){
         super();
-        this.state = { width: 0, height: 0};
+        this.state={width:window.innerWidth};
     }
 
     /**
@@ -83,16 +83,15 @@ class AreaDnDTarget extends Component {
     }
 
     updateScreenDimensions = () => {
-        this.setState({ width: window.innerWidth, height: window.innerHeight });
+        this.setState({ width: window.innerWidth });
     }
 
     /** 
      * Adds new components and updates existing
      * @param {Component} item
-     * @param {bool} isInput 
      */
-    handleComponentDrop(item,isInput=false){
-        var component = null;
+    handleComponentDrop(item){
+        let component = null;
         if (item.id!==undefined && item._id === undefined){
             switch(item.id){
                 case 'Puzzle':

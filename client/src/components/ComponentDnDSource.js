@@ -119,23 +119,6 @@ class ComponentDnDSource extends Component{
     }
   }
 
-  /** Calls forceUpdate */
-  update = () => this.forceUpdate()
-
-  /** React Lifecycle called when Component did Mount */
-  componentDidMount() {
-    window.addEventListener('click', this.update, true);
-    window.addEventListener('scroll', this.update, true);
-    window.addEventListener('resize', this.update);
-  }
-  
-  /** React Lifecycle called when Component did Mount */
-  componentWillUnmount() {
-    window.removeEventListener('click', this.update);
-    window.removeEventListener('scroll', this.update);
-    window.removeEventListener('resize', this.update)
-  }
-
   /** 
    * React Lifecycle Render
    * @returns {JSX}
