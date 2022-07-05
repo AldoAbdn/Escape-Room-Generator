@@ -92,7 +92,7 @@ class AreaDnDTarget extends Component {
      */
     handleComponentDrop(item){
         let component = null;
-        if (item.id!==undefined && item._id === undefined){
+        if (item.id !== undefined && item._id === undefined){
             switch(item.id){
                 case 'Puzzle':
                     component = new Puzzle();

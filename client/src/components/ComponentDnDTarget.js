@@ -81,7 +81,7 @@ class ComponentDnDTarget extends Component {
                     return;
             }
             this.props.addComponent(component,this.props.component._id);
-        }else {
+        } else {
             component = item;
             if(component._id!==this.props.component._id)
                 this.props.addRelationship(component._id,this.props.component._id,isInput);

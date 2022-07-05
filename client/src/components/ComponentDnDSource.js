@@ -65,7 +65,7 @@ const componentSource = {
   endDrag(props, monitor, component) {
     if (!monitor.didDrop()) {
       if((props.component!==undefined||props.component!==null)&&props.showModal)
-        props.showModal(new Modal("Warning", "Are you sure you want to delete this component?","Yes",component.removeComponent,"No",()=>{}));
+        props.showModal(new Modal("Warning", "Are you sure you want to delete this component?","Yes",component.props.removeComponent,"No",()=>{}));
         return;
     }
   }
