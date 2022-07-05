@@ -93,32 +93,6 @@ function collect(connect, monitor) {
  * @author Alistair Quinn
  */
 class ComponentDnDSource extends Component{
-  /** Removes a component */
-  removeComponent = ()=>{
-    this.props.removeComponent(this.props.component._id);
-  }
-
-  /**
-   * React Lifecycle called after component udpates
-   * @param {object} prevProps 
-   */
-  componentDidUpdate(prevProps){
-    if(this.props.renderTrigger!==prevProps.renderTrigger)
-      this.forceUpdate();
-  }
-
-  /**
-   * Finds a component 
-   * @param {Component} component 
-   */
-  findComponent(component){
-    if(this.props.findComponent!==undefined){
-      return this.props.findComponent(component);
-    } else {
-      return null;
-    }
-  }
-
   /** 
    * React Lifecycle Render
    * @returns {JSX}
@@ -161,9 +135,7 @@ class ComponentDnDSource extends Component{
 
 ComponentDnDSource.propTypes = {
   removeComponent: PropTypes.func,
-  renderTrigger: PropTypes.string,
   component: PropTypes.instanceOf(Component),
-  findComponent: PropTypes.func,
   isTarget: PropTypes.bool,
   handleComponentClick: PropTypes.func,
   showModal: PropTypes.func,
