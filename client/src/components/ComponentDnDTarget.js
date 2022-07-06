@@ -59,33 +59,8 @@ class ComponentDnDTarget extends Component {
      * @param {bool} isInput 
      */
     handleComponentDrop(item,isInput=true){
-        var component = null;
-        if (item.id!==undefined){
-            switch(item.id){
-                case 'Puzzle':
-                    component = new Puzzle();
-                    break;
-                case 'Lock':
-                    component = new Lock();
-                    break;
-                case 'Event':
-                    component = new Event();
-                    break;
-                case 'Music':
-                    component = new Music();
-                    break;
-                case 'Prop':
-                    component = new Prop();
-                    break;
-                default:
-                    return;
-            }
-            this.props.addComponent(component,this.props.component._id);
-        } else {
-            component = item;
-            if(component._id!==this.props.component._id)
-                this.props.addRelationship(component._id,this.props.component._id,isInput);
-        }
+        if(item._id!==this.props.component._id)
+            this.props.addRelationship(item._id,this.props.component._id,isInput);
     }
 
     /** 
