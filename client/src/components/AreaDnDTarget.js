@@ -138,7 +138,6 @@ class AreaDnDTarget extends Component {
             classNames+=" couldDrop"
         }
         let title = this.props.component.type + " (" + this.props.component._id + ") " + this.props.component.name;
-        console.log(this.props.component);
         return this.props.connectDropTarget(
             <div className={this.props.component.type} key={this.props.component._id}>                
                 <Card className={classNames} onClick={this.props.handleComponentClick(this.props.component)}>

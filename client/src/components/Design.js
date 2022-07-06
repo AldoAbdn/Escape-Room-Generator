@@ -35,8 +35,7 @@ class Design extends Component {
      */
     updateComponent = (component) => {
         this.props.updateComponent(component);
-        this.setState({selected:{...this.state.selected,...component}});
-        this.forceUpdate();
+        this.setState({selected:{...this.state.selected,...component}},()=>{this.forceUpdate();console.log(this.state)});
     }
 
     /** 
