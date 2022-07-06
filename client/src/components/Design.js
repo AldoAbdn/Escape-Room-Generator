@@ -25,7 +25,6 @@ class Design extends Component {
     handleComponentClick = (component) => (e) => {
         e.stopPropagation();
         this.setState({selected:component});
-        this.forceUpdate();
     }
 
     /**
@@ -36,7 +35,6 @@ class Design extends Component {
     updateComponent = (component) => {
         this.props.updateComponent(component);
         this.setState({selected:{...this.state.selected,...component}});
-        this.forceUpdate();
     }
 
     /** 
