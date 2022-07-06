@@ -98,12 +98,13 @@ class ComponentDnDSource extends Component{
    * @returns {JSX}
    */
   render() {
-      var target;
+      let id=`${this.props.component._id}`;
+      let target;
       if (this.props.isTarget){
         target = (
             <Row>
-                <Col xs="6"><ComponentDnDTarget isInput={true} component={this.props.component} handleComponentClick={this.props.handleComponentClick} addComponent={this.props.addComponent}/></Col>
-                <Col xs="6"><ComponentDnDTarget isInput={false} component={this.props.component} handleComponentClick={this.props.handleComponentClick} addComponent={this.props.addComponent}/></Col>
+                <Col xs="6"><ComponentDnDTarget isInput={true} component={this.props.component} handleComponentClick={this.props.handleComponentClick} addComponent={this.props.addComponent} addRelationship={this.props.addRelationship}/></Col>
+                <Col xs="6"><ComponentDnDTarget isInput={false} component={this.props.component} handleComponentClick={this.props.handleComponentClick} addComponent={this.props.addComponent} addRelationship={this.props.addRelationship}/></Col>
             </Row>
         );
       }
@@ -115,7 +116,7 @@ class ComponentDnDSource extends Component{
         classNames += " " + this.props.component.type + " " + this.props.component._id;
       } 
       return this.props.connectDragSource(
-          <div className={classNames} id={this.props.component._id} style={style} onClick={this.props.handleComponentClick(this.props.component)}>
+          <div className={classNames} key={id} id={id} style={style} onClick={this.props.handleComponentClick(this.props.component)}>
             <Row>
               <Col>
                 <p>{this.props.component.type}</p>

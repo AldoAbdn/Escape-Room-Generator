@@ -93,7 +93,7 @@ class ComponentDnDTarget extends Component {
      * @returns {JSX}
      */
     render() {
-        let id=this.props.component._id;
+        let id=`${this.props.component._id}-${this.props.isInput}-Target`;
         var classNames = "hide-border";
         if(this.props.isOver && this.props.canDrop){
             classNames+=" canDrop";
@@ -114,7 +114,7 @@ class ComponentDnDTarget extends Component {
             tooltip = "Drag another component to this green square to add it as an output of this component"
         }
         return this.props.connectDropTarget(
-            <div key={this.props.component._id} id={id}>
+            <div key={id} id={id}>
                 <Card className={classNames} onClick={this.props.handleComponentClick(this.props.component)}>
                     <CardBody>
 
