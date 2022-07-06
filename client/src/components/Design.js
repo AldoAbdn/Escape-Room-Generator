@@ -49,7 +49,7 @@ class Design extends Component {
                         <Pallet/>
                     </Col>
                     <Col md="8">
-                        <ComponentArranger components={this.props.components} showModal={this.props.showModal} handleComponentClick={this.handleComponentClick} updateComponent={this.props.updateComponent} addComponent={this.props.addComponent} removeComponent={this.props.removeComponent} addRelationship={this.props.addRelationship}/>            
+                        <ComponentArranger selected={this.state.selected} components={this.props.components} showModal={this.props.showModal} handleComponentClick={this.handleComponentClick} updateComponent={this.props.updateComponent} addComponent={this.props.addComponent} removeComponent={this.props.removeComponent} addRelationship={this.props.addRelationship}/>            
                     </Col>
                     <Col md="2">
                         <ComponentDetails calculateOutput={this.props.calculateOutput} accessibility={this.props.accessibility} selected={this.state.selected} updateComponent={this.updateComponent}/>

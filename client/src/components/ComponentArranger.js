@@ -134,6 +134,7 @@ class ComponentArranger extends Component {
 };
 
 ComponentArranger.propTypes = {
+    selected: PropTypes.instanceOf(Component),
     components: PropTypes.array,
     isOver: PropTypes.bool,
     canDrop: PropTypes.bool,
