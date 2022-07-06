@@ -1,7 +1,6 @@
 import React, {Component}  from 'react';
 import { Card, CardBody, UncontrolledTooltip } from 'reactstrap';
 import { DropTarget } from 'react-dnd';
-import { Area, Puzzle, Event, Music, Lock, Prop } from '../../../client/src/models/index';
 import PropTypes from 'prop-types';
 import '../styles/Component.css';
 
@@ -103,7 +102,7 @@ class ComponentDnDTarget extends Component {
 
 ComponentDnDTarget.propTypes = {
     addComponent: PropTypes.func,
-    component: PropTypes.instanceOf(Area),
+    component: PropTypes.instanceOf(Component),
     isOver: PropTypes.bool,
     canDrop: PropTypes.bool,
     isInput: PropTypes.bool,

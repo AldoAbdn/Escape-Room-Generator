@@ -2,7 +2,7 @@ import React, {Component}  from 'react';
 import { Row, Col } from 'reactstrap';
 import '../styles/Component.css';
 import '../styles/ComponentArranger.css';
-import Area from './AreaDnDSource';
+import AreaDnDSource from './AreaDnDSource';
 import AreaModel from '../../../client/src/models/Area';
 import { DropTarget } from 'react-dnd';
 import Xarrow from "react-xarrows";
@@ -56,11 +56,6 @@ function collect(connect, monitor) {
  * @author Alistair Quinn
  */
 class ComponentArranger extends Component {
-    /** Creates ComponentArranger */
-    constructor(){
-        super()
-    }
-
     /**
      * Maps Area to a Row
      * @function
@@ -76,7 +71,7 @@ class ComponentArranger extends Component {
             return (
                 <Row key={area._id}>
                     <Col xs="12"> 
-                        <Area isTarget findComponent={this.findComponent} handleComponentClick={this.props.handleComponentClick} component={area} outputComponents={outputComponents} showModal={this.props.showModal} addComponent={this.props.addComponent} removeComponent={this.props.removeComponent} updateComponent={this.props.updateComponent} addRelationship={this.props.addRelationship}/>
+                        <AreaDnDSource isTarget findComponent={this.findComponent} handleComponentClick={this.props.handleComponentClick} component={area} outputComponents={outputComponents} showModal={this.props.showModal} addComponent={this.props.addComponent} removeComponent={this.props.removeComponent} updateComponent={this.props.updateComponent} addRelationship={this.props.addRelationship}/>
                     </Col>
                 </Row>
             )  

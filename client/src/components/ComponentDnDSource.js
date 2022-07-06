@@ -99,15 +99,6 @@ class ComponentDnDSource extends Component{
    */
   render() {
       let id=`${this.props.component._id}`;
-      let target;
-      if (this.props.isTarget){
-        target = (
-            <Row>
-                <Col xs="6"><ComponentDnDTarget isInput={true} component={this.props.component} handleComponentClick={this.props.handleComponentClick} addComponent={this.props.addComponent} addRelationship={this.props.addRelationship}/></Col>
-                <Col xs="6"><ComponentDnDTarget isInput={false} component={this.props.component} handleComponentClick={this.props.handleComponentClick} addComponent={this.props.addComponent} addRelationship={this.props.addRelationship}/></Col>
-            </Row>
-        );
-      }
       var style = {};
       let classNames = "component container-fluid";
       if(this.props.component!==undefined){
@@ -128,7 +119,10 @@ class ComponentDnDSource extends Component{
               <p>{this.props.component.name}</p>
               </Col>
             </Row>
-            {target}
+            <Row>
+                <Col xs="6"><ComponentDnDTarget isInput={true} component={this.props.component} handleComponentClick={this.props.handleComponentClick} addComponent={this.props.addComponent} addRelationship={this.props.addRelationship}/></Col>
+                <Col xs="6"><ComponentDnDTarget isInput={false} component={this.props.component} handleComponentClick={this.props.handleComponentClick} addComponent={this.props.addComponent} addRelationship={this.props.addRelationship}/></Col>
+            </Row>
           </div>
       )
   }
@@ -137,7 +131,6 @@ class ComponentDnDSource extends Component{
 ComponentDnDSource.propTypes = {
   removeComponent: PropTypes.func,
   component: PropTypes.instanceOf(Component),
-  isTarget: PropTypes.bool,
   handleComponentClick: PropTypes.func,
   showModal: PropTypes.func,
   addComponent: PropTypes.func,
