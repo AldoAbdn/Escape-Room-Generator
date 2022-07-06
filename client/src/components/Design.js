@@ -44,7 +44,6 @@ class Design extends Component {
      * @returns {JSX}
      */
     render(){
-        console.log(this.props);
         return (
             <Container fluid>
                 <Row>
