@@ -65,7 +65,7 @@ const componentSource = {
   endDrag(props, monitor, component) {
     if (!monitor.didDrop()) {
       if((props.component!==undefined||props.component!==null)&&props.showModal)
-        props.showModal(new Modal("Warning", "Are you sure you want to delete this component?","Yes",component.props.removeComponent,"No",()=>{}));
+        props.showModal(new Modal("Warning", "Are you sure you want to delete this component?","Yes",()=>(component.props.removeComponent(props.component._id)),"No",()=>{}));
         return;
     }
   }
@@ -102,8 +102,8 @@ class ComponentDnDSource extends Component{
       if (this.props.isTarget){
         target = (
             <Row>
-                <Col xs="6"><ComponentDnDTarget isInput={true} component={this.props.component} handleComponentClick={this.props.handleComponentClick} showModal={this.props.showModal} addComponent={this.props.addComponent} removeComponent={this.props.removeComponent} addRelationship={this.props.addRelationship}/></Col>
-                <Col xs="6"><ComponentDnDTarget isInput={false} component={this.props.component} handleComponentClick={this.props.handleComponentClick} showModal={this.props.showModal} addComponent={this.props.addComponent} removeComponent={this.props.removeComponent} addRelationship={this.props.addRelationship}/></Col>
+                <Col xs="6"><ComponentDnDTarget isInput={true} component={this.props.component} handleComponentClick={this.props.handleComponentClick} addComponent={this.props.addComponent}/></Col>
+                <Col xs="6"><ComponentDnDTarget isInput={false} component={this.props.component} handleComponentClick={this.props.handleComponentClick} addComponent={this.props.addComponent}/></Col>
             </Row>
         );
       }
