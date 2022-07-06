@@ -101,7 +101,7 @@ class EscapeRoomDesigner extends Component {
                                 <Accessibility accessibility={this.props.escapeRoom.accessibility} updateAccessibility={this.props.updateAccessibility}/>
                             </TabPane>
                             <TabPane tabId="design">
-                                <Design calculateOutput={this.calculateOutput} components={{components:this.props.escapeRoom.components}} showModal={this.props.showModal} accessibility={this.props.escapeRoom.accessibility} addComponent={this.props.addComponent} removeComponent={this.props.removeComponent} updateComponent={this.props.updateComponent} addRelationship={this.props.addRelationship} removeRelationship={this.props.removeRelationship}/>
+                                <Design calculateOutput={this.calculateOutput} components={this.props.escapeRoom.components} showModal={this.props.showModal} accessibility={this.props.escapeRoom.accessibility} addComponent={this.props.addComponent} removeComponent={this.props.removeComponent} updateComponent={this.props.updateComponent} addRelationship={this.props.addRelationship} removeRelationship={this.props.removeRelationship}/>
                             </TabPane>
                         </TabContent>
                     </Col>
