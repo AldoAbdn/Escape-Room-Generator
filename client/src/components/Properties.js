@@ -83,7 +83,7 @@ class Properties extends Component {
                     <br/>
                 </Col>
             </Row>)
-        } else if (key==='lockType'){
+        } else if(key==='lockType'){
             return (
                 <Row key={i}>
                     <Col>
@@ -98,7 +98,7 @@ class Properties extends Component {
                     </Col>
                 </Row>
             )
-        } else if (key==='eventType'){
+        } else if(key==='eventType'){
             return (
                 <Row key={i}>
                     <Col>
@@ -112,7 +112,7 @@ class Properties extends Component {
                     </Col>
                 </Row>
             )
-        } else if (key==='puzzleType'){
+        } else if(key==='puzzleType'){
             return (
                 <Row key={i}>
                     <Col>
@@ -129,7 +129,7 @@ class Properties extends Component {
                     </Col>
                 </Row>
             )
-        } else if (key==='puzzle'){
+        } else if(key==='puzzle'){
             let component = this.props.selected;
             let details = Object.keys(component[key]).map((property,index,array)=>{
                 let detail;
@@ -160,7 +160,17 @@ class Properties extends Component {
             }else{
                 return null;
             } 
-        }else if(typeof this.props.selected[key] === "string" && key!=="_id" && key!=="type" && key!=="version"){
+        } else if(key==='estimatedCost'){
+            return (
+                <Row key={i}>
+                    <Col>
+                        <Label for={key}>{this.convertCamelCase(key)}</Label>
+                        <Input type="number" min="0" step="0.01" pattern="^\d*(\.\d{0,2})?$" name={key} id={key} placeholder={this.convertCamelCase(key)} value={this.props.selected[key]} onChange={this.handleChange}/>
+                    </Col>
+                </Row>)
+        } else if(key==='images'){
+            return(<ImageManager id={this.props.selected._id} images={this.props.selected[key]} updateComponent={this.props.updateComponent}/>)
+        } else if(typeof this.props.selected[key] === "string" && key!=="_id" && key!=="type" && key!=="version"){
             return (
                 <Row key={i}>
                     <Col>

@@ -7,7 +7,6 @@ import uniqid from 'uniqid';
 class Component {
     constructor(){
         this._id = uniqid();
-        this.version = "1";
         this.name = "";
         this.description = "";
         this.output = "";
@@ -15,8 +14,8 @@ class Component {
         this.outputComponents = [];
         this.type = "Component";
         this.position = {top:0,left:0};
-        this.estimatedCost = "";
-        this.resources = [];
+        this.estimatedCost = 0;
+        this.images = [];
     }
 }
 

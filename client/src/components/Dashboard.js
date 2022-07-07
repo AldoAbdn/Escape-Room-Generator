@@ -157,7 +157,7 @@ class Dashboard extends Component {
             <Dropdown style={{display:'inline', position: 'absolute', right:'20px'}} isOpen={this.state.dropdownOpen[i]} toggle={this.handleToggle(i)}>
                 <DropdownToggle caret/>
                 <DropdownMenu right>
-                    <DropdownItem onClick={this.handleItemClick(i,'EDIT')} disabled={this.props.escapeRooms[i].components[0].version!==undefined?false:true}>Edit</DropdownItem>
+                    <DropdownItem onClick={this.handleItemClick(i,'EDIT')}>Edit</DropdownItem>
                     <DropdownItem onClick={this.handleItemClick(i,'RUN')}>Run</DropdownItem>
                     <DropdownItem onClick={this.handleItemClick(i,'JSON')}>Export as JSON</DropdownItem>
                     <DropdownItem onClick={this.handleItemClick(i,'PDF')}>Export as PDF</DropdownItem>
