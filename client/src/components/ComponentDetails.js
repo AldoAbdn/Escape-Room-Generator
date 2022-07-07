@@ -262,7 +262,6 @@ class ComponentDetails extends Component {
                 if(this.props.accessibility.visual[key]===true)
                     visualKeys.push(key);
             });
-            console.log(visualKeys);
             if(visualKeys.length>0)
                 visualWarning = (                
                 <Col className="col text-center">
