@@ -231,12 +231,12 @@ class ComponentDetails extends Component {
         let visualWarning;
         let physicalWarning;
         if(component!==undefined || component!==null){
+            // Properties
             if(component._id!==undefined)
                 id = " ("+component._id+")";
-            else 
-                id="";
             properties = Object.keys(component).map(this.mapDetailToInput)
             type = component.type||"";
+            // Relationships
             if(component.type!=='Area'&&component.inputComponents!==undefined&&component.outputComponents!==undefined&&(component.inputComponents.length>0||component.outputComponents.length>0)){
                 inputs = component.inputComponents.map((id,i)=>this.mapRelationshipToListGroup(id,i,true));
                 outputs = component.outputComponents.map((id,i)=>this.mapRelationshipToListGroup(id,i,false));
@@ -261,7 +261,8 @@ class ComponentDetails extends Component {
                     </Row>
                 );
             }
-            //Accessibility
+            // Accessibility
+            // Visual
             let visualKeys = [];
             Object.keys(this.props.accessibility.visual).forEach((key)=>{
                 if(this.props.accessibility.visual[key]===true)
@@ -276,6 +277,7 @@ class ComponentDetails extends Component {
                     </UncontrolledTooltip>
                 </Col>
                 )
+            // Physical
             let physicalKeys = [];
             Object.keys(this.props.accessibility.physical).forEach((key)=>{
                 if(this.props.accessibility.physical[key]===true)
