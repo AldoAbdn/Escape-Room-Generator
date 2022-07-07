@@ -109,8 +109,6 @@ class AreaDnDSource extends Component{
    */
   removeComponent = () => {
     this.props.removeComponent(this.props.component._id);
-    for(let id in this.props.component.outputComponents)
-      this.props.removeComponent(id);
   }
 
   /** 
