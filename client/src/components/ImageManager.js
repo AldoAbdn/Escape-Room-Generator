@@ -11,6 +11,7 @@ class ImageManager extends Component {
     constructor(props){
         super(props);
         this.state={images:props.images};
+        this.InputFile = React.createRef();
     }
 
     /**
@@ -18,11 +19,18 @@ class ImageManager extends Component {
      * @function
      * @param {Event} e
      */
-    addImage = (e) => {
+    addImage = (image) => {
         let images = [...this.state.images];
-        images.push("");
+        images.push(image);
         this.setState({images});
         this.props.handleChange(images);
+    }
+
+    /**
+     * Handles Button Click
+     */
+    handleClick = (e) => {
+        this.InputFile.current.click();
     }
 
     /**
@@ -55,6 +63,35 @@ class ImageManager extends Component {
     }
 
     /**
+     * Handles File Input Change
+     * @param {Event} e 
+     */
+    handleChange = async(e) => {
+        const { files } = e.target;
+        if (files && files.length === 1) {
+            try{
+                let fileUri = await this.imageToBase64(files[0]);
+                this.addImage(fileUri);
+            } catch(error){
+
+            }
+        }
+    }
+
+    /**
+     * Converts Image to Base 64 URI
+     * https://stackoverflow.com/questions/36280818/how-to-convert-file-to-base64-in-javascript
+     * @param {File} file 
+     * @returns 
+     */
+    imageToBase64 = (file) => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    });
+
+    /**
      * React lifecycle method 
      * Renders Layout
      * @returns {JSX}
@@ -64,7 +101,8 @@ class ImageManager extends Component {
             <Container>
                 <Row>
                     <Col>
-                        <Button onClick={this.addImage}>Add Image</Button>
+                        <input id="image" style={{display: "none"}} accept="image/png, image/jpeg" ref={this.InputFile} onChange={this.handleChange} type="file" name="file"/>
+                        <Button onClick={this.handleClick}>Add Image</Button>
                         <ListGroup>
                             {this.state.images.map(this.mapImageToListItem)}
                         </ListGroup>
