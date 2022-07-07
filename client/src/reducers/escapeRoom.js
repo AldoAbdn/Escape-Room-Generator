@@ -34,6 +34,20 @@ function escapeRoom(state={},action){
         case 'REMOVE_COMPONENT':
             newState = {...state};
             i = newState.components.findIndex(component=>component._id===action.componentId);
+            let comp = {...newState.components[i]};
+            // If Area Remove Containing Components
+            if(comp.type === "Area"){
+                comp.outputComponents.forEach(oldComponent => {
+                    i = newState.components.findIndex(component=>component._id===oldComponent);
+                    newState.components = [...newState.components.slice(0,i),...newState.components.slice(i+1)]
+                    newState.components.forEach((component,index,components)=>{
+                        components[index].inputComponents = component.inputComponents.filter(inputId=>inputId!==oldComponent);
+                        components[index].outputComponents = component.outputComponents.filter(outputId=>outputId!==oldComponent);
+                    });
+
+                });
+            }
+            i = newState.components.findIndex(component=>component._id===action.componentId);
             newState.components = [...newState.components.slice(0,i),...newState.components.slice(i+1)]
             newState.components.forEach((component,index,components)=>{
                 components[index].inputComponents = component.inputComponents.filter(inputId=>inputId!==action.componentId);
