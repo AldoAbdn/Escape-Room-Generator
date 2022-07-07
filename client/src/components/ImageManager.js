@@ -1,5 +1,5 @@
 import React, {Component}  from 'react';
-import { Container, Row, Col, Button, ListGroup, ListGroupItem } from 'reactstrap';
+import { Container, Row, Col, Button, ListGroup, ListGroupItem, Label } from 'reactstrap';
 import PropTypes from 'prop-types';
 
 /** 
@@ -52,9 +52,10 @@ class ImageManager extends Component {
      * @returns {JSX}
      */
     mapImageToListItem = (item,index,array)=>{
+        console.log(item);
         return (
         <ListGroupItem key={index}>
-            {item}
+            <image src={item}/>
             <Button onClick={this.removeImage(index)} color="danger" style={{display:'inline', position: 'absolute', right:'2px', top:'0.3rem'}}>
                 X
             </Button>
@@ -101,8 +102,14 @@ class ImageManager extends Component {
             <Container>
                 <Row>
                     <Col>
-                        <input id="image" style={{display: "none"}} accept="image/png, image/jpeg" ref={this.InputFile} onChange={this.handleChange} type="file" name="file"/>
-                        <Button onClick={this.handleClick}>Add Image</Button>
+                        <Label for="image">Images</Label>
+                        <input id="image" style={{display: "none"}} accept="image/png, image/jpeg" ref={this.InputFile} onChange={this.handleChange} type="file" name="image"/>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+
+                        <Button block onClick={this.handleClick}>Add Image</Button>
                         <ListGroup>
                             {this.state.images.map(this.mapImageToListItem)}
                         </ListGroup>

@@ -56,7 +56,6 @@ class Relationships extends Component {
      * @returns {JSX}
      */
     render() {
-        console.log(this.props);
         if(this.props.selected.type !== "Area")
             return (
                 <Container>
