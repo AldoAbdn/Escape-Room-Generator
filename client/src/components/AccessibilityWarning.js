@@ -1,5 +1,5 @@
 import React, {Component}  from 'react';
-import { Row, Col, UncontrolledTooltip } from 'reactstrap';
+import { Container, Row, Col, UncontrolledTooltip } from 'reactstrap';
 import PropTypes from 'prop-types';
 import Accessibility from '../models/Accessibility';
 
@@ -28,20 +28,22 @@ class AccessibilityWarning extends Component {
      */
     render() {
         return (
-            <Row>
-                <Col className="col text-center">
-                    <p id="visualWarning"><i className="fa fa-wheelchair text-success"  aria-hidden="true"></i></p>  
-                    <UncontrolledTooltip id="visual" target="visualWarning">
-                        You selected: {this.generateWarning(this.props.accessibility.visual)} be careful with colour choices
-                    </UncontrolledTooltip>
-                </Col>
-                <Col className="col text-center">
-                    <p id="physicalWarning"><i class="fa fa-wheelchair text-primary" aria-hidden="true"></i></p>
-                    <UncontrolledTooltip id="physical" target="physicalWarning">
-                        You selected: {this.generateWarning(this.props.accessibility.physical)} ensure plenty of room around puzzles and check how difficult puzzle is to handle
-                    </UncontrolledTooltip>
-                </Col>
-            </Row>
+            <Container>
+                <Row>
+                    <Col className="col text-center">
+                        <p id="visualWarning"><i className="fa fa-wheelchair text-success"  aria-hidden="true"></i></p>  
+                        <UncontrolledTooltip id="visual" target="visualWarning">
+                            You selected: {this.generateWarning(this.props.accessibility.visual)} be careful with colour choices
+                        </UncontrolledTooltip>
+                    </Col>
+                    <Col className="col text-center">
+                        <p id="physicalWarning"><i class="fa fa-wheelchair text-primary" aria-hidden="true"></i></p>
+                        <UncontrolledTooltip id="physical" target="physicalWarning">
+                            You selected: {this.generateWarning(this.props.accessibility.physical)} ensure plenty of room around puzzles and check how difficult puzzle is to handle
+                        </UncontrolledTooltip>
+                    </Col>
+                </Row>
+            </Container>
         );
     }
 };
