@@ -11,12 +11,6 @@ import Accessibility from './Accessibility';
  * @author Alistair Quinn
  */
 class ComponentDetails extends Component {
-    /** Creates ComponentDetails */
-    constructor(){
-        super();
-        this.state={visualWarning:false,physicalWarning:false}
-    }
-
     /**
      * Converts a string to Camel Case
      * @param {string} string 
@@ -268,6 +262,7 @@ class ComponentDetails extends Component {
                 if(this.props.accessibility.visual[key]===true)
                     visualKeys.push(key);
             });
+            console.log(visualKeys);
             if(visualKeys.length>0)
                 visualWarning = (                
                 <Col className="col text-center">
