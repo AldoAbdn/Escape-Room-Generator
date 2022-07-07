@@ -204,7 +204,7 @@ class ComponentDetails extends Component {
      * @param {bool} isInput
      * @returns {JSX}
      */
-    mapIDToP = (id,i,isInput) => {
+    mapRelationshipToListGroup = (id,i,isInput) => {
         return (
             <ListGroupItem key={i}>
                 {id}
@@ -238,8 +238,8 @@ class ComponentDetails extends Component {
             properties = Object.keys(component).map(this.mapDetailToInput)
             type = component.type||"";
             if(component.type!=='Area'&&component.inputComponents!==undefined&&component.outputComponents!==undefined&&(component.inputComponents.length>0||component.outputComponents.length>0)){
-                inputs = component.inputComponents.map((id,i)=>this.mapIDToP(id,i,true));
-                outputs = component.outputComponents.map((id,i)=>this.mapIDToP(id,i,false));
+                inputs = component.inputComponents.map((id,i)=>this.mapRelationshipToListGroup(id,i,true));
+                outputs = component.outputComponents.map((id,i)=>this.mapRelationshipToListGroup(id,i,false));
                 inputRelationships = (
                     <Row>
                         <Col>
