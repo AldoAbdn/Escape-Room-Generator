@@ -1,6 +1,6 @@
 import React, {Component}  from 'react';
-import { Container, Row, Col, Input, Label, UncontrolledTooltip, ListGroupItem, Button, ListGroup } from 'reactstrap';
-import { LockGenerator, PuzzleGenerator } from '../../../client/src/components/index';
+import { Container, Row, Col, Input, Label, ListGroupItem, Button, ListGroup } from 'reactstrap';
+import { LockGenerator, PuzzleGenerator, AccessibilityWarning } from '../../../client/src/components/index';
 import PropTypes from 'prop-types';
 import '../styles/ComponentDetails.css';
 import Accessibility from './Accessibility';
@@ -222,8 +222,6 @@ class ComponentDetails extends Component {
         let outputs;
         let inputRelationships;
         let outputRelationships;
-        let visualWarning;
-        let physicalWarning;
         if(component!==undefined || component!==null){
             // Properties
             if(component._id!==undefined)
@@ -255,37 +253,6 @@ class ComponentDetails extends Component {
                     </Row>
                 );
             }
-            // Accessibility
-            // Visual
-            let visualKeys = [];
-            Object.keys(this.props.accessibility.visual).forEach((key)=>{
-                if(this.props.accessibility.visual[key]===true)
-                    visualKeys.push(key);
-            });
-            if(visualKeys.length>0)
-                visualWarning = (                
-                <Col className="col text-center">
-                    <p id="visualWarning"><i className="fa fa-wheelchair text-success"  aria-hidden="true"></i></p>  
-                    <UncontrolledTooltip id="visual" target="visualWarning">
-                    You selected: {visualKeys.join(',')} be careful with colour choices
-                    </UncontrolledTooltip>
-                </Col>
-                )
-            // Physical
-            let physicalKeys = [];
-            Object.keys(this.props.accessibility.physical).forEach((key)=>{
-                if(this.props.accessibility.physical[key]===true)
-                    physicalKeys.push(key);
-            });
-            if(physicalKeys.length>0)
-                physicalWarning = (
-                <Col className="col text-center">
-                    <p id="physicalWarning"><i class="fa fa-wheelchair text-primary" id="physicalWarning" aria-hidden="true"></i></p>
-                    <UncontrolledTooltip id="physical" target="physicalWarning">
-                    You selected: {physicalKeys.join(',')} ensure plenty of room around puzzles and check how difficult puzzle is to handle
-                    </UncontrolledTooltip>
-                </Col>
-                )
         }
         return (
             <Container fluid className="container-fluid component-details">
@@ -295,10 +262,7 @@ class ComponentDetails extends Component {
                         <h4>{type + id}</h4>
                     </Col>
                 </Row>
-                <Row>
-                    {visualWarning}
-                    {physicalWarning}
-                </Row>
+                <AccessibilityWarning accessibility={this.props.accessibility}/>
                 {properties}
                 {inputRelationships}
                 {outputRelationships}
