@@ -55,7 +55,7 @@ class ImageManager extends Component {
         console.log(item);
         return (
         <ListGroupItem key={index}>
-            <image src={item}/>
+            <image className='img-fluid' src={item}/>
             <Button onClick={this.removeImage(index)} color="danger" style={{display:'inline', position: 'absolute', right:'2px', top:'0.3rem'}}>
                 X
             </Button>
