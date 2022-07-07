@@ -54,7 +54,6 @@ class ComponentDetails extends Component {
             puzzle.output = "";
         } 
         this.props.updateComponent({_id:this.props.selected._id,puzzle,output:puzzle.output});
-        this.forceUpdate();
     }
 
     /** Generates Output from Inputs */
