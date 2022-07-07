@@ -1,6 +1,6 @@
 import React, {Component}  from 'react';
-import { Container, Row, Col, Input, Label, ListGroupItem, Button, ListGroup } from 'reactstrap';
-import { LockGenerator, PuzzleGenerator, AccessibilityWarning } from '../../../client/src/components/index';
+import { Container, Row, Col, Input, Label, Button } from 'reactstrap';
+import { LockGenerator, PuzzleGenerator, AccessibilityWarning, Relationships } from '../../../client/src/components/index';
 import PropTypes from 'prop-types';
 import '../styles/ComponentDetails.css';
 import Accessibility from './Accessibility';
@@ -173,41 +173,6 @@ class ComponentDetails extends Component {
                 </Row>)
         }
     }
-
-    /**
-     * Deletes a relationship
-     * @param {string} id
-     * @param {bool} isInput
-     */
-    handleOnClick = (id,isInput)=> (e) => {
-        let component = {...this.props.selected};
-        let state = {};
-        state._id = component._id;
-        if(isInput){
-            state.inputComponents = component.inputComponents.filter(oldId => oldId!==id);
-        } else {
-            state.outputComponents = component.outputComponents.filter(oldId => oldId!==id);
-        }
-        this.props.updateComponent(state);
-    }
-
-    /**
-     * Maps Relationship to List Group Item
-     * @param {string} id
-     * @param {int} i
-     * @param {bool} isInput
-     * @returns {JSX}
-     */
-    mapRelationshipToListGroup = (id,i,isInput) => {
-        return (
-            <ListGroupItem key={i}>
-                {id}
-                <Button onClick={this.handleOnClick(id,isInput)} color="danger" style={{display:'inline', position: 'absolute', right:'2px', top:'0.3rem'}}>
-                    X
-                </Button>
-            </ListGroupItem>
-        )
-    }
     
     /** 
      * React Lifecycle Render
@@ -218,56 +183,35 @@ class ComponentDetails extends Component {
         let id="";
         let type="";
         let properties;
-        let inputs;
-        let outputs;
-        let inputRelationships;
-        let outputRelationships;
-        if(component!==undefined || component!==null){
+        if(component!==undefined && component!==null){
             // Properties
             if(component._id!==undefined)
                 id = " ("+component._id+")";
             properties = Object.keys(component).map(this.mapDetailToInput)
             type = component.type||"";
-            // Relationships
-            if(component.type!=='Area'&&component.inputComponents!==undefined&&component.outputComponents!==undefined&&(component.inputComponents.length>0||component.outputComponents.length>0)){
-                inputs = component.inputComponents.map((id,i)=>this.mapRelationshipToListGroup(id,i,true));
-                outputs = component.outputComponents.map((id,i)=>this.mapRelationshipToListGroup(id,i,false));
-                inputRelationships = (
-                    <Row>
-                        <Col>
-                            <h4>Inputs</h4>
-                            <ListGroup>
-                                {inputs}
-                            </ListGroup>
-                        </Col>
-                    </Row>
-                );
-                outputRelationships = (
-                    <Row>
-                        <Col>
-                            <h4>Outputs</h4>
-                            <ListGroup>
-                                {outputs}
-                            </ListGroup>
-                        </Col>
-                    </Row>
-                );
-            }
         }
-        return (
-            <Container fluid className="container-fluid component-details">
-                <Row>
+        if(this.props.selected===null)
+            return (
+                <Container fluid className="container-fluid component-details">
                     <Col className="col text-center">
                         <h3>Details</h3>
-                        <h4>{type + id}</h4>
                     </Col>
-                </Row>
-                <AccessibilityWarning accessibility={this.props.accessibility}/>
-                {properties}
-                {inputRelationships}
-                {outputRelationships}
-            </Container>
-        )
+                </Container>
+            )
+        else
+            return (
+                <Container fluid className="container-fluid component-details">
+                    <Row>
+                        <Col className="col text-center">
+                            <h3>Details</h3>
+                            <h4>{type + id}</h4>
+                        </Col>
+                    </Row>
+                    <AccessibilityWarning accessibility={this.props.accessibility}/>
+                    {properties}
+                    <Relationships selected={this.props.selected} updateComponent={this.props.updateComponent}/>
+                </Container>
+            )
     }
 };
 

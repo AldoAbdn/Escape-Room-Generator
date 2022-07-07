@@ -13,7 +13,7 @@ class Design extends Component {
     /** Creates Design */
     constructor(){
         super();
-        this.state = {selected: {}};
+        this.state = {selected: null};
     }
 
     /**
