@@ -9,11 +9,6 @@ import '../styles/Accessibility.css';
  * @author Alistair Quinn
  */
 class Accessibility extends Component {
-    constructor(props){
-        super(props);
-        console.log(props);
-    }
-
     /** 
      * Updates visual changes 
      * @function
