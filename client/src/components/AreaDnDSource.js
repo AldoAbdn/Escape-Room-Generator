@@ -107,7 +107,7 @@ class AreaDnDSource extends Component{
    * Removes a component 
    * @function 
    */
-  removeComponent = ()=>{
+  removeComponent = () => {
     this.props.removeComponent(this.props.component._id);
     for(let id in this.props.component.outputComponents)
       this.props.removeComponent(id);
@@ -119,7 +119,7 @@ class AreaDnDSource extends Component{
    * @param {Component} component
    * @param {string} parentId
    */
-  addComponent = (component,parentId)=>{
+  addComponent = (component,parentId) => {
     this.props.addComponent(component,this.props.component._id);
     this.props.addRelationship(component._id,parentId);
   }  
