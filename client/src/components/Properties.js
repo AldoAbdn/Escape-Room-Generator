@@ -1,6 +1,6 @@
 import React, {Component}  from 'react';
 import { Container, Row, Col, Label, Input, Button } from 'reactstrap';
-import { LockGenerator, PuzzleGenerator } from './index'
+import { LockGenerator, PuzzleGenerator, ImageManager } from './index'
 import PropTypes from 'prop-types';
 
 /** 
@@ -42,6 +42,14 @@ class Properties extends Component {
      */
     handleOutputChange = (output)=>{
         this.props.updateComponent({output});
+    }
+
+    /**
+     * Handles Images Change
+     * @param {Array} images 
+     */
+    handleImagesChange = (images)=>{
+        this.props.updateComponent({images});
     }
 
     /** 
@@ -169,7 +177,7 @@ class Properties extends Component {
                     </Col>
                 </Row>)
         } else if(key==='images'){
-            return(<ImageManager id={this.props.selected._id} images={this.props.selected[key]} updateComponent={this.props.updateComponent}/>)
+            return(<ImageManager images={this.props.selected[key]} handleChange={this.handleImagesChange}/>)
         } else if(typeof this.props.selected[key] === "string" && key!=="_id" && key!=="type" && key!=="version"){
             return (
                 <Row key={i}>

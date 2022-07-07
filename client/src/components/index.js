@@ -32,6 +32,7 @@ import Signup from './SignUp';
 import ConditionalRoute from './ConditionalRoute';
 import NotFound from './NotFound';
 import ListCreator from './ListCreator';
+import ImageManager from './ImageManager';
 import PasswordStrengthMeter from './PasswordStrengthMeter';
 import VerifyToken from './VerifyToken';
 import SendVerify from './SendVerify';
@@ -50,7 +51,7 @@ export {
     // Escape Room Generator
     App, Main, BusinessLogic, About, Tutorials,
     // Escape Room
-    Accessibility, AccessibilityWarning, Relationships, Properties, AreaDnDSource, AreaDnDTarget, AreaPalletItem, ComponentArranger, ComponentDetails, ComponentDnDSource, ComponentDnDTarget, Dashboard, Design, Details, EscapeRoomDesigner,  EscapeRoomRunner, LockGenerator, Pallet, PalletItem, PuzzleGenerator,
+    Accessibility, AccessibilityWarning, Relationships, Properties, AreaDnDSource, AreaDnDTarget, AreaPalletItem, ComponentArranger, ComponentDetails, ComponentDnDSource, ComponentDnDTarget, Dashboard, Design, Details, EscapeRoomDesigner,  EscapeRoomRunner, LockGenerator, Pallet, PalletItem, PuzzleGenerator, 
     // Web
-    Profile, Login, Signup, ConditionalRoute, NotFound, ListCreator, PasswordStrengthMeter, VerifyToken, SendVerify, ResetToken, SendReset, TermsOfService
+    Profile, Login, Signup, ConditionalRoute, NotFound, ListCreator, ImageManager, PasswordStrengthMeter, VerifyToken, SendVerify, ResetToken, SendReset, TermsOfService
 }
