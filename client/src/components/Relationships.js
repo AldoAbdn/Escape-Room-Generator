@@ -1,5 +1,5 @@
 import React, {Component}  from 'react';
-import { Row, Col, ListGroup, ListGroupItem, Button } from 'reactstrap';
+import { Container, Row, Col, ListGroup, ListGroupItem, Button } from 'reactstrap';
 import PropTypes from 'prop-types';
 
 /** 
@@ -59,32 +59,40 @@ class Relationships extends Component {
         console.log(this.props);
         if(this.props.selected.type !== "Area")
             return (
-                <Row>
-                    <h5>Relationships</h5>
-                    <Col>
-                        <h6>Inputs</h6>
-                        <ListGroup>
-                            {this.props.selected.inputComponents.map((id,i)=>this.mapRelationshipToListGroup(id,i,true))}
-                        </ListGroup>
-                    </Col>
-                    <Col>
-                        <h6>Outputs</h6>
-                        <ListGroup>
-                            {this.props.selected.outputComponents.map((id,i)=>this.mapRelationshipToListGroup(id,i,false))}
-                        </ListGroup>
-                    </Col>
-                </Row>
+                <Container>
+                    <Row>
+                        <h5>Relationships</h5>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <h6>Inputs</h6>
+                            <ListGroup>
+                                {this.props.selected.inputComponents.map((id,i)=>this.mapRelationshipToListGroup(id,i,true))}
+                            </ListGroup>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <h6>Outputs</h6>
+                            <ListGroup>
+                                {this.props.selected.outputComponents.map((id,i)=>this.mapRelationshipToListGroup(id,i,false))}
+                            </ListGroup>
+                        </Col>
+                    </Row>
+                </Container>
             )
         else
             return (
-                <Row>
-                    <h5>Relationships</h5>
-                    <Col>
-                    <ListGroup>
-                            {this.props.selected.outputComponents.map((id,i)=>this.mapRelationshipToListGroup(id,i,false,false))}
-                    </ListGroup>
-                    </Col>
-                </Row>
+                <Container>
+                    <Row>
+                        <Col>
+                            <h5>Relationships</h5>
+                            <ListGroup>
+                                    {this.props.selected.outputComponents.map((id,i)=>this.mapRelationshipToListGroup(id,i,false,false))}
+                            </ListGroup>
+                        </Col>
+                    </Row>
+                </Container>
             )
     }
 };
